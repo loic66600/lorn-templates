@@ -1,0 +1,10 @@
+{
+  "name": "lorn-templates",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dépôt centralisé des templates ViteMonSite — LORN Digital Studio",
+  "scripts": {
+    "manifest": "node scripts/generate-manifest.js"
+  }
+}

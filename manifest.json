@@ -1,0 +1,64 @@
+{
+  "version": "2026-02-23",
+  "total": 1,
+  "metiers": [
+    "massage"
+  ],
+  "formules": [
+    {
+      "id": "starter",
+      "nom": "Starter",
+      "prix": "19€/mois",
+      "pagesMax": 1,
+      "description": "Site one-page professionnel"
+    },
+    {
+      "id": "serenite",
+      "nom": "Sérénité",
+      "prix": "39€/mois",
+      "pagesMax": 5,
+      "description": "Site multi-pages complet"
+    },
+    {
+      "id": "croissance",
+      "nom": "Croissance",
+      "prix": "79€/mois",
+      "pagesMax": 10,
+      "description": "Site avancé avec blog et SEO"
+    }
+  ],
+  "templates": [
+    {
+      "id": "massage-starter",
+      "nom": "Massage & Bien-être — Starter",
+      "metier": "massage",
+      "categorie": "bien-etre",
+      "formule": "starter",
+      "pages": 1,
+      "pagesListe": [
+        "index"
+      ],
+      "palette": {
+        "primary": "#7C3AED",
+        "bg": "#FAF9FE",
+        "theme": "clair"
+      },
+      "polices": [
+        "Cormorant Garamond",
+        "Nunito Sans"
+      ],
+      "tags": [
+        "massage",
+        "bien-être",
+        "spa",
+        "relaxation",
+        "detente"
+      ],
+      "port": 4010,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-23"
+    }
+  ]
+}
