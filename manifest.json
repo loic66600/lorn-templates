@@ -62,7 +62,7 @@
       ],
       "port": 4002,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/barbershop-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
     },
@@ -97,7 +97,7 @@
       ],
       "port": 4005,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/batimentPro-serenite.webp",
       "version": "1.0.0",
       "date": "2026-02-26"
     },
@@ -136,7 +136,7 @@
       ],
       "port": 4003,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/electricien-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
     },
@@ -173,7 +173,7 @@
       ],
       "port": 4011,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/fastfood-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
     },
@@ -211,7 +211,7 @@
       ],
       "port": 4021,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/fleuriste-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
     },
@@ -243,7 +243,7 @@
       ],
       "port": 4010,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/massage-starter.webp",
       "version": "2.0.0",
       "date": "2026-02-23"
     },
@@ -281,7 +281,7 @@
       ],
       "port": 4022,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/peintre-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
     },
@@ -319,7 +319,7 @@
       ],
       "port": 4004,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/plombier-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
     },
@@ -356,7 +356,7 @@
       ],
       "port": 4001,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/restaurant-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
     }
