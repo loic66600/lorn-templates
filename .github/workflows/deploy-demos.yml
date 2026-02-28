@@ -33,6 +33,9 @@ jobs:
       - name: Copy manifest
         run: cp manifest.json _site/
 
+      - name: Copy previews
+        run: cp -r previews _site/
+
       - name: Generate ViteMonSite-style index page
         run: |
           cat > _site/index.html << 'HTMLEOF'
@@ -119,6 +122,23 @@ jobs:
               .thumb{
                 height:170px;
                 background:linear-gradient(135deg,#FFF7ED,#F9E8D9);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:42px;
+                overflow:hidden;
+                position:relative;
+              }
+              .thumb img{
+                width:100%;
+                height:100%;
+                object-fit:cover;
+                object-position:top;
+                display:block;
+              }
+              .thumb-fallback{
+                width:100%;
+                height:100%;
                 display:flex;
                 align-items:center;
                 justify-content:center;
@@ -215,9 +235,12 @@ jobs:
                   data.templates.forEach(t => {
                     const icon = icons[t.metier] || "✨";
                     const url = `./${t.id}/`;
+                    const thumb = t.screenshot
+                      ? `<img src="./${t.screenshot}" alt="Aperçu ${t.nom}" loading="lazy" />`
+                      : `<div class="thumb-fallback">${icon}</div>`;
                     grid.innerHTML += `
                       <a class="card" href="${url}">
-                        <div class="thumb">${icon}</div>
+                        <div class="thumb">${thumb}</div>
                         <div class="content">
                           <div class="top">
                             <h3>${t.nom}</h3>

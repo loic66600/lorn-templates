@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 const tplDir = join(root, 'templates');
+const previewExtensions = ['webp', 'png', 'jpg', 'jpeg'];
 
 const templates = readdirSync(tplDir)
   .filter(folder => {
@@ -13,9 +14,9 @@ const templates = readdirSync(tplDir)
   })
   .map(folder => {
     const data = JSON.parse(readFileSync(join(tplDir, folder, 'template.json'), 'utf8'));
-    const screenshotPath = `previews/${folder}.jpg`;
-    if (existsSync(join(root, screenshotPath))) {
-      data.screenshot = screenshotPath;
+    const previewExt = previewExtensions.find(ext => existsSync(join(root, `previews/${folder}.${ext}`)));
+    if (previewExt) {
+      data.screenshot = `previews/${folder}.${previewExt}`;
     }
     return data;
   })
