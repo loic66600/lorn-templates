@@ -266,12 +266,14 @@ jobs:
           npx astro build --site https://loic66600.github.io --base /lorn-templates/peintre-serenite
           cp -r dist/. ../../_site/peintre-serenite
 
-      - name: Build batiment-serenite
+      - name: Build batipro-serenite
         run: |
-          cd templates/batiment-serenite
+          cd templates/batimentPro-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/batiment-serenite
-          cp -r dist/. ../../_site/batiment-serenite
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/batipro-serenite
+          mkdir -p ../../_site/batipro-serenite
+          cp -r dist/. ../../_site/batipro-serenite
+
 
       - name: Build restaurant-serenite
         run: |
