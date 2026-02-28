@@ -1,0 +1,388 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+---
+
+<Layout
+  title={`Carte & Menu — ${client.nom} ${client.ville} | Tacos & Burgers`}
+  description={`Découvrez notre carte complète : tacos français, burgers maison, menus, sides et desserts. Commandez à ${client.ville} ou faites-vous livrer sur Perpignan et ses environs.`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Street<span>Fusion</span></a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/menu" class="active">Notre Carte</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/avis">Avis</a></li>
+        <li><a href="/#contact">Commander</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-primary">Commander</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <a href="/">Accueil</a>
+    <a href="/menu">Notre Carte</a>
+    <a href="/a-propos">À Propos</a>
+    <a href="/avis">Avis</a>
+    <div class="mobile-cta">
+      <a href="/#contact" class="btn btn-primary">Commander</a>
+    </div>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb reveal">
+        <a href="/">Accueil</a>
+        <span>→</span>
+        <span>Notre Carte</span>
+      </div>
+      <h1 class="page-title reveal reveal-d1">
+        Notre <span class="flame-text">Carte</span>
+      </h1>
+      <p class="page-desc reveal reveal-d2">
+        Tacos français authentiques et burgers artisanaux — tout préparé sur place, chaque jour
+      </p>
+
+      <!-- Filtres catégories -->
+      <div class="category-filters reveal reveal-d3">
+        <button class="filter-btn active" data-filter="all">Tout voir</button>
+        {client.categories.map(cat => (
+          <button class="filter-btn" data-filter={cat.id}>{cat.label}</button>
+        ))}
+      </div>
+    </div>
+  </header>
+
+  <!-- MENU GRID -->
+  <section class="menu-section">
+    <div class="container">
+      <div class="menu-grid" id="menuGrid">
+        {client.menu.map((item, i) => (
+          <article
+            class="menu-card hover-lift"
+            data-cat={item.categorie}
+          >
+            <div class="menu-img img-zoom">
+              <img src={item.image} alt={item.nom} loading="lazy" />
+              <div class="menu-badges">
+                {item.bestseller && <span class="badge badge-yellow">⭐ Best</span>}
+                {item.nouveau && <span class="badge badge-red">Nouveau</span>}
+                {item.promo && <span class="badge badge-green">Promo</span>}
+              </div>
+            </div>
+            <div class="menu-body">
+              <h3 class="menu-name">{item.nom}</h3>
+              <p class="menu-desc">{item.description}</p>
+              {item.taille && (
+                <div class="menu-sizes">
+                  {item.taille.map(t => (
+                    <span class="size-tag">{t}</span>
+                  ))}
+                </div>
+              )}
+              {item.allergenes && item.allergenes.length > 0 && (
+                <div class="menu-allergenes">
+                  <span class="allerg-label">⚠️</span>
+                  {item.allergenes.map(a => (
+                    <span class="allerg-tag">{a}</span>
+                  ))}
+                </div>
+              )}
+              <div class="menu-footer">
+                <span class="menu-price">{item.prix}</span>
+                <a href="/#contact" class="btn btn-primary">Ajouter</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Note allergènes -->
+      <div class="allergenes-note reveal">
+        <p>⚠️ <strong>Allergènes :</strong> Nos produits peuvent contenir des traces de gluten, lait, œufs, soja et fruits à coque. Signalez-nous toute allergie lors de votre commande.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA COMMANDER -->
+  <section class="section-alt" style="padding: 60px 0;">
+    <div class="container" style="text-align: center;">
+      <h2 class="section-title reveal" style="margin-bottom: 20px;">
+        Prêt à <span>Commander</span> ?
+      </h2>
+      <p class="reveal reveal-d1" style="color: var(--text-muted); margin-bottom: 32px;">
+        Appelez-nous ou commandez via notre formulaire. Livraison en {client.livraisonDelai} ou Click &amp; Collect en {client.clickAndCollectDelai}.
+      </p>
+      <div class="reveal reveal-d2" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="/#contact" class="btn btn-primary btn-lg">Commander en ligne</a>
+        <a href={client.telephoneLink} class="btn btn-outline btn-lg">📞 {client.telephone}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville}. <a href="/mentions-legales" style="color: var(--text-muted);">Mentions légales</a></p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled {
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-header {
+    padding: 120px 0 60px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb a:hover { color: var(--primary); }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    margin-bottom: 16px;
+  }
+
+  .page-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+    max-width: 600px;
+  }
+
+  .category-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+  }
+
+  .menu-section {
+    padding: 60px 0 90px;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .menu-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s;
+  }
+
+  .menu-card:hover { border-color: var(--primary); }
+
+  .menu-card.hidden {
+    display: none;
+  }
+
+  .menu-img {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .menu-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .menu-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .menu-body {
+    padding: 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+
+  .menu-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 12px;
+  }
+
+  .menu-sizes {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .size-tag {
+    padding: 3px 8px;
+    background: rgba(255,45,0,0.1);
+    border: 1px solid rgba(255,45,0,0.2);
+    border-radius: var(--radius);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .menu-allergenes {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .allerg-label { font-size: 12px; }
+
+  .allerg-tag {
+    padding: 2px 7px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 10px;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .menu-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .menu-price {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--primary);
+  }
+
+  .allergenes-note {
+    background: rgba(255,214,0,0.08);
+    border: 1px solid rgba(255,214,0,0.2);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 20px;
+  }
+
+  .allergenes-note strong { color: var(--accent); }
+
+  @media (max-width: 1024px) {
+    .menu-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .menu-grid { grid-template-columns: repeat(2, 1fr); }
+    .category-filters { gap: 8px; }
+  }
+
+  @media (max-width: 480px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    .filter-btn { font-size: 12px; padding: 7px 14px; }
+  }
+</style>
+
+<script>
+  // Filtres par catégorie
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const menuCards = document.querySelectorAll('.menu-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = (btn as HTMLElement).dataset.filter;
+
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      menuCards.forEach((card, i) => {
+        const el = card as HTMLElement;
+        const cat = el.dataset.cat;
+        const show = filter === 'all' || cat === filter;
+
+        if (show) {
+          el.classList.remove('hidden');
+          el.style.animationDelay = `${(i % 8) * 0.05}s`;
+          el.classList.add('menu-item-enter');
+          setTimeout(() => el.classList.remove('menu-item-enter'), 400);
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

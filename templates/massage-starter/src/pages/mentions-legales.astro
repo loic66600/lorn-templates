@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Mentions légales — ${client.nom}`}>
+  <div class="page-top">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="/" class="back-link">← Retour</a>
+      <span class="font-display" style="font-weight:600;color:var(--violet);font-size:17px;font-style:italic;">{client.nom}</span>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container legal">
+      <h1 class="font-display" style="font-size:36px;font-weight:600;color:var(--text);font-style:italic;margin-bottom:36px;">Mentions légales</h1>
+
+      <h2>1. Informations légales</h2>
+      <p>
+        <strong>{client.nom}</strong><br>
+        Responsable : {client.responsable}<br>
+        SIRET : {client.siret}<br>
+        Adresse : {client.adresse}<br>
+        Téléphone : {client.telephone}<br>
+        Email : {client.email}
+      </p>
+
+      <h2>2. Hébergement</h2>
+      <p>{client.hebergeur}</p>
+
+      <h2>3. Conception du site</h2>
+      <p>Site conçu et réalisé par <strong>LORN Digital Studio</strong> — <a href="https://lorn-digital-studio.fr" target="_blank" rel="noopener">lorn-digital-studio.fr</a></p>
+
+      <h2>4. Protection des données personnelles (RGPD)</h2>
+      <p>Les données personnelles collectées via le formulaire de prise de rendez-vous (nom, téléphone, email, soin souhaité) sont utilisées exclusivement pour le traitement de votre demande. Elles ne sont ni cédées ni vendues à des tiers.</p>
+      <p>Durée de conservation : 3 ans maximum.</p>
+      <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits : <a href={`mailto:${client.email}`}>{client.email}</a></p>
+      <p>Pour toute réclamation : <a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a></p>
+
+      <h2>5. Cookies</h2>
+      <p>Ce site utilise uniquement des cookies techniques nécessaires à son bon fonctionnement. Aucun cookie publicitaire ou de traçage n'est utilisé.</p>
+
+      <h2>6. Propriété intellectuelle</h2>
+      <p>L'ensemble des contenus présents sur ce site (textes, images, logo, design) sont protégés par le droit de la propriété intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation préalable.</p>
+
+      <h2>7. Responsabilité</h2>
+      <p>Les informations publiées sur ce site sont données à titre indicatif. Les massages bien-être proposés ne se substituent en aucun cas à un avis ou traitement médical.</p>
+
+      <p style="margin-top:40px;font-size:13px;color:var(--text-light);font-style:italic;">Dernière mise à jour : Février 2026</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-top{padding:110px 0 0;}
+  .back-link{color:var(--violet);font-size:14px;font-weight:500;transition:color 0.3s;}
+  .back-link:hover{color:var(--violet-dark);}
+  .legal h2{font-size:20px;font-weight:600;color:var(--violet);margin:32px 0 12px;font-family:'Cormorant Garamond',serif;font-style:italic;}
+  .legal p{font-size:15px;color:var(--text-muted);line-height:1.9;margin-bottom:10px;max-width:750px;}
+  .legal strong{color:var(--text);}
+  .legal a{color:var(--violet);text-decoration:underline;transition:color 0.3s;}
+  .legal a:hover{color:var(--violet-dark);}
+</style>

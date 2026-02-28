@@ -1,0 +1,1136 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+const socialIcons: Record<string,string> = {
+  facebook:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
+  instagram:'<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  pinterest:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>',
+  tiktok:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.83a4.84 4.84 0 01-1-.14z"/></svg>',
+  linkedin:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+  youtube:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2c.312-1.732.466-3.49.46-5.25a29 29 0 00-.46-5.33zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z"/></svg>',
+  twitter:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+};
+
+const featuredServices = client.services.filter(s => s.featured);
+const otherServices = client.services.filter(s => !s.featured);
+---
+
+<Layout>
+  <!-- NAVBAR -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        {client.nom}
+        <span>{client.slogan}</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="active">Accueil</a></li>
+        <li><a href="/realisations">Créations</a></li>
+        <li><a href="/tarifs">Tarifs</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-primary">Demander un devis</a>
+      </div>
+      <button class="burger-btn" id="burgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/">Accueil</a>
+    <a href="/realisations">Créations</a>
+    <a href="/tarifs">Tarifs</a>
+    <a href="/a-propos">À Propos</a>
+    <a href="/#contact">Contact</a>
+    <div class="mobile-cta">
+      <a href="/#contact" class="btn btn-primary">Demander un devis</a>
+      <a href={client.telephoneLink} class="btn btn-outline">{client.telephone}</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+   * HERO — SPLIT VERTICAL
+   * ============================================================ -->
+  <section class="hero">
+    <!-- Pétales animés -->
+    <div class="petals-container"></div>
+
+    <div class="hero-grid">
+      <!-- Colonne texte -->
+      <div class="hero-content">
+        <div class="hero-badge reveal">
+          <span class="hero-badge-dot"></span>
+          Bouquets frais disponibles
+        </div>
+        <h1 class="hero-title reveal reveal-d1">
+          Des fleurs qui<br/>
+          <em>racontent</em><br/>
+          vos émotions
+        </h1>
+        <p class="hero-desc reveal reveal-d2">
+          {client.specialite} — fleurs fraîches de saison, 
+          compositions uniques, livraison disponible.
+        </p>
+        <div class="hero-ctas reveal reveal-d3">
+          <a href="/#contact" class="btn btn-primary btn-lg">Commander un bouquet</a>
+          <a href="/realisations" class="btn btn-outline btn-lg">Voir mes créations</a>
+        </div>
+        <div class="hero-social reveal reveal-d4">
+          <span class="social-label-sm">Suivez mes créations</span>
+          <div class="social-links">
+            {client.reseaux.facebook && <a href={client.reseaux.facebook} target="_blank" rel="noopener" class="social-link" aria-label="Facebook" set:html={socialIcons.facebook} />}
+            {client.reseaux.instagram && <a href={client.reseaux.instagram} target="_blank" rel="noopener" class="social-link" aria-label="Instagram" set:html={socialIcons.instagram} />}
+            {client.reseaux.pinterest && <a href={client.reseaux.pinterest} target="_blank" rel="noopener" class="social-link" aria-label="Pinterest" set:html={socialIcons.pinterest} />}
+            {client.reseaux.tiktok && <a href={client.reseaux.tiktok} target="_blank" rel="noopener" class="social-link" aria-label="TikTok" set:html={socialIcons.tiktok} />}
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne images — mosaïque -->
+      <div class="hero-mosaic">
+        <div class="mosaic-main blur-sharp">
+          <img src={client.heroImage} alt={client.heroImageAlt} fetchpriority="high" />
+        </div>
+        <div class="mosaic-secondary">
+          <div class="mosaic-sm blur-sharp" style="transition-delay: 0.2s">
+            <img src={client.heroImage2} alt="Composition florale mariage" loading="lazy" />
+          </div>
+          <div class="mosaic-sm blur-sharp" style="transition-delay: 0.35s">
+            <img src={client.heroImage3} alt="Bouquet de saison" loading="lazy" />
+          </div>
+        </div>
+        <!-- Badge flottant -->
+        <div class="mosaic-badge reveal" style="transition-delay: 0.6s">
+          <div class="badge-rating">
+            <span class="badge-stars">★★★★★</span>
+            <strong>4.9/5</strong>
+            <span>+200 avis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * STATS
+   * ============================================================ -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        {client.stats.map((stat, i) => (
+          <div class={`stat-item reveal reveal-d${i + 1}`}>
+            <div class="stat-number">
+              <span class="counter-pop" data-target={stat.chiffre} data-suffix={stat.suffix}>
+                0{stat.suffix}
+              </span>
+            </div>
+            <p class="stat-label">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * SERVICES FEATURED — BENTO ASYMÉTRIQUE
+   * ============================================================ -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="services-header reveal">
+        <div>
+          <p class="section-label">Ce que je crée</p>
+          <h2 class="section-title">Mes <em>prestations</em></h2>
+        </div>
+        <a href="/#contact" class="btn btn-outline">Demander un devis →</a>
+      </div>
+
+      <!-- 2 services featured en grand -->
+      <div class="services-featured">
+        {featuredServices.map((s, i) => (
+          <article class={`service-featured-card hover-lift reveal reveal-d${i + 1}`}>
+            <div class="sf-img img-zoom">
+              <img src={s.image} alt={s.titre} loading="lazy" />
+              <div class="sf-overlay"></div>
+            </div>
+            <div class="sf-body">
+              <span class="sf-icon">{s.icone}</span>
+              <h3 class="sf-title">{s.titre}</h3>
+              <p class="sf-desc">{s.description}</p>
+              <div class="sf-tags">
+                {s.tags.map(tag => <span class="sf-tag">{tag}</span>)}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Autres services en grille 4 cols -->
+      <div class="services-grid">
+        {otherServices.map((s, i) => (
+          <article class={`service-card hover-lift reveal reveal-d${i + 1}`}>
+            <div class="sc-img img-zoom">
+              <img src={s.image} alt={s.titre} loading="lazy" />
+            </div>
+            <div class="sc-body">
+              <span class="sc-icon">{s.icone}</span>
+              <h3 class="sc-title">{s.titre}</h3>
+              <p class="sc-desc">{s.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * CITATION PARALLAX
+   * ============================================================ -->
+  <section class="quote-section">
+    <div class="quote-bg">
+      <img src={client.heroImage4} alt="Fleurs" loading="lazy" />
+      <div class="quote-overlay"></div>
+    </div>
+    <div class="container quote-content reveal">
+      <blockquote class="quote-text">
+        "Les fleurs sont la musique de la terre, montant des profondeurs obscures jusqu'aux cieux."
+      </blockquote>
+      <cite class="quote-author">— Edwin Curran</cite>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * RÉALISATIONS PREVIEW
+   * ============================================================ -->
+  <section class="section-alt" id="realisations">
+    <div class="container">
+      <div class="section-header-row reveal">
+        <div>
+          <p class="section-label">Portfolio</p>
+          <h2 class="section-title">Mes <em>créations</em> récentes</h2>
+        </div>
+        <a href="/realisations" class="btn btn-outline">Voir tout →</a>
+      </div>
+
+      <div class="gallery-preview">
+        {client.realisations.slice(0, 6).map((r, i) => (
+          <div
+            class={`gallery-item blur-sharp ${r.wide ? 'gallery-wide' : ''}`}
+            style={`transition-delay: ${i * 0.08}s`}
+          >
+            <div class="gallery-img img-zoom">
+              <img src={r.image} alt={r.alt} loading="lazy" />
+              <div class="gallery-hover">
+                <span class="gallery-cat">{r.categorie}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * TÉMOIGNAGES — HORIZONTAL SCROLL CARDS
+   * ============================================================ -->
+  <section class="section" id="temoignages">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 48px;">
+        <p class="section-label">Ils me font confiance</p>
+        <h2 class="section-title">Ce qu'ils <em>disent</em></h2>
+      </div>
+    </div>
+
+    <div class="testimonials-scroll">
+      <div class="testimonials-track">
+        {[...client.temoignages, ...client.temoignages].map((t, i) => (
+          <article class="testimonial-card">
+            <div class="tc-stars">{'★'.repeat(t.note)}</div>
+            <p class="tc-text">"{t.texte}"</p>
+            <div class="tc-footer">
+              <div class="tc-avatar">{t.nom[0]}</div>
+              <div>
+                <strong class="tc-name">{t.nom}</strong>
+                <span class="tc-occasion">{t.occasion}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * CONTACT
+   * ============================================================ -->
+  <section class="section-alt" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Infos -->
+        <div class="contact-info reveal slide-left">
+          <p class="section-label">Me contacter</p>
+          <h2 class="section-title">Parlons de votre <em>projet floral</em></h2>
+          <p class="contact-intro">
+            Chaque composition est unique. Décrivez-moi l'occasion, vos couleurs préférées,
+            votre budget — je créerai quelque chose rien que pour vous.
+          </p>
+
+          <div class="info-items">
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <div>
+                <strong>Boutique</strong>
+                <p>{client.adresse}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">📞</span>
+              <div>
+                <strong>Téléphone</strong>
+                <a href={client.telephoneLink} class="info-link">{client.telephone}</a>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">🕐</span>
+              <div>
+                <strong>Horaires</strong>
+                <div class="horaires-list">
+                  {client.horaires.map(h => (
+                    <div class="horaire-row">
+                      <span class={h.horaire === 'Fermé' ? 'jour closed' : 'jour'}>{h.jour}</span>
+                      <span class={h.horaire === 'Fermé' ? 'heure closed' : 'heure'}>{h.horaire}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-socials">
+            <p class="social-label-sm" style="margin-bottom: 12px;">Suivez mes créations</p>
+            <div class="social-links">
+              {client.reseaux.facebook && <a href={client.reseaux.facebook} target="_blank" rel="noopener" class="social-link" aria-label="Facebook" set:html={socialIcons.facebook} />}
+              {client.reseaux.instagram && <a href={client.reseaux.instagram} target="_blank" rel="noopener" class="social-link" aria-label="Instagram" set:html={socialIcons.instagram} />}
+              {client.reseaux.pinterest && <a href={client.reseaux.pinterest} target="_blank" rel="noopener" class="social-link" aria-label="Pinterest" set:html={socialIcons.pinterest} />}
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="contact-form-wrap reveal slide-right">
+          <div class="form-card">
+            <h3 class="form-title">Votre demande</h3>
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+              <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_KEY || ''} />
+              <input type="hidden" name="subject" value={`Nouveau devis — ${client.nom}`} />
+              <input type="hidden" name="redirect" value="false" />
+              <input type="checkbox" name="botcheck" style="display:none" />
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Prénom & Nom *</label>
+                  <input type="text" id="name" name="name" placeholder="Marie Martin" required />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Téléphone *</label>
+                  <input type="tel" id="phone" name="phone" placeholder="06 XX XX XX XX" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" placeholder="votre@email.fr" required />
+              </div>
+
+              <div class="form-group">
+                <label for="occasion">Type de création *</label>
+                <select id="occasion" name="occasion" required>
+                  <option value="">Choisissez...</option>
+                  <option value="bouquet">Bouquet offert</option>
+                  <option value="mariage">Mariage / Cérémonie</option>
+                  <option value="evenement">Événementiel</option>
+                  <option value="abonnement">Abonnement fleurs</option>
+                  <option value="deuil">Deuil / Condoléances</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="budget">Budget approximatif</label>
+                <select id="budget" name="budget">
+                  <option value="">Non précisé</option>
+                  <option value="moins25">Moins de 25€</option>
+                  <option value="25-75">25€ – 75€</option>
+                  <option value="75-200">75€ – 200€</option>
+                  <option value="200-500">200€ – 500€</option>
+                  <option value="plus500">Plus de 500€</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Décrivez votre projet *</label>
+                <textarea id="message" name="message" placeholder="Couleurs souhaitées, fleurs préférées, date, occasion..." rows="4" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                <span id="btnText">Envoyer ma demande</span>
+                <span id="btnLoading" style="display:none">Envoi...</span>
+              </button>
+
+              <div id="formSuccess" class="form-success" style="display:none">
+                <span>🌸</span>
+                <div>
+                  <strong>Message envoyé !</strong>
+                  <p>Je vous réponds dans les 24h.</p>
+                </div>
+              </div>
+
+              <div id="formError" class="form-error" style="display:none">
+                Erreur. Appelez-moi : {client.telephone}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Maps -->
+      {client.googleMapsEmbed && (
+        <div class="map-wrap reveal">
+          <iframe src={client.googleMapsEmbed} width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" title={`${client.nom} — ${client.ville}`}></iframe>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-name">{client.nom}</div>
+          <p>{client.specialite}. Fleurs fraîches de saison, compositions sur mesure, livraison disponible.</p>
+          <div class="social-links">
+            {client.reseaux.facebook && <a href={client.reseaux.facebook} target="_blank" rel="noopener" class="social-link social-link-dark" aria-label="Facebook" set:html={socialIcons.facebook} />}
+            {client.reseaux.instagram && <a href={client.reseaux.instagram} target="_blank" rel="noopener" class="social-link social-link-dark" aria-label="Instagram" set:html={socialIcons.instagram} />}
+            {client.reseaux.pinterest && <a href={client.reseaux.pinterest} target="_blank" rel="noopener" class="social-link social-link-dark" aria-label="Pinterest" set:html={socialIcons.pinterest} />}
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/realisations">Créations</a></li>
+            <li><a href="/tarifs">Tarifs</a></li>
+            <li><a href="/a-propos">À Propos</a></li>
+            <li><a href="/#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Prestations</h4>
+          <ul>
+            {client.services.map(s => <li><a href="/#services">{s.titre}</a></li>)}
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href={client.telephoneLink}>{client.telephone}</a></li>
+            <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
+            <li><a href="/mentions-legales">Mentions légales</a></li>
+          </ul>
+          <p style="margin-top: 16px; font-size: 13px; color: rgba(245,237,232,0.4);">
+            {client.adresse}
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© {new Date().getFullYear()} {client.nom}. Tous droits réservés.</p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">
+          Site par LORN Digital Studio
+        </a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* ============================================================
+   * HERO
+   * ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 120px 24px 80px;
+    gap: 64px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(194,65,12,0.08);
+    border: 1px solid rgba(194,65,12,0.2);
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 28px;
+  }
+
+  .hero-badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-green 2s ease infinite;
+  }
+
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(22,101,52,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(22,101,52,0); }
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 22px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--primary);
+    font-weight: 300;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 36px;
+    max-width: 440px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .social-label-sm {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .hero-social {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* MOSAÏQUE */
+  .hero-mosaic {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 0.55fr;
+    grid-template-rows: 1fr;
+    gap: 12px;
+    height: 580px;
+  }
+
+  .mosaic-main {
+    grid-row: 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .mosaic-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mosaic-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+  }
+
+  .mosaic-sm {
+    flex: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .mosaic-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mosaic-badge {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .badge-rating { display: flex; flex-direction: column; gap: 2px; }
+  .badge-stars { color: var(--primary); font-size: 14px; letter-spacing: 2px; }
+  .badge-rating strong { font-family: var(--font-display); font-size: 1.2rem; }
+  .badge-rating span { font-size: 12px; color: var(--text-muted); }
+
+  /* ============================================================
+   * STATS
+   * ============================================================ */
+  .stats-section {
+    background: var(--bg-dark);
+    padding: 48px 0;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-style: italic;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(245,237,232,0.5);
+    letter-spacing: 0.04em;
+  }
+
+  /* ============================================================
+   * SERVICES
+   * ============================================================ */
+  .services-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    gap: 20px;
+  }
+
+  .services-featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .service-featured-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sf-img {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+  }
+
+  .sf-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .sf-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,20,16,0.4) 0%, transparent 60%);
+  }
+
+  .sf-body {
+    padding: 28px;
+    flex: 1;
+  }
+
+  .sf-icon { font-size: 1.8rem; display: block; margin-bottom: 12px; }
+  .sf-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .sf-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .sf-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sf-tag {
+    padding: 4px 12px;
+    background: rgba(194,65,12,0.08);
+    border: 1px solid rgba(194,65,12,0.15);
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 0.04em;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .service-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .service-card:hover { border-color: var(--primary); }
+
+  .sc-img {
+    height: 160px;
+    overflow: hidden;
+  }
+  .sc-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .sc-body { padding: 18px; }
+  .sc-icon { font-size: 1.3rem; display: block; margin-bottom: 8px; }
+  .sc-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .sc-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ============================================================
+   * QUOTE / PARALLAX
+   * ============================================================ */
+  .quote-section {
+    position: relative;
+    padding: 120px 0;
+    overflow: hidden;
+  }
+
+  .quote-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .quote-bg img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.7); }
+  .quote-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(28,20,16,0.82) 0%, rgba(22,101,52,0.5) 100%);
+  }
+
+  .quote-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .quote-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #FDF8F5;
+    margin-bottom: 20px;
+  }
+
+  .quote-author {
+    font-size: 14px;
+    font-style: normal;
+    color: rgba(253,248,245,0.6);
+    letter-spacing: 0.08em;
+  }
+
+  /* ============================================================
+   * GALLERY PREVIEW
+   * ============================================================ */
+  .section-header-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .gallery-preview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 220px;
+    gap: 16px;
+  }
+
+  .gallery-wide { grid-column: span 2; }
+
+  .gallery-item {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .gallery-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery-hover {
+    position: absolute;
+    inset: 0;
+    background: rgba(28,20,16,0.5);
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gallery-item:hover .gallery-hover { opacity: 1; }
+
+  .gallery-cat {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--primary);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+  }
+
+  /* ============================================================
+   * TESTIMONIALS SCROLL
+   * ============================================================ */
+  .testimonials-scroll {
+    overflow: hidden;
+    padding: 20px 0;
+  }
+
+  .testimonials-track {
+    display: flex;
+    gap: 24px;
+    animation: scrollTestimonials 40s linear infinite;
+    width: max-content;
+  }
+
+  .testimonials-track:hover { animation-play-state: paused; }
+
+  @keyframes scrollTestimonials {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .testimonial-card {
+    flex-shrink: 0;
+    width: 360px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .tc-stars { color: var(--primary); font-size: 15px; letter-spacing: 3px; }
+
+  .tc-text {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .tc-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tc-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--green));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .tc-name { display: block; font-size: 14px; font-weight: 600; }
+  .tc-occasion { font-size: 12px; color: var(--text-muted); }
+
+  /* ============================================================
+   * CONTACT
+   * ============================================================ */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: start;
+    margin-bottom: 48px;
+  }
+
+  .contact-intro {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin: 20px 0 32px;
+  }
+
+  .info-items { display: flex; flex-direction: column; gap: 22px; margin-bottom: 32px; }
+
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .info-icon { font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
+
+  .info-item strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+
+  .info-link {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--primary);
+  }
+  .info-link:hover { color: var(--primary-light); }
+
+  .horaires-list { display: flex; flex-direction: column; gap: 5px; }
+
+  .horaire-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .jour { color: var(--text-muted); min-width: 80px; }
+  .heure { color: var(--text); font-weight: 500; }
+  .closed { color: var(--text-subtle) !important; }
+
+  /* FORM */
+  .form-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow);
+  }
+
+  .form-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-style: italic;
+    font-weight: 400;
+    margin-bottom: 28px;
+    color: var(--text);
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 15px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--primary); }
+
+  .form-group textarea { resize: vertical; min-height: 110px; }
+
+  .btn-full { width: 100%; justify-content: center; }
+
+  .form-success {
+    margin-top: 16px;
+    background: rgba(22,101,52,0.08);
+    border: 1px solid rgba(22,101,52,0.2);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .form-success span { font-size: 1.5rem; }
+  .form-success strong { display: block; margin-bottom: 4px; }
+  .form-success p { color: var(--text-muted); font-size: 13px; }
+
+  .form-error {
+    margin-top: 12px;
+    background: rgba(194,65,12,0.08);
+    border: 1px solid rgba(194,65,12,0.2);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--primary);
+  }
+
+  .map-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  /* ============================================================
+   * RESPONSIVE
+   * ============================================================ */
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; padding-top: 100px; }
+    .hero-mosaic { height: 420px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-grid { gap: 48px; }
+  }
+
+  @media (max-width: 768px) {
+    .hero-mosaic { display: none; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-featured { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-preview { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
+    .gallery-wide { grid-column: span 1; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .services-header { flex-direction: column; align-items: flex-start; }
+    .section-header-row { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-ctas { flex-direction: column; }
+    .services-grid { grid-template-columns: 1fr; }
+    .gallery-preview { grid-template-columns: 1fr; }
+    .form-card { padding: 24px 20px; }
+  }
+</style>
+
+<script define:vars={{ web3Key, emailClient: client.email, nomClient: client.nom }}>
+  const btn = document.getElementById('submitBtn'),
+        form = document.getElementById('contactForm'),
+        ok = document.getElementById('formSuccess'),
+        err = document.getElementById('formError');
+
+  btn?.addEventListener('click', async () => {
+    const nom = document.getElementById('nom')?.value || '',
+          tel = document.getElementById('tel')?.value || document.getElementById('phone')?.value || '',
+          email = document.getElementById('email')?.value || '',
+          msg = document.getElementById('message')?.value || '';
+    if (!nom || !tel) { alert('Remplissez les champs obligatoires.'); return; }
+    btn.disabled = true; btn.textContent = 'Envoi...';
+    if (web3Key) {
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ access_key: web3Key, subject: 'Nouveau contact — ' + nom, from_name: nom, telephone: tel, email, message: msg })
+        });
+        const d = await r.json();
+        if (d.success && form && ok) { form.style.display = 'none'; ok.style.display = 'flex'; return; }
+      } catch(e) {}
+    }
+    // Fallback mailto
+    window.location.href = 'mailto:' + emailClient + '?subject=' + encodeURIComponent('Contact — ' + nomClient) + '&body=' + encodeURIComponent('Nom: ' + nom + '\nTél: ' + tel + '\n\n' + msg);
+  });
+</script>
+

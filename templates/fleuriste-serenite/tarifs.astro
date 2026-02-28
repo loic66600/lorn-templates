@@ -1,0 +1,203 @@
+---
+// DÉSACTIVABLE : mv src/pages/tarifs.astro src/pages-off/tarifs.astro
+import Layout from './Layout.astro';
+import { client } from './client';
+
+const faq = [
+  { q: "Puis-je commander à l'avance ?", r: "Oui, je vous recommande même de commander 48h à l'avance pour un bouquet standard, et plusieurs semaines pour un mariage." },
+  { q: "Faites-vous la livraison ?", r: "Oui, je livre dans un rayon de 20km autour de la boutique. Les frais de livraison varient selon la distance." },
+  { q: "Pouvez-vous travailler avec un budget précis ?", r: "Absolument. Dites-moi votre budget et l'occasion, je créerai la plus belle composition possible avec ce budget." },
+  { q: "Proposez-vous un rendez-vous pour les mariages ?", r: "Oui, le premier rendez-vous mariage est gratuit. Nous définissons ensemble votre univers floral et j'établis un devis détaillé." },
+];
+---
+
+<Layout
+  title={`Tarifs — ${client.nom} | Bouquets, Mariage & Abonnements`}
+  description={`Tarifs des créations florales de ${client.nom} : bouquets à partir de 25€, mariages sur devis, abonnements à partir de 20€/mois.`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">{client.nom}<span>{client.slogan}</span></a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/realisations">Créations</a></li>
+        <li><a href="/tarifs" class="active">Tarifs</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-primary">Demander un devis</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="/">Accueil</a><a href="/realisations">Créations</a><a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a>
+    <div class="mobile-cta"><a href="/#contact" class="btn btn-primary">Demander un devis</a></div>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb reveal"><a href="/">Accueil</a><span>→</span><span>Tarifs</span></div>
+      <h1 class="page-title reveal reveal-d1">Tarifs <em>&</em> Formules</h1>
+      <p class="page-desc reveal reveal-d2">Tarifs indicatifs — chaque création est unique et le prix peut varier selon les fleurs disponibles et la complexité.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="tarifs-grid">
+        {client.tarifs.map((cat, ci) => (
+          <div class={`tarif-category reveal reveal-d${ci + 1}`}>
+            <h2 class="tarif-cat-title">{cat.categorie}</h2>
+            <div class="tarif-items">
+              {cat.items.map(item => (
+                <div class="tarif-item">
+                  <div class="tarif-item-left">
+                    <span class="tarif-name">{item.nom}</span>
+                    <span class="tarif-detail">{item.detail}</span>
+                  </div>
+                  <span class="tarif-price">{item.prix}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="tarif-note reveal">
+        <span>🌸</span>
+        <p>Tarifs indicatifs, variables selon les fleurs de saison. <strong>Devis gratuit</strong> pour tout événement ou mariage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 48px;">
+        <p class="section-label">Questions fréquentes</p>
+        <h2 class="section-title">Vos <em>questions</em></h2>
+      </div>
+      <div class="faq-grid">
+        {faq.map((f, i) => (
+          <div class={`faq-card reveal reveal-d${i + 1}`}>
+            <h3 class="faq-q">{f.q}</h3>
+            <p class="faq-a">{f.r}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom}. <a href="/mentions-legales" style="color: rgba(245,237,232,0.35);">Mentions légales</a></p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled {
+    background: rgba(253,248,245,0.97);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 1px 0 var(--border);
+  }
+  .page-header {
+    padding: 120px 0 56px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+  .breadcrumb a:hover { color: var(--primary); }
+  .page-title { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 400; line-height: 1; margin-bottom: 14px; }
+  .page-title em { font-style: italic; color: var(--primary); font-weight: 300; }
+  .page-desc { font-size: 1rem; color: var(--text-muted); max-width: 540px; line-height: 1.7; }
+
+  .tarifs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 36px; }
+
+  .tarif-category {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .tarif-cat-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-style: italic;
+    font-weight: 400;
+    padding: 22px 24px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .tarif-items { padding: 8px 0; }
+
+  .tarif-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .tarif-item:last-child { border-bottom: none; }
+  .tarif-item:hover { background: var(--bg-alt); }
+
+  .tarif-item-left { display: flex; flex-direction: column; gap: 3px; }
+  .tarif-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .tarif-detail { font-size: 12px; color: var(--text-muted); }
+  .tarif-price {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tarif-note {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(194,65,12,0.06);
+    border: 1px solid rgba(194,65,12,0.15);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .tarif-note span { font-size: 1.3rem; flex-shrink: 0; }
+  .tarif-note strong { color: var(--text); }
+
+  .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+  .faq-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 26px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .faq-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+
+  .faq-q {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .faq-a { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 1024px) { .tarifs-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) { .faq-grid { grid-template-columns: 1fr; } }
+</style>

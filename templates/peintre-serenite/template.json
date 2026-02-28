@@ -1,0 +1,22 @@
+{
+  "id": "peintre-serenite",
+  "nom": "Peintre en Bâtiment — Sérénité",
+  "metier": "peintre",
+  "categorie": "batiment",
+  "formule": "serenite",
+  "pages": 5,
+  "pagesListe": ["index", "a-propos", "realisations", "tarifs", "mentions-legales"],
+  "palette": {
+    "primary": "#1B2B4B",
+    "accent": "#D4A843",
+    "bg": "#FAFAF8",
+    "theme": "clair"
+  },
+  "polices": ["Plus Jakarta Sans", "Onest"],
+  "tags": ["peintre", "peinture intérieure", "peinture extérieure", "ravalement", "décoration", "enduit"],
+  "port": 4022,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-02-26"
+}

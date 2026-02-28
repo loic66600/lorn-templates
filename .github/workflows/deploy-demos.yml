@@ -1,0 +1,132 @@
+name: Deploy Template Demos
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Create output directory
+        run: mkdir -p _site
+
+      # ── Page d'accueil avec liste des démos ──
+      - name: Generate index page
+        run: |
+          cat > _site/index.html << 'HTMLEOF'
+          <!DOCTYPE html>
+          <html lang="fr">
+          <head>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <title>LORN Templates — Démos</title>
+            <style>
+              *{margin:0;padding:0;box-sizing:border-box;}
+              body{font-family:system-ui,sans-serif;background:#0A0A0A;color:#E4E4E7;min-height:100vh;padding:clamp(2rem,6vw,4rem);}
+              .container{max-width:800px;margin:0 auto;}
+              h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;margin-bottom:8px;}
+              .sub{color:#71717A;margin-bottom:40px;font-size:15px;}
+              .grid{display:grid;gap:12px;}
+              a.card{display:flex;align-items:center;gap:16px;padding:20px;border-radius:16px;background:#18181B;border:1px solid #27272A;text-decoration:none;color:#E4E4E7;transition:all 0.3s;}
+              a.card:hover{border-color:#8B5CF6;transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,0.1);}
+              .icon{font-size:32px;width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+              .info h3{font-size:16px;font-weight:600;margin-bottom:2px;}
+              .info p{font-size:13px;color:#71717A;}
+              .badge{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(139,92,246,0.1);color:#A78BFA;font-weight:600;white-space:nowrap;}
+              .foot{margin-top:48px;text-align:center;font-size:12px;color:#3F3F46;}
+              .foot a{color:#71717A;text-decoration:none;}
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>🚀 LORN Templates</h1>
+              <p class="sub">Démos en ligne — vitemonsite-artisan.fr</p>
+              <div class="grid" id="grid"></div>
+              <div class="foot">
+                <a href="https://vitemonsite-artisan.fr" target="_blank">vitemonsite-artisan.fr</a> — LORN Digital Studio
+              </div>
+            </div>
+            <script>
+              fetch('./manifest.json').then(r=>r.json()).then(d=>{
+                const g=document.getElementById('grid');
+                d.templates.forEach(t=>{
+                  g.innerHTML+=`<a class="card" href="./${t.id}/">
+                    <div class="icon" style="background:${t.palette.primary}15;">${t.tags[0]==='fast food'?'🍔':t.metier==='fleuriste'?'💐':t.metier==='massage'?'🧘':t.metier==='peintre'?'🎨':'🏠'}</div>
+                    <div class="info"><h3>${t.nom}</h3><p>${t.metier} · ${t.pages} page${t.pages>1?'s':''}</p></div>
+                    <span class="badge">${t.formule}</span>
+                  </a>`;
+                });
+              });
+            </script>
+          </body>
+          </html>
+          HTMLEOF
+
+      # ── Copie le manifest dans _site ──
+      - name: Copy manifest
+        run: cp manifest.json _site/
+
+      # ── Build chaque template ──
+      - name: Build fastfood-serenite
+        run: |
+          cd templates/fastfood-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/fastfood-serenite
+          cp -r dist/ ../../_site/fastfood-serenite
+
+      - name: Build fleuriste-serenite
+        run: |
+          cd templates/fleuriste-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/fleuriste-serenite
+          cp -r dist/ ../../_site/fleuriste-serenite
+
+      - name: Build massage-starter
+        run: |
+          cd templates/massage-starter
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/massage-starter
+          cp -r dist/ ../../_site/massage-starter
+
+      - name: Build peintre-serenite
+        run: |
+          cd templates/peintre-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/peintre-serenite
+          cp -r dist/ ../../_site/peintre-serenite
+
+      # ── Upload artifact ──
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

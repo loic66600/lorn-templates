@@ -42,7 +42,7 @@ export const client = {
   ogImage: "/images/og.jpg",
   heroImage: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=1920&q=80",
   heroImageAlt: "Ambiance zen massage bien-être",
-  bannerImage: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1920&q=80",
+bannerImage: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1920&q=80",
 
   // ── Google Maps (laisser "" pour désactiver) ────────────────
   googleMapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2926!2d2.8954!3d42.6988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b06f1c0a1fc9c1%3A0x40819a5fd979a50!2sPerpignan!5e0!3m2!1sfr!2sfr",

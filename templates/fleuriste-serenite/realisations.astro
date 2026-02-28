@@ -1,0 +1,234 @@
+---
+// DÉSACTIVABLE : mv src/pages/realisations.astro src/pages-off/realisations.astro
+import Layout from './Layout.astro';
+import { client } from './client';
+---
+
+<Layout
+  title={`Mes Créations — ${client.nom} | Bouquets & Compositions Florales`}
+  description={`Découvrez le portfolio de ${client.nom} : bouquets sur mesure, décoration mariage, compositions événementielles et abonnements fleurs.`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">{client.nom}<span>{client.slogan}</span></a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/realisations" class="active">Créations</a></li>
+        <li><a href="/tarifs">Tarifs</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-primary">Demander un devis</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="/">Accueil</a><a href="/realisations">Créations</a><a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a>
+    <div class="mobile-cta"><a href="/#contact" class="btn btn-primary">Demander un devis</a></div>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb reveal">
+        <a href="/">Accueil</a><span>→</span><span>Créations</span>
+      </div>
+      <h1 class="page-title reveal reveal-d1">
+        Mes <em>Créations</em>
+      </h1>
+      <p class="page-desc reveal reveal-d2">
+        Chaque composition est unique, imaginée pour vous et pour le moment.
+      </p>
+      <div class="filters reveal reveal-d3">
+        {client.realisationsCategories.map(cat => (
+          <button class={`filter-btn ${cat.id === 'all' ? 'active' : ''}`} data-filter={cat.id}>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </header>
+
+  <section class="gallery-section">
+    <div class="container">
+      <div class="masonry-grid" id="masonryGrid">
+        {client.realisations.map((r, i) => (
+          <div class={`masonry-item blur-sharp ${r.wide ? 'masonry-wide' : ''}`}
+            data-cat={r.categorie}
+            style={`transition-delay: ${(i % 6) * 0.07}s`}
+          >
+            <div class="masonry-img img-zoom">
+              <img src={r.image} alt={r.alt} loading="lazy" />
+              <div class="masonry-overlay">
+                <span class="masonry-cat">{r.categorie}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 60px 0; background: var(--bg-alt); text-align: center;">
+    <div class="container">
+      <h2 class="section-title reveal" style="margin-bottom: 16px;">
+        Une idée ? Un <em>projet</em> ?
+      </h2>
+      <p class="reveal reveal-d1" style="color: var(--text-muted); margin-bottom: 28px;">
+        Décrivez-moi votre occasion et vos couleurs préférées.
+      </p>
+      <div class="reveal reveal-d2" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="/#contact" class="btn btn-primary btn-lg">Demander un devis</a>
+        <a href={client.telephoneLink} class="btn btn-outline btn-lg">{client.telephone}</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom}. <a href="/mentions-legales" style="color: rgba(245,237,232,0.35);">Mentions légales</a></p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled {
+    background: rgba(253,248,245,0.97);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 1px 0 var(--border);
+  }
+
+  .page-header {
+    padding: 120px 0 56px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .breadcrumb {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-muted); margin-bottom: 18px;
+  }
+  .breadcrumb a:hover { color: var(--primary); }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .page-title em { font-style: italic; color: var(--primary); font-weight: 300; }
+
+  .page-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 500px;
+  }
+
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+    font-size: 13px; font-weight: 600;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-body);
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+  }
+
+  .gallery-section { padding: 60px 0 90px; }
+
+  .masonry-grid {
+    columns: 3;
+    column-gap: 18px;
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 18px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .masonry-wide { break-inside: avoid; }
+
+  .masonry-img {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masonry-img img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .masonry-item:nth-child(3n+1) .masonry-img img { aspect-ratio: 4/5; }
+  .masonry-item:nth-child(3n+2) .masonry-img img { aspect-ratio: 1/1; }
+  .masonry-item:nth-child(3n+3) .masonry-img img { aspect-ratio: 4/3; }
+  .masonry-wide .masonry-img img { aspect-ratio: 16/9; }
+
+  .masonry-overlay {
+    position: absolute; inset: 0;
+    background: rgba(28,20,16,0.45);
+    display: flex; align-items: flex-end; padding: 16px;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .masonry-item:hover .masonry-overlay { opacity: 1; }
+
+  .masonry-cat {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: white; background: var(--primary);
+    padding: 4px 10px; border-radius: var(--radius-full);
+  }
+
+  .masonry-item.hidden { display: none; }
+
+  @media (max-width: 768px) {
+    .masonry-grid { columns: 2; }
+    .filters { gap: 8px; }
+  }
+  @media (max-width: 480px) {
+    .masonry-grid { columns: 1; }
+  }
+</style>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.masonry-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = (btn as HTMLElement).dataset.filter;
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      items.forEach(item => {
+        const el = item as HTMLElement;
+        const cat = el.dataset.cat;
+        if (filter === 'all' || cat === filter) {
+          el.classList.remove('hidden');
+          el.classList.add('fade-in');
+          setTimeout(() => el.classList.remove('fade-in'), 400);
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

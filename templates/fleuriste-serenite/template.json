@@ -1,0 +1,22 @@
+{
+  "id": "fleuriste-serenite",
+  "nom": "Fleuriste — Sérénité",
+  "metier": "fleuriste",
+  "categorie": "commerce",
+  "formule": "serenite",
+  "pages": 5,
+  "pagesListe": ["index", "a-propos", "realisations", "tarifs", "mentions-legales"],
+  "palette": {
+    "primary": "#C2410C",
+    "accent": "#166534",
+    "bg": "#FDF8F5",
+    "theme": "clair"
+  },
+  "polices": ["Fraunces", "Mulish"],
+  "tags": ["fleuriste", "fleurs", "bouquets", "mariage", "événementiel", "livraison fleurs"],
+  "port": 4021,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-02-26"
+}

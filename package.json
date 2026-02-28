@@ -6,5 +6,8 @@
   "description": "Dépôt centralisé des templates ViteMonSite — LORN Digital Studio",
   "scripts": {
     "manifest": "node scripts/generate-manifest.js"
+  },
+  "dependencies": {
+    "astro": "^5.18.0"
   }
 }

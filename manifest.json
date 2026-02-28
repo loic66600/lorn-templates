@@ -1,39 +1,110 @@
 {
-  "version": "2026-02-23",
-  "total": 1,
+  "version": "2026-02-28",
+  "total": 4,
   "metiers": [
-    "massage"
+    "fastfood",
+    "fleuriste",
+    "massage",
+    "peintre"
   ],
   "formules": [
     {
-      "id": "starter",
-      "nom": "Starter",
-      "prix": "19€/mois",
-      "pagesMax": 1,
-      "description": "Site one-page professionnel"
-    },
-    {
       "id": "serenite",
       "nom": "Sérénité",
-      "prix": "39€/mois",
-      "pagesMax": 5,
-      "description": "Site multi-pages complet"
+      "prix": "49€/mois",
+      "pagesMax": 3,
+      "description": "L’essentiel pour être visible et tranquille : hébergement rapide, support email, SEO local avancé, rapport mensuel de visites, petites mises à jour du quotidien."
     },
     {
       "id": "croissance",
       "nom": "Croissance",
       "prix": "79€/mois",
-      "pagesMax": 10,
-      "description": "Site avancé avec blog et SEO"
+      "pagesMax": 5,
+      "description": "Pour attirer plus de clients : tout Sérénité + SEO local renforcé, conseils Google Business Profile, rapport mensuel détaillé, mises à jour priorisées, support prioritaire."
     }
   ],
   "templates": [
+    {
+      "id": "fastfood-serenite",
+      "nom": "Fast Food Tacos & Burgers — Sérénité",
+      "metier": "fastfood",
+      "categorie": "restauration",
+      "formule": "serenite",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "menu",
+        "a-propos",
+        "avis",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#FF2D00",
+        "accent": "#FFD600",
+        "bg": "#0A0A0A",
+        "theme": "sombre"
+      },
+      "polices": [
+        "Archivo Black",
+        "Figtree"
+      ],
+      "tags": [
+        "fast food",
+        "tacos",
+        "burger",
+        "restauration rapide",
+        "street food"
+      ],
+      "port": 4011,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-26"
+    },
+    {
+      "id": "fleuriste-serenite",
+      "nom": "Fleuriste — Sérénité",
+      "metier": "fleuriste",
+      "categorie": "commerce",
+      "formule": "serenite",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "a-propos",
+        "realisations",
+        "tarifs",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#C2410C",
+        "accent": "#166534",
+        "bg": "#FDF8F5",
+        "theme": "clair"
+      },
+      "polices": [
+        "Fraunces",
+        "Mulish"
+      ],
+      "tags": [
+        "fleuriste",
+        "fleurs",
+        "bouquets",
+        "mariage",
+        "événementiel",
+        "livraison fleurs"
+      ],
+      "port": 4021,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-26"
+    },
     {
       "id": "massage-starter",
       "nom": "Massage & Bien-être — Starter",
       "metier": "massage",
       "categorie": "bien-etre",
-      "formule": "starter",
+      "formule": "serenite",
       "pages": 1,
       "pagesListe": [
         "index"
@@ -59,6 +130,44 @@
       "screenshot": "",
       "version": "2.0.0",
       "date": "2026-02-23"
+    },
+    {
+      "id": "peintre-serenite",
+      "nom": "Peintre en Bâtiment — Sérénité",
+      "metier": "peintre",
+      "categorie": "batiment",
+      "formule": "serenite",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "a-propos",
+        "realisations",
+        "tarifs",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#1B2B4B",
+        "accent": "#D4A843",
+        "bg": "#FAFAF8",
+        "theme": "clair"
+      },
+      "polices": [
+        "Plus Jakarta Sans",
+        "Onest"
+      ],
+      "tags": [
+        "peintre",
+        "peinture intérieure",
+        "peinture extérieure",
+        "ravalement",
+        "décoration",
+        "enduit"
+      ],
+      "port": 4022,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-26"
     }
   ]
 }

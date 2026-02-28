@@ -1,0 +1,1460 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+const socialIcons: Record<string,string> = {
+  facebook:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
+  instagram:'<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  tiktok:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.83a4.84 4.84 0 01-1-.14z"/></svg>',
+  snapchat:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-5.33 0-8 3.11-8 6.86 0 .9.1 1.72.28 2.46-.3.17-.63.26-.98.26-.5 0-.9-.22-.9-.22s.18 1.38 2.1 1.88c-.3.72-.72 1.3-1.32 1.68 0 0 .8.2 1.82-.12.24.98 1.18 1.72 2.3 1.72.36 0 .7-.08 1-.2C8.6 17.26 10.22 18 12 18s3.4-.74 4.7-1.68c.3.12.64.2 1 .2 1.12 0 2.06-.74 2.3-1.72 1.02.32 1.82.12 1.82.12-.6-.38-1.02-.96-1.32-1.68 1.92-.5 2.1-1.88 2.1-1.88s-.4.22-.9.22c-.35 0-.68-.09-.98-.26.18-.74.28-1.56.28-2.46C20 5.11 17.33 2 12 2z"/></svg>',
+  youtube:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2c.312-1.732.466-3.49.46-5.25a29 29 0 00-.46-5.33zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z"/></svg>',
+  linkedin:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+  twitter:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+  whatsapp:'<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.86 11.86 0 0012.06 0C5.46 0 .1 5.36.1 11.96c0 2.11.55 4.17 1.6 5.99L0 24l6.2-1.63a11.9 11.9 0 005.86 1.5h.01c6.6 0 11.96-5.36 11.96-11.96 0-3.19-1.24-6.19-3.51-8.43zM12.07 21.8h-.01a9.86 9.86 0 01-5.03-1.38l-.36-.21-3.68.97.98-3.59-.24-.37a9.84 9.84 0 01-1.51-5.26c0-5.44 4.42-9.86 9.86-9.86 2.63 0 5.1 1.02 6.96 2.89a9.79 9.79 0 012.89 6.97c0 5.44-4.43 9.86-9.86 9.86zm5.41-7.39c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.94 1.17-.17.2-.34.22-.64.07-.3-.15-1.26-.46-2.4-1.47a8.95 8.95 0 01-1.67-2.07c-.18-.3-.02-.46.13-.61.14-.14.3-.34.45-.5.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.18-.24-.58-.49-.5-.66-.5h-.57c-.2 0-.52.08-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.45 1.07 2.86 1.22 3.06.15.2 2.1 3.21 5.08 4.5.71.31 1.27.5 1.7.65.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/></svg>',
+};
+
+const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
+---
+
+<Layout>
+  <!-- ============================================================
+   * NAVBAR
+   * ============================================================ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        Street<span>Fusion</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="active">Accueil</a></li>
+        <li><a href="/menu">Notre Carte</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/avis">Avis</a></li>
+        <li><a href="/#contact">Commander</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-primary">Commander</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu" id="burgerBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/">Accueil</a>
+    <a href="/menu">Notre Carte</a>
+    <a href="/a-propos">À Propos</a>
+    <a href="/avis">Avis</a>
+    <div class="mobile-cta">
+      <a href="/#contact" class="btn btn-primary">Commander maintenant</a>
+      <a href={client.whatsappLink} class="btn btn-outline">WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+   * HERO — FULLBLEED IMPACT + DIAGONAL CUT BOTTOM
+   * ============================================================ -->
+  <section class="hero" id="hero">
+    <!-- Background image avec overlay -->
+    <div class="hero-bg">
+      <img src={client.heroImage} alt={client.heroImageAlt} class="hero-img" fetchpriority="high" />
+      <div class="hero-overlay"></div>
+      <div class="hero-noise"></div>
+    </div>
+
+    <div class="hero-content container">
+      <!-- Badge open -->
+      <div class="hero-badge reveal">
+        <span class="badge-dot pulse-badge"></span>
+        <span>Ouvert — Livraison & Click &amp; Collect</span>
+      </div>
+
+      <!-- Titre massive -->
+      <h1 class="hero-title reveal reveal-d1">
+        <span class="hero-tagline">Le Soler's #1</span>
+        <span class="hero-main">Tacos &amp;</span>
+        <span class="hero-main">Burgers</span>
+        <span class="hero-flame flame-text">Maison</span>
+      </h1>
+
+      <!-- Sous-titre -->
+      <p class="hero-sub reveal reveal-d2">
+        Fait maison, livré en <strong>{client.livraisonDelai}</strong> · 
+        Click &amp; Collect <strong>{client.clickAndCollectDelai}</strong> · 
+        À <strong>5 min de Perpignan</strong>
+      </p>
+
+      <!-- CTAs -->
+      <div class="hero-ctas reveal reveal-d3">
+        <a href="/#contact" class="btn btn-primary btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Commander maintenant
+        </a>
+        <a href="/menu" class="btn btn-outline btn-lg">
+          Voir la carte →
+        </a>
+      </div>
+
+      <!-- Pills livraison -->
+      <div class="hero-pills reveal reveal-d4">
+        <span class="pill">🛵 Livraison gratuite dès {client.livraisonGratuite}</span>
+        <span class="pill">⚡ Click &amp; Collect {client.clickAndCollectDelai}</span>
+        <span class="pill">📍 Le Soler & Perpignan</span>
+      </div>
+    </div>
+
+    <!-- Diagonal cut -->
+    <div class="hero-cut"></div>
+  </section>
+
+  <!-- ============================================================
+   * STATS TICKER
+   * ============================================================ -->
+  <section class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        {client.stats.map((stat, i) => (
+          <div class={`stat-item reveal reveal-d${i + 1}`}>
+            <div class="stat-number">
+              <span class="counter-pop" data-target={stat.chiffre} data-suffix={stat.suffix}>
+                0{stat.suffix}
+              </span>
+            </div>
+            <div class="stat-label">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * BESTSELLERS
+   * ============================================================ -->
+  <section class="section" id="bestsellers">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-label">Les favoris</p>
+        <h2 class="section-title">Nos <span>Incontournables</span></h2>
+        <p class="section-desc">Les plats que nos clients commandent encore et encore</p>
+      </div>
+
+      <div class="products-grid">
+        {bestsellers.map((item, i) => (
+          <article class={`product-card hover-lift reveal reveal-d${i + 1}`}>
+            <div class="product-img img-zoom">
+              <img src={item.image} alt={item.nom} loading="lazy" />
+              <div class="product-badges">
+                <span class="badge badge-yellow">⭐ Bestseller</span>
+                {item.nouveau && <span class="badge badge-red">Nouveau</span>}
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-cat">{item.categorie === 'tacos' ? '🌯 Tacos' : '🍔 Burger'}</div>
+              <h3 class="product-name">{item.nom}</h3>
+              <p class="product-desc">{item.description}</p>
+              <div class="product-footer">
+                <span class="product-price">{item.prix}</span>
+                <a href="/#contact" class="btn btn-primary">Commander</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-cta reveal">
+        <a href="/menu" class="btn btn-outline btn-lg">Voir toute la carte →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * POURQUOI NOUS — BRAND STRIP
+   * ============================================================ -->
+  <section class="brand-strip">
+    <div class="brand-strip-inner">
+      <div class="brand-strip-track">
+        <span>🔥 Fait Maison</span>
+        <span class="divider">·</span>
+        <span>⚡ Ultra Rapide</span>
+        <span class="divider">·</span>
+        <span>📍 Le Soler</span>
+        <span class="divider">·</span>
+        <span>🌯 Tacos Authentiques</span>
+        <span class="divider">·</span>
+        <span>🍔 Burgers Artisanaux</span>
+        <span class="divider">·</span>
+        <span>⭐ 4.8/5</span>
+        <span class="divider">·</span>
+        <span>🚀 Livraison Perpignan</span>
+        <span class="divider">·</span>
+        <!-- Duplicate for infinite scroll -->
+        <span>🔥 Fait Maison</span>
+        <span class="divider">·</span>
+        <span>⚡ Ultra Rapide</span>
+        <span class="divider">·</span>
+        <span>📍 Le Soler</span>
+        <span class="divider">·</span>
+        <span>🌯 Tacos Authentiques</span>
+        <span class="divider">·</span>
+        <span>🍔 Burgers Artisanaux</span>
+        <span class="divider">·</span>
+        <span>⭐ 4.8/5</span>
+        <span class="divider">·</span>
+        <span>🚀 Livraison Perpignan</span>
+        <span class="divider">·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * LIVRAISON & CLICK & COLLECT
+   * ============================================================ -->
+  <section class="section-alt" id="livraison">
+    <div class="container">
+      <div class="delivery-grid">
+        <div class="delivery-content reveal slide-left">
+          <p class="section-label">Commandez où vous voulez</p>
+          <h2 class="section-title">Livraison &amp;<br/><span>Click &amp; Collect</span></h2>
+          <p class="delivery-desc">
+            Commandez en ligne ou par téléphone. On prépare tout frais pour vous.
+            Retrait sur place ou livraison rapide sur {client.ville} et ses environs jusqu'à {client.rayonKm} km.
+          </p>
+
+          <div class="delivery-options">
+            <div class="delivery-opt">
+              <div class="opt-icon">🛵</div>
+              <div class="opt-content">
+                <h3>Livraison à domicile</h3>
+                <p>En {client.livraisonDelai} · Gratuite dès {client.livraisonGratuite}</p>
+              </div>
+            </div>
+            <div class="delivery-opt">
+              <div class="opt-icon">⚡</div>
+              <div class="opt-content">
+                <h3>Click &amp; Collect</h3>
+                <p>Prêt en {client.clickAndCollectDelai} · 0€ de frais</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="delivery-zones">
+            <p class="zones-label">Zones desservies :</p>
+            <div class="zones-tags">
+              {client.zones.map(zone => (
+                <span class="zone-tag">{zone}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="delivery-ctas">
+            {client.uberEats && (
+              <a href={client.uberEats} target="_blank" rel="noopener" class="app-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_Eats_2020_logo.svg" alt="Uber Eats" height="22" />
+              </a>
+            )}
+            {client.deliveroo && (
+              <a href={client.deliveroo} target="_blank" rel="noopener" class="app-btn app-btn-teal">
+                Commander via Deliveroo
+              </a>
+            )}
+          </div>
+        </div>
+
+        <div class="delivery-visual reveal slide-right">
+          <div class="delivery-img-wrap">
+            <img src={client.heroImage2} alt="Livraison Street Fusion Le Soler" loading="lazy" />
+            <div class="delivery-badge">
+              <span class="badge-dot pulse-badge"></span>
+              <strong>Ouvert maintenant</strong>
+              <span>Livraison active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * TÉMOIGNAGES — GRILLE MASONRY
+   * ============================================================ -->
+  <section class="section" id="temoignages">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-label">Ce que disent nos clients</p>
+        <h2 class="section-title">Plus de <span>200</span> Avis <span class="accent">5 Étoiles</span></h2>
+      </div>
+
+      <div class="reviews-masonry">
+        {client.temoignages.map((t, i) => (
+          <article class={`review-card reveal reveal-d${(i % 4) + 1}`}>
+            <div class="review-stars">
+              {'★'.repeat(t.note)}
+            </div>
+            <p class="review-text">"{t.texte}"</p>
+            <div class="review-footer">
+              <div class="review-avatar">{t.nom[0]}</div>
+              <div>
+                <strong class="review-name">{t.nom}</strong>
+                <span class="review-meta">{t.source} · {t.date}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="reviews-cta reveal">
+        <a href="/avis" class="btn btn-outline btn-lg">Voir tous les avis →</a>
+        <a href="https://search.google.com/local/writereview" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+          Laisser un avis Google
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * CTA BAND — COMMANDE URGENCE
+   * ============================================================ -->
+  <section class="cta-band">
+    <div class="cta-band-bg">
+      <img src={client.heroImage3} alt="Street Fusion" />
+      <div class="cta-band-overlay"></div>
+    </div>
+    <div class="container cta-band-content reveal">
+      <p class="cta-band-eyebrow">Commandez maintenant</p>
+      <h2 class="cta-band-title">
+        Vous avez <span class="flame-text">faim</span> ?<br/>
+        On est là.
+      </h2>
+      <div class="cta-band-actions">
+        <a href="/#contact" class="btn btn-accent btn-xl">
+          Commander en ligne
+        </a>
+        <a href={client.telephoneLink} class="btn btn-outline-white btn-xl">
+          📞 {client.telephone}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * CONTACT / COMMANDER
+   * ============================================================ -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Infos -->
+        <div class="contact-info reveal slide-left">
+          <p class="section-label">Nous trouver</p>
+          <h2 class="section-title">Venez Nous <span>Rendre Visite</span></h2>
+
+          <div class="info-blocks">
+            <div class="info-block">
+              <div class="info-icon">📍</div>
+              <div>
+                <h4>Adresse</h4>
+                <p>{client.adresse}</p>
+                <p class="info-note">{client.codePostal} {client.ville} — {client.departement}</p>
+              </div>
+            </div>
+            <div class="info-block">
+              <div class="info-icon">📞</div>
+              <div>
+                <h4>Téléphone</h4>
+                <a href={client.telephoneLink} class="info-link">{client.telephone}</a>
+              </div>
+            </div>
+            <div class="info-block">
+              <div class="info-icon">🕐</div>
+              <div>
+                <h4>Horaires</h4>
+                <div class="horaires-mini">
+                  {client.horaires.map(h => (
+                    <div class="horaire-row">
+                      <span class="horaire-jour">{h.jour}</span>
+                      <span class="horaire-heure">
+                        {h.midi !== "Fermé" ? `${h.midi} / ${h.soir}` : h.soir !== "Fermé" ? h.soir : "Fermé"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social -->
+          <div class="contact-social">
+            <p class="social-label">Suivez-nous</p>
+            <div class="social-links">
+              {client.reseaux.facebook && (
+                <a href={client.reseaux.facebook} target="_blank" rel="noopener" class="social-link" aria-label="Facebook" set:html={socialIcons.facebook} />
+              )}
+              {client.reseaux.instagram && (
+                <a href={client.reseaux.instagram} target="_blank" rel="noopener" class="social-link" aria-label="Instagram" set:html={socialIcons.instagram} />
+              )}
+              {client.reseaux.tiktok && (
+                <a href={client.reseaux.tiktok} target="_blank" rel="noopener" class="social-link" aria-label="TikTok" set:html={socialIcons.tiktok} />
+              )}
+              {client.whatsappLink && (
+                <a href={client.whatsappLink} target="_blank" rel="noopener" class="social-link social-link-whatsapp" aria-label="WhatsApp" set:html={socialIcons.whatsapp} />
+              )}
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulaire de commande -->
+        <div class="contact-form-wrap reveal slide-right">
+          <h3 class="form-title">Passer une commande<br/><span>ou nous contacter</span></h3>
+
+          <form class="contact-form" id="contactForm" action={`https://api.web3forms.com/submit`} method="POST">
+            <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_KEY || ''} />
+            <input type="hidden" name="subject" value={`Nouvelle commande — ${client.nom} ${client.ville}`} />
+            <input type="hidden" name="redirect" value="false" />
+            <input type="checkbox" name="botcheck" class="form-honeypot" />
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Votre nom *</label>
+                <input type="text" id="name" name="name" placeholder="Prénom Nom" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Téléphone *</label>
+                <input type="tel" id="phone" name="phone" placeholder="06 XX XX XX XX" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="votre@email.fr" />
+            </div>
+
+            <div class="form-group">
+              <label for="type">Type de commande *</label>
+              <select id="type" name="type" required>
+                <option value="">Choisissez...</option>
+                <option value="livraison">Livraison à domicile</option>
+                <option value="clickcollect">Click & Collect</option>
+                <option value="surplace">Sur place</option>
+                <option value="question">Question / Renseignement</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Votre commande ou message *</label>
+              <textarea id="message" name="message" placeholder="Décrivez votre commande ou votre question..." rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+              <span id="btnText">Envoyer ma commande</span>
+              <span id="btnLoading" style="display:none">Envoi en cours...</span>
+            </button>
+
+            <div id="formSuccess" class="form-success" style="display:none">
+              <span>✅</span>
+              <div>
+                <strong>Message envoyé !</strong>
+                <p>Nous vous recontactons rapidement au {client.telephone}</p>
+              </div>
+            </div>
+
+            <div id="formError" class="form-error" style="display:none">
+              <span>❌ Une erreur est survenue. Appelez-nous : {client.telephone}</span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Google Maps -->
+      {client.googleMapsEmbed && (
+        <div class="map-wrap reveal">
+          <iframe
+            src={client.googleMapsEmbed}
+            width="100%"
+            height="350"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title={`${client.nom} — Carte Google Maps ${client.ville}`}
+          ></iframe>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ============================================================
+   * FOOTER
+   * ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-name">Street<span>Fusion</span></div>
+          <p>Fast food artisanal à {client.ville}. Tacos français et burgers maison préparés avec des produits frais. Livraison sur {client.proximite.slice(0,3).join(', ')} et plus.</p>
+          <div class="social-links">
+            {client.reseaux.facebook && (
+              <a href={client.reseaux.facebook} target="_blank" rel="noopener" class="social-link" aria-label="Facebook" set:html={socialIcons.facebook} />
+            )}
+            {client.reseaux.instagram && (
+              <a href={client.reseaux.instagram} target="_blank" rel="noopener" class="social-link" aria-label="Instagram" set:html={socialIcons.instagram} />
+            )}
+            {client.reseaux.tiktok && (
+              <a href={client.reseaux.tiktok} target="_blank" rel="noopener" class="social-link" aria-label="TikTok" set:html={socialIcons.tiktok} />
+            )}
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/menu">Notre Carte</a></li>
+            <li><a href="/a-propos">À Propos</a></li>
+            <li><a href="/avis">Avis Clients</a></li>
+            <li><a href="/#contact">Commander</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Notre Carte</h4>
+          <ul>
+            {client.categories.map(cat => (
+              <li><a href={`/menu#${cat.id}`}>{cat.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href={client.telephoneLink}>{client.telephone}</a></li>
+            <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
+            <li><a href="/#livraison">Zones de livraison</a></li>
+            <li><a href="/mentions-legales">Mentions légales</a></li>
+          </ul>
+          <div class="footer-address">
+            <p>{client.adresse}</p>
+            <p>{client.codePostal} {client.ville}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} ({client.codePostal}). Tous droits réservés.</p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">
+          Site par LORN Digital Studio
+        </a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* ============================================================
+   * HERO
+   * ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(10,10,10,0.85) 0%,
+      rgba(10,10,10,0.7) 50%,
+      rgba(255,45,0,0.15) 100%
+    );
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    padding-top: 100px;
+    padding-bottom: 120px;
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 28px;
+  }
+
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 24px;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+
+  .hero-main {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 8rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .hero-flame {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 8rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+
+  .hero-sub strong {
+    color: var(--accent);
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .btn-lg {
+    padding: 16px 32px;
+    font-size: 15px;
+  }
+
+  .hero-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-cut {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: var(--bg);
+    clip-path: polygon(0 100%, 100% 100%, 100% 0);
+    z-index: 1;
+  }
+
+  /* ============================================================
+   * STATS BAR
+   * ============================================================ */
+  .stats-bar {
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 20px;
+    border-right: 1px solid var(--border);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ============================================================
+   * PRODUCTS GRID
+   * ============================================================ */
+  .section-header {
+    margin-bottom: 48px;
+  }
+
+  .section-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+    max-width: 500px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .product-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card:hover {
+    border-color: var(--primary);
+  }
+
+  .product-img {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .product-body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-cat {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .product-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .product-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 16px;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .product-price {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--primary);
+  }
+
+  .section-cta {
+    text-align: center;
+  }
+
+  /* ============================================================
+   * BRAND STRIP
+   * ============================================================ */
+  .brand-strip {
+    background: var(--primary);
+    padding: 18px 0;
+    overflow: hidden;
+  }
+
+  .brand-strip-inner {
+    overflow: hidden;
+  }
+
+  .brand-strip-track {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    white-space: nowrap;
+    animation: scrollTrack 25s linear infinite;
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  .brand-strip-track .divider {
+    opacity: 0.5;
+  }
+
+  @keyframes scrollTrack {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============================================================
+   * LIVRAISON
+   * ============================================================ */
+  .delivery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .delivery-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin: 20px 0 28px;
+  }
+
+  .delivery-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .delivery-opt {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+  }
+
+  .opt-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .opt-content h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .opt-content p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .zones-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .zones-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .zone-tag {
+    padding: 4px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .delivery-ctas {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .app-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+
+  .app-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .delivery-img-wrap {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .delivery-img-wrap img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+  }
+
+  .delivery-badge {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .delivery-badge strong {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .delivery-badge span {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ============================================================
+   * REVIEWS
+   * ============================================================ */
+  .reviews-masonry {
+    columns: 3;
+    column-gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .review-card {
+    break-inside: avoid;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .review-stars {
+    color: var(--accent);
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .review-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-style: italic;
+    flex: 1;
+  }
+
+  .review-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .review-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .review-name {
+    display: block;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .review-meta {
+    font-size: 12px;
+    color: var(--text-subtle);
+  }
+
+  .reviews-cta {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ============================================================
+   * CTA BAND
+   * ============================================================ */
+  .cta-band {
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden;
+  }
+
+  .cta-band-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .cta-band-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.6);
+  }
+
+  .cta-band-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,10,10,0.75);
+  }
+
+  .cta-band-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .cta-band-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 16px;
+  }
+
+  .cta-band-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 40px;
+  }
+
+  .cta-band-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-xl {
+    padding: 18px 40px;
+    font-size: 16px;
+  }
+
+  .btn-outline-white {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: var(--radius);
+    padding: 18px 40px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .btn-outline-white:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* ============================================================
+   * CONTACT
+   * ============================================================ */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-bottom: 48px;
+    align-items: start;
+  }
+
+  .info-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 28px 0;
+  }
+
+  .info-block {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .info-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .info-block h4 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .info-block p {
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .info-note {
+    font-size: 13px !important;
+    color: var(--text-muted) !important;
+    margin-top: 3px;
+  }
+
+  .info-link {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    transition: color 0.2s;
+  }
+
+  .info-link:hover { color: var(--primary-light); }
+
+  .horaires-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .horaire-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .horaire-jour {
+    color: var(--text-muted);
+    min-width: 90px;
+  }
+
+  .horaire-heure {
+    color: var(--text);
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .social-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .social-link-whatsapp:hover {
+    background: #25D366 !important;
+    border-color: #25D366 !important;
+  }
+
+  /* FORM */
+  .contact-form-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+  }
+
+  .form-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+    line-height: 1.1;
+  }
+
+  .form-title span {
+    color: var(--primary);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--bg-alt);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--primary);
+  }
+
+  .form-group select option {
+    background: var(--bg-card);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-honeypot { display: none; }
+
+  .btn-full { width: 100%; justify-content: center; }
+
+  .form-success {
+    margin-top: 16px;
+    background: rgba(22,163,74,0.15);
+    border: 1px solid rgba(22,163,74,0.3);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .form-success span { font-size: 1.5rem; }
+  .form-success strong { display: block; margin-bottom: 4px; }
+  .form-success p { color: var(--text-muted); font-size: 13px; }
+
+  .form-error {
+    margin-top: 16px;
+    background: rgba(255,45,0,0.15);
+    border: 1px solid rgba(255,45,0,0.3);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--primary);
+  }
+
+  .map-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  /* ============================================================
+   * RESPONSIVE
+   * ============================================================ */
+  @media (max-width: 1024px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .delivery-grid { gap: 48px; }
+    .contact-grid { gap: 48px; }
+  }
+
+  @media (max-width: 768px) {
+    .hero-content { padding-top: 80px; }
+    .hero-main, .hero-flame { font-size: clamp(3rem, 12vw, 5rem); }
+    .hero-ctas { flex-direction: column; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .products-grid { grid-template-columns: 1fr; }
+    .delivery-grid { grid-template-columns: 1fr; gap: 40px; }
+    .reviews-masonry { columns: 1; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-form-wrap { padding: 24px 20px; }
+    .cta-band-actions { flex-direction: column; align-items: center; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-badge { font-size: 11px; }
+    .hero-pills { display: none; }
+    .stat-number { font-size: 2rem; }
+  }
+</style>
+
+<script define:vars={{ web3Key, emailClient: client.email, nomClient: client.nom }}>
+  const btn = document.getElementById('submitBtn'),
+        form = document.getElementById('contactForm'),
+        ok = document.getElementById('formSuccess'),
+        err = document.getElementById('formError');
+
+  btn?.addEventListener('click', async () => {
+    const nom = document.getElementById('nom')?.value || document.getElementById('rNom')?.value || '',
+          tel = document.getElementById('tel')?.value || document.getElementById('rTel')?.value || '',
+          email = document.getElementById('email')?.value || document.getElementById('rEmail')?.value || '',
+          msg = document.getElementById('message')?.value || document.getElementById('rMsg')?.value || '';
+    if (!nom || !tel) { alert('Remplissez les champs obligatoires.'); return; }
+    btn.disabled = true; btn.textContent = 'Envoi...';
+    if (web3Key) {
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ access_key: web3Key, subject: 'Nouveau contact — ' + nom, from_name: nom, telephone: tel, email, message: msg })
+        });
+        const d = await r.json();
+        if (d.success && form && ok) { form.style.display = 'none'; ok.style.display = 'flex'; return; }
+      } catch(e) {}
+    }
+    // Fallback mailto
+    window.location.href = 'mailto:' + emailClient + '?subject=' + encodeURIComponent('Contact — ' + nomClient) + '&body=' + encodeURIComponent('Nom: ' + nom + '\nTél: ' + tel + '\n\n' + msg);
+  });
+</script>

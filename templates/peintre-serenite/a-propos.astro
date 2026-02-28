@@ -1,0 +1,168 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+---
+
+<Layout
+  title={`À Propos — ${client.nom} | Artisan Peintre Qualifié`}
+  description={`L'histoire de ${client.nom}, artisan peintre qualifié avec ${client.stats[0].chiffre} ans d'expérience. ${client.apropos.sousTitre}`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-mark">DP</div>
+        <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.slogan}</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li><li><a href="/realisations">Réalisations</a></li>
+        <li><a href="/tarifs">Tarifs</a></li><li><a href="/a-propos" class="active">À Propos</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-accent">Devis gratuit</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="/">Accueil</a><a href="/realisations">Réalisations</a><a href="/a-propos">À Propos</a>
+    <div class="mobile-cta"><a href="/#contact" class="btn btn-accent">Devis gratuit</a></div>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb reveal"><a href="/">Accueil</a><span>→</span><span>À Propos</span></div>
+      <h1 class="page-title reveal reveal-d1">Mon <span class="underline-stroke">Parcours</span></h1>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-text reveal slide-left">
+          <p class="section-eyebrow">{client.metier}</p>
+          <h2 class="section-title">{client.apropos.titre}</h2>
+          <p class="story-sub">{client.apropos.sousTitre}</p>
+          <p class="story-body">{client.apropos.paragraphe1}</p>
+          <p class="story-body">{client.apropos.paragraphe2}</p>
+
+          <div class="certifs">
+            <p class="certifs-label">Qualifications & Certifications</p>
+            <div class="certifs-list">
+              {client.apropos.certifications.map(c => (
+                <span class="certif-badge">✓ {c}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="story-ctas">
+            <a href="/#contact" class="btn btn-accent btn-lg">Demander un devis</a>
+            <a href="/realisations" class="btn btn-outline btn-lg">Mes réalisations</a>
+          </div>
+        </div>
+
+        <div class="story-visual reveal slide-right">
+          <div class="story-img-wrap">
+            <img src={client.apropos.image} alt={client.apropos.imageAlt} loading="lazy" />
+            <div class="story-img-accent"></div>
+          </div>
+          <div class="story-stats">
+            {client.stats.map(stat => (
+              <div class="story-stat">
+                <span class="counter-pop" data-target={stat.chiffre} data-suffix={stat.suffix}>0{stat.suffix}</span>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="container">
+      <div class="reveal" style="text-align: center; margin-bottom: 48px;">
+        <p class="section-eyebrow">Ce qui me guide</p>
+        <h2 class="section-title">Mes <span class="underline-stroke">valeurs</span></h2>
+      </div>
+      <div class="valeurs-grid">
+        {client.apropos.valeurs.map((v, i) => (
+          <div class={`valeur-card hover-lift reveal reveal-d${i + 1}`}>
+            <span class="valeur-icon">{v.icone}</span>
+            <h3 class="valeur-title">{v.titre}</h3>
+            <p class="valeur-desc">{v.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom}. <a href="/mentions-legales" style="color: rgba(232,238,248,0.3);">Mentions légales</a></p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled { background: rgba(250,250,248,0.97); backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+  .page-header { padding: 120px 0 56px; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .page-title { font-family: var(--font-display); font-size: clamp(2.8rem,6vw,5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+
+  .story-sub {
+    font-size: 1.05rem; color: var(--accent-dark); font-weight: 600;
+    margin: 16px 0 24px; line-height: 1.6; font-family: var(--font-display);
+  }
+
+  .story-body { font-size: 1rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 16px; }
+
+  .certifs { margin: 24px 0; }
+  .certifs-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; font-family: var(--font-display); }
+  .certifs-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .certif-badge { padding: 5px 12px; background: rgba(27,43,75,0.07); border: 1px solid var(--border); border-radius: var(--radius-full); font-size: 12px; font-weight: 700; color: var(--primary); font-family: var(--font-display); }
+
+  .story-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+
+  .story-visual { display: flex; flex-direction: column; gap: 20px; }
+
+  .story-img-wrap { position: relative; border-radius: var(--radius-lg); overflow: hidden; }
+  .story-img-wrap img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+  .story-img-accent {
+    position: absolute; bottom: -10px; right: -10px; width: 55%; height: 55%;
+    border: 3px solid var(--accent); border-radius: var(--radius-lg); opacity: 0.25; pointer-events: none;
+  }
+
+  .story-stats {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  }
+
+  .story-stat {
+    background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
+    padding: 16px; text-align: center;
+  }
+
+  .story-stat span:first-child {
+    display: block; font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
+    letter-spacing: -0.04em; color: var(--primary); margin-bottom: 4px;
+  }
+  .story-stat span:last-child { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+  .valeurs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .valeur-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; transition: border-color 0.2s; }
+  .valeur-card:hover { border-color: var(--accent); }
+  .valeur-icon { font-size: 2rem; display: block; margin-bottom: 14px; }
+  .valeur-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+  .valeur-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  @media (max-width: 1024px) { .valeurs-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .story-grid { grid-template-columns: 1fr; gap: 40px; } .valeurs-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .valeurs-grid { grid-template-columns: 1fr; } }
+</style>

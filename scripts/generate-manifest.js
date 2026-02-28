@@ -28,9 +28,8 @@ const manifest = {
   total: templates.length,
   metiers,
   formules: [
-    { id: "starter", nom: "Starter", prix: "19\u20ac/mois", pagesMax: 1, description: "Site one-page professionnel" },
-    { id: "serenite", nom: "Sérénité", prix: "39\u20ac/mois", pagesMax: 5, description: "Site multi-pages complet" },
-    { id: "croissance", nom: "Croissance", prix: "79\u20ac/mois", pagesMax: 10, description: "Site avancé avec blog et SEO" },
+    { id: "serenite", nom: "Sérénité", prix: "49€\/mois", pagesMax: 3, description: "L’essentiel pour être visible et tranquille : hébergement rapide, support email, SEO local avancé, rapport mensuel de visites, petites mises à jour du quotidien." },
+    { id: "croissance", nom: "Croissance", prix: "79€\/mois", pagesMax: 5, description: "Pour attirer plus de clients : tout Sérénité + SEO local renforcé, conseils Google Business Profile, rapport mensuel détaillé, mises à jour priorisées, support prioritaire." },
   ],
   templates,
 };

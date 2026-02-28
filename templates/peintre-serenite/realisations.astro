@@ -1,0 +1,234 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+---
+
+<Layout
+  title={`Réalisations — ${client.nom} | Avant / Après`}
+  description={`Découvrez les réalisations de ${client.nom} : peinture intérieure, extérieure, ravalement, décoration. Galerie avant/après.`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-mark">DP</div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">{client.nom}</span>
+          <span class="nav-logo-sub">{client.slogan}</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/realisations" class="active">Réalisations</a></li>
+        <li><a href="/tarifs">Tarifs</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-accent">Devis gratuit</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="/">Accueil</a><a href="/realisations">Réalisations</a><a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a>
+    <div class="mobile-cta"><a href="/#contact" class="btn btn-accent">Devis gratuit</a></div>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb reveal"><a href="/">Accueil</a><span>→</span><span>Réalisations</span></div>
+      <h1 class="page-title reveal reveal-d1">
+        Avant / <span class="underline-stroke">Après</span>
+      </h1>
+      <p class="page-desc reveal reveal-d2">
+        Faites glisser le curseur pour comparer chaque chantier avant et après intervention.
+      </p>
+      <div class="filters reveal reveal-d3">
+        {client.realisationsCategories.map(cat => (
+          <button class={`filter-btn ${cat.id === 'all' ? 'active' : ''}`} data-filter={cat.id}>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="ba-grid" id="baGrid">
+        {client.realisations.map((r, i) => (
+          <div class={`ba-card blur-sharp`}
+            data-cat={r.categorie}
+            style={`transition-delay: ${(i % 4) * 0.08}s`}
+          >
+            <div class="ba-slider">
+              <div class="ba-before">
+                <img src={r.before} alt={`Avant — ${r.titre}`} loading="lazy" />
+                <span class="ba-label ba-label-before">Avant</span>
+              </div>
+              <div class="ba-after">
+                <img src={r.after} alt={`Après — ${r.titre}`} loading="lazy" />
+                <span class="ba-label ba-label-after">Après</span>
+              </div>
+              <div class="ba-handle">
+                <div class="ba-handle-line"></div>
+                <div class="ba-handle-circle">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transform:scaleX(-1)"><polyline points="15 18 9 12 15 6"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="ba-info">
+              <div>
+                <h3 class="ba-title">{r.titre}</h3>
+                <span class="ba-lieu">📍 {r.lieu}</span>
+              </div>
+              <a href="/#contact" class="btn btn-outline" style="font-size: 12px; padding: 8px 16px;">Devis →</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 60px 0; background: var(--primary); text-align: center;">
+    <div class="container">
+      <h2 class="reveal" style="font-family: var(--font-display); font-size: clamp(1.8rem,3vw,2.5rem); font-weight: 800; color: white; letter-spacing: -0.03em; margin-bottom: 12px;">
+        Votre projet, le prochain avant/après ?
+      </h2>
+      <p class="reveal reveal-d1" style="color: rgba(232,238,248,0.6); font-size: 1rem; margin-bottom: 28px;">
+        Devis gratuit sous 48h, je me déplace sans engagement.
+      </p>
+      <div class="reveal reveal-d2" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="/#contact" class="btn btn-accent btn-lg">Demander un devis gratuit</a>
+        <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom}. <a href="/mentions-legales" style="color: rgba(232,238,248,0.3);">Mentions légales</a></p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled { background: rgba(250,250,248,0.97); backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+  .page-header { padding: 120px 0 56px; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .page-title { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 14px; }
+  .page-desc { font-size: 1rem; color: var(--text-muted); max-width: 540px; margin-bottom: 28px; line-height: 1.7; }
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 8px 20px; border-radius: var(--radius-full);
+    font-size: 13px; font-weight: 600; font-family: var(--font-display);
+    border: 1.5px solid var(--border); background: transparent; color: var(--text-muted);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .ba-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+
+  .ba-card { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); }
+  .ba-card.hidden { display: none; }
+
+  .ba-slider {
+    position: relative; height: 380px;
+    overflow: hidden; cursor: col-resize; user-select: none;
+  }
+
+  .ba-before, .ba-after { position: absolute; inset: 0; }
+  .ba-before { z-index: 1; }
+  .ba-after { z-index: 2; clip-path: inset(0 50% 0 0); }
+
+  .ba-before img, .ba-after img { width: 100%; height: 100%; object-fit: cover; }
+
+  .ba-label {
+    position: absolute; bottom: 12px;
+    padding: 4px 12px; border-radius: var(--radius-full);
+    font-size: 11px; font-weight: 700; font-family: var(--font-display);
+    letter-spacing: 0.1em; text-transform: uppercase; z-index: 10;
+  }
+  .ba-label-before { right: 12px; background: rgba(0,0,0,0.55); color: white; }
+  .ba-label-after { left: 12px; background: var(--primary); color: var(--accent); }
+
+  .ba-handle {
+    position: absolute; top: 0; bottom: 0; left: 50%;
+    transform: translateX(-50%); z-index: 10;
+    display: flex; align-items: center; justify-content: center; width: 44px;
+  }
+
+  .ba-handle-line {
+    position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 3px; background: white; transform: translateX(-50%);
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+  }
+
+  .ba-handle-circle {
+    position: relative; width: 44px; height: 44px; border-radius: 50%;
+    background: white; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.3); gap: 2px; color: var(--primary); z-index: 1;
+  }
+
+  .ba-info {
+    padding: 18px 20px; display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; background: var(--bg-card);
+  }
+  .ba-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+  .ba-lieu { font-size: 12px; color: var(--text-muted); }
+
+  .btn-outline-white {
+    display: inline-flex; align-items: center; gap: 8px; padding: 16px 36px;
+    font-family: var(--font-display); font-size: 15px; font-weight: 700;
+    background: transparent; color: white; border: 2px solid rgba(255,255,255,0.35);
+    border-radius: var(--radius); transition: all 0.22s ease; cursor: pointer;
+  }
+  .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+
+  @media (max-width: 768px) { .ba-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  // Before/After sliders
+  document.querySelectorAll('.ba-slider').forEach(slider => {
+    const after = slider.querySelector('.ba-after') as HTMLElement;
+    const handle = slider.querySelector('.ba-handle') as HTMLElement;
+    let isDragging = false;
+
+    const update = (x: number) => {
+      const rect = slider.getBoundingClientRect();
+      const pct = Math.max(5, Math.min(95, ((x - rect.left) / rect.width) * 100));
+      if (after) after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      if (handle) handle.style.left = `${pct}%`;
+    };
+
+    slider.addEventListener('mousedown', (e) => { isDragging = true; update((e as MouseEvent).clientX); });
+    slider.addEventListener('touchstart', (e) => { isDragging = true; update((e as TouchEvent).touches[0].clientX); }, { passive: true });
+    window.addEventListener('mousemove', (e) => { if (isDragging) update(e.clientX); });
+    window.addEventListener('touchmove', (e) => { if (isDragging) update(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mouseup', () => { isDragging = false; });
+    window.addEventListener('touchend', () => { isDragging = false; });
+  });
+
+  // Filters
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.ba-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = (btn as HTMLElement).dataset.filter;
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cards.forEach(card => {
+        const el = card as HTMLElement;
+        el.classList.toggle('hidden', filter !== 'all' && el.dataset.cat !== filter);
+      });
+    });
+  });
+</script>

@@ -1,0 +1,185 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+---
+
+<Layout
+  title={`Tarifs — ${client.nom} | Peinture Intérieure & Extérieure`}
+  description={`Tarifs indicatifs peinture intérieure, extérieure et revêtements de ${client.nom}. Devis gratuit et personnalisé sur mesure.`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-mark">DP</div>
+        <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.slogan}</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li><li><a href="/realisations">Réalisations</a></li>
+        <li><a href="/tarifs" class="active">Tarifs</a></li><li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-accent">Devis gratuit</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="/">Accueil</a><a href="/realisations">Réalisations</a><a href="/tarifs">Tarifs</a>
+    <div class="mobile-cta"><a href="/#contact" class="btn btn-accent">Devis gratuit</a></div>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb reveal"><a href="/">Accueil</a><span>→</span><span>Tarifs</span></div>
+      <h1 class="page-title reveal reveal-d1">Tarifs <span class="underline-stroke">&</span> Prestations</h1>
+      <p class="page-desc reveal reveal-d2">Tarifs indicatifs au m². Un devis personnalisé et précis est établi après visite gratuite sur votre chantier.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="tarifs-wrapper">
+        {client.tarifs.map((cat, ci) => (
+          <div class={`tarif-block reveal reveal-d${ci + 1}`}>
+            <div class="tarif-block-header">
+              <span class="tarif-num">0{ci + 1}</span>
+              <h2 class="tarif-cat-title">{cat.categorie}</h2>
+            </div>
+            <div class="tarif-items">
+              {cat.items.map(item => (
+                <div class="tarif-item">
+                  <div>
+                    <span class="tarif-name">{item.nom}</span>
+                    <span class="tarif-detail">{item.detail}</span>
+                  </div>
+                  <span class="tarif-price">{item.prix}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="tarif-note reveal">
+        <div class="tn-icon">📋</div>
+        <div>
+          <strong>Ces tarifs sont indicatifs</strong>
+          <p>Le prix final dépend de l'état des surfaces, de l'accessibilité et de la complexité du chantier. Je me déplace gratuitement pour établir un devis personnalisé et détaillé.</p>
+        </div>
+        <a href="/#contact" class="btn btn-accent">Devis gratuit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Garanties -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="reveal" style="text-align:center; margin-bottom: 48px;">
+        <p class="section-eyebrow">Mes engagements</p>
+        <h2 class="section-title">Ce qui est <span class="underline-stroke">inclus</span></h2>
+      </div>
+      <div class="garanties-grid">
+        {[
+          { icone: "🚗", titre: "Déplacement gratuit", desc: "Je me déplace sans frais pour estimer votre chantier et établir votre devis." },
+          { icone: "📄", titre: "Devis détaillé", desc: "Devis écrit, clair et signé. Le prix annoncé est le prix payé, sans mauvaise surprise." },
+          { icone: "🛡️", titre: "Garantie décennale", desc: "Toutes mes prestations sont couvertes par une assurance garantie décennale." },
+          { icone: "🧹", titre: "Chantier propre", desc: "Protection complète de vos meubles et sols. Nettoyage rigoureux en fin de chantier." },
+          { icone: "⏰", titre: "Délais respectés", desc: "Je m'engage sur une date de début et de fin. Votre planning est respecté." },
+          { icone: "🎨", titre: "Conseil couleurs", desc: "Aide au choix des couleurs, des finitions et des gammes de produits adaptés." },
+        ].map((g, i) => (
+          <div class={`garantie-card hover-lift reveal reveal-d${(i % 3) + 1}`}>
+            <span class="garantie-icon">{g.icone}</span>
+            <h3 class="garantie-title">{g.titre}</h3>
+            <p class="garantie-desc">{g.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom}. <a href="/mentions-legales" style="color: rgba(232,238,248,0.3);">Mentions légales</a></p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled { background: rgba(250,250,248,0.97); backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+  .page-header { padding: 120px 0 56px; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .page-title { font-family: var(--font-display); font-size: clamp(2.8rem,6vw,5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 14px; }
+  .page-desc { font-size: 1rem; color: var(--text-muted); max-width: 540px; line-height: 1.7; }
+
+  .tarifs-wrapper { display: flex; flex-direction: column; gap: 0; margin-bottom: 40px; }
+
+  .tarif-block { border-bottom: 1px solid var(--border); padding: 36px 0; }
+  .tarif-block:first-child { border-top: 1px solid var(--border); }
+
+  .tarif-block-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+
+  .tarif-num {
+    font-family: var(--font-display); font-size: 3rem; font-weight: 800;
+    color: var(--border-strong); letter-spacing: -0.06em; line-height: 1; width: 64px; text-align: right;
+  }
+
+  .tarif-cat-title {
+    font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em;
+  }
+
+  .tarif-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding-left: 84px; }
+
+  .tarif-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: var(--radius-md); gap: 12px; transition: all 0.2s;
+  }
+  .tarif-item:hover { border-color: var(--accent); background: rgba(212,168,67,0.05); }
+
+  .tarif-name { font-size: 14px; font-weight: 600; display: block; margin-bottom: 3px; font-family: var(--font-display); }
+  .tarif-detail { font-size: 12px; color: var(--text-muted); display: block; }
+
+  .tarif-price {
+    font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
+    color: var(--primary); white-space: nowrap; flex-shrink: 0;
+  }
+
+  .tarif-note {
+    display: flex; align-items: flex-start; gap: 20px;
+    background: rgba(27,43,75,0.04); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: var(--radius-md); padding: 24px;
+    flex-wrap: wrap;
+  }
+
+  .tn-icon { font-size: 1.8rem; flex-shrink: 0; padding-top: 4px; }
+
+  .tarif-note > div { flex: 1; min-width: 200px; }
+  .tarif-note strong { font-family: var(--font-display); font-size: 1rem; font-weight: 800; display: block; margin-bottom: 8px; }
+  .tarif-note p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+  .garanties-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .garantie-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .garantie-card:hover { border-color: var(--accent); }
+
+  .garantie-icon { font-size: 2rem; display: block; margin-bottom: 14px; }
+  .garantie-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+  .garantie-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 1024px) { .garanties-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) {
+    .tarif-items { grid-template-columns: 1fr; padding-left: 0; }
+    .garanties-grid { grid-template-columns: 1fr; }
+    .tarif-note { flex-direction: column; }
+    .tarif-note a { align-self: flex-start; }
+  }
+</style>

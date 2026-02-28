@@ -1,0 +1,22 @@
+{
+  "id": "fastfood-serenite",
+  "nom": "Fast Food Tacos & Burgers — Sérénité",
+  "metier": "fastfood",
+  "categorie": "restauration",
+  "formule": "serenite",
+  "pages": 5,
+  "pagesListe": ["index", "menu", "a-propos", "avis", "mentions-legales"],
+  "palette": {
+    "primary": "#FF2D00",
+    "accent": "#FFD600",
+    "bg": "#0A0A0A",
+    "theme": "sombre"
+  },
+  "polices": ["Archivo Black", "Figtree"],
+  "tags": ["fast food", "tacos", "burger", "restauration rapide", "street food"],
+  "port": 4011,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-02-26"
+}

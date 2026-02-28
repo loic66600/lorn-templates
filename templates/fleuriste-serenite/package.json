@@ -1,14 +1,14 @@
 {
-  "name": "tpl-massage-starter",
+  "name": "tpl-fleuriste-serenite",
   "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev --port 4010",
+    "dev": "astro dev --port 4021",
     "build": "astro build",
-    "preview": "astro preview --port 4010"
+    "preview": "astro preview --port 4021"
   },
   "dependencies": {
-    "astro": "^5.17.3"
+    "astro": "^4.0.0"
   }
 }

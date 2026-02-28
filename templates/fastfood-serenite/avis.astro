@@ -1,0 +1,293 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+---
+
+<Layout
+  title={`Avis Clients — ${client.nom} ${client.ville} | Fast Food Tacos & Burgers`}
+  description={`Plus de 200 avis 5 étoiles pour ${client.nom} à ${client.ville}. Découvrez ce que nos clients pensent de nos tacos et burgers maison. Note moyenne : 4.8/5.`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Street<span>Fusion</span></a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/menu">Notre Carte</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/avis" class="active">Avis</a></li>
+        <li><a href="/#contact">Commander</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-primary">Commander</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <a href="/">Accueil</a>
+    <a href="/menu">Notre Carte</a>
+    <a href="/a-propos">À Propos</a>
+    <a href="/avis">Avis</a>
+    <div class="mobile-cta">
+      <a href="/#contact" class="btn btn-primary">Commander</a>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb reveal">
+        <a href="/">Accueil</a><span>→</span><span>Avis Clients</span>
+      </div>
+      <h1 class="page-title reveal reveal-d1">
+        Avis <span class="flame-text">Clients</span>
+      </h1>
+
+      <!-- Score global -->
+      <div class="rating-summary reveal reveal-d2">
+        <div class="rating-score">
+          <span class="score-num">4.8</span>
+          <span class="score-max">/5</span>
+        </div>
+        <div class="rating-detail">
+          <div class="rating-stars">★★★★★</div>
+          <p>Basé sur <strong>200+ avis vérifiés</strong></p>
+          <div class="rating-sources">
+            <span class="source-badge">Google ⭐</span>
+            <span class="source-badge">Facebook ⭐</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOUS LES AVIS -->
+  <section class="section">
+    <div class="container">
+      <div class="reviews-full-grid">
+        {client.temoignages.map((t, i) => (
+          <article class={`review-full-card reveal reveal-d${(i % 4) + 1}`}>
+            <div class="review-header">
+              <div class="review-avatar-lg">{t.nom[0]}</div>
+              <div>
+                <strong class="review-name">{t.nom}</strong>
+                <div class="review-stars">{('★').repeat(t.note)}</div>
+              </div>
+              <span class="review-source-badge">{t.source}</span>
+            </div>
+            <p class="review-text-full">"{t.texte}"</p>
+            <div class="review-date-row">{t.date}</div>
+          </article>
+        ))}
+      </div>
+
+      <!-- CTA laisser avis -->
+      <div class="cta-review reveal" style="text-align: center; margin-top: 60px;">
+        <h2 class="section-title" style="margin-bottom: 16px;">
+          Vous avez testé <span>Street Fusion</span> ?
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 28px;">
+          Votre avis nous aide à nous améliorer et aide les autres clients à nous découvrir.
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="https://search.google.com/local/writereview" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+            Laisser un avis Google
+          </a>
+          <a href={client.reseaux.facebook} target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+            Avis Facebook
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville}. <a href="/mentions-legales" style="color: var(--text-muted);">Mentions légales</a></p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled {
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-header {
+    padding: 120px 0 60px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb a:hover { color: var(--primary); }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    margin-bottom: 36px;
+  }
+
+  .rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 32px;
+    width: fit-content;
+  }
+
+  .rating-score {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .score-num {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: var(--primary);
+    line-height: 1;
+  }
+
+  .score-max {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+  }
+
+  .rating-stars {
+    color: var(--accent);
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .rating-detail p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .rating-detail strong { color: var(--text); }
+
+  .rating-sources {
+    display: flex;
+    gap: 8px;
+  }
+
+  .source-badge {
+    padding: 4px 10px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .reviews-full-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .review-full-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .review-full-card:hover { border-color: var(--primary); }
+
+  .review-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .review-avatar-lg {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .review-name {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .review-stars {
+    color: var(--accent);
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .review-source-badge {
+    margin-left: auto;
+    padding: 3px 10px;
+    background: rgba(255,214,0,0.1);
+    border: 1px solid rgba(255,214,0,0.2);
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .review-text-full {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-style: italic;
+    flex: 1;
+  }
+
+  .review-date-row {
+    font-size: 12px;
+    color: var(--text-subtle);
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 1024px) {
+    .reviews-full-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .reviews-full-grid { grid-template-columns: 1fr; }
+    .rating-summary { flex-direction: column; padding: 20px; }
+  }
+</style>

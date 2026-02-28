@@ -1,0 +1,132 @@
+---
+import Layout from './Layout.astro';
+import { client } from './client';
+---
+
+<Layout
+  title={`Mentions Légales — ${client.nom}`}
+  description={`Mentions légales de ${client.nom}, fleuriste artisanale. Informations légales, RGPD et politique de confidentialité.`}
+>
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">{client.nom}<span>{client.slogan}</span></a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/realisations">Créations</a></li>
+        <li><a href="/tarifs">Tarifs</a></li>
+        <li><a href="/a-propos">À Propos</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/#contact" class="btn btn-primary">Contact</a>
+      </div>
+      <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="/">Accueil</a><a href="/realisations">Créations</a>
+    <div class="mobile-cta"><a href="/#contact" class="btn btn-primary">Contact</a></div>
+  </div>
+
+  <div class="legal-page">
+    <div class="container">
+      <div class="legal-header">
+        <a href="/" class="back-link">← Retour à l'accueil</a>
+        <h1>Mentions Légales</h1>
+        <p class="legal-updated">Dernière mise à jour : Février 2026</p>
+      </div>
+
+      <div class="legal-content">
+        <section class="legal-section">
+          <h2>1. Éditeur du site</h2>
+          <p><strong>Raison sociale :</strong> {client.responsable}</p>
+          <p><strong>SIRET :</strong> {client.siret}</p>
+          <p><strong>Adresse :</strong> {client.adresse}</p>
+          <p><strong>Téléphone :</strong> <a href={client.telephoneLink}>{client.telephone}</a></p>
+          <p><strong>Email :</strong> <a href={`mailto:${client.email}`}>{client.email}</a></p>
+        </section>
+
+        <section class="legal-section">
+          <h2>2. Hébergement</h2>
+          <p>{client.hebergeur}</p>
+        </section>
+
+        <section class="legal-section">
+          <h2>3. Conception & développement</h2>
+          <p>Site conçu et développé par <strong>LORN Digital Studio</strong> — <a href="https://lorn.dev" target="_blank" rel="noopener">lorn.dev</a></p>
+        </section>
+
+        <section class="legal-section">
+          <h2>4. Propriété intellectuelle</h2>
+          <p>L'ensemble du contenu (textes, photos, compositions) est la propriété de {client.responsable}. Toute reproduction est interdite sans autorisation.</p>
+        </section>
+
+        <section class="legal-section">
+          <h2>5. Protection des données (RGPD)</h2>
+          <p>Vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition concernant vos données personnelles. Pour exercer ces droits : <a href={`mailto:${client.email}`}>{client.email}</a></p>
+          <p>Les données collectées via le formulaire (nom, téléphone, email, message) sont utilisées uniquement pour répondre à votre demande.</p>
+          <p><strong>Durée de conservation :</strong> 3 ans. <strong>Aucune cession à des tiers.</strong></p>
+        </section>
+
+        <section class="legal-section">
+          <h2>6. Cookies</h2>
+          <p>Ce site utilise uniquement des cookies techniques. Aucun cookie publicitaire ou de tracking tiers.</p>
+        </section>
+
+        <section class="legal-section">
+          <h2>7. Droit applicable</h2>
+          <p>Droit français. Réclamations RGPD : <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL — www.cnil.fr</a></p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© {new Date().getFullYear()} {client.nom}.</p>
+        <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .nav.scrolled { background: rgba(253,248,245,0.97); backdrop-filter: blur(20px); box-shadow: 0 1px 0 var(--border); }
+  .legal-page { padding: 120px 0 80px; min-height: 80vh; }
+
+  .legal-header { margin-bottom: 48px; }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--text-muted); margin-bottom: 20px; transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--primary); }
+
+  .legal-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .legal-updated { font-size: 13px; color: var(--text-subtle); }
+
+  .legal-content { max-width: 760px; display: flex; flex-direction: column; gap: 36px; }
+
+  .legal-section h2 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--primary);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .legal-section p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 8px; }
+  .legal-section strong { color: var(--text); }
+  .legal-section a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
+</style>
