@@ -1,0 +1,122 @@
+---
+import { client } from '../data/client';
+interface Props { title?: string; description?: string; }
+const { title = client.titreSEO, description = client.descriptionSEO } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={client.motsCles} />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:locale" content="fr_FR" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/hero-bg.css" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context":"https://schema.org","@type":"Plumber",
+    "name":client.nom,"description":client.descriptionSEO,
+    "telephone":client.telephoneLink.replace("tel:",""),"email":client.email,
+    "address":{"@type":"PostalAddress","streetAddress":client.adresse.split(",")[0],"addressLocality":client.ville,"postalCode":"66000","addressCountry":"FR"},
+    "areaServed":client.zones.split(", ").map(z=>({ "@type":"City","name":z }))
+  })} />
+</head>
+<body>
+  <slot />
+
+  {client.cookieConsent && (
+    <div class="cookie-banner" id="cookieBanner">
+      <div class="cookie-inner">
+        <p>🍪 Ce site utilise des cookies techniques. <a href="/mentions-legales">En savoir plus</a></p>
+        <div class="cookie-actions">
+          <button class="cookie-accept" id="cookieAccept">Accepter</button>
+          <button class="cookie-refuse" id="cookieRefuse">Refuser</button>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <style is:global>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;scroll-padding-top:80px;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    ::selection{background:rgba(15,118,110,0.12);}
+    img{max-width:100%;display:block;} a{color:inherit;text-decoration:none;}
+
+    :root{
+      --navy:#0C2340;--navy-light:#1A3A5C;--navy-muted:#2C4F70;
+      --teal:#0F766E;--teal-dark:#0D6560;--teal-light:#14B8A6;--teal-pale:#99F6E4;--teal-glow:rgba(15,118,110,0.08);
+      --bg:#F8FAFB;--bg-alt:#EFF4F6;--bg-card:#FFFFFF;--bg-dark:#0C2340;
+      --border:#DDE5EB;--border-teal:rgba(15,118,110,0.15);
+      --text:#1E293B;--text-muted:#64748B;--text-light:#94A3B8;
+      --red:#DC2626;--red-pale:#FEE2E2;
+      --font-head:'Inter',sans-serif;
+    }
+
+    .font-head{font-family:var(--font-head);}
+    .container{max-width:1120px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem);}
+    .section{padding:clamp(4rem,8vw,7rem) 0;}
+    .section-alt{background:var(--bg-alt);}
+    .section-dark{background:var(--bg-dark);color:#CBD5E1;}
+    .text-teal{color:var(--teal);} .text-navy{color:var(--navy);}
+
+    .social-links{display:flex;gap:8px;align-items:center;}
+    .social-link{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;border:1px solid var(--border);color:var(--text-muted);transition:all 0.3s;}
+    .social-link:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);}
+    .social-link-dark{border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);}
+    .social-link-dark:hover{border-color:var(--teal-light);color:var(--teal-light);}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);will-change:transform,opacity;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .reveal-d1{transition-delay:0.1s;}.reveal-d2{transition-delay:0.2s;}.reveal-d3{transition-delay:0.3s;}.reveal-d4{transition-delay:0.4s;}.reveal-d5{transition-delay:0.5s;}
+    .slide-left{opacity:0;transform:translateX(-40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+    .slide-left.visible{opacity:1;transform:translateX(0);}
+    .slide-right{opacity:0;transform:translateX(40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+    .slide-right.visible{opacity:1;transform:translateX(0);}
+    .blur-sharp{opacity:0;filter:blur(8px);transform:scale(1.02);transition:opacity 0.9s ease,filter 0.9s ease,transform 0.9s ease;}
+    .blur-sharp.visible{opacity:1;filter:blur(0);transform:scale(1);}
+    .clip-reveal{clip-path:inset(0 100% 0 0);transition:clip-path 1s cubic-bezier(0.16,1,0.3,1);}
+    .clip-reveal.visible{clip-path:inset(0 0 0 0);}
+    .hover-lift{transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s;}
+    .hover-lift:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(12,35,64,0.06);}
+    .img-zoom{overflow:hidden;border-radius:inherit;} .img-zoom img{transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);} .img-zoom:hover img{transform:scale(1.06);}
+
+    @keyframes kenBurns{0%{transform:scale(1);}50%{transform:scale(1.08) translate(-1%,-1%);}100%{transform:scale(1);}}
+    .ken-burns img{animation:kenBurns 22s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+    @keyframes ripple{0%{transform:scale(1);opacity:0.4;}100%{transform:scale(2.5);opacity:0;}}
+    @keyframes fadeSlideIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes counterPop{0%{transform:scale(1);}50%{transform:scale(1.08);}100%{transform:scale(1);}}
+
+    .cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:16px;background:var(--navy);color:#CBD5E1;transform:translateY(0);transition:transform 0.5s;}
+    .cookie-banner.hidden{transform:translateY(120%);}
+    .cookie-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+    .cookie-inner p{font-size:13px;line-height:1.6;flex:1;min-width:200px;} .cookie-inner a{color:var(--teal-pale);text-decoration:underline;}
+    .cookie-actions{display:flex;gap:8px;}
+    .cookie-accept{padding:8px 20px;border-radius:8px;border:none;background:var(--teal);color:#fff;font-weight:600;font-size:13px;cursor:pointer;}
+    .cookie-refuse{padding:8px 20px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#94A3B8;font-size:13px;cursor:pointer;}
+
+    @media(prefers-reduced-motion:reduce){
+      .reveal,.slide-left,.slide-right,.blur-sharp,.clip-reveal{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important;transition:none!important;}
+      .ken-burns img{animation:none!important;}
+    }
+  </style>
+
+  <script>
+    const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal,.slide-left,.slide-right,.blur-sharp,.clip-reveal').forEach(el=>obs.observe(el));
+    const cObs=new IntersectionObserver(e=>{e.forEach(x=>{if(!x.isIntersecting)return;const el=x.target as HTMLElement;const t=parseInt(el.dataset.count||'0'),s=el.dataset.suffix||'',st=performance.now();const a=(n:number)=>{const p=Math.min((n-st)/1800,1);el.textContent=Math.floor(t*(1-Math.pow(1-p,3)))+s;if(p<1)requestAnimationFrame(a);else el.style.animation='counterPop 0.3s ease';};requestAnimationFrame(a);cObs.unobserve(el);})},{threshold:0.5});
+    document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+    const nav=document.getElementById('navbar');window.addEventListener('scroll',()=>nav?.classList.toggle('scrolled',window.scrollY>40),{passive:true});
+    const bg=document.getElementById('burger'),mm=document.getElementById('mobile-menu');bg?.addEventListener('click',()=>{bg.classList.toggle('open');mm?.classList.toggle('open');});mm?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{bg?.classList.remove('open');mm?.classList.remove('open');}));
+    const cb=document.getElementById('cookieBanner');
+    if(cb && localStorage.getItem('cookies-choice')){cb.classList.add('hidden');}
+    document.getElementById('cookieAccept')?.addEventListener('click',()=>{localStorage.setItem('cookies-choice','accepted');cb?.classList.add('hidden');});
+    document.getElementById('cookieRefuse')?.addEventListener('click',()=>{localStorage.setItem('cookies-choice','refused');cb?.classList.add('hidden');});
+  </script>
+</body>
+</html>

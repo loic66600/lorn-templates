@@ -1,0 +1,22 @@
+{
+  "id": "batipro-serenite",
+  "nom": "Batipro Rénovation & Construction — Sérénité",
+  "metier": "batiment",
+  "categorie": "batiment",
+  "formule": "serenite",
+  "pages": 2,
+  "pagesListe": ["index", "devis"],
+  "palette": {
+    "primary": "#F59E0B",
+    "accent": "#1A1F36",
+    "bg": "#FAFBFD",
+    "theme": "clair"
+  },
+  "polices": ["Syne", "Outfit"],
+  "tags": ["batipro", "batiment", "rénovation", "construction", "devis", "tous corps d'état"],
+  "port": 4005,
+  "preview": "",
+  "screenshot": "",
+  "version": "1.0.0",
+  "date": "2026-02-26"
+}

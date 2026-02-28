@@ -1,0 +1,84 @@
+/* ═══════════════════════════════════════════════
+   LORN Animation System v2
+   GPU-friendly: opacity + transform only
+   Triggered by IntersectionObserver (anim.ts)
+   ═══════════════════════════════════════════════ */
+
+/* ── Reveal (default: slide up) ── */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
+.reveal-d6 { transition-delay: 0.6s; }
+
+/* ── Slide variants ── */
+.slide-left { opacity: 0; transform: translateX(-60px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+.slide-left.visible { opacity: 1; transform: translateX(0); }
+.slide-right { opacity: 0; transform: translateX(60px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+.slide-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ── Scale In ── */
+.scale-in { opacity: 0; transform: scale(0.85); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+.scale-in.visible { opacity: 1; transform: scale(1); }
+
+/* ── Blur to Sharp ── */
+.blur-sharp { opacity: 0; filter: blur(12px); transform: scale(1.04); transition: opacity 0.9s ease, filter 0.9s ease, transform 0.9s ease; will-change: opacity, filter, transform; }
+.blur-sharp.visible { opacity: 1; filter: blur(0); transform: scale(1); }
+
+/* ── Rotate In ── */
+.rotate-in { opacity: 0; transform: rotate(-3deg) translateY(30px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.rotate-in.visible { opacity: 1; transform: rotate(0) translateY(0); }
+
+/* ── Clip Path Reveal ── */
+.clip-reveal { clip-path: inset(0 100% 0 0); transition: clip-path 1s cubic-bezier(0.16,1,0.3,1); }
+.clip-reveal.visible { clip-path: inset(0 0 0 0); }
+
+/* ── Masonry cascade ── */
+.masonry-item { opacity: 0; transform: translateY(50px) scale(0.96); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); will-change: opacity, transform; }
+.masonry-item.visible { opacity: 1; transform: translateY(0) scale(1); }
+.masonry-item:nth-child(1) { transition-delay: 0s; }
+.masonry-item:nth-child(2) { transition-delay: 0.08s; }
+.masonry-item:nth-child(3) { transition-delay: 0.16s; }
+.masonry-item:nth-child(4) { transition-delay: 0.24s; }
+.masonry-item:nth-child(5) { transition-delay: 0.32s; }
+.masonry-item:nth-child(6) { transition-delay: 0.4s; }
+
+/* ── Ken Burns ── */
+.ken-burns { overflow: hidden; }
+.ken-burns img { animation: kenBurns 20s ease-in-out infinite alternate; will-change: transform; }
+@keyframes kenBurns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.12) translate(-1.5%, -1%); }
+}
+
+/* ── Gradient Shift ── */
+.gradient-shift { background-size: 200% 200%; animation: gradShift 8s ease infinite; }
+@keyframes gradShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Hover Lift ── */
+.hover-lift { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease; }
+.hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+
+/* ── Image zoom on hover ── */
+.img-zoom { overflow: hidden; }
+.img-zoom img { transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.img-zoom:hover img { transform: scale(1.06); }
+
+/* ── Float ── */
+.float { animation: floatY 6s ease-in-out infinite; }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+/* ── Reduce Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,.slide-left,.slide-right,.scale-in,.blur-sharp,.rotate-in,.masonry-item,.clip-reveal {
+    transition: none !important; opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important;
+  }
+  .ken-burns img, .gradient-shift, .float { animation: none !important; }
+}

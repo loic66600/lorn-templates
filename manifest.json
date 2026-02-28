@@ -1,11 +1,16 @@
 {
   "version": "2026-02-28",
-  "total": 4,
+  "total": 9,
   "metiers": [
+    "barbershop",
+    "batiment",
+    "electricien",
     "fastfood",
     "fleuriste",
     "massage",
-    "peintre"
+    "peintre",
+    "plombier",
+    "restaurant"
   ],
   "formules": [
     {
@@ -24,6 +29,117 @@
     }
   ],
   "templates": [
+    {
+      "id": "barbershop-serenite",
+      "nom": "Barbershop Coupe Homme & Barbe — Sérénité",
+      "metier": "barbershop",
+      "categorie": "coiffure",
+      "formule": "serenite",
+      "pages": 4,
+      "pagesListe": [
+        "index",
+        "galerie",
+        "a-propos",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#B8860B",
+        "accent": "#D4A017",
+        "bg": "#0A0A0A",
+        "theme": "sombre"
+      },
+      "polices": [
+        "Bebas Neue",
+        "Barlow"
+      ],
+      "tags": [
+        "barbershop",
+        "barbier",
+        "coiffeur homme",
+        "barbe",
+        "rasage traditionnel",
+        "coupe homme"
+      ],
+      "port": 4002,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-26"
+    },
+    {
+      "id": "batipro-serenite",
+      "nom": "Batipro Rénovation & Construction — Sérénité",
+      "metier": "batiment",
+      "categorie": "batiment",
+      "formule": "serenite",
+      "pages": 2,
+      "pagesListe": [
+        "index",
+        "devis"
+      ],
+      "palette": {
+        "primary": "#F59E0B",
+        "accent": "#1A1F36",
+        "bg": "#FAFBFD",
+        "theme": "clair"
+      },
+      "polices": [
+        "Syne",
+        "Outfit"
+      ],
+      "tags": [
+        "batipro",
+        "batiment",
+        "rénovation",
+        "construction",
+        "devis",
+        "tous corps d'état"
+      ],
+      "port": 4005,
+      "preview": "",
+      "screenshot": "",
+      "version": "1.0.0",
+      "date": "2026-02-26"
+    },
+    {
+      "id": "electricien-serenite",
+      "nom": "Électricien Dépannage & Installation — Sérénité",
+      "metier": "electricien",
+      "categorie": "batiment",
+      "formule": "serenite",
+      "pages": 6,
+      "pagesListe": [
+        "index",
+        "a-propos",
+        "realisations",
+        "tarifs",
+        "zone",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#2563EB",
+        "accent": "#06B6D4",
+        "bg": "#0B0F1A",
+        "theme": "sombre"
+      },
+      "polices": [
+        "Space Grotesk",
+        "JetBrains Mono"
+      ],
+      "tags": [
+        "électricien",
+        "dépannage électrique",
+        "mise aux normes",
+        "tableau électrique",
+        "installation électrique",
+        "domotique"
+      ],
+      "port": 4003,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-26"
+    },
     {
       "id": "fastfood-serenite",
       "nom": "Fast Food Tacos & Burgers — Sérénité",
@@ -164,6 +280,81 @@
         "enduit"
       ],
       "port": 4022,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-26"
+    },
+    {
+      "id": "plombier-serenite",
+      "nom": "Plombier Chauffagiste — Sérénité",
+      "metier": "plombier",
+      "categorie": "batiment",
+      "formule": "serenite",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "a-propos",
+        "realisations",
+        "tarifs",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#0F766E",
+        "accent": "#0C2340",
+        "bg": "#F8FAFB",
+        "theme": "clair"
+      },
+      "polices": [
+        "Inter",
+        "DM Sans"
+      ],
+      "tags": [
+        "plombier",
+        "chauffagiste",
+        "dépannage plomberie",
+        "sanitaire",
+        "chauffage",
+        "rénovation"
+      ],
+      "port": 4004,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-02-26"
+    },
+    {
+      "id": "restaurant-serenite",
+      "nom": "Restaurant Bistrot Méditerranéen — Sérénité",
+      "metier": "restaurant",
+      "categorie": "restauration",
+      "formule": "serenite",
+      "pages": 4,
+      "pagesListe": [
+        "index",
+        "galerie",
+        "a-propos",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#7F1D1D",
+        "accent": "#92400E",
+        "bg": "#FDFBF7",
+        "theme": "clair"
+      },
+      "polices": [
+        "Playfair Display",
+        "Lora"
+      ],
+      "tags": [
+        "restaurant",
+        "bistrot",
+        "cuisine méditerranéenne",
+        "terrasse",
+        "brunch",
+        "produits locaux"
+      ],
+      "port": 4001,
       "preview": "",
       "screenshot": "",
       "version": "2.0.0",

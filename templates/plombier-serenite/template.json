@@ -1,0 +1,22 @@
+{
+  "id": "plombier-serenite",
+  "nom": "Plombier Chauffagiste — Sérénité",
+  "metier": "plombier",
+  "categorie": "batiment",
+  "formule": "serenite",
+  "pages": 5,
+  "pagesListe": ["index", "a-propos", "realisations", "tarifs", "mentions-legales"],
+  "palette": {
+    "primary": "#0F766E",
+    "accent": "#0C2340",
+    "bg": "#F8FAFB",
+    "theme": "clair"
+  },
+  "polices": ["Inter", "DM Sans"],
+  "tags": ["plombier", "chauffagiste", "dépannage plomberie", "sanitaire", "chauffage", "rénovation"],
+  "port": 4004,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-02-26"
+}

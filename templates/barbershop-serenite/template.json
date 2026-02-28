@@ -1,0 +1,22 @@
+{
+  "id": "barbershop-serenite",
+  "nom": "Barbershop Coupe Homme & Barbe — Sérénité",
+  "metier": "barbershop",
+  "categorie": "coiffure",
+  "formule": "serenite",
+  "pages": 4,
+  "pagesListe": ["index", "galerie", "a-propos", "mentions-legales"],
+  "palette": {
+    "primary": "#B8860B",
+    "accent": "#D4A017",
+    "bg": "#0A0A0A",
+    "theme": "sombre"
+  },
+  "polices": ["Bebas Neue", "Barlow"],
+  "tags": ["barbershop", "barbier", "coiffeur homme", "barbe", "rasage traditionnel", "coupe homme"],
+  "port": 4002,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-02-26"
+}

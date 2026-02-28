@@ -1,0 +1,3 @@
+Ce dossier accueille les pages désactivées.
+Pour désactiver une page : mv src/pages/xxx.astro src/pages-off/xxx.astro
+Pour réactiver : mv src/pages-off/xxx.astro src/pages/xxx.astro

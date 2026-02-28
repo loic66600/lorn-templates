@@ -1,0 +1,651 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+---
+
+<Layout>
+
+  <!-- ══════════════════════════════════════════
+       NAVBAR — Glassmorphism + scroll shrink
+  ══════════════════════════════════════════ -->
+ <nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+      <img src={client.logo} alt={client.nom} class="nav-logo-img" onerror="this.style.display='none'" />
+      <div>
+        <span class="nav-name">{client.nom.split(' ')[0]}</span>
+        <span class="nav-sub">{client.metier}</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#realisations">Réalisations</a>
+      <a href="#a-propos">À propos</a>
+      <a href="#contact" class="nav-cta">Devis gratuit</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav-mobile" id="mobile-menu">
+    <a href="#services">Services</a>
+    <a href="#realisations">Réalisations</a>
+    <a href="#a-propos">À propos</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="mob-cta">Devis gratuit</a>
+  </div>
+</nav>
+
+
+  <!-- ══════════════════════════════════════════
+       HERO — Ken Burns BG + Fade Slide + Counters + Particles
+  ══════════════════════════════════════════ -->
+  <section class="hero" id="accueil">
+    <div class="hero-bg ken-burns">
+      <!-- Remplacer par la photo du client : public/images/hero.jpg -->
+      <img src={client.heroImage} alt={`Chantier ${client.nom}`} loading="eager"
+           onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(135deg,#292524,#44403C);display:flex;align-items:center;justify-content:center;color:#78716C;font-size:14px;&quot;>📷 Placez hero.jpg dans public/images/</div>'" />
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-particles">
+      <span class="particle" style="top:18%;left:12%;animation:particleFloat 7s ease-in-out infinite;"></span>
+      <span class="particle" style="top:55%;left:78%;animation:particleFloat 9s ease-in-out 2s infinite;"></span>
+      <span class="particle" style="top:35%;left:45%;animation:particleFloat 8s ease-in-out 4s infinite;"></span>
+    </div>
+    <div class="container hero-content">
+      <span class="hero-badge reveal">
+        <span class="badge-dot"></span>
+        Devis gratuit sous 24h — {client.ville}
+      </span>
+      <h1 class="reveal reveal-d1">
+        {client.nom.split(' ')[0]}<br>
+        <span class="gradient-text-light">{client.nom.split(' ').slice(1).join(' ') || client.metier}</span>
+      </h1>
+      <p class="hero-sub reveal reveal-d2">
+        {client.slogan}.<br>
+        Interventions sur tout le département des <strong>{client.departement}</strong>.
+      </p>
+      <div class="hero-actions reveal reveal-d3">
+        <a href="#contact" class="btn-primary btn-lg">
+          Demander un devis gratuit
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href={client.telephoneLink} class="btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          {client.telephone}
+        </a>
+      </div>
+      <!-- Counters animés -->
+      <div class="hero-stats reveal reveal-d4">
+        {client.atouts.map((a, i) => (
+          <Fragment>
+            {i > 0 && <div class="hs-sep"></div>}
+            <div class="hs">
+              <span data-count={a.chiffre.replace(/\D/g,'')} data-suffix={a.chiffre.replace(/\d/g,'')}>{a.chiffre.replace(/\d/g,'') === '+' ? '0' : '0'}</span>
+              <small>{a.label}</small>
+            </div>
+          </Fragment>
+        ))}
+      </div>
+    </div>
+    <div class="scroll-hint"><div class="scroll-pill"><div class="scroll-dot"></div></div></div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       SERVICES — Tilt 3D + Hover Lift + Image Zoom
+  ══════════════════════════════════════════ -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="sec-head">
+        <span class="section-tag reveal">Nos services</span>
+        <h2 class="section-title reveal reveal-d1">Un savoir-faire <span class="gradient-text">complet</span></h2>
+        <p class="section-sub reveal reveal-d2">
+          De la conception à la livraison, nous prenons en charge l'intégralité de vos travaux
+          à {client.ville} et dans les {client.departement}.
+        </p>
+      </div>
+      <div class="srv-grid">
+        {client.services.map((s, i) => (
+          <div class={`srv hover-lift reveal ${i > 0 ? `reveal-d${Math.min(i,3)}` : ''}`} data-tilt="5">
+            <div class="srv-img img-zoom">
+              <img src={`/images/service-${i+1}.jpg`} alt={s.titre} loading="lazy"
+                   onerror={`this.parentElement.innerHTML='<div class="placeholder"><span>${s.icone}</span></div>'`} />
+            </div>
+            <div class="srv-body">
+              <span class="srv-icon">{s.icone}</span>
+              <h3>{s.titre}</h3>
+              <p>{s.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       PARALLAX BANNER — Ken Burns + Gradient Shift
+  ══════════════════════════════════════════ -->
+  <section class="par-banner">
+    <div class="par-bg ken-burns">
+      <img src="/images/banner.jpg" alt="" loading="lazy"
+           onerror="this.style.display='none'" />
+    </div>
+    <div class="par-overlay gradient-shift"></div>
+    <div class="container par-content">
+      <h2 class="reveal">Un projet ? <span class="gradient-text-light">Parlons-en.</span></h2>
+      <p class="reveal reveal-d1">Chaque chantier est unique. Nous vous accompagnons de A à Z avec un seul interlocuteur.</p>
+      <a href="#contact" class="btn-primary btn-lg reveal reveal-d2">
+        Obtenir un devis gratuit
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       REALISATIONS — Masonry + Blur to Sharp + Image Zoom
+  ══════════════════════════════════════════ -->
+  <section class="section section-alt" id="realisations">
+    <div class="container">
+      <div class="sec-head">
+        <span class="section-tag reveal">Réalisations</span>
+        <h2 class="section-title reveal reveal-d1">Nos derniers <span class="gradient-text">chantiers</span></h2>
+        <p class="section-sub reveal reveal-d2">
+          Quelques-unes de nos réalisations dans les {client.departement}.
+        </p>
+      </div>
+      <div class="masonry">
+        {client.realisations.map((r, i) => (
+          <div class={`masonry-item blur-sharp ${i % 3 === 0 ? 'm-tall' : ''}`}>
+            <div class="m-img img-zoom">
+              <img src={r.image} alt={r.titre} loading="lazy"
+                   onerror={`this.parentElement.innerHTML='<div class="placeholder"><span>📷</span><p>${r.image}</p></div>'`} />
+            </div>
+            <div class="m-caption">
+              <span class="m-tag">{r.titre}</span>
+              <p>{r.lieu}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       A PROPOS — Clip Reveal + Parallax Float + Scale In
+  ══════════════════════════════════════════ -->
+  <section class="section" id="a-propos">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-imgs">
+          <div class="about-main clip-reveal">
+            <img src="/images/equipe.jpg" alt={`Équipe ${client.nom}`} loading="lazy"
+                 onerror="this.parentElement.innerHTML='<div class=&quot;placeholder tall&quot;><span>📷</span><p>equipe.jpg</p></div>'" />
+          </div>
+          <div class="about-float scale-in" data-parallax="0.08">
+            <img src="/images/detail.jpg" alt="Détail chantier" loading="lazy"
+                 onerror="this.parentElement.innerHTML='<div class=&quot;placeholder&quot;><span>🔨</span></div>'" />
+          </div>
+          <div class="about-badge float">
+            <span class="ab-num" data-count={client.atouts[0]?.chiffre.replace(/\D/g,'') || '15'} data-suffix={client.atouts[0]?.chiffre.replace(/\d/g,'') || '+'}>0</span>
+            <span class="ab-label">{client.atouts[0]?.label || "ans d'expérience"}</span>
+          </div>
+        </div>
+        <div class="about-text">
+          <span class="section-tag reveal">À propos</span>
+          <h2 class="section-title reveal reveal-d1">L'exigence au service de <span class="gradient-text">votre projet</span></h2>
+          <p class="reveal reveal-d2">
+            Depuis plus de {client.atouts[0]?.chiffre || '15'} ans, <strong>{client.nom}</strong> accompagne
+            les particuliers et professionnels dans leurs projets à {client.ville} et dans les {client.departement}.
+          </p>
+          <p class="reveal reveal-d3" style="color:var(--text-muted);margin-top:12px;">
+            Notre savoir-faire couvre l'ensemble des métiers du bâtiment. Un seul interlocuteur,
+            un suivi rigoureux, des finitions impeccables.
+          </p>
+          <div class="about-features reveal reveal-d4">
+            <div class="af"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>Devis détaillé gratuit</span></div>
+            <div class="af"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>Garantie décennale</span></div>
+            <div class="af"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>Respect des délais</span></div>
+            <div class="af"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>Suivi photo du chantier</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       STATS — Animated counters + Gradient BG
+  ══════════════════════════════════════════ -->
+  <section class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        {client.atouts.map((a, i) => (
+          <div class={`st reveal ${i > 0 ? `reveal-d${i}` : ''}`}>
+            <span class="st-val" data-count={a.chiffre.replace(/\D/g,'')} data-suffix={a.chiffre.replace(/\d/g,'')}>0</span>
+            <span class="st-label">{a.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       TEMOIGNAGES — Tilt 3D + Hover Lift
+  ══════════════════════════════════════════ -->
+  <section class="section section-alt" id="avis">
+    <div class="container">
+      <div class="sec-head">
+        <span class="section-tag reveal">Témoignages</span>
+        <h2 class="section-title reveal reveal-d1">Ce que disent <span class="gradient-text">nos clients</span></h2>
+      </div>
+      <div class="test-grid">
+        {client.temoignages.map((t, i) => (
+          <div class={`test hover-lift reveal ${i > 0 ? `reveal-d${i}` : ''}`} data-tilt="4">
+            <div class="test-stars">
+              {Array.from({length: t.note}).map(() => <span class="star">★</span>)}
+            </div>
+            <p>"{t.texte}"</p>
+            <div class="test-author">
+              <div class="test-avatar">{t.nom.split(' ').map(w => w[0]).join('')}</div>
+              <strong>{t.nom}</strong>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       ZONE D'INTERVENTION — Dark bar
+  ══════════════════════════════════════════ -->
+  <section class="zone-bar">
+    <div class="container reveal">
+      <h3>📍 Zone d'intervention</h3>
+      <p>{client.zones}</p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       CONTACT — Slide animations + Web3Forms
+  ══════════════════════════════════════════ -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="ct-grid">
+        <!-- Info -->
+        <div class="ct-info">
+          <span class="section-tag reveal">Contact</span>
+          <h2 class="section-title reveal reveal-d1">Discutons de votre <span class="gradient-text">projet</span></h2>
+          <p class="reveal reveal-d2" style="line-height:1.8;margin-top:16px;">
+            Premier contact gratuit et sans engagement. Décrivez-nous votre projet,
+            nous vous recontactons sous 24h.
+          </p>
+          <div class="ct-details reveal reveal-d3">
+            <a href={client.telephoneLink} class="ct-card hover-lift">
+              <span class="ct-icon">📞</span>
+              <div><span class="ct-label">Téléphone</span><span class="ct-value">{client.telephone}</span></div>
+            </a>
+            <a href={`mailto:${client.email}`} class="ct-card hover-lift">
+              <span class="ct-icon">✉️</span>
+              <div><span class="ct-label">Email</span><span class="ct-value">{client.email}</span></div>
+            </a>
+            <div class="ct-card">
+              <span class="ct-icon">📍</span>
+              <div><span class="ct-label">Adresse</span><span class="ct-value">{client.adresse}</span></div>
+            </div>
+            <div class="ct-card">
+              <span class="ct-icon">🕐</span>
+              <div><span class="ct-label">Horaires</span><span class="ct-value">{client.horaires}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="ct-form-wrap slide-right" id="contactForm">
+          <div class="fg">
+            <label>Nom complet *</label>
+            <input type="text" id="fNom" placeholder="Jean Dupont" required />
+          </div>
+          <div class="f-row">
+            <div class="fg">
+              <label>Téléphone *</label>
+              <input type="tel" id="fTel" placeholder="06 00 00 00 00" required />
+            </div>
+            <div class="fg">
+              <label>Email</label>
+              <input type="email" id="fEmail" placeholder="jean@email.fr" />
+            </div>
+          </div>
+          <div class="fg">
+            <label>Type de projet</label>
+            <select id="fType">
+              <option value="">Sélectionnez...</option>
+              {client.services.map(s => <option value={s.titre}>{s.titre}</option>)}
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Description du projet *</label>
+            <textarea id="fMsg" rows="4" placeholder="Décrivez votre projet : type de travaux, surface, délai souhaité..." required></textarea>
+          </div>
+          <button class="btn-primary btn-lg btn-full" id="submitBtn" type="button">
+            Envoyer ma demande
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+          <p class="form-note">* Champs obligatoires — Réponse sous 24h.</p>
+        </div>
+
+        <!-- Succès -->
+        <div class="ct-success" id="formSuccess" style="display:none;">
+          <div class="success-icon">✓</div>
+          <h3>Demande envoyée !</h3>
+          <p>Merci, nous vous recontactons dans les 24 heures.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-logo">{client.nom}</span>
+          <p class="footer-desc">{client.metier} à {client.ville}. {client.slogan}.</p>
+          <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="footer-badge">
+            Site créé par <strong>LORN Digital Studio</strong>
+          </a>
+        </div>
+        <div>
+          <h4>Navigation</h4>
+          <a href="#accueil">Accueil</a>
+          <a href="#services">Services</a>
+          <a href="#realisations">Réalisations</a>
+          <a href="#a-propos">À propos</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div>
+          <h4>Informations</h4>
+          <a href={client.telephoneLink}>{client.telephone}</a>
+          <a href={`mailto:${client.email}`}>{client.email}</a>
+          <a href="/mentions-legales">Mentions légales</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 {client.nom} — Tous droits réservés.</p>
+        <p>{client.ville}, {client.departement}</p>
+      </div>
+    </div>
+  </footer>
+
+</Layout>
+
+
+<!-- ═══ FORM SCRIPT ═══ -->
+<script define:vars={{ web3Key }}>
+  const btn = document.getElementById('submitBtn');
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+
+  btn?.addEventListener('click', async () => {
+    const nom = document.getElementById('fNom').value;
+    const tel = document.getElementById('fTel').value;
+    const email = document.getElementById('fEmail').value;
+    const type = document.getElementById('fType').value;
+    const msg = document.getElementById('fMsg').value;
+
+    if (!nom || !tel || !msg) { alert('Veuillez remplir les champs obligatoires.'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours...';
+
+    if (web3Key) {
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: web3Key,
+            subject: 'Demande de devis — ' + nom,
+            from_name: nom, telephone: tel, email, type_travaux: type, message: msg,
+          }),
+        });
+        const data = await res.json();
+        if (data.success && form && success) {
+          form.style.display = 'none'; success.style.display = 'block'; return;
+        }
+      } catch (e) {}
+    }
+    window.location.href = 'mailto:lorn.digital.studio@gmail.com?subject=' +
+      encodeURIComponent('Devis — ' + nom) + '&body=' +
+      encodeURIComponent('Tél: ' + tel + '\nType: ' + type + '\n\n' + msg);
+  });
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     STYLES — All component styles for the one-page
+═══════════════════════════════════════════════════════ -->
+<style>
+  /* ═══ NAVBAR ═══ */
+   .navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:10px clamp(0.75rem,3vw,2rem);transition:padding 0.4s;}
+  .navbar.scrolled{padding-top:5px;padding-bottom:5px;}
+  .nav-inner{
+    max-width:1140px;margin:0 auto;padding:10px 18px;border-radius:14px;
+    background:rgba(255,255,255,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(226,230,238,0.5);box-shadow:0 1px 3px rgba(0,0,0,0.02),0 8px 24px rgba(0,0,0,0.04);
+    display:flex;align-items:center;justify-content:space-between;gap:8px;transition:all 0.4s;
+  }
+  .navbar.scrolled .nav-inner{padding:7px 14px;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+  .nav-logo{display:flex;align-items:center;gap:8px;min-width:0;flex-shrink:1;overflow:hidden;}
+  .nav-logo-img{width:34px;height:34px;border-radius:8px;object-fit:contain;flex-shrink:0;}
+  .nav-name{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--dark);display:block;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .nav-sub{font-size:10px;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;display:block;}
+  .nav-links{display:flex;gap:2px;align-items:center;flex-shrink:0;}
+  .nav-links a{font-size:13px;font-weight:500;color:var(--text);padding:7px 12px;border-radius:8px;transition:all 0.3s;white-space:nowrap;}
+  .nav-links a:hover{color:var(--primary-dark);background:rgba(217,119,6,0.06);}
+  .nav-cta{padding:8px 16px!important;border-radius:10px!important;background:linear-gradient(135deg,var(--primary),var(--primary-dark))!important;color:#fff!important;font-weight:600!important;font-size:12px!important;box-shadow:0 2px 8px rgba(217,119,6,0.25);transition:all 0.3s!important;}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(217,119,6,0.35);}
+
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px;flex-shrink:0;}
+  .burger span{width:20px;height:2px;background:var(--dark);border-radius:2px;display:block;transition:all 0.3s;}
+  .burger.open span:nth-child(1){transform:rotate(45deg) translateY(7px);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:rotate(-45deg) translateY(-7px);}
+
+  .nav-mobile{display:none;max-width:1140px;margin:6px auto 0;padding:12px;border-radius:14px;background:rgba(255,255,255,0.96);backdrop-filter:blur(20px);border:1px solid rgba(226,230,238,0.5);flex-direction:column;gap:2px;box-shadow:0 8px 24px rgba(0,0,0,0.06);}
+  .nav-mobile.open{display:flex;}
+  .nav-mobile a{padding:12px 14px;border-radius:10px;color:var(--text);font-size:15px;font-weight:500;transition:background 0.2s;}
+  .nav-mobile a:hover{background:rgba(0,0,0,0.02);}
+  .mob-cta{margin-top:6px;padding:13px!important;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff!important;text-align:center;font-weight:600!important;}
+
+  /* MOBILE : cacher les liens desktop + montrer burger */
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .burger{display:flex;}
+  }
+
+
+  /* ═══ HERO ═══ */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;}
+  .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(28,25,23,0.6),rgba(28,25,23,0.85));}
+  .hero-particles{position:absolute;inset:0;z-index:2;pointer-events:none;}
+  .particle{position:absolute;width:6px;height:6px;border-radius:50%;background:rgba(217,119,6,0.25);}
+  .hero-content{position:relative;z-index:3;text-align:center;padding-top:80px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;background:rgba(217,119,6,0.12);border:1px solid rgba(217,119,6,0.2);font-size:13px;font-weight:500;color:var(--primary-light);margin-bottom:24px;}
+  .badge-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 8px rgba(34,197,94,0.4);}
+  .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);font-weight:800;color:#FAFAF9;line-height:1.08;letter-spacing:-0.03em;}
+  .hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:#D6D3D1;line-height:1.8;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto;}
+  .hero-sub strong{color:#fff;}
+  .hero-actions{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;}
+  .hero-stats{display:flex;gap:32px;justify-content:center;margin-top:48px;flex-wrap:wrap;}
+  .hs{text-align:center;} .hs span{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#fff;display:block;} .hs small{font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px;display:block;}
+  .hs-sep{width:1px;background:rgba(255,255,255,0.1);align-self:stretch;}
+  .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;}
+  .scroll-pill{width:24px;height:40px;border:2px solid rgba(255,255,255,0.2);border-radius:12px;position:relative;}
+  .scroll-dot{width:4px;height:8px;background:rgba(255,255,255,0.5);border-radius:4px;position:absolute;top:6px;left:50%;transform:translateX(-50%);animation:scrollDot 2s ease-in-out infinite;}
+
+
+  /* ═══ BUTTONS ═══ */
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:15px 32px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(217,119,6,0.25);transition:all 0.3s;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(217,119,6,0.35);}
+  .btn-primary:disabled{opacity:0.7;cursor:wait;}
+  .btn-lg{padding:18px 40px;font-size:16px;}
+  .btn-full{width:100%;justify-content:center;}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border-radius:13px;color:#fff;font-weight:500;font-size:15px;border:1px solid rgba(255,255,255,0.2);transition:all 0.3s;}
+  .btn-ghost:hover{background:rgba(255,255,255,0.08);}
+
+
+  /* ═══ SECTION HEADERS ═══ */
+  .sec-head{text-align:center;margin-bottom:50px;}
+  .section-tag{display:inline-block;font-size:13px;font-weight:600;color:var(--primary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+  .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;color:var(--dark);line-height:1.15;}
+  .section-sub{font-size:15px;color:var(--text-muted);line-height:1.7;max-width:540px;margin:12px auto 0;}
+
+
+  /* ═══ SERVICES ═══ */
+  .srv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .srv{border-radius:20px;background:var(--card);border:1px solid var(--border);overflow:hidden;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1),box-shadow 0.5s;}
+  .srv-img{height:200px;overflow:hidden;}
+  .srv-img img{width:100%;height:100%;object-fit:cover;}
+  .placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-alt);color:var(--text-light);gap:8px;font-size:13px;}
+  .placeholder span{font-size:36px;opacity:0.4;}
+  .placeholder.tall{min-height:320px;}
+  .srv-body{padding:24px;}
+  .srv-icon{font-size:24px;display:block;margin-bottom:10px;}
+  .srv-body h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--dark);margin-bottom:8px;}
+  .srv-body p{font-size:14px;color:var(--text-muted);line-height:1.7;}
+
+
+  /* ═══ PARALLAX BANNER ═══ */
+  .par-banner{position:relative;padding:clamp(5rem,10vw,8rem) 0;overflow:hidden;}
+  .par-bg{position:absolute;inset:-10% 0;z-index:0;}
+  .par-bg img{width:100%;height:100%;object-fit:cover;}
+  .par-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(28,25,23,0.85),rgba(217,119,6,0.4));}
+  .par-content{position:relative;z-index:2;text-align:center;}
+  .par-content h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;}
+  .par-content p{font-size:17px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:500px;margin:16px auto 28px;}
+
+
+  /* ═══ MASONRY GALLERY ═══ */
+  .masonry{columns:3;column-gap:16px;}
+  .masonry-item{break-inside:avoid;margin-bottom:16px;border-radius:16px;overflow:hidden;position:relative;cursor:pointer;}
+  .m-img{overflow:hidden;}
+  .m-img img{width:100%;display:block;}
+  .m-tall .m-img img{min-height:380px;object-fit:cover;}
+  .m-caption{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(0,0,0,0.7));}
+  .m-tag{display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(217,119,6,0.9);color:#fff;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:4px;}
+  .m-caption p{font-size:13px;color:rgba(255,255,255,0.6);}
+
+
+  /* ═══ ABOUT ═══ */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .about-imgs{position:relative;}
+  .about-main{border-radius:20px;overflow:hidden;}
+  .about-main img{width:100%;aspect-ratio:4/3;object-fit:cover;}
+  .about-float{position:absolute;bottom:-30px;right:-20px;width:200px;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.12);border:4px solid #fff;}
+  .about-float img{width:100%;aspect-ratio:1;object-fit:cover;}
+  .about-badge{position:absolute;top:20px;right:20px;background:#fff;border-radius:16px;padding:16px 20px;box-shadow:0 8px 30px rgba(0,0,0,0.08);text-align:center;}
+  .ab-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--primary-dark);display:block;}
+  .ab-label{font-size:11px;color:var(--text-muted);}
+  .about-text h2{margin:8px 0 0;}
+  .about-text p{font-size:15px;color:var(--text);line-height:1.8;margin-top:16px;}
+  .about-features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;}
+  .af{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--text);}
+
+
+  /* ═══ STATS BAR ═══ */
+  .stats-bar{background:linear-gradient(135deg,#1C1917,#292524);padding:60px 0;}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;}
+  .st-val{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;display:block;}
+  .st-label{font-size:14px;color:rgba(255,255,255,0.4);margin-top:4px;display:block;}
+
+
+  /* ═══ TESTIMONIALS ═══ */
+  .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .test{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s;}
+  .test-stars{margin-bottom:14px;letter-spacing:2px;}
+  .star{color:var(--primary);font-size:16px;}
+  .test p{font-size:15px;color:var(--text);line-height:1.7;font-style:italic;margin-bottom:20px;}
+  .test-author{display:flex;align-items:center;gap:12px;}
+  .test-avatar{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;}
+  .test-author strong{font-size:14px;color:var(--dark);}
+
+
+  /* ═══ ZONE BAR ═══ */
+  .zone-bar{padding:36px 0;background:linear-gradient(135deg,#1C1917,#292524);text-align:center;}
+  .zone-bar h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--primary);margin-bottom:8px;}
+  .zone-bar p{font-size:14px;color:var(--text-light);line-height:1.7;max-width:600px;margin:0 auto;}
+
+
+  /* ═══ CONTACT ═══ */
+  .ct-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:60px;align-items:start;}
+  .ct-info .section-title{margin:8px 0 0;}
+  .ct-details{display:flex;flex-direction:column;gap:12px;margin-top:24px;}
+  .ct-card{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;background:var(--card);border:1px solid var(--border);transition:all 0.3s;cursor:default;}
+  a.ct-card{cursor:pointer;}
+  .ct-icon{font-size:20px;flex-shrink:0;}
+  .ct-label{display:block;font-size:11px;font-weight:600;color:var(--text-light);letter-spacing:0.06em;text-transform:uppercase;}
+  .ct-value{display:block;font-size:14px;font-weight:500;color:var(--dark);}
+
+  .ct-form-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:0 1px 3px rgba(0,0,0,0.02);}
+  .fg{margin-bottom:14px;}
+  .fg label{display:block;font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;}
+  .fg input,.fg select,.fg textarea{
+    width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--border);
+    font-family:'Outfit',sans-serif;font-size:15px;color:var(--dark);background:var(--bg);
+    transition:border 0.3s;outline:none;resize:vertical;
+  }
+  .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--primary);}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-note{font-size:12px;color:var(--text-light);margin-top:10px;text-align:center;}
+
+  .ct-success{grid-column:2;padding:60px 32px;border-radius:20px;background:var(--card);border:1px solid var(--border);text-align:center;}
+  .success-icon{display:inline-flex;width:56px;height:56px;border-radius:16px;align-items:center;justify-content:center;background:rgba(34,197,94,0.08);font-size:26px;color:#22C55E;margin-bottom:14px;}
+  .ct-success h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--dark);margin-bottom:8px;}
+  .ct-success p{font-size:15px;color:var(--text-muted);}
+
+
+  /* ═══ FOOTER ═══ */
+  .footer{background:#1C1917;color:var(--text-light);padding:clamp(3rem,6vw,4.5rem) 0 2rem;}
+  .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;margin-bottom:32px;}
+  .footer-logo{display:block;font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#FAFAF9;margin-bottom:8px;}
+  .footer-desc{font-size:14px;line-height:1.6;margin-bottom:16px;max-width:280px;}
+  .footer-badge{display:inline-block;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);font-size:11px;color:var(--text-muted);transition:all 0.3s;}
+  .footer-badge strong{color:var(--text-light);}
+  .footer-badge:hover{background:rgba(217,119,6,0.08);border-color:rgba(217,119,6,0.2);}
+  .footer-badge:hover strong{color:var(--primary);}
+  .footer-grid h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;color:#FAFAF9;margin-bottom:12px;}
+  .footer-grid a{display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px;transition:color 0.2s;}
+  .footer-grid a:hover{color:var(--primary);}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;display:flex;justify-content:space-between;font-size:12px;color:#57534E;}
+
+
+  /* ═══ RESPONSIVE ═══ */
+  @media(max-width:1024px){.masonry{columns:2;}}
+  @media(max-width:768px){
+    .srv-grid{grid-template-columns:1fr;}
+    .masonry{columns:1;}
+    .about-grid{grid-template-columns:1fr;gap:40px;}
+    .about-float{position:static;width:100%;margin-top:12px;}
+    .about-badge{top:10px;right:10px;padding:12px 14px;}
+    .about-features{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
+    .test-grid{grid-template-columns:1fr;}
+    .ct-grid{grid-template-columns:1fr;gap:32px;}
+    .ct-success{grid-column:1;}
+    .f-row{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;gap:28px;}
+    .footer-bottom{flex-direction:column;gap:4px;}
+    .hero-stats{gap:20px;}
+  }
+</style>

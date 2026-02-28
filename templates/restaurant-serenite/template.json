@@ -1,0 +1,22 @@
+{
+  "id": "restaurant-serenite",
+  "nom": "Restaurant Bistrot Méditerranéen — Sérénité",
+  "metier": "restaurant",
+  "categorie": "restauration",
+  "formule": "serenite",
+  "pages": 4,
+  "pagesListe": ["index", "galerie", "a-propos", "mentions-legales"],
+  "palette": {
+    "primary": "#7F1D1D",
+    "accent": "#92400E",
+    "bg": "#FDFBF7",
+    "theme": "clair"
+  },
+  "polices": ["Playfair Display", "Lora"],
+  "tags": ["restaurant", "bistrot", "cuisine méditerranéenne", "terrasse", "brunch", "produits locaux"],
+  "port": 4001,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-02-26"
+}

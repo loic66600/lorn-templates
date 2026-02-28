@@ -1,0 +1,22 @@
+{
+  "id": "electricien-serenite",
+  "nom": "Électricien Dépannage & Installation — Sérénité",
+  "metier": "electricien",
+  "categorie": "batiment",
+  "formule": "serenite",
+  "pages": 6,
+  "pagesListe": ["index", "a-propos", "realisations", "tarifs", "zone", "mentions-legales"],
+  "palette": {
+    "primary": "#2563EB",
+    "accent": "#06B6D4",
+    "bg": "#0B0F1A",
+    "theme": "sombre"
+  },
+  "polices": ["Space Grotesk", "JetBrains Mono"],
+  "tags": ["électricien", "dépannage électrique", "mise aux normes", "tableau électrique", "installation électrique", "domotique"],
+  "port": 4003,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-02-26"
+}

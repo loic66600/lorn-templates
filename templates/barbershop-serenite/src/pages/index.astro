@@ -1,0 +1,481 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+const socialIcons: Record<string,string> = {
+  facebook:'<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
+  instagram:'<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  tiktok:'<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.83a4.84 4.84 0 01-1-.14z"/></svg>',
+  linkedin:'<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+  youtube:'<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2c.312-1.732.466-3.49.46-5.25a29 29 0 00-.46-5.33zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z"/></svg>',
+  twitter:'<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+};
+---
+
+<Layout>
+
+  <!-- ══════ NAVBAR ══════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src={client.logo} alt={client.nom} class="nav-logo-img" onerror="this.style.display='none'" />
+        <span class="nav-name font-display">{client.nom}</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#tarifs">Tarifs</a>
+        <a href="/galerie">Galerie</a>
+        <a href="/a-propos">L'histoire</a>
+        <a href="/#equipe">L'équipe</a>
+        <a href="/#rdv" class="nav-cta">Prendre RDV</a>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="mobile-menu">
+      <a href="/#tarifs">Tarifs</a>
+      <a href="/galerie">Galerie</a>
+      <a href="/a-propos">L'histoire</a>
+      <a href="/#equipe">L'équipe</a>
+      <a href="/#avis">Avis</a>
+      <a href="/#rdv" class="mob-cta">Prendre rendez-vous</a>
+    </div>
+  </nav>
+
+
+  <!-- ══════ HERO — Full-width with gold accent stripe ══════ -->
+  <section class="hero">
+    <div class="hero-bg ken-burns"><img src={client.heroImage} alt={client.heroImageAlt} loading="eager" /></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-gold-stripe"></div>
+    <div class="container hero-content">
+      <div class="hero-left">
+        <span class="hero-tag reveal font-display">💈 {client.metier} — {client.ville}</span>
+        <h1 class="font-display reveal reveal-d1">
+          <span class="shimmer">{client.nom.split(' ').slice(0, -1).join(' ')}</span><br>{client.nom.split(' ').slice(-1)}
+        </h1>
+        <p class="hero-sub reveal reveal-d2">{client.slogan}.</p>
+        <div class="hero-actions reveal reveal-d3">
+          <a href="#rdv" class="btn-gold btn-lg">Prendre rendez-vous</a>
+          <a href="#tarifs" class="btn-ghost">Voir les tarifs ↓</a>
+        </div>
+        <div class="hero-hours reveal reveal-d4">
+          <span>{client.horaires}</span>
+          <span class="hero-hours-closed">{client.horairesFerme}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════ ÉQUIPE — Horizontal barber cards ══════ -->
+  <section class="section" id="equipe">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-label font-display reveal">L'équipe</span>
+        <h2 class="sec-title font-display reveal reveal-d1">NOS <span class="text-gold">BARBIERS</span></h2>
+      </div>
+      <div class="team-grid">
+        {client.equipe.map((b, i) => (
+          <div class={`team-card hover-lift reveal ${i > 0 ? `reveal-d${i}` : ''}`}>
+            <div class="team-img img-zoom">
+              <img src={b.image} alt={b.prenom} loading="lazy" />
+            </div>
+            <div class="team-info">
+              <h3 class="font-display">{b.prenom}</h3>
+              <span class="team-role">{b.role}</span>
+              <div class="team-details">
+                <span>⏱ {b.experience}</span>
+                <span>✂️ {b.specialite}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════ TARIFS — Price list menu board style ══════ -->
+  <section class="section section-alt" id="tarifs">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-label font-display reveal">Services & Prix</span>
+        <h2 class="sec-title font-display reveal reveal-d1">NOS <span class="text-gold">PRESTATIONS</span></h2>
+      </div>
+      <div class="price-board">
+        {client.services.map((s, i) => (
+          <div class={`price-row reveal ${i > 0 ? `reveal-d${Math.min(i,5)}` : ''}`}>
+            <div class="price-left">
+              <span class="price-icon">{s.icone}</span>
+              <div>
+                <div class="price-name-row">
+                  <h3>{s.titre}</h3>
+                  {s.populaire && <span class="price-pop">Populaire</span>}
+                </div>
+                <p>{s.description}</p>
+              </div>
+            </div>
+            <div class="price-dots"></div>
+            <div class="price-right">
+              <span class="price-amount font-display">{s.prix}</span>
+              <small>{s.duree}</small>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="price-note reveal">
+        <p>Les prix incluent le shampoing et les produits de finition. Paiement CB accepté.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════ PARALLAX BANNER ══════ -->
+  <section class="par-banner">
+    <div class="par-bg ken-burns"><img src={client.bannerImage} alt="" loading="lazy" /></div>
+    <div class="par-ov gradient-shift"></div>
+    <div class="container par-ct">
+      <h2 class="font-display reveal"><span class="shimmer">SHARP CUTS.</span><br>CLEAN LINES.<br>GOOD VIBES.</h2>
+    </div>
+  </section>
+
+
+  <!-- ══════ GALERIE — Horizontal scroll strip ══════ -->
+  <section class="section" id="galerie-apercu">
+    <div class="container">
+      <div class="sec-head-row">
+        <div>
+          <span class="sec-label font-display reveal">Portfolio</span>
+          <h2 class="sec-title font-display reveal reveal-d1">NOS <span class="text-gold">COUPES</span></h2>
+        </div>
+        <a href="/galerie" class="btn-outline-gold reveal">Voir tout →</a>
+      </div>
+    </div>
+    <div class="gal-strip reveal">
+      {client.galerie.map((g) => (
+        <div class="gal-strip-item img-zoom">
+          <img src={g.image} alt={g.alt} loading="lazy" />
+          <div class="gal-strip-cap"><span>{g.alt}</span></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+
+  <!-- ══════ TÉMOIGNAGES — Stacked large quotes ══════ -->
+  <section class="section section-alt" id="avis">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-label font-display reveal">Avis clients</span>
+        <h2 class="sec-title font-display reveal reveal-d1">ILS <span class="text-gold">VALIDENT</span></h2>
+      </div>
+      <div class="test-stack">
+        {client.temoignages.map((t, i) => (
+          <div class={`test-item reveal ${i > 0 ? `reveal-d${i}` : ''}`}>
+            <div class="test-stars">{Array.from({length:t.note}).map(()=><span>★</span>)}</div>
+            <blockquote>"{t.texte}"</blockquote>
+            <cite>— {t.nom}</cite>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════ RENDEZ-VOUS + CONTACT ══════ -->
+  <section class="section" id="rdv">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-label font-display reveal">Contact</span>
+        <h2 class="sec-title font-display reveal reveal-d1">PRENDRE <span class="text-gold">RENDEZ-VOUS</span></h2>
+      </div>
+
+      <div class="rdv-grid">
+        <!-- Formulaire / Lien externe -->
+        <div class="rdv-form slide-left">
+          {client.lienReservation ? (
+            <div style="text-align:center;padding:40px 0;">
+              <p style="color:var(--text-muted);font-size:15px;margin-bottom:20px;">Réservez en ligne via notre partenaire :</p>
+              <a href={client.lienReservation} target="_blank" rel="noopener" class="btn-gold btn-lg">Réserver sur Planity →</a>
+            </div>
+          ) : (
+            <div id="rdvForm">
+              <div class="f-row">
+                <div class="fg"><label>Nom *</label><input type="text" id="rNom" placeholder="Votre nom" required /></div>
+                <div class="fg"><label>Téléphone *</label><input type="tel" id="rTel" placeholder="06 00 00 00 00" required /></div>
+              </div>
+              <div class="f-row">
+                <div class="fg"><label>Prestation *</label>
+                  <select id="rPresta" required>
+                    <option value="">Choisir...</option>
+                    {client.services.map(s => <option value={s.titre}>{s.icone} {s.titre} — {s.prix}</option>)}
+                  </select>
+                </div>
+                <div class="fg"><label>Barbier préféré</label>
+                  <select id="rBarbier">
+                    <option value="">Pas de préférence</option>
+                    {client.equipe.map(b => <option value={b.prenom}>{b.prenom}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div class="f-row">
+                <div class="fg"><label>Date souhaitée *</label><input type="date" id="rDate" required /></div>
+                <div class="fg"><label>Créneau *</label>
+                  <select id="rHeure" required>
+                    <option value="">Choisir...</option>
+                    <option>9h</option><option>9h30</option><option>10h</option><option>10h30</option><option>11h</option><option>11h30</option>
+                    <option>14h</option><option>14h30</option><option>15h</option><option>15h30</option><option>16h</option><option>16h30</option><option>17h</option><option>17h30</option><option>18h</option>
+                  </select>
+                </div>
+              </div>
+              <div class="fg"><label>Note</label><textarea id="rMsg" rows="2" placeholder="Demande particulière..."></textarea></div>
+              <button class="btn-gold btn-lg btn-full" id="rdvBtn" type="button">Confirmer mon rendez-vous</button>
+              <p class="form-note">Confirmation par SMS sous 1h — Annulation gratuite 24h avant</p>
+            </div>
+          )}
+
+          <div id="rdvSuccess" style="display:none;text-align:center;padding:40px 0;">
+            <div style="font-size:48px;margin-bottom:12px;">💈</div>
+            <h3 style="color:var(--gold-light);font-size:22px;font-weight:700;margin-bottom:8px;">Rendez-vous demandé !</h3>
+            <p style="color:var(--text-muted);font-size:15px;">Confirmation par SMS sous 1 heure.</p>
+          </div>
+        </div>
+
+        <!-- Infos contact -->
+        <div class="rdv-info slide-right">
+          <div class="info-card">
+            <h4>📍 Nous trouver</h4>
+            <p class="info-addr">{client.adresse}</p>
+            {client.googleMapsEmbed && (
+              <iframe src={client.googleMapsEmbed} width="100%" height="180" style="border:0;border-radius:10px;margin-top:12px;filter:invert(0.92) hue-rotate(180deg) brightness(1.1) contrast(0.9);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            )}
+          </div>
+          <div class="info-card">
+            <h4>🕐 Horaires</h4>
+            <div class="info-hours">
+              {client.horairesSemaine.map(h => (
+                <div class={`info-h-row ${h.ferme ? 'closed' : ''}`}>
+                  <span>{h.jour}</span><span>{h.heures}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div class="info-card">
+            <h4>📞 Contact</h4>
+            <a href={client.telephoneLink} class="info-phone">{client.telephone}</a>
+            <a href={`mailto:${client.email}`} style="font-size:14px;color:var(--text-muted);display:block;margin-top:4px;">{client.email}</a>
+            {socials.length > 0 && (
+              <div class="social-links" style="margin-top:12px;">
+                {socials.map(([k,v]) => (
+                  <a href={v} target="_blank" rel="noopener" class="social-link" title={k} set:html={socialIcons[k] || k} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════ FOOTER ══════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-logo font-display shimmer">{client.nom}</span>
+          <p class="footer-desc">{client.specialite}. {client.ville}.</p>
+          {socials.length > 0 && (
+            <div class="social-links" style="margin-top:14px;">
+              {socials.map(([k,v]) => (
+                <a href={v} target="_blank" rel="noopener" class="social-link" title={k} set:html={socialIcons[k] || k} />
+              ))}
+            </div>
+          )}
+        </div>
+        <div>
+          <h4 class="font-display">NAVIGATION</h4>
+          <a href="/">Accueil</a><a href="/#tarifs">Tarifs</a><a href="/galerie">Galerie</a>
+          <a href="/a-propos">L'histoire</a><a href="/#rdv">Rendez-vous</a>
+        </div>
+        <div>
+          <h4 class="font-display">INFOS</h4>
+          <a href={client.telephoneLink}>{client.telephone}</a>
+          <a href={`mailto:${client.email}`}>{client.email}</a>
+          <span class="footer-addr">{client.adresse}</span>
+          <a href="/mentions-legales">Mentions légales</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 {client.nom}</p>
+        <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="footer-badge">Site par <strong>LORN Digital Studio</strong></a>
+      </div>
+    </div>
+  </footer>
+
+</Layout>
+
+
+<script define:vars={{ web3Key }}>
+  const btn=document.getElementById('rdvBtn'),form=document.getElementById('rdvForm'),ok=document.getElementById('rdvSuccess');
+  btn?.addEventListener('click',async()=>{
+    const nom=document.getElementById('rNom')?.value,tel=document.getElementById('rTel')?.value,
+      presta=document.getElementById('rPresta')?.value,barbier=document.getElementById('rBarbier')?.value,
+      date=document.getElementById('rDate')?.value,heure=document.getElementById('rHeure')?.value,
+      msg=document.getElementById('rMsg')?.value;
+    if(!nom||!tel||!presta||!date||!heure){alert('Remplissez les champs obligatoires.');return;}
+    btn.disabled=true;btn.textContent='Envoi...';
+    if(web3Key){try{
+      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({access_key:web3Key,subject:'💈 RDV Barbershop — '+nom+' — '+presta,from_name:nom,telephone:tel,prestation:presta,barbier,date,heure,message:msg})});
+      const d=await r.json();if(d.success&&form&&ok){form.style.display='none';ok.style.display='block';return;}
+    }catch(e){}}
+    window.location.href='mailto:lorn.digital.studio@gmail.com?subject='+encodeURIComponent('RDV Barbershop — '+date+' '+heure)+
+      '&body='+encodeURIComponent('Nom: '+nom+'\nTél: '+tel+'\nPrestation: '+presta+'\nBarbier: '+barbier+'\nDate: '+date+'\nHeure: '+heure+'\n\n'+msg);
+  });
+</script>
+
+
+<style>
+  /* ═══ NAVBAR ═══ */
+  .navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:10px clamp(0.75rem,3vw,2rem);transition:padding 0.4s;}
+  .navbar.scrolled{padding-top:5px;padding-bottom:5px;}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:10px 18px;border-radius:14px;background:rgba(10,10,10,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:space-between;gap:8px;transition:all 0.4s;}
+  .navbar.scrolled .nav-inner{padding:7px 14px;}
+  .nav-logo{display:flex;align-items:center;gap:8px;}
+  .nav-logo-img{width:36px;height:36px;border-radius:8px;object-fit:contain;}
+  .nav-name{font-size:18px;color:var(--gold-light);}
+  .nav-links{display:flex;gap:2px;align-items:center;}
+  .nav-links a{font-size:13px;font-weight:500;color:var(--text-muted);padding:7px 12px;border-radius:8px;transition:all 0.3s;white-space:nowrap;}
+  .nav-links a:hover{color:var(--gold-light);}
+  .nav-cta{padding:8px 18px!important;border-radius:10px!important;background:var(--gold)!important;color:#000!important;font-weight:700!important;font-size:12px!important;transition:all 0.3s!important;}
+  .nav-cta:hover{background:var(--gold-light)!important;transform:translateY(-1px);}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px;}
+  .burger span{width:20px;height:2px;background:var(--gold-light);border-radius:2px;display:block;transition:all 0.3s;}
+  .burger.open span:nth-child(1){transform:rotate(45deg) translateY(7px);} .burger.open span:nth-child(2){opacity:0;} .burger.open span:nth-child(3){transform:rotate(-45deg) translateY(-7px);}
+  .nav-mobile{display:none;max-width:1100px;margin:6px auto 0;padding:12px;border-radius:14px;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);border:1px solid var(--border);flex-direction:column;gap:2px;}
+  .nav-mobile.open{display:flex;}
+  .nav-mobile a{padding:12px 14px;border-radius:10px;font-size:15px;color:var(--text);font-weight:500;}
+  .mob-cta{margin-top:6px;padding:13px!important;border-radius:10px;background:var(--gold);color:#000!important;text-align:center;font-weight:700!important;}
+  @media(max-width:768px){.nav-links{display:none!important;}.burger{display:flex!important;}}
+
+  /* ═══ HERO — Gold stripe accent ═══ */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;} .hero-bg img{width:100%;height:100%;object-fit:cover;}
+  .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,0.92) 0%,rgba(10,10,10,0.7) 50%,rgba(10,10,10,0.4) 100%);}
+  .hero-gold-stripe{position:absolute;top:0;left:0;bottom:0;width:5px;z-index:3;background:linear-gradient(180deg,transparent,var(--gold-light),var(--gold),transparent);}
+  .hero-content{position:relative;z-index:2;width:100%;padding-top:120px;padding-bottom:60px;}
+  .hero-left{max-width:600px;}
+  .hero-tag{display:inline-block;font-size:14px;color:var(--gold-light);margin-bottom:16px;}
+  .hero h1{font-size:clamp(3.5rem,9vw,6rem);line-height:0.95;color:var(--white);margin-bottom:16px;}
+  .hero-sub{font-size:16px;color:var(--text-muted);line-height:1.7;max-width:420px;}
+  .hero-actions{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap;}
+  .hero-hours{margin-top:32px;padding-top:20px;border-top:1px solid var(--border);display:flex;gap:16px;font-size:13px;color:var(--text-muted);}
+  .hero-hours-closed{color:var(--text-light);}
+
+  /* ═══ BUTTONS ═══ */
+  .btn-gold{display:inline-flex;align-items:center;gap:8px;padding:15px 32px;border-radius:12px;background:var(--gold);color:#000;font-family:'Barlow',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 2px 16px var(--gold-glow);}
+  .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 6px 32px rgba(184,134,11,0.25);}
+  .btn-gold:disabled{opacity:0.7;cursor:wait;}
+  .btn-lg{padding:18px 40px;font-size:16px;} .btn-full{width:100%;justify-content:center;}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border-radius:12px;color:var(--text);font-weight:500;font-size:15px;border:1px solid var(--border);transition:all 0.3s;}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light);}
+  .btn-outline-gold{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;color:var(--gold-light);font-weight:600;font-size:14px;border:1px solid var(--border-gold);transition:all 0.3s;}
+  .btn-outline-gold:hover{background:var(--gold-glow);transform:translateY(-2px);}
+
+  /* ═══ SECTION HEADS ═══ */
+  .sec-head{text-align:center;margin-bottom:48px;}
+  .sec-head-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;flex-wrap:wrap;gap:16px;}
+  .sec-label{display:block;font-size:13px;color:var(--gold);letter-spacing:0.15em;margin-bottom:6px;}
+  .sec-title{font-size:clamp(2rem,5vw,3rem);color:var(--white);line-height:1;}
+
+  /* ═══ TEAM ═══ */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .team-card{border-radius:18px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border);transition:transform 0.4s,box-shadow 0.4s;}
+  .team-img img{width:100%;aspect-ratio:3/4;object-fit:cover;}
+  .team-info{padding:20px;}
+  .team-info h3{font-size:26px;color:var(--gold-light);margin-bottom:2px;}
+  .team-role{font-size:13px;color:var(--text-muted);display:block;margin-bottom:10px;}
+  .team-details{display:flex;gap:14px;font-size:12px;color:var(--text-light);}
+
+  /* ═══ PRICE BOARD ═══ */
+  .price-board{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:0;}
+  .price-row{display:flex;align-items:center;gap:12px;padding:18px 0;border-bottom:1px solid var(--border);}
+  .price-row:last-child{border-bottom:none;}
+  .price-left{display:flex;align-items:flex-start;gap:12px;flex:1;min-width:0;}
+  .price-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+  .price-name-row{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+  .price-name-row h3{font-size:16px;font-weight:700;color:var(--white);}
+  .price-pop{padding:2px 8px;border-radius:4px;background:var(--gold-glow);border:1px solid var(--border-gold);font-size:10px;font-weight:700;color:var(--gold-light);text-transform:uppercase;letter-spacing:0.04em;}
+  .price-left p{font-size:13px;color:var(--text-muted);line-height:1.5;}
+  .price-dots{flex:1;min-width:20px;border-bottom:2px dotted rgba(255,255,255,0.06);margin-bottom:6px;}
+  .price-right{text-align:right;flex-shrink:0;}
+  .price-amount{font-size:28px;color:var(--gold-light);display:block;line-height:1;}
+  .price-right small{font-size:11px;color:var(--text-light);}
+  .price-note{text-align:center;margin-top:24px;padding:14px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);}
+  .price-note p{font-size:13px;color:var(--text-muted);}
+
+  /* ═══ PARALLAX ═══ */
+  .par-banner{position:relative;padding:clamp(5rem,10vw,8rem) 0;overflow:hidden;}
+  .par-bg{position:absolute;inset:-10% 0;z-index:0;} .par-bg img{width:100%;height:100%;object-fit:cover;}
+  .par-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(10,10,10,0.92),rgba(184,134,11,0.08));}
+  .par-ct{position:relative;z-index:2;text-align:center;}
+  .par-ct h2{font-size:clamp(2.5rem,6vw,4.5rem);color:var(--white);line-height:1;}
+
+  /* ═══ GALLERY STRIP — Horizontal scroll ═══ */
+  .gal-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:0 clamp(1rem,4vw,2.5rem) 8px;scrollbar-width:thin;scrollbar-color:rgba(184,134,11,0.2) transparent;}
+  .gal-strip-item{min-width:300px;max-width:360px;flex-shrink:0;scroll-snap-align:start;border-radius:14px;overflow:hidden;position:relative;cursor:pointer;}
+  .gal-strip-item img{width:100%;aspect-ratio:3/4;object-fit:cover;}
+  .gal-strip-cap{position:absolute;bottom:0;left:0;right:0;padding:14px;background:linear-gradient(transparent,rgba(0,0,0,0.7));}
+  .gal-strip-cap span{font-size:13px;color:rgba(255,255,255,0.75);}
+
+  /* ═══ TESTIMONIALS — Stacked ═══ */
+  .test-stack{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+  .test-item{padding:28px 32px;border-radius:18px;background:var(--bg-card);border:1px solid var(--border);}
+  .test-stars{color:var(--gold-light);font-size:14px;letter-spacing:2px;margin-bottom:14px;}
+  .test-item blockquote{font-size:17px;color:var(--text);line-height:1.8;font-style:italic;margin-bottom:14px;}
+  .test-item cite{font-size:14px;font-weight:600;color:var(--gold);font-style:normal;}
+
+  /* ═══ RDV GRID ═══ */
+  .rdv-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start;}
+  .rdv-form{padding:28px;border-radius:18px;background:var(--bg-card);border:1px solid var(--border);}
+  .fg{margin-bottom:10px;}
+  .fg label{display:block;font-size:12px;font-weight:600;color:var(--gold-light);margin-bottom:4px;letter-spacing:0.04em;}
+  .fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--border);font-family:'Barlow',sans-serif;font-size:14px;color:var(--white);background:var(--bg);transition:border 0.3s;outline:none;resize:vertical;}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);}
+  .fg input::placeholder,.fg textarea::placeholder{color:var(--text-light);}
+  .fg select{cursor:pointer;} .fg select option{background:var(--bg);color:var(--white);}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .form-note{font-size:11px;color:var(--text-light);margin-top:10px;text-align:center;}
+
+  .rdv-info{display:flex;flex-direction:column;gap:12px;}
+  .info-card{padding:20px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border);}
+  .info-card h4{font-size:15px;font-weight:700;color:var(--white);margin-bottom:10px;}
+  .info-addr{font-size:14px;color:var(--text-muted);line-height:1.6;}
+  .info-phone{display:block;font-size:20px;font-weight:700;color:var(--gold-light);}
+  .info-hours{display:flex;flex-direction:column;gap:4px;}
+  .info-h-row{display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);padding:4px 0;border-bottom:1px solid var(--border);}
+  .info-h-row.closed{color:var(--text-light);font-style:italic;}
+  .info-h-row:last-child{border-bottom:none;}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:clamp(3rem,6vw,4rem) 0 2rem;border-top:1px solid var(--border);}
+  .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+  .footer-logo{display:block;font-size:24px;margin-bottom:8px;}
+  .footer-desc{font-size:14px;line-height:1.6;color:var(--text-muted);max-width:260px;}
+  .footer-grid h4{font-size:16px;color:var(--gold-light);margin-bottom:12px;letter-spacing:0.1em;}
+  .footer-grid a{display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px;transition:color 0.2s;} .footer-grid a:hover{color:var(--gold-light);}
+  .footer-addr{display:block;font-size:12px;color:var(--text-light);margin-top:6px;}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:16px;font-size:12px;color:var(--text-light);}
+  .footer-badge{padding:4px 10px;border-radius:6px;border:1px solid var(--border);font-size:11px;color:var(--text-muted);transition:all 0.3s;}
+  .footer-badge strong{color:var(--text);} .footer-badge:hover{border-color:var(--gold);} .footer-badge:hover strong{color:var(--gold-light);}
+
+  /* ═══ RESPONSIVE ═══ */
+  @media(max-width:1024px){.team-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:768px){
+    .team-grid,.footer-grid{grid-template-columns:1fr;}.rdv-grid{grid-template-columns:1fr;}
+    .f-row{grid-template-columns:1fr;}.gal-strip-item{min-width:260px;}
+    .footer-bottom{flex-direction:column;gap:8px;}
+    .price-row{flex-wrap:wrap;}.price-dots{display:none;}.price-right{width:100%;text-align:left;display:flex;align-items:baseline;gap:8px;margin-top:4px;}
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Mentions légales — ${client.nom}`}>
+  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href="/" class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
+  <section class="section"><div class="container legal">
+    <h1 class="font-head" style="font-size:32px;font-weight:800;color:var(--navy);margin-bottom:36px;">Mentions légales</h1>
+    <h2>1. Informations légales</h2>
+    <p><strong>{client.nom}</strong><br>Responsable : {client.responsable}<br>SIRET : {client.siret}<br>Adresse : {client.adresse}<br>Tél : {client.telephone}<br>Email : {client.email}</p>
+    <h2>2. Hébergement</h2><p>{client.hebergeur}</p>
+    <h2>3. Conception</h2><p>Site par <strong>LORN Digital Studio</strong> — <a href="https://lorn-digital-studio.fr" target="_blank" rel="noopener">lorn-digital-studio.fr</a></p>
+    <h2>4. Protection des données (RGPD)</h2>
+    <p>Les données collectées via le formulaire de devis servent au traitement de votre demande. Non cédées à des tiers. Conservation : 3 ans. Contact : {client.email}. Réclamation : <a href="https://www.cnil.fr">cnil.fr</a></p>
+    <h2>5. Cookies</h2><p>Cookies techniques uniquement.</p>
+    <h2>6. Propriété intellectuelle</h2><p>Contenus et images protégés. Reproduction interdite sans autorisation.</p>
+    <p style="margin-top:36px;font-size:13px;color:var(--text-light);font-style:italic;">Dernière mise à jour : Février 2026</p>
+  </div></section>
+</Layout>
+<style>
+  .page-top{padding:100px 0 0;} .back-link{color:var(--teal);font-size:14px;font-weight:500;}
+  .legal h2{font-size:20px;font-weight:700;color:var(--teal);margin:28px 0 12px;}
+  .legal p{font-size:15px;color:var(--text-muted);line-height:1.8;margin-bottom:10px;max-width:750px;}
+  .legal strong{color:var(--navy);} .legal a{color:var(--teal);text-decoration:underline;}
+</style>

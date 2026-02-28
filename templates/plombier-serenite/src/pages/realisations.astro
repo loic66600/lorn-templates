@@ -1,0 +1,47 @@
+---
+// ══════════════════════════════════════════════════════════════
+// PAGE — RÉALISATIONS
+// DÉSACTIVABLE : mv src/pages/realisations.astro src/pages-off/realisations.astro
+// ══════════════════════════════════════════════════════════════
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const categories = ["Tous","Sanitaire","Dépannage","Chauffage","Rénovation"];
+const toutes = [...client.realisations, ...client.realisationsBonus];
+---
+<Layout title={`Réalisations — ${client.nom}`}>
+  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href="/" class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
+  <section class="section"><div class="container">
+    <div style="text-align:center;margin-bottom:48px;">
+      <span class="sec-pill reveal">Portfolio</span>
+      <h1 class="sec-title font-head reveal reveal-d1" style="margin-top:10px;">Nos <span class="text-teal">interventions</span></h1>
+      <p class="sub reveal reveal-d2">Salles de bain, dépannages, chauffage — nos réalisations en images.</p>
+    </div>
+    <div class="gal-filters reveal">{categories.map(cat => <button class={`gal-filter ${cat==='Tous'?'active':''}`} data-filter={cat}>{cat}</button>)}</div>
+    <div class="gal-grid" id="galGrid">{toutes.map((r,i) => (
+      <div class={`gal-item blur-sharp ${i%5===0?'gal-wide':''}`} data-cat={r.categorie}>
+        <div class="img-zoom"><img src={r.image} alt={r.alt} loading="lazy" /></div>
+        <div class="gal-cap"><span class="gal-cat">{r.categorie}</span><span>{r.alt}</span></div>
+      </div>
+    ))}</div>
+    <div style="text-align:center;margin-top:48px;" class="reveal"><a href="/#devis" class="btn-teal btn-lg">Demander un devis →</a></div>
+  </div></section>
+</Layout>
+<script>
+  const filters=document.querySelectorAll('.gal-filter'),items=document.querySelectorAll('.gal-item');
+  filters.forEach(btn=>{btn.addEventListener('click',()=>{filters.forEach(f=>f.classList.remove('active'));btn.classList.add('active');const cat=(btn as HTMLElement).dataset.filter;items.forEach(item=>{const el=item as HTMLElement;if(cat==='Tous'||el.dataset.cat===cat){el.style.display='';el.style.animation='fadeSlideIn 0.4s ease forwards';}else{el.style.display='none';}});});});
+</script>
+<style>
+  .page-top{padding:100px 0 0;} .back-link{color:var(--teal);font-size:14px;font-weight:500;}
+  .sec-pill{display:inline-block;padding:5px 14px;border-radius:100px;background:var(--teal-glow);border:1px solid var(--border-teal);font-size:12px;font-weight:600;color:var(--teal);}
+  .sec-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--navy);line-height:1.12;}
+  .sub{font-size:15px;color:var(--text-muted);max-width:480px;margin:10px auto 0;}
+  .gal-filters{display:flex;justify-content:center;gap:8px;margin-bottom:36px;flex-wrap:wrap;}
+  .gal-filter{padding:8px 20px;border-radius:100px;border:1px solid var(--border);background:var(--bg-card);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.3s;}
+  .gal-filter:hover{border-color:var(--teal);color:var(--teal);}.gal-filter.active{background:var(--teal);color:#fff;border-color:var(--teal);}
+  .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .gal-item{border-radius:16px;overflow:hidden;position:relative;cursor:pointer;}.gal-wide{grid-column:span 2;}.gal-item img{width:100%;aspect-ratio:4/3;object-fit:cover;}.gal-wide img{aspect-ratio:16/9;}
+  .gal-cap{position:absolute;bottom:0;left:0;right:0;padding:14px;background:linear-gradient(transparent,rgba(12,35,64,0.6));display:flex;flex-direction:column;gap:2px;}
+  .gal-cat{font-size:10px;font-weight:600;color:var(--teal-pale);text-transform:uppercase;letter-spacing:0.06em;}.gal-cap span:last-child{font-size:13px;color:rgba(255,255,255,0.75);}
+  .btn-teal{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;background:var(--teal);color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all 0.3s;} .btn-teal:hover{background:var(--teal-dark);transform:translateY(-2px);} .btn-lg{padding:16px 36px;font-size:16px;}
+  @media(max-width:768px){.gal-grid{grid-template-columns:1fr;}.gal-wide{grid-column:span 1;}}
+</style>

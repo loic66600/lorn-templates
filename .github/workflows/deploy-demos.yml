@@ -11,12 +11,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,103 +30,289 @@ jobs:
       - name: Create output directory
         run: mkdir -p _site
 
-      # ── Page d'accueil avec liste des démos ──
-      - name: Generate index page
+      - name: Copy manifest
+        run: cp manifest.json _site/
+
+      - name: Generate ViteMonSite-style index page
         run: |
           cat > _site/index.html << 'HTMLEOF'
           <!DOCTYPE html>
           <html lang="fr">
           <head>
-            <meta charset="UTF-8"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <title>LORN Templates — Démos</title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Catalogue des démos — ViteMonSite</title>
             <style>
-              *{margin:0;padding:0;box-sizing:border-box;}
-              body{font-family:system-ui,sans-serif;background:#0A0A0A;color:#E4E4E7;min-height:100vh;padding:clamp(2rem,6vw,4rem);}
-              .container{max-width:800px;margin:0 auto;}
-              h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;margin-bottom:8px;}
-              .sub{color:#71717A;margin-bottom:40px;font-size:15px;}
-              .grid{display:grid;gap:12px;}
-              a.card{display:flex;align-items:center;gap:16px;padding:20px;border-radius:16px;background:#18181B;border:1px solid #27272A;text-decoration:none;color:#E4E4E7;transition:all 0.3s;}
-              a.card:hover{border-color:#8B5CF6;transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,0.1);}
-              .icon{font-size:32px;width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-              .info h3{font-size:16px;font-weight:600;margin-bottom:2px;}
-              .info p{font-size:13px;color:#71717A;}
-              .badge{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(139,92,246,0.1);color:#A78BFA;font-weight:600;white-space:nowrap;}
-              .foot{margin-top:48px;text-align:center;font-size:12px;color:#3F3F46;}
-              .foot a{color:#71717A;text-decoration:none;}
+              *{margin:0;padding:0;box-sizing:border-box}
+              body{
+                font-family:system-ui,sans-serif;
+                background:#FDFBF7;
+                color:#1F2937;
+                min-height:100vh;
+                padding:clamp(1.5rem,4vw,3rem);
+              }
+              .container{max-width:1100px;margin:0 auto}
+              .hero{
+                padding:32px;
+                border-radius:28px;
+                background:linear-gradient(135deg,#FFF7ED,#FFFFFF);
+                border:1px solid #F3E8D8;
+                box-shadow:0 20px 60px rgba(146,64,14,.08);
+                margin-bottom:32px;
+              }
+              .kicker{
+                display:inline-block;
+                padding:6px 12px;
+                border-radius:999px;
+                background:#FFF1E6;
+                color:#C2410C;
+                font-size:12px;
+                font-weight:700;
+                letter-spacing:.08em;
+                text-transform:uppercase;
+                margin-bottom:14px;
+              }
+              h1{
+                font-size:clamp(2rem,5vw,3.5rem);
+                line-height:1;
+                margin-bottom:12px;
+                color:#111827;
+              }
+              .sub{
+                max-width:720px;
+                color:#6B7280;
+                line-height:1.7;
+                margin-bottom:18px;
+              }
+              .cta{
+                display:inline-flex;
+                align-items:center;
+                gap:8px;
+                padding:12px 18px;
+                border-radius:12px;
+                background:#D97706;
+                color:#fff;
+                text-decoration:none;
+                font-weight:700;
+              }
+              .grid{
+                display:grid;
+                grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+                gap:18px;
+              }
+              .card{
+                display:block;
+                text-decoration:none;
+                color:inherit;
+                border-radius:22px;
+                overflow:hidden;
+                background:#fff;
+                border:1px solid #F1E5D9;
+                box-shadow:0 10px 35px rgba(17,24,39,.06);
+                transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+              }
+              .card:hover{
+                transform:translateY(-4px);
+                box-shadow:0 18px 50px rgba(17,24,39,.12);
+                border-color:#E5C9A8;
+              }
+              .thumb{
+                height:170px;
+                background:linear-gradient(135deg,#FFF7ED,#F9E8D9);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:42px;
+              }
+              .content{padding:18px}
+              .top{
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:10px;
+                margin-bottom:10px;
+              }
+              .badge{
+                font-size:11px;
+                font-weight:700;
+                padding:6px 10px;
+                border-radius:999px;
+                background:#FFF1E6;
+                color:#C2410C;
+                white-space:nowrap;
+              }
+              h3{
+                font-size:18px;
+                margin-bottom:8px;
+                color:#111827;
+              }
+              p{
+                color:#6B7280;
+                font-size:14px;
+                line-height:1.6;
+                margin-bottom:12px;
+              }
+              .meta{
+                display:flex;
+                flex-wrap:wrap;
+                gap:8px;
+              }
+              .chip{
+                font-size:12px;
+                padding:6px 10px;
+                border-radius:999px;
+                background:#F9FAFB;
+                color:#4B5563;
+                border:1px solid #E5E7EB;
+              }
+              .footer{
+                margin-top:40px;
+                text-align:center;
+                color:#6B7280;
+                font-size:13px;
+              }
+              .footer a{color:#C2410C;text-decoration:none}
             </style>
           </head>
           <body>
             <div class="container">
-              <h1>🚀 LORN Templates</h1>
-              <p class="sub">Démos en ligne — vitemonsite-artisan.fr</p>
-              <div class="grid" id="grid"></div>
-              <div class="foot">
-                <a href="https://vitemonsite-artisan.fr" target="_blank">vitemonsite-artisan.fr</a> — LORN Digital Studio
+              <section class="hero">
+                <span class="kicker">ViteMonSite</span>
+                <h1>Catalogue des demos templates</h1>
+                <p class="sub">
+                  Selection de templates artisans et commerces propulses par LORN Digital Studio.
+                  Chaque demo ouvre un site de demonstration complet.
+                </p>
+                <a class="cta" href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener">
+                  Retour vers ViteMonSite
+                </a>
+              </section>
+
+              <section class="grid" id="grid"></section>
+
+              <div class="footer">
+                Propulse par <a href="https://lorn-digital-studio.fr" target="_blank" rel="noopener">LORN Digital Studio</a>
               </div>
             </div>
+
             <script>
-              fetch('./manifest.json').then(r=>r.json()).then(d=>{
-                const g=document.getElementById('grid');
-                d.templates.forEach(t=>{
-                  g.innerHTML+=`<a class="card" href="./${t.id}/">
-                    <div class="icon" style="background:${t.palette.primary}15;">${t.tags[0]==='fast food'?'🍔':t.metier==='fleuriste'?'💐':t.metier==='massage'?'🧘':t.metier==='peintre'?'🎨':'🏠'}</div>
-                    <div class="info"><h3>${t.nom}</h3><p>${t.metier} · ${t.pages} page${t.pages>1?'s':''}</p></div>
-                    <span class="badge">${t.formule}</span>
-                  </a>`;
+              const icons = {
+                batiment: "🏗️",
+                electricien: "⚡",
+                plombier: "💧",
+                restaurant: "🍽️",
+                fastfood: "🍔",
+                barbershop: "💈",
+                fleuriste: "💐",
+                peintre: "🎨",
+                massage: "🧘"
+              };
+
+              fetch("./manifest.json")
+                .then(r => r.json())
+                .then(data => {
+                  const grid = document.getElementById("grid");
+                  data.templates.forEach(t => {
+                    const icon = icons[t.metier] || "✨";
+                    const url = `./${t.id}/`;
+                    grid.innerHTML += `
+                      <a class="card" href="${url}">
+                        <div class="thumb">${icon}</div>
+                        <div class="content">
+                          <div class="top">
+                            <h3>${t.nom}</h3>
+                            <span class="badge">${t.formule}</span>
+                          </div>
+                          <p>${t.metier} • ${t.pages} page${t.pages > 1 ? "s" : ""}</p>
+                          <div class="meta">
+                            <span class="chip">${t.categorie}</span>
+                            <span class="chip">${t.palette.theme}</span>
+                          </div>
+                        </div>
+                      </a>
+                    `;
+                  });
                 });
-              });
             </script>
           </body>
           </html>
           HTMLEOF
 
-      # ── Copie le manifest dans _site ──
-      - name: Copy manifest
-        run: cp manifest.json _site/
-
-      # ── Build chaque template ──
       - name: Build fastfood-serenite
         run: |
           cd templates/fastfood-serenite
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/fastfood-serenite
-          cp -r dist/ ../../_site/fastfood-serenite
+          cp -r dist/. ../../_site/fastfood-serenite
 
       - name: Build fleuriste-serenite
         run: |
           cd templates/fleuriste-serenite
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/fleuriste-serenite
-          cp -r dist/ ../../_site/fleuriste-serenite
+          cp -r dist/. ../../_site/fleuriste-serenite
 
       - name: Build massage-starter
         run: |
           cd templates/massage-starter
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/massage-starter
-          cp -r dist/ ../../_site/massage-starter
+          cp -r dist/. ../../_site/massage-starter
 
       - name: Build peintre-serenite
         run: |
           cd templates/peintre-serenite
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/peintre-serenite
-          cp -r dist/ ../../_site/peintre-serenite
+          cp -r dist/. ../../_site/peintre-serenite
 
-      # ── Upload artifact ──
+      - name: Build batiment-serenite
+        run: |
+          cd templates/batiment-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/batiment-serenite
+          cp -r dist/. ../../_site/batiment-serenite
+
+      - name: Build restaurant-serenite
+        run: |
+          cd templates/restaurant-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/restaurant-serenite
+          cp -r dist/. ../../_site/restaurant-serenite
+
+      - name: Build barbershop-serenite
+        run: |
+          cd templates/barbershop-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/barbershop-serenite
+          cp -r dist/. ../../_site/barbershop-serenite
+
+      - name: Build electricien-serenite
+        run: |
+          cd templates/electricien-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/electricien-serenite
+          cp -r dist/. ../../_site/electricien-serenite
+
+      - name: Build plombier-serenite
+        run: |
+          cd templates/plombier-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/plombier-serenite
+          cp -r dist/. ../../_site/plombier-serenite
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

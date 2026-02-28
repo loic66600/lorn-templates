@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Devis Gratuit — BatiPro Construction Perpignan" description="Demandez votre devis gratuit pour vos travaux de renovation ou construction a Perpignan et dans les Pyrenees-Orientales.">
+  <Navbar />
+
+  <section class="devis-hero">
+    <div class="container">
+      <span class="section-tag reveal">Devis gratuit</span>
+      <h1 class="reveal reveal-d1">Decrivez votre <span class="gradient-text">projet</span></h1>
+      <p class="reveal reveal-d2">Reponse sous 24h — sans engagement</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <form class="devis-form reveal" id="devis-form">
+        <input type="hidden" name="access_key" value="" />
+        <input type="hidden" name="subject" value="Nouveau devis BatiPro" />
+
+        <div class="f-row">
+          <div class="fg"><label>Nom *</label><input type="text" name="name" placeholder="Votre nom complet" required /></div>
+          <div class="fg"><label>Telephone *</label><input type="tel" name="phone" placeholder="06 00 00 00 00" required /></div>
+        </div>
+        <div class="f-row">
+          <div class="fg"><label>Email *</label><input type="email" name="email" placeholder="votre@email.fr" required /></div>
+          <div class="fg"><label>Ville</label><input type="text" name="city" placeholder="Perpignan, Canet..." /></div>
+        </div>
+        <div class="f-row">
+          <div class="fg"><label>Type de projet</label>
+            <select name="project">
+              <option value="">Selectionnez...</option>
+              <option>Renovation complete</option>
+              <option>Construction neuve</option>
+              <option>Extension / Surelevation</option>
+              <option>Amenagement interieur (cuisine, SdB)</option>
+              <option>Ravalement / Facade</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="fg"><label>Budget approximatif</label>
+            <select name="budget">
+              <option value="">Selectionnez...</option>
+              <option>Moins de 10 000 €</option>
+              <option>10 000 - 30 000 €</option>
+              <option>30 000 - 80 000 €</option>
+              <option>Plus de 80 000 €</option>
+              <option>Je ne sais pas encore</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Description du projet *</label>
+          <textarea name="message" rows="6" placeholder="Decrivez votre projet en detail : surface, type de travaux, contraintes, delais souhaites..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary btn-lg" style="width:100%;justify-content:center;">
+          Envoyer ma demande de devis
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+        <p class="devis-note">Vos donnees sont protegees. Consultez notre <a href="/confidentialite">politique de confidentialite</a>.</p>
+      </form>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .devis-hero{padding:clamp(7rem,12vw,10rem) 0 clamp(2rem,4vw,3rem);text-align:center;}
+  .devis-hero h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;color:var(--dark);margin-top:12px;}
+  .devis-hero p{font-size:16px;color:var(--text-muted);margin-top:8px;}
+  .devis-form{max-width:700px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .fg{margin-bottom:14px;} .fg label{display:block;font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;}
+  .fg input,.fg select,.fg textarea{width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:15px;color:var(--dark);background:var(--bg);transition:border 0.3s;outline:none;resize:vertical;}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--primary);}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:15px 32px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-weight:600;font-size:15px;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(245,158,11,0.25);transition:all 0.3s;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,0.35);}
+  .btn-primary.btn-lg{padding:18px 40px;font-size:16px;}
+  .devis-note{text-align:center;font-size:13px;color:var(--text-muted);margin-top:16px;}
+  .devis-note a{color:var(--primary);text-decoration:underline;}
+  @media(max-width:768px){.f-row{grid-template-columns:1fr;}}
+</style>

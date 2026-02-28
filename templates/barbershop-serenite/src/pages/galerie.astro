@@ -1,0 +1,338 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const allPhotos = [...client.galerie, ...client.galerieBonus];
+const categories = ['Tout', ...Array.from(new Set(allPhotos.map(p => p.categorie)))];
+---
+
+<Layout
+  title={`Galerie — ${client.nom}`}
+  description={`Découvrez les réalisations de ${client.nom} : coupes homme, dégradés, taille de barbe et rasage traditionnel à ${client.ville}.`}
+>
+
+  <!-- ══════ NAVBAR ══════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src={client.logo} alt={client.nom} class="nav-logo-img" onerror="this.style.display='none'" />
+        <span class="nav-name font-display">{client.nom}</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#tarifs">Tarifs</a>
+        <a href="/galerie" class="nav-active">Galerie</a>
+        <a href="/a-propos">L'histoire</a>
+        <a href="/#equipe">L'équipe</a>
+        <a href="/#rdv" class="nav-cta">Prendre RDV</a>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="mobile-menu">
+      <a href="/#tarifs">Tarifs</a>
+      <a href="/galerie">Galerie</a>
+      <a href="/a-propos">L'histoire</a>
+      <a href="/#equipe">L'équipe</a>
+      <a href="/#avis">Avis</a>
+      <a href="/#rdv" class="mob-cta">Prendre rendez-vous</a>
+    </div>
+  </nav>
+
+  <!-- ══════ PAGE HEADER ══════ -->
+  <section class="page-header">
+    <div class="ph-bg"><img src={client.heroImage} alt="" loading="eager" /></div>
+    <div class="ph-overlay"></div>
+    <div class="ph-gold-stripe"></div>
+    <div class="container ph-content">
+      <a href="/" class="back-link reveal">← Retour à l'accueil</a>
+      <span class="sec-label font-display reveal reveal-d1">Portfolio</span>
+      <h1 class="font-display reveal reveal-d2">NOTRE <span class="text-gold">GALERIE</span></h1>
+      <p class="ph-sub reveal reveal-d3">{allPhotos.length} réalisations — coupes, barbes, dégradés &amp; ambiance</p>
+    </div>
+  </section>
+
+  <!-- ══════ GALERIE ══════ -->
+  <section class="section">
+    <div class="container">
+
+      <!-- Filtres catégories -->
+      <div class="filter-bar reveal">
+        {categories.map((cat) => (
+          <button class={`filter-btn font-display ${cat === 'Tout' ? 'active' : ''}`} data-cat={cat}>
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Grille photos -->
+      <div class="gal-grid" id="galGrid">
+        {allPhotos.map((photo, i) => (
+          <div
+            class={`gal-item img-zoom hover-lift reveal ${i > 0 && i < 6 ? `reveal-d${i}` : ''}`}
+            data-cat={photo.categorie}
+          >
+            <img src={photo.image} alt={photo.alt} loading="lazy" />
+            <div class="gal-cap">
+              <span class="gal-cap-cat font-display">{photo.categorie}</span>
+              <span class="gal-cap-alt">{photo.alt}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Counter -->
+      <p class="gal-count reveal" id="galCount">{allPhotos.length} photos</p>
+    </div>
+  </section>
+
+  <!-- ══════ CTA FOOTER ══════ -->
+  <section class="section section-alt cta-band">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <div>
+          <span class="sec-label font-display">Votre tour</span>
+          <h2 class="font-display cta-title">PRÊT POUR UN <span class="text-gold">RÉSULTAT</span> COMME ÇA ?</h2>
+        </div>
+        <a href="/#rdv" class="btn-gold btn-lg">Prendre rendez-vous</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ FOOTER ══════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-logo font-display shimmer">{client.nom}</span>
+          <p class="footer-desc">{client.specialite}. {client.ville}.</p>
+        </div>
+        <div>
+          <h4 class="font-display">NAVIGATION</h4>
+          <a href="/">Accueil</a>
+          <a href="/#tarifs">Tarifs</a>
+          <a href="/galerie">Galerie</a>
+          <a href="/a-propos">L'histoire</a>
+          <a href="/#rdv">Rendez-vous</a>
+        </div>
+        <div>
+          <h4 class="font-display">INFOS</h4>
+          <a href={client.telephoneLink}>{client.telephone}</a>
+          <a href={`mailto:${client.email}`}>{client.email}</a>
+          <span class="footer-addr">{client.adresse}</span>
+          <a href="/mentions-legales">Mentions légales</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 {client.nom}</p>
+        <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="footer-badge">Site par <strong>LORN Digital Studio</strong></a>
+      </div>
+    </div>
+  </footer>
+
+</Layout>
+
+<script>
+  /* ─── Filtres ─── */
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.gal-item');
+  const counter = document.getElementById('galCount');
+
+  function applyFilter(cat: string) {
+    let visible = 0;
+    items.forEach(item => {
+      const match = cat === 'Tout' || item.dataset.cat === cat;
+      item.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    if (counter) counter.textContent = `${visible} photo${visible > 1 ? 's' : ''}`;
+    btns.forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  }
+
+  btns.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.cat || 'Tout')));
+
+  /* ─── Lightbox ─── */
+  const overlay = document.createElement('div');
+  overlay.id = 'lightbox';
+  overlay.innerHTML = `
+    <div class="lb-inner">
+      <button class="lb-close" aria-label="Fermer">✕</button>
+      <button class="lb-prev" aria-label="Précédent">‹</button>
+      <img class="lb-img" src="" alt="" />
+      <div class="lb-info"><span class="lb-cat font-display"></span><span class="lb-alt"></span></div>
+      <button class="lb-next" aria-label="Suivant">›</button>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  let currentIndex = 0;
+  let visibleItems: HTMLElement[] = [];
+
+  function getVisible(): HTMLElement[] {
+    return Array.from(items).filter(el => el.style.display !== 'none');
+  }
+
+  function openLightbox(index: number) {
+    visibleItems = getVisible();
+    currentIndex = index;
+    const item = visibleItems[currentIndex];
+    const img = item.querySelector('img') as HTMLImageElement;
+    const cat = item.dataset.cat || '';
+    const alt = img.alt;
+    (overlay.querySelector('.lb-img') as HTMLImageElement).src = img.src;
+    (overlay.querySelector('.lb-img') as HTMLImageElement).alt = alt;
+    (overlay.querySelector('.lb-cat') as HTMLElement).textContent = cat;
+    (overlay.querySelector('.lb-alt') as HTMLElement).textContent = alt;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function navigate(dir: number) {
+    visibleItems = getVisible();
+    currentIndex = (currentIndex + dir + visibleItems.length) % visibleItems.length;
+    openLightbox(currentIndex);
+  }
+
+  items.forEach((el, i) => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      visibleItems = getVisible();
+      openLightbox(visibleItems.indexOf(el));
+    });
+  });
+
+  overlay.querySelector('.lb-close')!.addEventListener('click', closeLightbox);
+  overlay.querySelector('.lb-prev')!.addEventListener('click', () => navigate(-1));
+  overlay.querySelector('.lb-next')!.addEventListener('click', () => navigate(1));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  /* ─── Navbar scroll ─── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+
+  /* ─── Burger menu ─── */
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  burger?.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileMenu?.classList.toggle('open');
+  });
+
+  /* ─── Reveal on scroll ─── */
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<style>
+  /* ═══ NAVBAR ═══ */
+  .navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:10px clamp(0.75rem,3vw,2rem);transition:padding 0.4s;}
+  .navbar.scrolled{padding-top:5px;padding-bottom:5px;}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:10px 18px;border-radius:14px;background:rgba(10,10,10,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:space-between;gap:8px;transition:all 0.4s;}
+  .navbar.scrolled .nav-inner{padding:7px 14px;}
+  .nav-logo{display:flex;align-items:center;gap:8px;}
+  .nav-logo-img{width:36px;height:36px;border-radius:8px;object-fit:contain;}
+  .nav-name{font-size:18px;color:var(--gold-light);}
+  .nav-links{display:flex;gap:2px;align-items:center;}
+  .nav-links a{font-size:13px;font-weight:500;color:var(--text-muted);padding:7px 12px;border-radius:8px;transition:all 0.3s;white-space:nowrap;}
+  .nav-links a:hover,.nav-active{color:var(--gold-light)!important;}
+  .nav-cta{padding:8px 18px!important;border-radius:10px!important;background:var(--gold)!important;color:#000!important;font-weight:700!important;font-size:12px!important;transition:all 0.3s!important;}
+  .nav-cta:hover{background:var(--gold-light)!important;transform:translateY(-1px);}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px;}
+  .burger span{width:20px;height:2px;background:var(--gold-light);border-radius:2px;display:block;transition:all 0.3s;}
+  .burger.open span:nth-child(1){transform:rotate(45deg) translateY(7px);} .burger.open span:nth-child(2){opacity:0;} .burger.open span:nth-child(3){transform:rotate(-45deg) translateY(-7px);}
+  .nav-mobile{display:none;max-width:1100px;margin:6px auto 0;padding:12px;border-radius:14px;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);border:1px solid var(--border);flex-direction:column;gap:2px;}
+  .nav-mobile.open{display:flex;}
+  .nav-mobile a{padding:12px 14px;border-radius:10px;font-size:15px;color:var(--text);font-weight:500;}
+  .mob-cta{margin-top:6px;padding:13px!important;border-radius:10px;background:var(--gold);color:#000!important;text-align:center;font-weight:700!important;}
+  @media(max-width:768px){.nav-links{display:none!important;}.burger{display:flex!important;}}
+
+  /* ═══ PAGE HEADER ═══ */
+  .page-header{position:relative;min-height:55vh;display:flex;align-items:flex-end;padding:clamp(8rem,14vw,10rem) 0 clamp(3rem,6vw,4rem);overflow:hidden;}
+  .ph-bg{position:absolute;inset:0;} .ph-bg img{width:100%;height:100%;object-fit:cover;object-position:center 60%;}
+  .ph-content{width:100%;}
+  .ph-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0.85) 0%,rgba(10,10,10,0.75) 60%,rgba(10,10,10,0.95) 100%);}
+  .ph-gold-stripe{position:absolute;top:0;left:0;bottom:0;width:4px;background:linear-gradient(180deg,transparent,var(--gold-light),var(--gold),transparent);}
+  .ph-content{position:relative;z-index:2;}
+  .back-link{display:inline-block;font-size:13px;color:var(--gold-light);margin-bottom:20px;font-weight:500;transition:opacity 0.3s;}
+  .back-link:hover{opacity:0.75;}
+  .ph-content h1{font-size:clamp(2.5rem,8vw,5rem);color:var(--white);line-height:1;margin:6px 0 12px;}
+  .ph-sub{font-size:15px;color:var(--text-muted);}
+
+  /* ═══ FILTER BAR ═══ */
+  .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
+  .filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:12px;letter-spacing:0.12em;cursor:pointer;transition:all 0.3s;font-family:'Bebas Neue',sans-serif;line-height:1;}
+  .filter-btn:hover{border-color:var(--gold);color:var(--gold-light);}
+  .filter-btn.active{background:var(--gold);border-color:var(--gold);color:#000;}
+
+  /* ═══ GALLERY GRID ═══ */
+  .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .gal-item{border-radius:14px;overflow:hidden;position:relative;background:var(--bg-card);}
+  .gal-item img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;}
+  .gal-cap{position:absolute;bottom:0;left:0;right:0;padding:16px 14px 14px;background:linear-gradient(transparent,rgba(0,0,0,0.75));opacity:0;transition:opacity 0.3s;}
+  .gal-item:hover .gal-cap, .gal-item:focus-within .gal-cap{opacity:1;}
+  .gal-cap-cat{display:block;font-size:11px;color:var(--gold-light);letter-spacing:0.12em;margin-bottom:3px;}
+  .gal-cap-alt{font-size:13px;color:rgba(255,255,255,0.85);}
+
+  .gal-count{text-align:center;font-size:13px;color:var(--text-light);margin-top:28px;}
+
+  /* ═══ CTA BAND ═══ */
+  .cta-band .container{padding-top:0;padding-bottom:0;}
+  .cta-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+  .cta-title{font-size:clamp(1.6rem,4vw,2.8rem);color:var(--white);line-height:1;}
+
+  /* ═══ BUTTONS ═══ */
+  .btn-gold{display:inline-flex;align-items:center;gap:8px;padding:15px 32px;border-radius:12px;background:var(--gold);color:#000;font-family:'Barlow',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 2px 16px var(--gold-glow);}
+  .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 6px 32px rgba(184,134,11,0.25);}
+  .btn-lg{padding:18px 40px;font-size:16px;}
+
+  /* ═══ SECTION / SHARED ═══ */
+  .sec-label{display:block;font-size:13px;color:var(--gold);letter-spacing:0.15em;margin-bottom:6px;}
+  .text-gold{color:var(--gold-light);}
+
+  /* ═══ FOOTER ═══ */
+  .footer{padding:clamp(3rem,6vw,4rem) 0 2rem;border-top:1px solid var(--border);}
+  .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+  .footer-logo{display:block;font-size:24px;margin-bottom:8px;color:var(--gold-light);}
+  .footer-desc{font-size:14px;line-height:1.6;color:var(--text-muted);max-width:260px;}
+  .footer-grid h4{font-size:16px;color:var(--gold-light);margin-bottom:12px;letter-spacing:0.1em;}
+  .footer-grid a{display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px;transition:color 0.2s;} .footer-grid a:hover{color:var(--gold-light);}
+  .footer-addr{display:block;font-size:12px;color:var(--text-light);margin-top:6px;}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:16px;font-size:12px;color:var(--text-light);}
+  .footer-badge{padding:4px 10px;border-radius:6px;border:1px solid var(--border);font-size:11px;color:var(--text-muted);transition:all 0.3s;}
+  .footer-badge strong{color:var(--text);} .footer-badge:hover{border-color:var(--gold);} .footer-badge:hover strong{color:var(--gold-light);}
+
+  /* ═══ LIGHTBOX ═══ */
+  #lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.93);display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+  #lightbox.open{display:flex;}
+  .lb-inner{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .lb-img{max-width:90vw;max-height:78vh;border-radius:12px;object-fit:contain;}
+  .lb-info{text-align:center;}
+  .lb-cat{font-size:12px;color:var(--gold-light);letter-spacing:0.15em;display:block;margin-bottom:4px;}
+  .lb-alt{font-size:15px;color:var(--text);}
+  .lb-close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;}
+  .lb-close:hover{background:rgba(255,255,255,0.2);}
+  .lb-prev,.lb-next{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:32px;width:50px;height:50px;border-radius:50%;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;line-height:1;}
+  .lb-prev{left:20px;} .lb-next{right:20px;}
+  .lb-prev:hover,.lb-next:hover{background:rgba(184,134,11,0.2);border-color:var(--gold);}
+
+  /* ═══ RESPONSIVE ═══ */
+  @media(max-width:1024px){.gal-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:768px){
+    .gal-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr;}
+    .footer-bottom{flex-direction:column;gap:8px;}
+    .cta-inner{flex-direction:column;text-align:center;}
+    .lb-prev{left:8px;} .lb-next{right:8px;}
+  }
+  @media(max-width:480px){.gal-grid{grid-template-columns:repeat(2,1fr);gap:8px;}}
+</style>

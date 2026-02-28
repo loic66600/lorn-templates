@@ -1,0 +1,55 @@
+---
+// ══════════════════════════════════════════════════════════════
+// PAGE — À PROPOS
+// DÉSACTIVABLE : mv src/pages/a-propos.astro src/pages-off/a-propos.astro
+// ══════════════════════════════════════════════════════════════
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const a = client.apropos;
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+const socialIcons: Record<string,string> = {
+  facebook:'<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
+  instagram:'<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+};
+---
+<Layout title={`À propos — ${client.nom}`}>
+  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href="/" class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
+  <section class="section">
+    <div class="container about-grid">
+      <div class="about-text reveal">
+        <span class="sec-pill">{a.sousTitre}</span>
+        <h1 class="font-head" style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--navy);line-height:1.12;margin:12px 0 20px;">{a.titre}</h1>
+        <p>{a.paragraphe1}</p>
+        <p>{a.paragraphe2}</p>
+        <div class="certif-row" style="margin-top:20px;">{a.certifications.map(c => <span class="certif-badge">{c}</span>)}</div>
+        {socials.length > 0 && <div class="social-links" style="margin-top:16px;">{socials.map(([k,v]) => <a href={v} target="_blank" rel="noopener" class="social-link" title={k} set:html={socialIcons[k] || k} />)}</div>}
+      </div>
+      <div class="about-img clip-reveal"><img src={a.image} alt={a.imageAlt} loading="eager" /></div>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:40px;"><span class="sec-pill reveal">Nos valeurs</span><h2 class="sec-title font-head reveal reveal-d1" style="margin-top:10px;">Ce qui nous <span class="text-teal">anime</span></h2></div>
+      <div class="val-grid">{a.valeurs.map((v,i) => <div class={`val-card hover-lift reveal ${i>0?`reveal-d${i}`:''}`}><span class="val-icon">{v.icone}</span><h3 class="font-head">{v.titre}</h3><p>{v.description}</p></div>)}</div>
+      <div style="text-align:center;margin-top:48px;" class="reveal"><a href="/#devis" class="btn-teal btn-lg">Demander un devis gratuit →</a></div>
+    </div>
+  </section>
+</Layout>
+<style>
+  .page-top{padding:100px 0 0;} .back-link{color:var(--teal);font-size:14px;font-weight:500;}
+  .sec-pill{display:inline-block;padding:5px 14px;border-radius:100px;background:var(--teal-glow);border:1px solid var(--border-teal);font-size:12px;font-weight:600;color:var(--teal);}
+  .sec-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--navy);line-height:1.12;}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .about-text p{font-size:15px;color:var(--text-muted);line-height:1.9;margin-bottom:12px;}
+  .about-img{border-radius:24px;overflow:hidden;box-shadow:0 16px 48px rgba(12,35,64,0.06);} .about-img img{width:100%;aspect-ratio:4/3;object-fit:cover;}
+  .certif-row{display:flex;flex-wrap:wrap;gap:6px;}
+  .certif-badge{padding:6px 14px;border-radius:8px;background:var(--teal-glow);border:1px solid var(--border-teal);font-size:12px;font-weight:600;color:var(--teal);}
+  .val-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .val-card{padding:24px;border-radius:16px;background:var(--bg-card);border:1px solid var(--border);text-align:center;transition:transform 0.4s,box-shadow 0.4s;}
+  .val-icon{font-size:32px;display:block;margin-bottom:10px;}
+  .val-card h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .val-card p{font-size:13px;color:var(--text-muted);line-height:1.6;}
+  .btn-teal{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;background:var(--teal);color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all 0.3s;} .btn-teal:hover{background:var(--teal-dark);transform:translateY(-2px);} .btn-lg{padding:16px 36px;font-size:16px;}
+  @media(max-width:768px){.about-grid{grid-template-columns:1fr;gap:28px;}.val-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.val-grid{grid-template-columns:1fr;}}
+</style>

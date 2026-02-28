@@ -1,0 +1,68 @@
+---
+interface Props { title: string; description?: string; }
+const { title, description = "Entreprise de batiment a Perpignan — Renovation, construction, tous corps de metier. Devis gratuit." } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#F59E0B" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <slot />
+  <script src="../scripts/anim.ts"></script>
+  <style is:global>
+    @import '../styles/animations.css';
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', sans-serif; background: #FAFBFD; color: #1A1F36;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    ::selection { background: rgba(245,158,11,0.15); }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+    .section { padding: clamp(4rem, 8vw, 7rem) 0; }
+
+    :root {
+      --primary: #F59E0B;
+      --primary-dark: #D97706;
+      --primary-light: #FDE68A;
+      --dark: #1A1F36;
+      --text: #3D4663;
+      --text-muted: #6B7394;
+      --bg: #FAFBFD;
+      --bg-alt: #F1F3F8;
+      --card: #FFFFFF;
+      --border: #E2E6EE;
+    }
+    html, body { overflow-x: hidden; }
+
+    .section-tag {
+      display: inline-block; font-size: 13px; font-weight: 600;
+      color: var(--primary-dark); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; color: var(--dark); letter-spacing: -0.03em;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-sub {
+      font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 600px;
+    }
+  </style>
+</body>
+</html>
