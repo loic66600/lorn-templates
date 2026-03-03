@@ -328,6 +328,14 @@ jobs:
           </html>
           HTMLEOF
 
+      - name: Build batiment-serenite
+        run: |
+          cd templates/batiment-serenite
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/batiment-serenite
+          mkdir -p ../../_site/batiment-serenite
+          cp -r dist/. ../../_site/batiment-serenite
+
       - name: Build fastfood-serenite
         run: |
           cd templates/fastfood-serenite

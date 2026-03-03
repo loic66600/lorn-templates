@@ -1,0 +1,22 @@
+{
+  "id": "batiment-serenite",
+  "nom": "Maçon Rénovation & Construction — Sérénité",
+  "metier": "batiment",
+  "categorie": "batiment",
+  "formule": "serenite",
+  "pages": 2,
+  "pagesListe": ["index", "mentions-legales"],
+  "palette": {
+    "primary": "#D97706",
+    "accent": "#B45309",
+    "bg": "#FAFAF9",
+    "theme": "clair"
+  },
+  "polices": ["Syne", "Outfit"],
+  "tags": ["maçon", "maçonnerie", "rénovation", "construction", "extension", "terrasse"],
+  "port": 4006,
+  "preview": "",
+  "screenshot": "",
+  "version": "1.0.0",
+  "date": "2026-03-03"
+}
