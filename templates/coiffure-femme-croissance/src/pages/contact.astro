@@ -1,0 +1,281 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+---
+<Layout
+  title={`Contact & Réservation — ${client.nom}`}
+  description={`Contactez ${client.nom} à Perpignan pour prendre rendez-vous. Réservation en ligne, téléphone ou Instagram. ${client.horairesResume}.`}
+>
+
+<nav class="navbar solid" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark">✂</div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">{client.nom}</span>
+        <span class="nav-logo-sub">Coiffure femme · Perpignan</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li><li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/a-propos">À Propos</a></li>
+      <li><a href="/contact" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+      <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-rose">Réserver</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href={client.reservationUrl} target="_blank" class="mob-cta">Réserver en ligne →</a>
+  </div>
+</nav>
+
+<div class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Contact</span></nav>
+    <div class="eyebrow eyebrow-white">Rendez-vous & infos</div>
+    <h1 class="ph-title">Prenez soin<br><em>de vous</em></h1>
+    <p class="ph-sub">Réservez en ligne 24h/24 ou contactez-nous directement — nous vous répondons vite.</p>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap contact-layout">
+
+    <!-- Colonne infos -->
+    <div class="c-info silk">
+
+      <!-- Réservation en ligne — mise en avant -->
+      <a href={client.reservationUrl} target="_blank" rel="noopener" class="resa-featured">
+        <span class="rf-icon">📅</span>
+        <div>
+          <strong class="serif">Réservation en ligne</strong>
+          <p>Disponible 24h/24 · confirmation SMS immédiate</p>
+        </div>
+        <span class="rf-arrow">→</span>
+      </a>
+
+      <!-- Coordonnées -->
+      <div class="info-bloc">
+        <h3 class="serif ib-h">Nous trouver</h3>
+        <div class="info-list">
+          <div class="il-row"><span>📞</span><div><small>Téléphone</small><a href={client.telephoneLink}>{client.telephone}</a></div></div>
+          <div class="il-row"><span>✉️</span><div><small>Email</small><a href={`mailto:${client.email}`}>{client.email}</a></div></div>
+          <div class="il-row"><span>📍</span><div><small>Adresse</small><span>{client.adresse}</span></div></div>
+        </div>
+      </div>
+
+      <!-- Horaires -->
+      <div class="info-bloc">
+        <h3 class="serif ib-h">Horaires</h3>
+        <div class="horaires-list">
+          {client.horaires.map(h => (
+            <div class="hr-row">
+              <span class="serif hr-j">{h.jour}</span>
+              <span class={`hr-v ${h.horaire === 'Fermé' ? 'ferme' : ''}`}>{h.horaire}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Réseaux -->
+      {Object.entries(client.reseaux).filter(([_,v]) => v).length > 0 && (
+        <div class="info-bloc">
+          <h3 class="serif ib-h">Retrouvez-nous</h3>
+          <p style="font-size:.84rem;color:var(--text-muted);font-weight:300;margin-bottom:12px">
+            Suivez nos créations et inspirations du moment.
+          </p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            {client.reseaux.instagram && <a href={client.reseaux.instagram} target="_blank" rel="noopener" class="rs-btn">📸 Instagram</a>}
+            {client.reseaux.facebook && <a href={client.reseaux.facebook} target="_blank" rel="noopener" class="rs-btn">Facebook</a>}
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Formulaire -->
+    <div class="c-form silk d2">
+      <div class="form-card" id="contactForm">
+        <h2 class="serif form-title">Une question ?<br><em style="font-style:italic">Écrivez-nous</em></h2>
+        <p class="form-sub">Pour les prises de RDV, la réservation en ligne est plus rapide. Ce formulaire est idéal pour les questions sur les prestations, les tarifs, les mariages…</p>
+
+        <div class="fields">
+          <div class="frow">
+            <div class="fg"><label for="fNom">Prénom & Nom *</label><input type="text" id="fNom" placeholder="Sophie Martin" required /></div>
+            <div class="fg"><label for="fTel">Téléphone *</label><input type="tel" id="fTel" placeholder="06 00 00 00 00" required /></div>
+          </div>
+          <div class="fg"><label for="fEmail">Email</label><input type="email" id="fEmail" placeholder="sophie@exemple.fr" /></div>
+          <div class="fg">
+            <label for="fPresta">Prestation souhaitée</label>
+            <select id="fPresta">
+              <option value="">Choisir…</option>
+              {client.services.map(s => <option value={s.titre}>{s.icone} {s.titre}</option>)}
+              <option value="Renseignement tarif">Renseignement tarif</option>
+              <option value="Coiffure mariage">💍 Coiffure mariage / événement</option>
+              <option value="Autre">Autre question</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="fMsg">Votre message</label>
+            <textarea id="fMsg" rows="4" placeholder="Décrivez votre demande, la longueur de vos cheveux, une date souhaitée…"></textarea>
+          </div>
+          <button type="button" class="btn btn-velvet btn-lg f-submit" id="submitBtn" style="width:100%;justify-content:center">
+            Envoyer mon message →
+          </button>
+        </div>
+      </div>
+
+      <!-- Succès -->
+      <div class="form-ok" id="formOk" style="display:none">
+        <div class="ok-icon">🌸</div>
+        <h3 class="serif">Message reçu !</h3>
+        <p>Nous vous répondons dans les plus brefs délais.</p>
+        <p style="margin-top:8px;font-size:.86rem;color:var(--text-muted)">
+          Pour réserver : <a href={client.reservationUrl} target="_blank" rel="noopener" style="color:var(--rose)">réservation en ligne →</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CARTE -->
+{client.googleMapsEmbed && (
+  <div class="map-wrap">
+    <iframe
+      src={client.googleMapsEmbed}
+      width="100%" height="360"
+      style="border:0" allowfullscreen
+      loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title={`Plan — ${client.nom}`}
+    />
+  </div>
+)}
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-bottom" style="border-top:none;padding-top:0">
+      <p>© {new Date().getFullYear()} {client.nom} — <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+    </div>
+  </div>
+</footer>
+</Layout>
+
+<script define:vars={{ web3Key, emailClient: client.email }}>
+  const btn = document.getElementById('submitBtn');
+  const fc  = document.getElementById('contactForm');
+  const ok  = document.getElementById('formOk');
+
+  btn?.addEventListener('click', async () => {
+    const nom    = document.getElementById('fNom')?.value || '';
+    const tel    = document.getElementById('fTel')?.value || '';
+    const email  = document.getElementById('fEmail')?.value || '';
+    const presta = document.getElementById('fPresta')?.value || '';
+    const msg    = document.getElementById('fMsg')?.value || '';
+
+    if (!nom || !tel) { alert('Merci de renseigner votre nom et téléphone.'); return; }
+    btn.disabled = true; btn.textContent = 'Envoi…';
+
+    if (web3Key) {
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: web3Key,
+            subject: `Message ${client.nom} — ${presta || 'Renseignement'} — ${nom}`,
+            from_name: nom, telephone: tel, email, prestation: presta, message: msg,
+          }),
+        });
+        const d = await r.json();
+        if (d.success && fc && ok) { fc.style.display = 'none'; ok.style.display = 'flex'; return; }
+      } catch(e) {}
+    }
+    window.location.href = 'mailto:' + emailClient
+      + '?subject=' + encodeURIComponent('Message salon — ' + (presta || 'Renseignement'))
+      + '&body=' + encodeURIComponent('Nom : ' + nom + '\nTél : ' + tel + '\nEmail : ' + email + '\nPrestation : ' + presta + '\n\n' + msg);
+  });
+</script>
+
+<style>
+.contact-layout { display: grid; grid-template-columns: 360px 1fr; gap: 56px; align-items: start; }
+
+.resa-featured {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--rose-pale); border: 1.5px solid var(--rose);
+  border-radius: var(--r-md); padding: 18px 20px;
+  margin-bottom: 16px; transition: all .3s;
+}
+.resa-featured:hover { background: var(--rose); color: var(--velvet); }
+.rf-icon { font-size: 1.6rem; flex-shrink: 0; }
+.resa-featured strong { display: block; font-family: var(--font-serif); font-size: 1rem; font-weight: 600; margin-bottom: 3px; }
+.resa-featured p { font-size: .82rem; color: var(--text-muted); font-weight: 300; }
+.rf-arrow { margin-left: auto; font-size: 1.1rem; color: var(--rose); flex-shrink: 0; transition: transform .3s; }
+.resa-featured:hover .rf-arrow { transform: translateX(4px); }
+
+.info-bloc { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px; margin-bottom: 14px; }
+.ib-h { font-size: .75rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+.info-list { display: flex; flex-direction: column; gap: 12px; }
+.il-row { display: flex; align-items: flex-start; gap: 10px; }
+.il-row span:first-child { font-size: .95rem; margin-top: 2px; flex-shrink: 0; }
+.il-row small { display: block; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 2px; }
+.il-row a, .il-row span:last-child { font-size: .87rem; font-weight: 400; color: var(--text); }
+.il-row a:hover { color: var(--rose); }
+.horaires-list { display: flex; flex-direction: column; gap: 0; }
+.hr-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: .84rem; }
+.hr-row:last-child { border-bottom: none; }
+.hr-j { font-weight: 500; }
+.hr-v { color: var(--text-muted); }
+.hr-v.ferme { color: var(--text-soft); font-style: italic; }
+.rs-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--r-pill);
+  background: var(--bg-alt); border: 1px solid var(--border-warm);
+  font-size: 12.5px; color: var(--text-muted); transition: all .3s;
+}
+.rs-btn:hover { background: var(--rose-pale); border-color: var(--rose); color: var(--velvet); }
+
+.form-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md); padding: 36px; }
+.form-title { font-size: 1.75rem; font-weight: 600; line-height: 1.2; margin-bottom: 8px; }
+.form-sub { font-size: .84rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; margin-bottom: 28px; }
+.fields { display: flex; flex-direction: column; gap: 14px; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fg label { font-size: 11.5px; font-weight: 500; color: var(--text); letter-spacing: .04em; }
+.fg input, .fg select, .fg textarea {
+  padding: 11px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--r); font-family: var(--font-body); font-size: .87rem;
+  color: var(--text); background: var(--bg); transition: border-color .3s;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { outline: none; border-color: var(--rose); }
+.fg textarea { resize: vertical; min-height: 110px; }
+
+.form-ok {
+  background: var(--bg-card); border: 1px solid var(--border-warm);
+  border-radius: var(--r-md); padding: 56px 36px;
+  flex-direction: column; align-items: center; text-align: center; gap: 12px;
+}
+.ok-icon { font-size: 3rem; }
+.form-ok h3 { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 600; }
+.form-ok p { color: var(--text-muted); font-weight: 300; line-height: 1.7; }
+
+.map-wrap { height: 360px; }
+.map-wrap iframe { display: block; }
+
+@media (max-width: 1024px) {
+  .contact-layout { grid-template-columns: 1fr; }
+  .c-info { order: 2; }
+  .c-form { order: 1; }
+}
+@media (max-width: 640px) {
+  .frow { grid-template-columns: 1fr; }
+  .form-card { padding: 22px; }
+}
+</style>

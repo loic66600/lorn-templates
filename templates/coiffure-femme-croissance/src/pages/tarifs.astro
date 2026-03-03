@@ -1,0 +1,257 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`Tarifs — ${client.nom}`}
+  description={`Tarifs coiffure femme Perpignan — coupes, colorations, balayage, soins, chignons. ${client.nom}. Devis personnalisé sur rendez-vous.`}
+>
+
+<nav class="navbar solid" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark">✂</div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">{client.nom}</span>
+        <span class="nav-logo-sub">Coiffure femme · Perpignan</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li>
+      <li><a href="/tarifs" class="active">Tarifs</a></li>
+      <li><a href="/a-propos">À Propos</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+      <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-rose">Réserver</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href={client.reservationUrl} target="_blank" class="mob-cta">Réserver en ligne →</a>
+  </div>
+</nav>
+
+<div class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+    <div class="eyebrow eyebrow-white">Grille tarifaire</div>
+    <h1 class="ph-title">Des prix<br><em>clairs & honnêtes</em></h1>
+    <p class="ph-sub">Tarifs indicatifs TTC. Chaque prestation est évaluée lors du diagnostic en début de rendez-vous.</p>
+  </div>
+</div>
+
+<!-- GRILLE TARIFS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="tarifs-grid">
+      {client.tarifs.map((cat, i) => (
+        <div class={`tarif-bloc lift silk d${i + 1}`}>
+          <div class="tb-header">
+            <span class="tb-num serif">0{i + 1}</span>
+            <h2 class="serif tb-cat">{cat.categorie}</h2>
+          </div>
+          <div class="tb-items">
+            {cat.items.map(item => (
+              <div class="tb-row">
+                <div class="tb-left">
+                  <strong>{item.nom}</strong>
+                  {item.detail && <small>{item.detail}</small>}
+                </div>
+                <span class="tb-prix serif">{item.prix}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Note -->
+    <div class="tarif-note silk">
+      <span class="tn-icon">💬</span>
+      <div>
+        <strong>Ces tarifs sont indicatifs</strong>
+        <p>Le prix exact est fixé lors du diagnostic en début de prestation, selon la longueur, la densité et la technique choisie. Aucune surprise — le devis est confirmé avant de commencer.</p>
+        <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-velvet" style="margin-top:14px;display:inline-flex">
+          Prendre rendez-vous →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFOS PRATIQUES -->
+<section class="sec-rose">
+  <div class="wrap infos-grid">
+
+    <!-- Horaires -->
+    <div class="info-card silk">
+      <h3 class="serif info-h">🕐 Horaires d'ouverture</h3>
+      <div class="horaires">
+        {client.horaires.map(h => (
+          <div class="h-row">
+            <span class="serif h-j">{h.jour}</span>
+            <span class={`h-v ${h.horaire === 'Fermé' ? 'ferme' : ''}`}>{h.horaire}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Conseils -->
+    <div class="info-card silk d2">
+      <h3 class="serif info-h">✨ Conseils avant votre visite</h3>
+      <div class="conseils">
+        {[
+          { icon: "💆", txt: "Venez détendues — le lavage est inclus dans toutes les prestations." },
+          { icon: "📸", txt: "Apportez des photos de référence — elles guident le diagnostic." },
+          { icon: "⏰", txt: "Prévoyez du temps : un balayage complet peut prendre jusqu'à 4h." },
+          { icon: "📱", txt: "Confirmez votre RDV 24h avant — merci pour votre salon préféré !" },
+          { icon: "👶", txt: "Enfants bienvenus dès 4 ans pour les coupes enfant." },
+        ].map(c => (
+          <div class="conseil-row">
+            <span>{c.icon}</span>
+            <p>{c.txt}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Réservation -->
+    <div class="info-card info-resa silk d3">
+      <h3 class="serif info-h">📅 Comment réserver ?</h3>
+      <div class="resa-options">
+        <a href={client.reservationUrl} target="_blank" rel="noopener" class="resa-opt featured">
+          <span class="ro-icon">🌐</span>
+          <div>
+            <strong>En ligne 24h/24</strong>
+            <p>Via Planity — rapide et confirmé par SMS</p>
+          </div>
+          <span class="ro-arrow">→</span>
+        </a>
+        <a href={client.telephoneLink} class="resa-opt">
+          <span class="ro-icon">📞</span>
+          <div>
+            <strong>Par téléphone</strong>
+            <p>{client.telephone}</p>
+          </div>
+          <span class="ro-arrow">→</span>
+        </a>
+        <a href={client.reseaux.instagram || '#'} target="_blank" rel="noopener" class="resa-opt">
+          <span class="ro-icon">📸</span>
+          <div>
+            <strong>Par Instagram</strong>
+            <p>Message privé — réponse rapide</p>
+          </div>
+          <span class="ro-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec-dark">
+  <div class="wrap cta-dk">
+    <div class="silk">
+      <h2 class="h2 h2-white serif">Votre rendez-vous en quelques clics</h2>
+      <p style="color:rgba(255,255,255,.4);margin-top:10px;font-weight:300">Diagnostic offert · produits professionnels · satisfaction garantie</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap" class="silk d2">
+      <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-rose btn-lg">Réserver en ligne →</a>
+      <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-bottom" style="border-top:none;padding-top:0">
+      <p>© {new Date().getFullYear()} {client.nom} — <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+    </div>
+  </div>
+</footer>
+</Layout>
+
+<style>
+.tarifs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 1.5rem; }
+.tarif-bloc {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-md); overflow: hidden;
+}
+.tb-header {
+  padding: 20px 26px; background: var(--velvet);
+  display: flex; align-items: center; gap: 14px;
+}
+.tb-num { font-size: 2rem; font-weight: 600; color: rgba(212,165,165,.25); line-height: 1; }
+.tb-cat { font-size: 1rem; font-weight: 600; color: #fff; }
+.tb-items { padding: 4px 0; }
+.tb-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 13px 24px; gap: 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background .25s;
+}
+.tb-row:last-child { border-bottom: none; }
+.tb-row:hover { background: var(--rose-pale); }
+.tb-left { flex: 1; }
+.tb-left strong { display: block; font-size: .88rem; font-weight: 500; margin-bottom: 2px; }
+.tb-left small { font-size: 11px; color: var(--text-muted); }
+.tb-prix { font-size: .88rem; font-weight: 600; color: var(--velvet); white-space: nowrap; font-style: italic; }
+
+.tarif-note {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--rose-pale); border: 1px solid var(--border-warm);
+  border-left: 3px solid var(--rose);
+  border-radius: var(--r); padding: 22px 26px;
+}
+.tn-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+.tarif-note strong { display: block; font-family: var(--font-serif); font-size: 1rem; margin-bottom: 6px; }
+.tarif-note p { font-size: .86rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+
+.infos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.info-card {
+  background: var(--bg-card); border: 1px solid var(--border-warm);
+  border-radius: var(--r-md); padding: 28px;
+}
+.info-h { font-size: .85rem; font-weight: 600; letter-spacing: .04em; margin-bottom: 20px; color: var(--velvet); }
+.horaires { display: flex; flex-direction: column; gap: 0; }
+.h-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 0; border-bottom: 1px solid var(--border); font-size: .86rem;
+}
+.h-row:last-child { border-bottom: none; }
+.h-j { font-weight: 500; font-family: var(--font-serif); }
+.h-v { color: var(--text-muted); }
+.h-v.ferme { color: var(--text-soft); }
+
+.conseils { display: flex; flex-direction: column; gap: 14px; }
+.conseil-row { display: flex; align-items: flex-start; gap: 12px; font-size: .85rem; color: var(--text-muted); font-weight: 300; line-height: 1.6; }
+.conseil-row span { flex-shrink: 0; margin-top: 1px; }
+
+.resa-options { display: flex; flex-direction: column; gap: 8px; }
+.resa-opt {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; border-radius: var(--r);
+  border: 1px solid var(--border); transition: all .3s; background: var(--bg);
+}
+.resa-opt:hover { border-color: var(--rose); background: var(--rose-pale); }
+.resa-opt.featured { background: var(--rose-pale); border-color: var(--border-warm); }
+.ro-icon { font-size: 1.3rem; flex-shrink: 0; }
+.resa-opt strong { display: block; font-size: .88rem; font-weight: 500; margin-bottom: 2px; }
+.resa-opt p { font-size: 12px; color: var(--text-muted); font-weight: 300; }
+.ro-arrow { margin-left: auto; color: var(--text-soft); transition: transform .3s, color .3s; flex-shrink: 0; }
+.resa-opt:hover .ro-arrow { color: var(--rose); transform: translateX(4px); }
+
+.cta-dk { display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
+
+@media (max-width: 1024px) {
+  .tarifs-grid { grid-template-columns: 1fr; }
+  .infos-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) { .cta-dk { flex-direction: column; } }
+</style>

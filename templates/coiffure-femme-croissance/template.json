@@ -1,0 +1,22 @@
+{
+  "id": "coiffure-femme-croissance",
+  "nom": "Salon de Coiffure Femme — Croissance",
+  "metier": "coiffure",
+  "categorie": "beaute",
+  "formule": "croissance",
+  "pages": 7,
+  "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+  "palette": {
+    "primary": "#2C1A1A",
+    "accent": "#D4A5A5",
+    "bg": "#FAF7F5",
+    "theme": "clair"
+  },
+  "polices": ["Cormorant Garamond", "DM Sans"],
+  "tags": ["coiffure femme", "salon coiffure", "coiffeur Perpignan", "coloration", "balayage", "soin cheveux"],
+  "port": 4026,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-03-02"
+}

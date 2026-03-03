@@ -1,0 +1,578 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+
+const socialIcons: Record<string,string> = {
+  facebook: '<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
+  instagram:'<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  linkedin: '<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+};
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+const featuredServices = client.services.filter(s => s.featured);
+const extraServices    = client.services.filter(s => !s.featured);
+---
+
+<Layout>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar transparent-init" id="navbar">
+    <div class="nav-wrap">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-mark wh">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/>
+            <rect x="2" y="13" width="16" height="5"/>
+          </svg>
+        </div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name wh">{client.nom}</span>
+          <span class="nav-logo-sub wh">Menuisier · Perpignan</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="active wh">Accueil</a></li>
+        <li><a href="/services" class="wh">Services</a></li>
+        <li><a href="/realisations" class="wh">Réalisations</a></li>
+        <li><a href="/tarifs" class="wh">Tarifs</a></li>
+        <li><a href="/a-propos" class="wh">À Propos</a></li>
+        <li><a href="/contact" class="wh">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel wh">{client.telephone}</a>
+        <a href="/contact" class="btn btn-gold">Devis gratuit</a>
+      </div>
+      <button class="burger wh" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mob-menu" id="mob-menu">
+      <a href="/">Accueil</a><a href="/services">Services</a>
+      <a href="/realisations">Réalisations</a><a href="/tarifs">Tarifs</a>
+      <a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+      <a href="/contact" class="mob-cta">Devis gratuit →</a>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src={client.heroImage} alt={client.heroImageAlt} loading="eager" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="wrap hero-content">
+      <p class="hero-overline">
+        <span class="ho-line"></span>
+        {client.slogan}
+      </p>
+      <h1 class="display hero-h1">
+        La précision<br>
+        au service<br>
+        de votre habitat.
+      </h1>
+      <span class="gold-rule"></span>
+      <p class="hero-sub">
+        Fabricant et poseur de fenêtres, portes et volets sur mesure
+        dans les Pyrénées-Orientales depuis 1998. Artisan RGE Qualibat.
+      </p>
+      <div class="hero-btns">
+        <a href="/contact" class="btn btn-gold btn-lg">Devis gratuit</a>
+        <a href="/realisations" class="btn btn-outline-white btn-lg">Nos réalisations</a>
+      </div>
+    </div>
+    <!-- Stats bande bas -->
+    <div class="hero-stats">
+      {client.stats.map(s => (
+        <div class="hs-item">
+          <strong class="display hs-num">
+            <span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span>
+          </strong>
+          <span class="hs-lbl">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══ MATÉRIAUX ═══ -->
+  <section class="sec-alt">
+    <div class="wrap">
+      <div class="sc">
+        <div class="eyebrow">Matériaux</div>
+        <h2 class="h2 display">PVC · Aluminium · Bois</h2>
+        <p class="lead" style="margin-top:.75rem">Nous maîtrisons les trois matériaux — chaque projet reçoit le produit adapté à ses contraintes techniques, esthétiques et budgétaires.</p>
+      </div>
+      <div class="mat-grid">
+        {client.materiaux.map((m, i) => (
+          <article class="mat-card">
+            <div class="mat-num display">{String(i+1).padStart(2,'0')}</div>
+            <h3 class="display mat-name">{m.nom}</h3>
+            <span class="gold-rule"></span>
+            <p class="mat-desc">{m.description}</p>
+            <ul class="mat-avantages">
+              {m.avantages.map(a => (
+                <li><span class="ma-bullet">—</span>{a}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="svc-header">
+        <div class="sc">
+          <div class="eyebrow">Nos prestations</div>
+          <h2 class="h2 display">Fenêtres, portes<br>& fermetures</h2>
+        </div>
+        <a href="/services" class="btn btn-outline">Toutes nos prestations →</a>
+      </div>
+
+      <div class="svc-grid">
+        {featuredServices.map((s, i) => (
+          <article class="svc-card">
+            <div class="svc-img">
+              <img src={s.image} alt={s.titre} loading="lazy" />
+              <div class="svc-num display">{String(i+1).padStart(2,'0')}</div>
+            </div>
+            <div class="svc-body">
+              <h3 class="display svc-title">{s.titre}</h3>
+              <p class="svc-desc">{s.description}</p>
+              <div class="tags-row">
+                {s.tags.map(t => <span class="tag">{t}</span>)}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Services secondaires -->
+      <div class="svc-extra">
+        {extraServices.map((s, i) => (
+          <a href="/services" class="se-item">
+            <div class="se-left">
+              <span class="se-num display">{String(featuredServices.length + i + 1).padStart(2,'0')}</span>
+              <div>
+                <strong class="display se-title">{s.titre}</strong>
+                <span class="se-tags">{s.tags.join(' · ')}</span>
+              </div>
+            </div>
+            <span class="se-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROCESSUS ═══ -->
+  <section class="sec-dark">
+    <div class="wrap">
+      <div class="sc">
+        <div class="eyebrow eyebrow-white">Comment ça marche</div>
+        <h2 class="h2 h2-white display">Du devis à la réception<br>en 5 étapes claires</h2>
+      </div>
+      <div class="proc-grid">
+        {client.processus.map((p, i) => (
+          <div class="proc-step">
+            <div class="proc-top">
+              <span class="proc-num display">{p.num}</span>
+              <div class="proc-line-h"></div>
+            </div>
+            <div class="proc-gold-dot"></div>
+            <h3 class="display proc-title">{p.titre}</h3>
+            <p class="proc-desc">{p.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RÉALISATIONS APERÇU ═══ -->
+  <section class="sec" id="realisations">
+    <div class="wrap">
+      <div class="real-header">
+        <div class="sc">
+          <div class="eyebrow">Chantiers récents</div>
+          <h2 class="h2 display">{client.stats[1].chiffre}+ chantiers<br>dans le 66</h2>
+        </div>
+        <a href="/realisations" class="btn btn-outline">Voir tous les chantiers →</a>
+      </div>
+      <div class="real-grid">
+        {client.realisations.slice(0,4).map((r, i) => (
+          <article class="real-card" data-size={i===0?'big':'small'}>
+            <div class="real-img">
+              <img src={r.image} alt={r.titre} loading="lazy" />
+              <div class="real-mat tag-gold tag">{r.materiau}</div>
+            </div>
+            <div class="real-body">
+              <div class="real-meta">
+                <span class="rm-cat display">{r.categorie}</span>
+                <span class="rm-sep">·</span>
+                <span>{r.lieu}</span>
+                <span class="rm-sep">·</span>
+                <span>{r.annee}</span>
+              </div>
+              <h3 class="display real-title">{r.titre}</h3>
+              <p>{r.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BANDE OR — AIDES ═══ -->
+  <section class="aides-band">
+    <div class="wrap aides-inner">
+      <div class="aides-left">
+        <div class="eyebrow eyebrow-dark">Financez vos travaux</div>
+        <h2 class="h2 display">Jusqu'à 40%<br>d'aides disponibles</h2>
+        <p class="lead" style="margin-top:.75rem;font-size:.88rem">MaPrimeRénov', CEE, TVA 5,5%, Éco-prêt 0% — nous vous aidons à monter le dossier.</p>
+        <a href="/tarifs" class="btn btn-black" style="margin-top:2rem">Voir les aides →</a>
+      </div>
+      <div class="aides-grid">
+        {client.aides.map(a => (
+          <div class="aide-item">
+            <strong class="display aide-montant">{a.montant}</strong>
+            <span class="aide-titre">{a.titre}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TÉMOIGNAGES ═══ -->
+  <section class="sec-dark" id="temoignages">
+    <div class="wrap">
+      <div class="sc-center">
+        <div class="eyebrow eyebrow-white" style="justify-content:center">Ils nous font confiance</div>
+        <h2 class="h2 h2-white display">Ce que disent<br>nos clients</h2>
+      </div>
+      <div class="test-grid">
+        {client.temoignages.map((t, i) => (
+          <article class="test-card">
+            <div class="test-top">
+              <span class="test-stars">{'★'.repeat(t.note)}</span>
+              <span class="test-type display">{t.type}</span>
+            </div>
+            <blockquote class="test-quote">"{t.texte}"</blockquote>
+            <div class="test-footer">
+              <div class="test-avatar display">{t.nom.charAt(0)}</div>
+              <div>
+                <div class="test-nom display">{t.nom}</div>
+                <div class="test-ville">{t.ville}</div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ZONES ═══ -->
+  <section class="sec-alt">
+    <div class="wrap zones-layout">
+      <div>
+        <div class="eyebrow">Zone d'intervention</div>
+        <h2 class="h2 display">{client.rayonKm} km autour<br>de Perpignan</h2>
+        <span class="gold-rule"></span>
+        <p class="lead">Tout le département 66 — de la côte aux Corbières. Déplacement gratuit pour la prise de mesures et le devis.</p>
+        <div class="zones-tags">
+          {client.zones.map(z => <span class="tag">{z}</span>)}
+        </div>
+      </div>
+      <div class="zones-img">
+        <img src={client.heroImage2} alt="Chantier menuiserie Pyrénées-Orientales" loading="lazy" />
+        <div class="zi-cert">
+          <strong class="display">RGE</strong>
+          <span>Qualibat 3711</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-strip">
+    <div class="wrap cta-inner">
+      <div>
+        <div class="eyebrow eyebrow-white">Gratuit · sous 5 jours</div>
+        <h2 class="h2 h2-white display">Demandez votre devis</h2>
+      </div>
+      <div class="cta-actions">
+        <a href="/contact" class="btn btn-gold btn-lg">Devis gratuit →</a>
+        <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="f-brand">
+          <div class="f-logo-row">
+            <div class="f-logo-mark">
+              <svg viewBox="0 0 20 20" fill="none" stroke="#B8964E" stroke-width="1.5">
+                <rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/>
+                <rect x="2" y="13" width="16" height="5"/>
+              </svg>
+            </div>
+            <span class="f-logo-name">{client.nom}</span>
+          </div>
+          <p>{client.specialite}.<br/>{client.adresse}.</p>
+          {socials.length > 0 && (
+            <div class="soc-links">
+              {socials.map(([k,v]) => (
+                <a href={v} target="_blank" rel="noopener" class="soc-link soc-dark" title={k} set:html={socialIcons[k] || k} />
+              ))}
+            </div>
+          )}
+        </div>
+        <div class="f-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/realisations">Réalisations</a></li>
+            <li><a href="/tarifs">Tarifs</a></li>
+            <li><a href="/a-propos">À Propos</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h4>Prestations</h4>
+          <ul>
+            {client.services.map(s => <li><a href="/services">{s.titre}</a></li>)}
+          </ul>
+        </div>
+        <div class="f-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href={client.telephoneLink}>{client.telephone}</a></li>
+            <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
+            <li><span style="color:rgba(255,255,255,.18);font-size:11.5px">{client.adresse}</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="f-bottom">
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+        <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+      </div>
+    </div>
+  </footer>
+
+</Layout>
+
+<style>
+/* ═══ HERO ═══ */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.3) 100%);
+}
+.hero-content {
+  position: relative; z-index: 1;
+  padding-top: calc(var(--nav-h) + 4rem);
+  padding-bottom: 6rem;
+}
+.hero-overline {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 10.5px; font-weight: 400; letter-spacing: .28em;
+  text-transform: uppercase; color: rgba(255,255,255,.4);
+  margin-bottom: 28px;
+}
+.ho-line { display: block; width: 36px; height: 1px; background: var(--gold); flex-shrink: 0; }
+.hero-h1 {
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 400; line-height: 1.0; letter-spacing: .01em;
+  color: #fff; margin-bottom: 24px;
+}
+.hero-sub {
+  font-size: .97rem; line-height: 1.85; color: rgba(255,255,255,.5);
+  max-width: 480px; font-weight: 300; margin-bottom: 36px;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Stats bande */
+.hero-stats {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  background: rgba(255,255,255,.04);
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.hs-item {
+  padding: 28px clamp(1.25rem, 3.5vw, 3rem);
+  border-right: 1px solid rgba(255,255,255,.08);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.hs-item:last-child { border-right: none; }
+.hs-num { font-size: 2.2rem; color: #fff; line-height: 1; }
+.hs-lbl { font-size: 11px; color: rgba(255,255,255,.35); letter-spacing: .1em; font-weight: 300; }
+
+/* ═══ MATÉRIAUX ═══ */
+.mat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border: 1px solid var(--border); }
+.mat-card {
+  padding: 40px 36px; border-right: 1px solid var(--border);
+  position: relative;
+}
+.mat-card:last-child { border-right: none; }
+.mat-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--gold); opacity: 0;
+}
+.mat-card:hover::before { opacity: 1; }
+.mat-num { font-size: 3.5rem; color: var(--gold); opacity: .15; line-height: 1; margin-bottom: 16px; }
+.mat-name { font-size: 1.5rem; margin-bottom: 12px; }
+.mat-desc { font-size: .87rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; margin-bottom: 22px; }
+.mat-avantages { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.mat-avantages li { display: flex; align-items: center; gap: 10px; font-size: .84rem; color: var(--text-muted); font-weight: 300; }
+.ma-bullet { color: var(--gold); font-size: .7rem; flex-shrink: 0; }
+
+/* ═══ SERVICES ═══ */
+.svc-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 3rem; flex-wrap: wrap; }
+.svc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border: 1px solid var(--border); margin-bottom: 0; }
+.svc-card { border-right: 1px solid var(--border); overflow: hidden; }
+.svc-card:last-child { border-right: none; }
+.svc-img { position: relative; height: 260px; overflow: hidden; }
+.svc-img img { width: 100%; height: 100%; object-fit: cover; }
+.svc-img:hover img { transform: scale(1.04); }
+.svc-num {
+  position: absolute; top: 14px; left: 16px;
+  font-size: 3.5rem; color: rgba(255,255,255,.2); line-height: 1;
+}
+.svc-body { padding: 28px; border-top: 1px solid var(--border); }
+.svc-title { font-size: 1.1rem; margin-bottom: 10px; }
+.svc-desc { font-size: .84rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; margin-bottom: 14px; }
+.tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.svc-extra { border: 1px solid var(--border); border-top: none; }
+.se-item {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+}
+.se-item:last-child { border-bottom: none; }
+.se-item:hover { background: var(--bg-alt); }
+.se-left { display: flex; align-items: center; gap: 20px; }
+.se-num { font-size: 1.4rem; color: var(--gold); opacity: .5; line-height: 1; }
+.se-title { font-size: .95rem; display: block; margin-bottom: 2px; }
+.se-tags { font-size: 11px; color: var(--text-muted); letter-spacing: .06em; }
+.se-arrow { color: var(--text-light); font-size: .9rem; flex-shrink: 0; }
+.se-item:hover .se-arrow { color: var(--gold); }
+
+/* ═══ PROCESSUS ═══ */
+.proc-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 0; border: 1px solid rgba(255,255,255,.07); }
+.proc-step { padding: 36px 28px; border-right: 1px solid rgba(255,255,255,.07); }
+.proc-step:last-child { border-right: none; }
+.proc-top { display: flex; align-items: center; gap: 0; margin-bottom: 16px; }
+.proc-num { font-size: 2.2rem; color: rgba(255,255,255,.12); line-height: 1; }
+.proc-line-h { flex: 1; height: 1px; background: rgba(184,150,78,.2); margin-left: 12px; }
+.proc-step:last-child .proc-line-h { display: none; }
+.proc-gold-dot { width: 6px; height: 6px; background: var(--gold); margin-bottom: 14px; }
+.proc-title { font-size: .95rem; color: #fff; margin-bottom: 8px; }
+.proc-desc { font-size: .82rem; color: rgba(255,255,255,.38); line-height: 1.75; font-weight: 300; }
+
+/* ═══ RÉALISATIONS ═══ */
+.real-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.real-grid { display: grid; grid-template-columns: repeat(2,1fr); grid-template-rows: auto auto; gap: 0; border: 1px solid var(--border); }
+.real-card { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.real-card[data-size="big"] { grid-row: span 2; border-bottom: none; }
+.real-card:nth-child(even) { border-right: none; }
+.real-card:nth-child(3),.real-card:nth-child(4) { border-bottom: none; }
+.real-img { position: relative; height: 280px; overflow: hidden; }
+.real-card[data-size="big"] .real-img { height: 100%; min-height: 500px; }
+.real-img img { width: 100%; height: 100%; object-fit: cover; }
+.real-mat { position: absolute; top: 14px; left: 14px; }
+.real-body { padding: 24px; }
+.real-meta { display: flex; gap: 8px; align-items: center; font-size: 10.5px; color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+.rm-cat { color: var(--gold); }
+.rm-sep { color: var(--border-strong); }
+.real-title { font-size: 1rem; margin-bottom: 6px; }
+.real-body p { font-size: .83rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+
+/* ═══ AIDES BANDE ═══ */
+.aides-band { background: var(--bg-alt); padding: clamp(4rem,6vw,6rem) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.aides-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.aides-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0; border: 1px solid var(--border); }
+.aide-item {
+  padding: 28px 24px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.aide-item:nth-child(2),.aide-item:nth-child(4) { border-right: none; }
+.aide-item:nth-child(3),.aide-item:nth-child(4) { border-bottom: none; }
+.aide-montant { font-size: 1.1rem; color: var(--gold); }
+.aide-titre { font-size: .82rem; color: var(--text-muted); font-weight: 300; }
+
+/* ═══ TÉMOIGNAGES ═══ */
+.test-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0; border: 1px solid rgba(255,255,255,.07); margin-top: 3rem; }
+.test-card {
+  padding: 36px; border-right: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.test-card:nth-child(even) { border-right: none; }
+.test-card:nth-child(3),.test-card:nth-child(4) { border-bottom: none; }
+.test-card:hover { background: rgba(255,255,255,.03); }
+.test-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.test-stars { color: var(--gold); font-size: .8rem; letter-spacing: 2px; }
+.test-type { font-size: 10px; color: rgba(255,255,255,.25); letter-spacing: .12em; text-transform: uppercase; }
+.test-quote { font-size: .9rem; line-height: 1.85; color: rgba(255,255,255,.5); font-weight: 300; margin-bottom: 24px; font-style: italic; }
+.test-footer { display: flex; align-items: center; gap: 12px; }
+.test-avatar { width: 36px; height: 36px; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--gold); flex-shrink: 0; }
+.test-nom { font-size: .88rem; color: #fff; margin-bottom: 2px; }
+.test-ville { font-size: 11px; color: rgba(255,255,255,.3); letter-spacing: .06em; }
+
+/* ═══ ZONES ═══ */
+.zones-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.zones-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 1.5rem; }
+.zones-img { position: relative; }
+.zones-img img { width: 100%; height: 500px; object-fit: cover; }
+.zi-cert {
+  position: absolute; bottom: -20px; right: 24px;
+  background: var(--black); border: 1px solid var(--border-gold);
+  padding: 18px 24px; display: flex; flex-direction: column; gap: 2px;
+}
+.zi-cert strong { font-size: 1.8rem; color: var(--gold); line-height: 1; }
+.zi-cert span { font-size: 11px; color: rgba(255,255,255,.4); letter-spacing: .12em; text-transform: uppercase; }
+
+/* ═══ CTA STRIP ═══ */
+.cta-strip { background: var(--black); padding: clamp(4rem,6vw,5rem) 0; border-top: 1px solid rgba(184,150,78,.2); }
+.cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap; }
+.cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width:1280px) { .proc-grid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width:1024px) {
+  .hero-stats { grid-template-columns: repeat(2,1fr); }
+  .mat-grid { grid-template-columns: 1fr; }
+  .mat-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .svc-grid { grid-template-columns: 1fr; }
+  .svc-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .real-grid { grid-template-columns: 1fr; }
+  .real-card[data-size="big"] { grid-row: auto; }
+  .real-card[data-size="big"] .real-img { min-height: 280px; }
+  .real-card { border-right: none; }
+  .zones-layout { grid-template-columns: 1fr; gap: 40px; }
+  .aides-inner { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width:768px) {
+  .hero-stats { grid-template-columns: repeat(2,1fr); }
+  .proc-grid { grid-template-columns: repeat(2,1fr); }
+  .test-grid { grid-template-columns: 1fr; }
+  .test-card { border-right: none; }
+  .svc-header { flex-direction: column; align-items: flex-start; }
+  .real-header { flex-direction: column; align-items: flex-start; }
+  .cta-inner { flex-direction: column; }
+}
+@media (max-width:480px) {
+  .hero-stats { grid-template-columns: 1fr; }
+  .proc-grid { grid-template-columns: 1fr; }
+}
+</style>

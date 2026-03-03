@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`Mentions légales — ${client.nom}`}
+  description={`Mentions légales et politique de confidentialité de ${client.nom}, salon de coiffure à Perpignan.`}
+  noIndex={true}
+>
+
+<nav class="navbar solid" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark">✂</div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">{client.nom}</span>
+        <span class="nav-logo-sub">Coiffure femme · Perpignan</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a>
+    <a href="/services">Services</a>
+    <a href="/contact">Contact</a>
+  </div>
+</nav>
+
+<section class="legal-wrap">
+  <div class="wrap legal-container">
+    <nav class="l-bc">
+      <a href="/">Accueil</a><span>›</span><span>Mentions légales</span>
+    </nav>
+    <h1 class="serif l-title">Mentions légales</h1>
+    <p class="l-date">Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { year:'numeric', month:'long', day:'numeric' })}</p>
+
+    <div class="l-content">
+
+      <div class="lb">
+        <h2>1. Éditeur du site</h2>
+        <p><strong>{client.responsable}</strong><br />
+        Entreprise individuelle · SIRET : {client.siret}<br />
+        Adresse : {client.adresse}<br />
+        Téléphone : <a href={client.telephoneLink}>{client.telephone}</a><br />
+        Email : <a href={`mailto:${client.email}`}>{client.email}</a></p>
+        <p>Activité principale : {client.specialite}</p>
+      </div>
+
+      <div class="lb">
+        <h2>2. Hébergement</h2>
+        <p>{client.hebergeur} — <a href="https://www.netlify.com" target="_blank" rel="noopener">www.netlify.com</a></p>
+      </div>
+
+      <div class="lb">
+        <h2>3. Conception & développement</h2>
+        <p>Ce site a été conçu et développé par <strong>LORN Digital Studio</strong>.<br />
+        <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener">vitemonsite-artisan.fr</a></p>
+      </div>
+
+      <div class="lb">
+        <h2>4. Propriété intellectuelle</h2>
+        <p>L'ensemble du contenu de ce site (textes, photographies, design, structure) est la propriété de {client.nom} ou de ses partenaires. Toute reproduction, représentation ou diffusion sans autorisation écrite préalable est interdite (art. L.335-2 CPI).</p>
+        <p>Les photographies proviennent de Unsplash.com (licence Unsplash, usage commercial autorisé).</p>
+      </div>
+
+      <div class="lb">
+        <h2>5. Protection des données personnelles (RGPD)</h2>
+
+        <h3>Données collectées</h3>
+        <p>Via le formulaire de contact : nom, téléphone, email, prestation souhaitée, message. Ces données sont utilisées exclusivement pour répondre à votre demande et vous contacter concernant nos prestations.</p>
+
+        <h3>Base légale du traitement</h3>
+        <p>Consentement de la personne concernée (art. 6.1.a RGPD) et intérêt légitime de {client.nom} (art. 6.1.f RGPD).</p>
+
+        <h3>Durée de conservation</h3>
+        <p>3 ans à compter de votre dernière interaction avec le salon.</p>
+
+        <h3>Vos droits</h3>
+        <p>Vous disposez des droits d'accès, de rectification, de suppression, de limitation, de portabilité et d'opposition (RGPD art. 15 à 21). Pour les exercer : <a href={`mailto:${client.email}`}>{client.email}</a>. En cas de litige, vous pouvez saisir la <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a>.</p>
+
+        <h3>Sous-traitant — Formulaire</h3>
+        <p>Les données du formulaire sont transmises via <strong>Web3Forms</strong> (web3forms.com), service conforme RGPD. Aucune donnée n'est revendue ni partagée à des fins commerciales.</p>
+
+        <h3>Réservation en ligne</h3>
+        <p>Les prises de rendez-vous via Planity sont soumises à la politique de confidentialité de Planity SAS. Nous vous invitons à la consulter sur <a href="https://www.planity.com" target="_blank" rel="noopener">planity.com</a>.</p>
+      </div>
+
+      <div class="lb">
+        <h2>6. Cookies</h2>
+        <p>Ce site utilise uniquement des cookies techniques strictement nécessaires à son bon fonctionnement (mémorisation de votre choix de consentement). Aucun cookie publicitaire ni traceur analytique tiers n'est utilisé.</p>
+      </div>
+
+      <div class="lb">
+        <h2>7. Liens externes</h2>
+        <p>{client.nom} ne saurait être tenue responsable du contenu des sites tiers auxquels renvoient les liens présents sur ce site (Planity, réseaux sociaux, fournisseurs de produits).</p>
+      </div>
+
+      <div class="lb">
+        <h2>8. Droit applicable</h2>
+        <p>Les présentes mentions légales sont soumises au droit français. Tout litige relève de la compétence des tribunaux français.</p>
+      </div>
+
+    </div>
+
+    <a href="/" class="btn btn-outline" style="margin-top:2.5rem">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-bottom" style="border-top:none;padding-top:0">
+      <p>© {new Date().getFullYear()} {client.nom}</p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+    </div>
+  </div>
+</footer>
+</Layout>
+
+<style>
+.legal-wrap { padding: calc(var(--nav-h) + 4.5rem) 0 5rem; }
+.legal-container { max-width: 700px; }
+.l-bc { display: flex; gap: 8px; font-size: 12px; color: var(--text-muted); margin-bottom: 20px; align-items: center; }
+.l-bc a { color: var(--text-muted); transition: color .3s; }
+.l-bc a:hover { color: var(--rose); }
+.l-title { font-size: 2.8rem; font-weight: 600; letter-spacing: -.02em; margin-bottom: 6px; line-height: 1.1; }
+.l-date { font-size: 12.5px; color: var(--text-muted); margin-bottom: 3.5rem; font-weight: 300; }
+.l-content { display: flex; flex-direction: column; }
+.lb { padding: 1.75rem 0; border-bottom: 1px solid var(--border); }
+.lb:last-child { border-bottom: none; }
+.lb h2 { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; margin-bottom: .9rem; color: var(--text); }
+.lb h3 { font-family: var(--font-serif); font-size: .9rem; font-weight: 600; margin: .9rem 0 .45rem; color: var(--velvet); }
+.lb p { font-size: .87rem; color: var(--text-muted); line-height: 1.9; margin-bottom: .6rem; font-weight: 300; }
+.lb p:last-child { margin-bottom: 0; }
+.lb a { color: var(--rose); text-decoration: underline; text-underline-offset: 3px; }
+.lb strong { color: var(--text); font-weight: 500; }
+</style>

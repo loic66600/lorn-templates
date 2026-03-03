@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`À Propos — ${client.nom}`}
+  description={`${client.apropos.sousTitre} — menuisier fabricant indépendant à Perpignan. Histoire, certifications et valeurs de l'Atelier Ferran.`}
+>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/><rect x="2" y="13" width="16" height="5"/></svg></div>
+      <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">Menuisier · Perpignan</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li><li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/a-propos" class="active">À Propos</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-gold">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<!-- HEADER DARK + STATS -->
+<header class="ap-header sec-dark">
+  <div class="wrap">
+    <nav class="ph-bc" style="margin-bottom:20px"><a href="/" style="color:rgba(255,255,255,.22)">Accueil</a><span style="color:rgba(255,255,255,.15)">›</span><span style="color:rgba(255,255,255,.22)">À Propos</span></nav>
+    <div class="ap-layout">
+      <div>
+        <div class="eyebrow eyebrow-white">{client.apropos.sousTitre}</div>
+        <h1 class="display ap-title">{client.apropos.titre}</h1>
+        <span class="gold-rule"></span>
+        <p class="ap-lead">{client.apropos.paragraphe1}</p>
+      </div>
+      <div class="ap-stats">
+        {client.stats.map(s => (
+          <div class="ap-stat">
+            <strong class="display ap-num">
+              <span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span>
+            </strong>
+            <span class="ap-lbl">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HISTOIRE + IMAGE -->
+<section class="sec">
+  <div class="wrap story-layout">
+    <div class="story-img">
+      <img src={client.apropos.image} alt={client.apropos.imageAlt} loading="lazy" />
+      <div class="si-cert">
+        <strong class="display">RGE</strong>
+        <span>Qualibat 3711</span>
+      </div>
+    </div>
+    <div class="story-body">
+      <div class="eyebrow">Notre histoire</div>
+      <h2 class="h2 display">{client.nom}</h2>
+      <span class="gold-rule"></span>
+      <p class="story-p">{client.apropos.paragraphe1}</p>
+      <p class="story-p">{client.apropos.paragraphe2}</p>
+      <div class="certs-list">
+        {client.apropos.certifications.map(c => (
+          <div class="cert-row">
+            <span class="cr-dot">✦</span>
+            <span>{c}</span>
+          </div>
+        ))}
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:2rem">
+        <a href="/contact" class="btn btn-black">Devis gratuit →</a>
+        <a href={client.telephoneLink} class="btn btn-outline">{client.telephone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALEURS -->
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow">Ce qui nous guide</div>
+      <h2 class="h2 display">Nos valeurs</h2>
+    </div>
+    <div class="val-grid">
+      {client.apropos.valeurs.map((v, i) => (
+        <div class="val-card">
+          <div class="val-num display">{String(i+1).padStart(2,'0')}</div>
+          <span class="val-icon">{v.icone}</span>
+          <h3 class="display val-title">{v.titre}</h3>
+          <span class="gold-rule"></span>
+          <p class="val-desc">{v.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section class="sec-dark">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow eyebrow-white">Ils témoignent</div>
+      <h2 class="h2 h2-white display">Ce que disent<br>nos clients</h2>
+    </div>
+    <div class="test-grid">
+      {client.temoignages.map((t, i) => (
+        <article class="test-card">
+          <div class="test-top">
+            <span class="test-stars">{'★'.repeat(t.note)}</span>
+            <span class="display test-type">{t.type}</span>
+          </div>
+          <blockquote class="test-quote">"{t.texte}"</blockquote>
+          <div class="test-footer">
+            <div class="test-av display">{t.nom.charAt(0)}</div>
+            <div>
+              <div class="display test-nom">{t.nom}</div>
+              <div class="test-ville">{t.ville}</div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ATELIER PHOTO -->
+<section class="sec">
+  <div class="wrap atelier-layout">
+    <div>
+      <div class="eyebrow">Notre atelier</div>
+      <h2 class="h2 display">Fabrication<br>à Perpignan</h2>
+      <span class="gold-rule"></span>
+      <p class="lead">Toutes nos menuiseries sont fabriquées dans notre atelier de la ZA Font Frède, à Perpignan. Aucune sous-traitance — de la conception à la pose, tout reste entre nos mains.</p>
+      <div class="atelier-points">
+        {["Atelier 600 m² équipé CNC", "Stock de profils PVC et aluminium", "Découpe et assemblage sur site", "Contrôle qualité avant départ chantier"].map(p => (
+          <div class="at-row">
+            <span class="at-dash">—</span>
+            <span>{p}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="atelier-img">
+      <img src={client.heroImage3} alt="Atelier menuiserie Perpignan" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="wrap cta-dk">
+    <div>
+      <h2 class="h2 h2-white display">Rencontrons-nous</h2>
+      <p style="color:rgba(255,255,255,.38);margin-top:10px;font-weight:300;font-size:.9rem">{client.adresse} · {client.horairesResume}</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/contact" class="btn btn-gold btn-lg">Devis gratuit →</a>
+      <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<style>
+.ap-header { padding: calc(var(--nav-h) + 4rem) 0 5rem; }
+.ap-layout { display:grid; grid-template-columns:1fr auto; gap:64px; align-items:start; }
+.ap-title { font-size:clamp(1.8rem,4vw,3.2rem); color:#fff; margin:14px 0 18px; line-height:1.1; }
+.ap-lead { font-size:.9rem; color:rgba(255,255,255,.4); line-height:1.85; max-width:540px; font-weight:300; }
+.ap-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid rgba(255,255,255,.08); min-width:280px; }
+.ap-stat { padding:22px 24px; border-right:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); }
+.ap-stat:nth-child(2),.ap-stat:nth-child(4) { border-right:none; }
+.ap-stat:nth-child(3),.ap-stat:nth-child(4) { border-bottom:none; }
+.ap-num { font-size:1.8rem; color:var(--gold); display:block; line-height:1; }
+.ap-lbl { font-size:11px; color:rgba(255,255,255,.3); letter-spacing:.08em; font-weight:300; }
+
+.story-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.story-img { position:relative; }
+.story-img img { width:100%; height:520px; object-fit:cover; }
+.si-cert { position:absolute; bottom:-20px; right:24px; background:var(--black); border:1px solid var(--border-gold); padding:16px 22px; display:flex; flex-direction:column; gap:2px; }
+.si-cert strong { font-size:1.6rem; color:var(--gold); line-height:1; }
+.si-cert span { font-size:10px; color:rgba(255,255,255,.4); letter-spacing:.14em; text-transform:uppercase; }
+.story-p { font-size:.9rem; color:var(--text-muted); line-height:1.9; font-weight:300; margin-bottom:1rem; }
+.certs-list { border:1px solid var(--border); margin-top:1.5rem; }
+.cert-row { display:flex; align-items:center; gap:12px; padding:12px 18px; border-bottom:1px solid var(--border); font-size:.84rem; color:var(--text-muted); font-weight:300; }
+.cert-row:last-child { border-bottom:none; }
+.cr-dot { color:var(--gold); font-size:.6rem; flex-shrink:0; }
+
+.val-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); }
+.val-card { padding:36px 28px; border-right:1px solid var(--border); position:relative; }
+.val-card:last-child { border-right:none; }
+.val-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); opacity:0; }
+.val-card:hover::before { opacity:1; }
+.val-num { font-size:3rem; color:var(--gold); opacity:.12; line-height:1; margin-bottom:10px; }
+.val-icon { font-size:1.4rem; display:block; margin-bottom:10px; color:var(--gold); }
+.val-title { font-size:1rem; margin-bottom:0; }
+.val-desc { font-size:.83rem; color:var(--text-muted); line-height:1.8; font-weight:300; margin-top:0; }
+
+.test-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid rgba(255,255,255,.07); margin-top:3rem; }
+.test-card { padding:32px; border-right:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); }
+.test-card:nth-child(2n) { border-right:none; }
+.test-card:nth-child(3),.test-card:nth-child(4) { border-bottom:none; }
+.test-top { display:flex; justify-content:space-between; margin-bottom:14px; }
+.test-stars { color:var(--gold); font-size:.8rem; letter-spacing:2px; }
+.test-type { font-size:10px; color:rgba(255,255,255,.25); letter-spacing:.1em; text-transform:uppercase; }
+.test-quote { font-size:.88rem; line-height:1.85; color:rgba(255,255,255,.45); font-weight:300; font-style:italic; margin-bottom:20px; }
+.test-footer { display:flex; align-items:center; gap:12px; }
+.test-av { width:34px; height:34px; border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:.95rem; flex-shrink:0; }
+.test-nom { font-size:.86rem; color:#fff; margin-bottom:2px; }
+.test-ville { font-size:11px; color:rgba(255,255,255,.28); letter-spacing:.06em; }
+
+.atelier-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.atelier-points { display:flex; flex-direction:column; gap:12px; margin-top:1.75rem; border:1px solid var(--border); }
+.at-row { display:flex; align-items:center; gap:12px; padding:13px 18px; border-bottom:1px solid var(--border); font-size:.86rem; color:var(--text-muted); font-weight:300; }
+.at-row:last-child { border-bottom:none; }
+.at-dash { color:var(--gold); font-weight:500; }
+.atelier-img img { width:100%; height:480px; object-fit:cover; }
+
+.cta-dk { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
+
+@media(max-width:1024px) { .ap-layout { grid-template-columns:1fr; } .ap-stats { grid-template-columns:repeat(4,1fr); min-width:auto; } .story-layout { grid-template-columns:1fr; gap:48px; } .story-img img { height:320px; } .si-cert { bottom:10px; } .val-grid { grid-template-columns:repeat(2,1fr); } .atelier-layout { grid-template-columns:1fr; gap:40px; } }
+@media(max-width:768px) { .ap-stats { grid-template-columns:repeat(2,1fr); } .val-grid { grid-template-columns:1fr; } .val-card { border-right:none; border-bottom:1px solid var(--border); } .test-grid { grid-template-columns:1fr; } .test-card { border-right:none; } .cta-dk { flex-direction:column; } }
+</style>

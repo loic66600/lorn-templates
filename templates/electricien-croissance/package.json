@@ -1,0 +1,12 @@
+{
+  "name": "tpl-electricien-croissance",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4024",
+    "build": "astro build",
+    "preview": "astro preview --port 4024"
+  },
+  "dependencies": { "astro": "^4.0.0" }
+}

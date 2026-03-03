@@ -1,0 +1,17 @@
+{
+  "id": "electricien-croissance",
+  "nom": "Électricien — Croissance",
+  "metier": "electricien",
+  "categorie": "batiment",
+  "formule": "croissance",
+  "pages": 7,
+  "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+  "palette": { "primary": "#0C0F1A", "accent": "#F59E0B", "bg": "#FAFAFA", "theme": "clair" },
+  "polices": ["Space Grotesk", "Inter"],
+  "tags": ["électricien", "tableau électrique", "domotique", "installation électrique", "dépannage électrique"],
+  "port": 4024,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-03-01"
+}

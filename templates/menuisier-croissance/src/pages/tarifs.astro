@@ -1,0 +1,193 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`Tarifs — ${client.nom}`}
+  description={`Prix indicatifs menuiserie — fenêtres, portes, volets, baies vitrées Perpignan. MaPrimeRénov', CEE, TVA 5,5%. ${client.nom} — devis gratuit sous 5 jours.`}
+>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/><rect x="2" y="13" width="16" height="5"/></svg></div>
+      <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">Menuisier · Perpignan</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li><li><a href="/tarifs" class="active">Tarifs</a></li>
+      <li><a href="/a-propos">À Propos</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-gold">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<div class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+    <div class="eyebrow eyebrow-white">Grille tarifaire</div>
+    <h1 class="ph-title display">Des prix<br><em>fermes & transparents</em></h1>
+    <p class="ph-sub">Tarifs indicatifs TTC, pose comprise. Le devis après visite est ferme et définitif — aucun surcoût en cours de chantier.</p>
+  </div>
+</div>
+
+<!-- TARIFS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="tarifs-grid">
+      {client.tarifs.map((cat, i) => (
+        <div class="tarif-bloc">
+          <div class="tb-head">
+            <span class="tb-num display">{String(i+1).padStart(2,'0')}</span>
+            <h2 class="display tb-cat">{cat.categorie}</h2>
+          </div>
+          {cat.items.map(item => (
+            <div class="tb-row">
+              <div class="tb-left">
+                <strong>{item.nom}</strong>
+                {item.detail && <small>{item.detail}</small>}
+              </div>
+              <span class="display tb-prix">{item.prix}</span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <div class="tarif-note">
+      <span class="tn-mark display">!</span>
+      <div>
+        <strong class="display">Tarifs indicatifs — fourniture et pose comprises</strong>
+        <p>Ces prix sont établis pour des dimensions standard en région Perpignan. Le tarif exact est fixé après visite technique et mesures précises. Devis gratuit sous 5 jours — prix ferme, sans dépassement.</p>
+        <a href="/contact" class="btn btn-black" style="margin-top:16px;display:inline-flex">Obtenir mon devis →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AIDES FINANCIÈRES -->
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow">Réduisez votre facture</div>
+      <h2 class="h2 display">Aides & subventions</h2>
+      <p class="lead" style="margin-top:.75rem">En tant qu'artisan RGE Qualibat, nous vous permettons d'accéder aux dispositifs d'aide à la rénovation énergétique. Nous montons le dossier avec vous.</p>
+    </div>
+
+    <div class="aides-detail">
+      {client.aides.map((a, i) => (
+        <div class="aide-card">
+          <div class="aide-num display">{String(i+1).padStart(2,'0')}</div>
+          <div class="aide-body">
+            <strong class="display aide-titre">{a.titre}</strong>
+            <span class="aide-montant">{a.montant}</span>
+            <p class="aide-desc">{a.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="aides-cumul">
+      <strong class="display">Ces aides sont cumulables.</strong>
+      <p>Un ménage éligible peut obtenir jusqu'à 40% du coût total de ses fenêtres financé par ces dispositifs. Nous vous accompagnons dans le montage des dossiers.</p>
+      <a href="/contact" class="btn btn-black" style="margin-top:1.5rem;display:inline-flex">Estimer mes aides →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSUS FINANCEMENT -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow">Comment ça marche</div>
+      <h2 class="h2 display">Du devis à l'aide perçue</h2>
+    </div>
+    <div class="proc-simple">
+      {[
+        { n:"01", t:"Visite & devis",      d:"Déplacement gratuit. Devis détaillé avec mention RGE et produits éligibles." },
+        { n:"02", t:"Dossier aides",        d:"Nous montons avec vous le dossier MaPrimeRénov' et CEE. Vous n'avez qu'à signer." },
+        { n:"03", t:"Pose des menuiseries", d:"Travaux réalisés selon les critères d'éligibilité (matériaux certifiés)." },
+        { n:"04", t:"Versement des aides",  d:"MaPrimeRénov' versée par l'ANAH directement. CEE précompté sur votre facture." },
+      ].map(p => (
+        <div class="ps-item">
+          <span class="ps-num display">{p.n}</span>
+          <div class="ps-dot"></div>
+          <strong class="display ps-title">{p.t}</strong>
+          <p class="ps-desc">{p.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="wrap cta-dk">
+    <div>
+      <h2 class="h2 h2-white display">Votre devis en 5 jours</h2>
+      <p style="color:rgba(255,255,255,.35);margin-top:10px;font-weight:300;font-size:.9rem">Visite gratuite · prix ferme · devis avec mention aides</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/contact" class="btn btn-gold btn-lg">Demander un devis →</a>
+      <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<style>
+.tarifs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--border); margin-bottom:1.5rem; }
+.tarif-bloc { border-right:1px solid var(--border); }
+.tarif-bloc:last-child { border-right:none; }
+.tb-head { padding:20px 24px; background:var(--black); display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(255,255,255,.07); }
+.tb-num { font-size:2rem; color:rgba(184,150,78,.3); line-height:1; }
+.tb-cat { font-size:.9rem; color:#fff; letter-spacing:.06em; }
+.tb-row { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px; border-bottom:1px solid var(--border); }
+.tb-row:last-child { border-bottom:none; }
+.tb-row:hover { background:var(--bg-alt); }
+.tb-left { flex:1; }
+.tb-left strong { display:block; font-size:.86rem; font-weight:500; margin-bottom:2px; }
+.tb-left small { font-size:11px; color:var(--text-muted); }
+.tb-prix { font-size:.86rem; color:var(--gold); white-space:nowrap; }
+
+.tarif-note { display:flex; gap:18px; align-items:flex-start; border:1px solid var(--border-gold); padding:24px; background:var(--gold-pale); }
+.tn-mark { font-size:1.4rem; color:var(--gold); flex-shrink:0; min-width:24px; }
+.tarif-note strong { display:block; font-size:.95rem; margin-bottom:8px; }
+.tarif-note p { font-size:.85rem; color:var(--text-muted); line-height:1.8; font-weight:300; }
+
+.aides-detail { display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid var(--border); margin-bottom:1.5rem; }
+.aide-card { display:flex; gap:16px; align-items:flex-start; padding:28px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+.aide-card:nth-child(2n) { border-right:none; }
+.aide-card:nth-child(3),.aide-card:nth-child(4) { border-bottom:none; }
+.aide-card:hover { background:var(--bg-alt); }
+.aide-num { font-size:2rem; color:var(--gold); opacity:.25; line-height:1; flex-shrink:0; min-width:44px; }
+.aide-titre { display:block; font-size:.95rem; margin-bottom:6px; }
+.aide-montant { display:inline-block; font-size:.82rem; color:var(--gold); background:var(--gold-pale); border:1px solid var(--border-gold); padding:3px 10px; margin-bottom:10px; letter-spacing:.04em; }
+.aide-desc { font-size:.83rem; color:var(--text-muted); line-height:1.75; font-weight:300; }
+
+.aides-cumul { background:var(--black); color:#fff; padding:32px; }
+.aides-cumul strong { display:block; font-size:1.05rem; color:var(--gold); margin-bottom:10px; letter-spacing:.04em; }
+.aides-cumul p { font-size:.87rem; color:rgba(255,255,255,.45); line-height:1.8; font-weight:300; max-width:640px; }
+
+.proc-simple { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); }
+.ps-item { padding:36px 28px; border-right:1px solid var(--border); }
+.ps-item:last-child { border-right:none; }
+.ps-num { font-size:2rem; color:var(--gold); opacity:.35; line-height:1; margin-bottom:12px; display:block; }
+.ps-dot { width:6px; height:6px; background:var(--gold); margin-bottom:14px; }
+.ps-title { font-size:.95rem; display:block; margin-bottom:8px; }
+.ps-desc { font-size:.82rem; color:var(--text-muted); line-height:1.75; font-weight:300; }
+
+.cta-dk { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
+@media(max-width:1024px) { .tarifs-grid { grid-template-columns:1fr; } .tarif-bloc { border-right:none; border-bottom:1px solid var(--border); } .aides-detail { grid-template-columns:1fr; } .aide-card { border-right:none; } .proc-simple { grid-template-columns:repeat(2,1fr); } .ps-item:nth-child(2) { border-right:none; } }
+@media(max-width:768px) { .proc-simple { grid-template-columns:1fr; } .ps-item { border-right:none; border-bottom:1px solid var(--border); } .cta-dk { flex-direction:column; } }
+</style>

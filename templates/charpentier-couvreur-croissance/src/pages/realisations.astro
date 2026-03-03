@@ -1,0 +1,189 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+
+const categories = client.realisationsCategories;
+---
+
+<Layout title={`Réalisations — ${client.nom}`} description={`Découvrez les chantiers réalisés par ${client.nom} : couverture, charpente, zinguerie, isolation. Photos avant/après dans tout le 66.`}>
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">🏠</div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">{client.nom}</span>
+          <span class="nav-logo-sub">{client.metier}</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/realisations" class="active">Réalisations</a></li>
+        <li class="nav-dropdown">
+          <button class="nav-dropdown-toggle">
+            Plus
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="/tarifs">Tarifs</a>
+            <a href="/a-propos">À Propos</a>
+          </div>
+        </li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/contact" class="btn btn-accent">Devis gratuit</a>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="mobile-menu">
+      <a href="/">Accueil</a>
+      <a href="/services">Services</a>
+      <a href="/realisations">Réalisations</a>
+      <a href="/tarifs">Tarifs</a>
+      <a href="/a-propos">À Propos</a>
+      <a href="/contact">Contact</a>
+      <a href="/contact" class="mob-cta">Devis gratuit →</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="page-header-bg">
+      <img src={client.heroImage2} alt="Chantiers charpente couverture" loading="eager" />
+    </div>
+    <div class="page-header-ov"></div>
+    <div class="container page-header-content">
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <a href="/">Accueil</a>
+        <span>›</span>
+        <span>Réalisations</span>
+      </nav>
+      <div class="eyebrow" style="color:var(--accent)">Nos chantiers</div>
+      <h1 class="font-display page-title">Réalisations<br>& références</h1>
+      <p class="page-sub">{client.realisations.length}+ chantiers réalisés dans les Pyrénées-Orientales.</p>
+    </div>
+  </header>
+
+  <!-- FILTRES -->
+  <section class="section">
+    <div class="container">
+      <div class="filters reveal">
+        {categories.map(cat => (
+          <button class={`filter-btn ${cat.id === 'all' ? 'active' : ''}`} data-filter={cat.id}>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- GRILLE -->
+      <div class="real-grid" id="realGrid">
+        {client.realisations.map((r, i) => (
+          <article class={`real-card hover-lift reveal reveal-d${(i % 3) + 1}`} data-cat={r.categorie}>
+            <div class="real-img img-zoom">
+              <img src={r.image} alt={r.titre} loading="lazy" />
+              <span class="real-cat">{r.categorie}</span>
+            </div>
+            <div class="real-body">
+              <div class="real-meta font-display">
+                <span>📍 {r.lieu}</span>
+                <span>{r.annee}</span>
+                <span>{r.surface}</span>
+              </div>
+              <h3 class="real-titre font-display">{r.titre}</h3>
+              <p>{r.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container cta-band-inner">
+      <div class="reveal">
+        <div class="eyebrow" style="color:var(--accent)">Votre projet</div>
+        <h2 class="font-display cta-title">Un chantier à nous confier ?</h2>
+        <p>Devis gratuit, déplacement gratuit sur tout le 66.</p>
+      </div>
+      <div class="reveal reveal-d1">
+        <a href="/contact" class="btn btn-accent btn-lg">Demander un devis →</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.real-card');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const show = filter === 'all' || card.dataset.cat === filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+  .page-header {
+    position:relative; height:420px; display:flex; align-items:flex-end; overflow:hidden;
+  }
+  .page-header-bg { position:absolute; inset:0; }
+  .page-header-bg img { width:100%; height:100%; object-fit:cover; }
+  .page-header-ov {
+    position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(12,14,22,0.88) 0%, rgba(12,14,22,0.4) 100%);
+  }
+  .page-header-content { position:relative; z-index:2; padding-bottom:3rem; color:white; }
+  .page-title { font-size:clamp(2rem,4vw,3.2rem); font-weight:800; line-height:1.1; letter-spacing:-0.035em; margin:10px 0; }
+  .page-sub { font-size:1.05rem; color:rgba(255,255,255,0.65); max-width:480px; margin-top:8px; }
+  .breadcrumb { display:flex; align-items:center; gap:8px; font-size:12px; color:rgba(255,255,255,0.45); margin-bottom:12px; }
+  .breadcrumb a { color:rgba(255,255,255,0.5); transition:color 0.2s; }
+  .breadcrumb a:hover { color:var(--accent); }
+
+  .filters {
+    display:flex; flex-wrap:wrap; gap:8px; margin-bottom:3rem;
+  }
+  .filter-btn {
+    font-family:var(--font-display); font-size:13px; font-weight:600;
+    padding:8px 18px; border-radius:var(--radius-full);
+    border:1px solid var(--border); background:var(--bg-card);
+    color:var(--text-muted); cursor:pointer; transition:all 0.2s;
+  }
+  .filter-btn:hover { border-color:var(--primary); color:var(--text); }
+  .filter-btn.active { background:var(--primary); border-color:var(--primary); color:white; }
+
+  .real-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .real-card { background:var(--bg-card); border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--border); }
+  .real-img { position:relative; height:240px; }
+  .real-img img { width:100%; height:100%; object-fit:cover; }
+  .real-cat {
+    position:absolute; top:14px; right:14px; background:var(--primary); color:white;
+    padding:4px 12px; border-radius:var(--radius-full);
+    font-family:var(--font-display); font-size:10px; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .real-body { padding:20px; }
+  .real-meta { display:flex; gap:12px; flex-wrap:wrap; font-size:11px; color:var(--text-muted); margin-bottom:10px; }
+  .real-titre { font-size:1rem; font-weight:800; margin-bottom:8px; letter-spacing:-0.02em; }
+  .real-body p { font-size:0.88rem; color:var(--text-muted); line-height:1.6; }
+
+  .cta-band { background:var(--primary); padding:clamp(3rem,5vw,5rem) 0; }
+  .cta-band-inner { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+  .cta-title { font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; color:white; margin:8px 0; line-height:1.1; letter-spacing:-0.035em; }
+  .cta-band p { color:rgba(255,255,255,0.5); font-size:0.95rem; margin-top:6px; }
+
+  @media(max-width:900px) { .real-grid { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:600px) { .real-grid { grid-template-columns:1fr; } .cta-band-inner { flex-direction:column; } }
+</style>

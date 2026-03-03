@@ -53,6 +53,7 @@ const socialIcons: Record<string,string> = {
 
   <!-- ══════ HERO — Side-by-side with floating badges ══════ -->
   <section class="hero">
+    <div class="hero-bg"></div>
     <div class="container hero-grid">
       <div class="hero-text">
         <div class="hero-badge-tag reveal">
@@ -398,8 +399,9 @@ const socialIcons: Record<string,string> = {
   @media(max-width:768px){.nav-links{display:none!important;}.burger{display:flex!important;}}
 
   /* ═══ HERO — Side-by-side with floating badges ═══ */
-  .hero{padding:clamp(8rem,16vw,11rem) 0 clamp(4rem,8vw,6rem);}
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+  .hero{padding:clamp(8rem,16vw,11rem) 0 clamp(4rem,8vw,6rem);position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(248, 250, 251, 0.56) 0%,rgba(232,246,245,0.82) 100%),url('https://images.unsplash.com/photo-1676210134188-4c05dd172f89?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;z-index:0;}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:1;}
   .hero-badge-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:100px;background:var(--teal-glow);border:1px solid var(--border-teal);font-size:12px;font-weight:600;color:var(--teal);margin-bottom:16px;}
   .avail-dot{width:8px;height:8px;border-radius:50%;background:var(--teal-light);animation:pulse 2s ease-in-out infinite;}
   .hero h1{font-size:clamp(2.4rem,5.5vw,3.6rem);font-weight:900;color:var(--navy);line-height:1.08;letter-spacing:-0.03em;}

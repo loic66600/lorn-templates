@@ -1,0 +1,17 @@
+{
+  "id": "paysagiste-elageur-croissance",
+  "nom": "Paysagiste Élagueur — Croissance",
+  "metier": "paysagiste-elageur",
+  "categorie": "paysage",
+  "formule": "croissance",
+  "pages": 7,
+  "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+  "palette": { "primary": "#1B2E1B", "accent": "#5C9E4A", "bg": "#F6F4EF", "theme": "clair" },
+  "polices": ["Playfair Display", "Outfit"],
+  "tags": ["paysagiste", "élagueur", "entretien jardin", "élagage", "création jardin"],
+  "port": 4025,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-03-01"
+}

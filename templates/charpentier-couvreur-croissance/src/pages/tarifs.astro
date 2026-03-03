@@ -1,0 +1,207 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+
+<Layout title={`Tarifs — ${client.nom}`} description={`Grille de tarifs de ${client.nom} : couverture tuile, ardoise, charpente, zinguerie, isolation. Devis gratuit Perpignan (66).`}>
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">🏠</div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">{client.nom}</span>
+          <span class="nav-logo-sub">{client.metier}</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/realisations">Réalisations</a></li>
+        <li class="nav-dropdown">
+          <button class="nav-dropdown-toggle">
+            Plus
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="/tarifs" class="active">Tarifs</a>
+            <a href="/a-propos">À Propos</a>
+          </div>
+        </li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+        <a href="/contact" class="btn btn-accent">Devis gratuit</a>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="mobile-menu">
+      <a href="/">Accueil</a>
+      <a href="/services">Services</a>
+      <a href="/realisations">Réalisations</a>
+      <a href="/tarifs">Tarifs</a>
+      <a href="/a-propos">À Propos</a>
+      <a href="/contact">Contact</a>
+      <a href="/contact" class="mob-cta">Devis gratuit →</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header-simple">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <a href="/">Accueil</a><span>›</span><span>Tarifs</span>
+      </nav>
+      <div class="eyebrow reveal">Transparent & sans surprise</div>
+      <h1 class="font-display page-title reveal reveal-d1">Grille tarifaire</h1>
+      <p class="page-sub reveal reveal-d2">Indicatifs pour vous aider à budgétiser. Chaque projet est unique — devis gratuit sous 48h.</p>
+    </div>
+  </header>
+
+  <!-- AVERTISSEMENT -->
+  <section class="section">
+    <div class="container">
+
+      <div class="tarif-notice reveal">
+        <span class="tarif-notice-icon">ℹ️</span>
+        <p>Les prix ci-dessous sont des <strong>fourchettes indicatives</strong>. Le tarif final dépend de l'accessibilité, de l'état de la charpente existante, des matériaux choisis et de la surface. Visite et devis gratuits, sans engagement.</p>
+      </div>
+
+      <!-- GRILLES PAR CATÉGORIE -->
+      {client.tarifs.map((section, i) => (
+        <div class={`tarif-section reveal ${i > 0 ? 'reveal-d1' : ''}`}>
+          <h2 class="tarif-section-title font-display">{section.categorie}</h2>
+          <div class="tarif-table">
+            <div class="tarif-header">
+              <span>Prestation</span>
+              <span>Prix indicatif</span>
+              <span>Détail</span>
+            </div>
+            {section.items.map(item => (
+              <div class="tarif-row">
+                <span class="tarif-nom">{item.nom}</span>
+                <span class="tarif-prix font-display">{item.prix}</span>
+                <span class="tarif-detail">{item.detail}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- AIDES -->
+      <div class="aides-grid reveal">
+        <div class="aides-card">
+          <div class="aides-icon">💶</div>
+          <h3 class="font-display">MaPrimeRénov'</h3>
+          <p>Éligible pour les travaux d'isolation toiture. Jusqu'à 75% de prise en charge selon revenus.</p>
+        </div>
+        <div class="aides-card">
+          <div class="aides-icon">⚡</div>
+          <h3 class="font-display">CEE</h3>
+          <p>Certificats d'Économies d'Énergie cumulables avec MaPrimeRénov'. Prime calculée selon les travaux.</p>
+        </div>
+        <div class="aides-card">
+          <div class="aides-icon">🏦</div>
+          <h3 class="font-display">Éco-PTZ</h3>
+          <p>Prêt à taux zéro jusqu'à 50 000 € pour les rénovations énergétiques. Sans conditions de ressources.</p>
+        </div>
+        <div class="aides-card">
+          <div class="aides-icon">📄</div>
+          <h3 class="font-display">TVA 5,5 %</h3>
+          <p>TVA réduite sur les travaux d'amélioration énergétique dans les logements de plus de 2 ans.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA DEVIS -->
+  <section class="cta-band">
+    <div class="container cta-band-inner">
+      <div class="reveal">
+        <div class="eyebrow" style="color:var(--accent)">Gratuit & sans engagement</div>
+        <h2 class="font-display cta-title">Votre devis en 48h</h2>
+        <p>Déplacement gratuit sur Perpignan et tout le 66. Diagnostic toiture inclus.</p>
+      </div>
+      <div class="reveal reveal-d1" style="display:flex;flex-direction:column;align-items:flex-end;gap:12px">
+        <a href="/contact" class="btn btn-accent btn-lg">Demander un devis →</a>
+        <a href={client.telephoneLink} class="btn btn-outline-white">📞 {client.telephone}</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .page-header-simple {
+    padding:calc(var(--nav-h) + 4rem) 0 3.5rem;
+    background:var(--bg-alt); border-bottom:1px solid var(--border);
+  }
+  .breadcrumb { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); margin-bottom:12px; }
+  .breadcrumb a { color:var(--text-muted); transition:color 0.2s; }
+  .breadcrumb a:hover { color:var(--accent); }
+  .page-title { font-size:clamp(2rem,4vw,3rem); font-weight:800; line-height:1.1; letter-spacing:-0.035em; margin:10px 0; }
+  .page-sub { font-size:1.05rem; color:var(--text-muted); max-width:540px; }
+
+  .tarif-notice {
+    display:flex; align-items:flex-start; gap:14px;
+    background:rgba(200,121,65,0.08); border:1px solid rgba(200,121,65,0.25);
+    border-radius:var(--radius-md); padding:18px 22px; margin-bottom:3rem;
+  }
+  .tarif-notice-icon { font-size:1.2rem; flex-shrink:0; margin-top:2px; }
+  .tarif-notice p { font-size:0.9rem; line-height:1.7; color:var(--text-muted); }
+  .tarif-notice strong { color:var(--text); }
+
+  .tarif-section { margin-bottom:3rem; }
+  .tarif-section-title {
+    font-size:1.3rem; font-weight:800; letter-spacing:-0.03em;
+    color:var(--primary); margin-bottom:1rem;
+    padding-bottom:10px; border-bottom:2px solid var(--accent);
+    display:inline-block;
+  }
+  .tarif-table { border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; }
+  .tarif-header {
+    display:grid; grid-template-columns:1fr auto auto;
+    gap:1rem; padding:12px 20px;
+    background:var(--primary); color:rgba(255,255,255,0.6);
+    font-family:var(--font-display); font-size:11px; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .tarif-row {
+    display:grid; grid-template-columns:1fr auto auto;
+    gap:1rem; padding:16px 20px; align-items:center;
+    border-top:1px solid var(--border);
+    transition:background 0.15s;
+  }
+  .tarif-row:hover { background:var(--bg-alt); }
+  .tarif-nom { font-size:0.95rem; font-weight:600; color:var(--text); }
+  .tarif-prix { font-size:1rem; font-weight:800; color:var(--accent); white-space:nowrap; }
+  .tarif-detail { font-size:12px; color:var(--text-muted); white-space:nowrap; }
+
+  .aides-grid {
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:3rem;
+  }
+  .aides-card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:var(--radius-md); padding:24px; text-align:center;
+  }
+  .aides-icon { font-size:2rem; margin-bottom:12px; }
+  .aides-card h3 { font-size:1rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:8px; }
+  .aides-card p { font-size:0.85rem; color:var(--text-muted); line-height:1.6; }
+
+  .cta-band { background:var(--primary); padding:clamp(3rem,5vw,5rem) 0; }
+  .cta-band-inner { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+  .cta-title { font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; color:white; margin:8px 0; line-height:1.1; letter-spacing:-0.035em; }
+  .cta-band p { color:rgba(255,255,255,0.5); font-size:0.95rem; margin-top:6px; }
+
+  @media(max-width:900px) {
+    .aides-grid { grid-template-columns:repeat(2,1fr); }
+    .tarif-header, .tarif-row { grid-template-columns:1fr auto; }
+    .tarif-header span:last-child, .tarif-detail { display:none; }
+  }
+  @media(max-width:600px) {
+    .aides-grid { grid-template-columns:1fr 1fr; }
+    .cta-band-inner { flex-direction:column; align-items:flex-start; }
+  }
+</style>

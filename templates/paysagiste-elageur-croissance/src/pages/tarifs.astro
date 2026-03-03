@@ -1,0 +1,186 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`Tarifs — ${client.nom}`}
+  description={`Prix indicatifs paysagisme et élagage — ${client.nom} à Perpignan (66). Élagage, entretien, création jardins, arrosage automatique. Devis gratuit sous 48h.`}
+>
+
+<nav class="navbar sc" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-leaf"><span>🌿</span></div>
+      <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li>
+      <li class="nav-dropdown"><button class="nav-dd-toggle">Plus <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-dd-menu"><a href="/tarifs" class="active">Tarifs</a><a href="/a-propos">À Propos</a></div></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-green">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<div class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+    <div class="eyebrow eyebrow-white">Prix indicatifs</div>
+    <h1 class="ph-title">Des tarifs<br><em>honnêtes & transparents</em></h1>
+    <p class="ph-sub">Prix HT indicatifs. Seul un devis après visite donne un tarif précis. <strong style="color:#fff">Visite et devis gratuits sous 48h.</strong></p>
+  </div>
+</div>
+
+<!-- GRILLE TARIFS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="tarifs-grid">
+      {client.tarifs.map((cat, i) => (
+        <div class={`tarif-bloc lift grow d${i+1}`}>
+          <div class="tb-head">
+            <span class="tb-icon serif">0{i+1}</span>
+            <h2 class="serif tb-cat">{cat.categorie}</h2>
+          </div>
+          <div class="tb-items">
+            {cat.items.map(item => (
+              <div class="tb-item">
+                <div class="tb-left">
+                  <strong>{item.nom}</strong>
+                  <small>{item.detail}</small>
+                </div>
+                <span class="tb-prix serif">{item.prix}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Note indicative -->
+    <div class="tarif-note grow">
+      <span class="note-leaf">🌿</span>
+      <div>
+        <strong>Ces prix sont indicatifs (HT, hors transport éventuel)</strong>
+        <p>Le tarif exact dépend de l'accessibilité, de l'état des végétaux et du volume de travail. Après visite, le devis est précis et fixe — aucune surprise.</p>
+        <a href="/contact" class="btn btn-forest" style="margin-top:14px;display:inline-flex">Obtenir mon devis gratuit →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AIDES & AVANTAGES -->
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow grow">Économisez sur vos travaux</div>
+      <h2 class="h2 grow d1">Aides & avantages financiers</h2>
+      <p class="lead grow d2" style="margin:.75rem auto 0;text-align:center">En tant que particulier, vous pouvez bénéficier de plusieurs réductions sur vos travaux de jardin et d'élagage.</p>
+    </div>
+    <div class="aides-grid">
+      {[
+        { icon:"💰", titre:"Crédit d'impôt — Services à la personne", montant:"50% du coût TTC", desc:"L'entretien de jardin à domicile ouvre droit à un crédit d'impôt de 50% dans le cadre des services à la personne (plafond 12 000€/an)." },
+        { icon:"🏛️", titre:"Chèque emploi service universel (CESU)", montant:"Jusqu'à 1 830€/an", desc:"Certains employeurs ou collectivités abondent votre CESU pour financer l'entretien de votre jardin. Renseignez-vous auprès de votre employeur." },
+        { icon:"🌳", titre:"Déduction fiscale — Copropriétés",      montant:"50% déductible",    desc:"Les travaux d'entretien des espaces verts en copropriété sont déductibles à 50% des charges. Applicable à l'entretien courant et à l'élagage." },
+        { icon:"📉", titre:"TVA à 10% — Travaux de jardinage",      montant:"vs 20% standard",   desc:"Les travaux de jardinage, d'élagage et d'entretien des espaces verts chez les particuliers sont soumis à la TVA réduite à 10%." },
+        { icon:"🤝", titre:"Devis gratuit & sans engagement",       montant:"0€",                desc:"La visite diagnostic et l'établissement du devis sont entièrement gratuits. Vous n'êtes engagé qu'à la signature du devis." },
+        { icon:"🔄", titre:"Contrat annuel — tarif avantageux",     montant:"–10 à –15%",       desc:"Nos contrats d'entretien annuels bénéficient d'une remise de 10 à 15% par rapport aux interventions ponctuelles. Payable mensuellement." },
+      ].map((a, i) => (
+        <div class={`aide-card lift grow d${i+1}`}>
+          <div class="aide-top">
+            <span class="aide-icon">{a.icon}</span>
+            <div class="aide-montant serif">{a.montant}</div>
+          </div>
+          <h3 class="serif aide-titre">{a.titre}</h3>
+          <p class="aide-desc">{a.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- SAISONS TARIF INFO -->
+<section class="sec">
+  <div class="wrap saison-info-grid">
+    <div class="stem">
+      <div class="eyebrow">Le bon moment</div>
+      <h2 class="h2 serif">Quand intervenir<br>pour économiser ?</h2>
+      <p class="lead" style="margin-top:.75rem">En zone méditerranéenne, certaines saisons sont plus favorables — et moins chargées. Planifier à l'avance vous permet de bénéficier de nos meilleurs disponibilités.</p>
+    </div>
+    <div class="saison-tips branch">
+      {[
+        { s:"🍂 Automne–Hiver", tip:"Idéal pour élagage, abattage et création. Saison creuse → meilleure réactivité et parfois tarif négocié." },
+        { s:"🌸 Printemps",     tip:"Parfait pour plantation, mise en route arrosage, gazon. Réservez tôt — haute saison." },
+        { s:"☀️ Été",          tip:"Entretien courant, tonte, désherbage. Évitez les tailles importantes qui stressent les végétaux." },
+        { s:"📅 Contrat annuel",tip:"La solution la plus économique sur le long terme. Un seul devis, tarif lissé toute l'année." },
+      ].map(t => (
+        <div class="stip">
+          <strong class="serif">{t.s}</strong>
+          <p>{t.tip}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sec-alt">
+  <div class="wrap cta-tarif">
+    <div class="grow">
+      <div class="eyebrow">Sans engagement</div>
+      <h2 class="h2 serif">Devis gratuit sous 48h</h2>
+      <p class="lead" style="margin-top:.5rem">Visite à domicile · estimation précise · tarif fixe garanti.</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap" class="grow d1">
+      <a href="/contact" class="btn btn-forest btn-lg">Demander mon devis →</a>
+      <a href={client.telephoneLink} class="btn btn-outline btn-lg">📞 {client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<style>
+.tarifs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-bottom:2rem; }
+.tarif-bloc { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; }
+.tb-head { background:var(--forest); padding:20px 24px; display:flex; align-items:center; gap:14px; }
+.tb-icon { font-size:2rem; font-weight:700; color:var(--green-light); opacity:.5; line-height:1; }
+.tb-cat { font-size:1rem; font-weight:700; color:#fff; line-height:1.2; }
+.tb-items { padding:4px 0; }
+.tb-item { display:flex; justify-content:space-between; align-items:center; padding:14px 22px; gap:14px; border-bottom:1px solid var(--border); transition:background .15s; }
+.tb-item:last-child { border-bottom:none; }
+.tb-item:hover { background:var(--green-pale); }
+.tb-left { flex:1; }
+.tb-left strong { display:block; font-size:.88rem; font-weight:600; margin-bottom:2px; }
+.tb-left small { font-size:11px; color:var(--text-muted); }
+.tb-prix { font-size:.88rem; font-weight:700; color:var(--green); white-space:nowrap; }
+.tarif-note { display:flex; gap:16px; background:var(--green-pale); border:1px solid rgba(92,158,74,.25); border-left:4px solid var(--green); border-radius:var(--r); padding:22px 26px; }
+.note-leaf { font-size:1.4rem; flex-shrink:0; margin-top:2px; }
+.tarif-note strong { display:block; font-size:.95rem; margin-bottom:6px; }
+.tarif-note p { font-size:.86rem; color:var(--text-muted); line-height:1.75; }
+.aides-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:3rem; }
+.aide-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--r-md); padding:24px; }
+.aide-top { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:12px; }
+.aide-icon { font-size:1.6rem; }
+.aide-montant { font-size:.85rem; font-weight:700; color:var(--green); background:var(--green-pale); border:1px solid rgba(92,158,74,.25); padding:4px 10px; border-radius:var(--r-pill); white-space:nowrap; }
+.aide-titre { font-size:.95rem; font-weight:700; margin-bottom:8px; line-height:1.3; }
+.aide-desc { font-size:.83rem; color:var(--text-muted); line-height:1.7; }
+.saison-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; }
+.saison-tips { display:flex; flex-direction:column; gap:3px; }
+.stip { padding:16px 20px; border:1px solid var(--border); border-radius:var(--r); border-left:3px solid var(--green); background:var(--bg-card); margin-bottom:3px; }
+.stip strong { display:block; font-size:.93rem; font-weight:700; margin-bottom:4px; }
+.stip p { font-size:.85rem; color:var(--text-muted); line-height:1.65; }
+.cta-tarif { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
+@media(max-width:1024px) { .tarifs-grid { grid-template-columns:1fr; } .aides-grid { grid-template-columns:repeat(2,1fr); } .saison-info-grid { grid-template-columns:1fr; gap:32px; } }
+@media(max-width:768px) { .aides-grid { grid-template-columns:1fr; } .cta-tarif { flex-direction:column; } }
+</style>

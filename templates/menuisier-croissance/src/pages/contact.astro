@@ -1,0 +1,238 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+---
+<Layout
+  title={`Contact & Devis — ${client.nom}`}
+  description={`Demandez votre devis gratuit à ${client.nom} — menuisier fenêtres et portes à Perpignan. Déplacement gratuit, réponse sous 5 jours. ${client.horairesResume}.`}
+>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/><rect x="2" y="13" width="16" height="5"/></svg></div>
+      <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">Menuisier · Perpignan</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li><li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/a-propos">À Propos</a></li><li><a href="/contact" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-gold">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<div class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Contact</span></nav>
+    <div class="eyebrow eyebrow-white">Devis gratuit</div>
+    <h1 class="ph-title display">Démarrez<br><em>votre projet</em></h1>
+    <p class="ph-sub">Visite gratuite — devis sous 5 jours — prix ferme garanti. Intervention dans tout le département 66.</p>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap contact-layout">
+
+    <!-- Info colonne -->
+    <div class="c-info">
+
+      <div class="info-bloc">
+        <h3 class="display ib-h">Nous contacter</h3>
+        <div class="il-list">
+          <div class="il-row"><span class="il-icon">☎</span><div><small>Téléphone</small><a href={client.telephoneLink}>{client.telephone}</a></div></div>
+          <div class="il-row"><span class="il-icon">✉</span><div><small>Email</small><a href={`mailto:${client.email}`}>{client.email}</a></div></div>
+          <div class="il-row"><span class="il-icon">⊙</span><div><small>Atelier</small><span>{client.adresse}</span></div></div>
+        </div>
+      </div>
+
+      <div class="info-bloc">
+        <h3 class="display ib-h">Horaires atelier</h3>
+        <div class="hor-list">
+          {client.horaires.map(h => (
+            <div class="hor-row">
+              <span class="display">{h.jour}</span>
+              <span class={h.horaire === 'Fermé' ? 'ferme' : ''}>{h.horaire}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="info-bloc">
+        <h3 class="display ib-h">Zone d'intervention</h3>
+        <p class="ib-p">{client.rayonKm} km autour de Perpignan — tout le département 66.</p>
+        <div class="zones-mini">
+          {client.zones.slice(0,10).map(z => <span class="tag">{z}</span>)}
+          <span class="tag" style="color:var(--gold);border-color:var(--border-gold)">+ {client.zones.length - 10} villes</span>
+        </div>
+      </div>
+
+      <div class="info-bloc" style="background:var(--black);border-color:var(--border-gold)">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <strong class="display" style="color:var(--gold);font-size:.85rem;letter-spacing:.1em">RGE QUALIBAT 3711</strong>
+          <p style="font-size:.82rem;color:rgba(255,255,255,.4);font-weight:300;line-height:1.7">Qualification obligatoire pour bénéficier de MaPrimeRénov' et des CEE — nous montons le dossier avec vous.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulaire devis -->
+    <div class="c-form">
+      <div class="form-card" id="contactForm">
+        <h2 class="display form-title">Demande de devis</h2>
+        <p class="form-sub">Remplissez ce formulaire — nous vous rappelons sous 24h pour fixer la visite technique gratuite.</p>
+
+        <div class="fields">
+          <div class="frow">
+            <div class="fg"><label for="fNom">Nom & Prénom *</label><input type="text" id="fNom" placeholder="Éric Martin" required /></div>
+            <div class="fg"><label for="fTel">Téléphone *</label><input type="tel" id="fTel" placeholder="06 00 00 00 00" required /></div>
+          </div>
+          <div class="fg"><label for="fEmail">Email</label><input type="email" id="fEmail" placeholder="eric@exemple.fr" /></div>
+          <div class="fg"><label for="fVille">Ville du chantier *</label><input type="text" id="fVille" placeholder="Perpignan, Canet-en-Roussillon…" required /></div>
+          <div class="fg">
+            <label for="fPresta">Type de prestation *</label>
+            <select id="fPresta" required>
+              <option value="">Choisir…</option>
+              {client.services.map(s => <option value={s.titre}>{s.titre}</option>)}
+              <option value="Plusieurs prestations">Plusieurs prestations</option>
+              <option value="Autre / Renseignement">Autre / Renseignement</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="fMat">Matériau souhaité</label>
+            <select id="fMat">
+              <option value="">Je ne sais pas encore</option>
+              {client.materiaux.map(m => <option value={m.nom}>{m.nom}</option>)}
+              <option value="Conseils souhaités">Conseils souhaités</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="fMsg">Descriptif du projet</label>
+            <textarea id="fMsg" rows="4" placeholder="Nombre d'ouvertures, dimensions approximatives, maison / appartement, état actuel des menuiseries, contraintes particulières…"></textarea>
+          </div>
+          <div class="fg">
+            <label class="check-label">
+              <input type="checkbox" id="fAides" />
+              <span>Je souhaite être informé sur les aides disponibles (MaPrimeRénov', CEE, TVA 5,5%)</span>
+            </label>
+          </div>
+          <button type="button" class="btn btn-gold btn-lg f-submit" id="submitBtn" style="width:100%;justify-content:center">
+            Envoyer ma demande de devis →
+          </button>
+          <p class="form-legale">En soumettant ce formulaire vous acceptez d'être recontacté par {client.nom} pour traiter votre demande. Aucune diffusion à des tiers.</p>
+        </div>
+      </div>
+
+      <div class="form-ok" id="formOk" style="display:none">
+        <span class="ok-icon display">✦</span>
+        <h3 class="display">Demande reçue</h3>
+        <p>Nous vous rappelons sous 24h pour organiser la visite technique.</p>
+        <a href="/" class="btn btn-outline" style="margin-top:1.5rem">← Retour à l'accueil</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{client.googleMapsEmbed && (
+  <div class="map-wrap">
+    <iframe src={client.googleMapsEmbed} width="100%" height="360" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title={`Plan ${client.nom}`} />
+  </div>
+)}
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<script define:vars={{ web3Key, emailClient: client.email, nomClient: client.nom }}>
+  const btn = document.getElementById('submitBtn');
+  const fc  = document.getElementById('contactForm');
+  const ok  = document.getElementById('formOk');
+
+  btn?.addEventListener('click', async () => {
+    const nom   = (document.getElementById('fNom') as HTMLInputElement)?.value || '';
+    const tel   = (document.getElementById('fTel') as HTMLInputElement)?.value || '';
+    const email = (document.getElementById('fEmail') as HTMLInputElement)?.value || '';
+    const ville = (document.getElementById('fVille') as HTMLInputElement)?.value || '';
+    const presta= (document.getElementById('fPresta') as HTMLSelectElement)?.value || '';
+    const mat   = (document.getElementById('fMat') as HTMLSelectElement)?.value || '';
+    const msg   = (document.getElementById('fMsg') as HTMLTextAreaElement)?.value || '';
+    const aides = (document.getElementById('fAides') as HTMLInputElement)?.checked;
+
+    if (!nom || !tel || !ville || !presta) { alert('Merci de renseigner les champs obligatoires (*)'); return; }
+    btn.textContent = 'Envoi en cours…'; (btn as HTMLButtonElement).disabled = true;
+
+    if (web3Key) {
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: web3Key,
+            subject: `Devis ${nomClient} — ${presta} — ${nom} (${ville})`,
+            from_name: nom, telephone: tel, email, ville_chantier: ville,
+            prestation: presta, materiau: mat, message: msg,
+            aides_souhaitees: aides ? 'Oui' : 'Non',
+          }),
+        });
+        const d = await r.json();
+        if (d.success && fc && ok) { fc.style.display = 'none'; ok.style.display = 'flex'; return; }
+      } catch(e) {}
+    }
+    window.location.href = 'mailto:' + emailClient
+      + '?subject=' + encodeURIComponent('Devis — ' + presta + ' — ' + nom)
+      + '&body=' + encodeURIComponent('Nom : '+nom+'\nTél : '+tel+'\nEmail : '+email+'\nVille : '+ville+'\nPrestation : '+presta+'\nMatériau : '+mat+'\nAides : '+(aides?'Oui':'Non')+'\n\n'+msg);
+  });
+</script>
+
+<style>
+.contact-layout { display:grid; grid-template-columns:340px 1fr; gap:56px; align-items:start; }
+.info-bloc { border:1px solid var(--border); margin-bottom:14px; }
+.ib-h { font-size:.72rem; font-weight:400; letter-spacing:.2em; text-transform:uppercase; color:var(--text-muted); padding:14px 18px; border-bottom:1px solid var(--border); }
+.il-list { display:flex; flex-direction:column; }
+.il-row { display:flex; align-items:flex-start; gap:12px; padding:14px 18px; border-bottom:1px solid var(--border); }
+.il-row:last-child { border-bottom:none; }
+.il-icon { color:var(--gold); font-size:.9rem; flex-shrink:0; margin-top:14px; }
+.il-row small { display:block; font-size:10px; color:var(--text-muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px; }
+.il-row a, .il-row span:not(small) { font-size:.86rem; color:var(--text); }
+.il-row a:hover { color:var(--gold); }
+.hor-list { display:flex; flex-direction:column; }
+.hor-row { display:flex; justify-content:space-between; padding:11px 18px; border-bottom:1px solid var(--border); font-size:.84rem; }
+.hor-row:last-child { border-bottom:none; }
+.hor-row .display { font-size:.84rem; font-weight:400; }
+.hor-row .ferme { color:var(--text-light); }
+.ib-p { font-size:.84rem; color:var(--text-muted); font-weight:300; padding:14px 18px 10px; }
+.zones-mini { display:flex; flex-wrap:wrap; gap:5px; padding:0 18px 14px; }
+
+.form-card { border:1px solid var(--border); padding:36px; }
+.form-title { font-size:1.7rem; margin-bottom:8px; }
+.form-sub { font-size:.86rem; color:var(--text-muted); font-weight:300; line-height:1.8; margin-bottom:28px; }
+.fields { display:flex; flex-direction:column; gap:14px; }
+.frow { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.fg { display:flex; flex-direction:column; gap:5px; }
+.fg label { font-size:11px; font-weight:500; color:var(--text); letter-spacing:.08em; text-transform:uppercase; }
+.fg input,.fg select,.fg textarea { padding:12px 14px; border:1px solid var(--border-strong); background:var(--bg); font-family:var(--font-body); font-size:.87rem; color:var(--text); }
+.fg input:focus,.fg select:focus,.fg textarea:focus { outline:none; border-color:var(--gold); }
+.fg textarea { resize:vertical; min-height:110px; }
+.check-label { display:flex; align-items:flex-start; gap:10px; font-size:.83rem; color:var(--text-muted); font-weight:300; line-height:1.6; cursor:pointer; }
+.check-label input { margin-top:3px; accent-color:var(--gold); flex-shrink:0; }
+.form-legale { font-size:11px; color:var(--text-light); font-weight:300; text-align:center; }
+
+.form-ok { border:1px solid var(--border-gold); background:var(--gold-pale); padding:56px 36px; flex-direction:column; align-items:center; text-align:center; gap:12px; }
+.ok-icon { font-size:2.5rem; color:var(--gold); }
+.form-ok h3 { font-size:1.5rem; }
+.form-ok p { font-size:.88rem; color:var(--text-muted); font-weight:300; line-height:1.75; }
+
+.map-wrap { height:360px; }
+.map-wrap iframe { display:block; }
+
+@media(max-width:1024px) { .contact-layout { grid-template-columns:1fr; } .c-info { order:2; } .c-form { order:1; } }
+@media(max-width:640px) { .frow { grid-template-columns:1fr; } .form-card { padding:22px; } }
+</style>

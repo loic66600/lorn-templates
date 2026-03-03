@@ -1,0 +1,22 @@
+{
+  "id": "menuisier-croissance",
+  "nom": "Menuisier Fenêtres & Portes — Croissance",
+  "metier": "menuisier",
+  "categorie": "batiment",
+  "formule": "croissance",
+  "pages": 7,
+  "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+  "palette": {
+    "primary": "#111111",
+    "accent": "#B8964E",
+    "bg": "#FAFAF8",
+    "theme": "clair"
+  },
+  "polices": ["Tenor Sans", "Jost"],
+  "tags": ["menuisier", "fenêtres", "portes", "volets", "double vitrage", "Perpignan"],
+  "port": 4027,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-03-02"
+}

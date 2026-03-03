@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`Services — ${client.nom}`}
+  description={`Fenêtres, portes, volets, baies vitrées et vérandas sur mesure — ${client.nom} menuisier à Perpignan (66). Fabrication atelier, pose et garantie décennale.`}
+>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/>
+          <rect x="2" y="13" width="16" height="5"/>
+        </svg>
+      </div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">{client.nom}</span>
+        <span class="nav-logo-sub">Menuisier · Perpignan</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services" class="active">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li><li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/a-propos">À Propos</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+      <a href="/contact" class="btn btn-gold">Devis gratuit</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<div class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Services</span></nav>
+    <div class="eyebrow eyebrow-white">Nos prestations</div>
+    <h1 class="ph-title display">Fenêtres, portes<br><em>& fermetures sur mesure</em></h1>
+    <p class="ph-sub">Fabrication en atelier Perpignan — pose par nos compagnons — garantie décennale 10 ans.</p>
+  </div>
+</div>
+
+<!-- SERVICES ALTERNÉS -->
+<section class="sec">
+  <div class="wrap">
+    {client.services.map((s, i) => (
+      <article class={`srow ${i % 2 === 1 ? 'rev' : ''}`}>
+        <div class="srow-img">
+          <img src={s.image} alt={s.titre} loading="lazy" />
+          <span class="srow-num display">{String(i+1).padStart(2,'0')}</span>
+        </div>
+        <div class="srow-body">
+          <h2 class="display srow-title">{s.titre}</h2>
+          <span class="gold-rule"></span>
+          <p class="srow-desc">{s.description}</p>
+          <div class="tags-row" style="margin-bottom:1.75rem">
+            {s.tags.map(t => <span class="tag">{t}</span>)}
+          </div>
+          <a href="/contact" class="btn btn-black">Demander un devis →</a>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<!-- MATÉRIAUX TABLEAU -->
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow">Matériaux</div>
+      <h2 class="h2 display">PVC · Aluminium · Bois</h2>
+    </div>
+    <div class="mat-table">
+      <div class="mt-head">
+        <div class="mt-label"></div>
+        {client.materiaux.map(m => <div class="mt-col-h display">{m.nom}</div>)}
+      </div>
+      {[
+        { critere: "Prix", vals: ["●●●", "●●○", "●○○"] },
+        { critere: "Isolation thermique", vals: ["●●●", "●●●", "●●●"] },
+        { critere: "Longévité", vals: ["●●○", "●●●", "●●●"] },
+        { critere: "Entretien", vals: ["●●●", "●●●", "●○○"] },
+        { critere: "Esthétique moderne", vals: ["●●○", "●●●", "●●○"] },
+        { critere: "Chaleur naturelle", vals: ["●○○", "●○○", "●●●"] },
+      ].map(row => (
+        <div class="mt-row">
+          <div class="mt-label">{row.critere}</div>
+          {row.vals.map(v => <div class="mt-val display">{v}</div>)}
+        </div>
+      ))}
+    </div>
+    <p class="mat-note">● = Excellent &nbsp;·&nbsp; ○ = Correct — comparaison indicative, selon gamme choisie</p>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="sec-dark">
+  <div class="wrap certs-layout">
+    <div>
+      <div class="eyebrow eyebrow-white">Qualifications</div>
+      <h2 class="h2 h2-white display">Certifié &<br>garanti 10 ans</h2>
+      <span class="gold-rule"></span>
+      <p class="lead" style="color:rgba(255,255,255,.45)">Nos certifications vous protègent et vous permettent d'accéder aux aides financières (MaPrimeRénov', CEE).</p>
+    </div>
+    <div class="certs-grid">
+      {client.apropos.certifications.map(c => (
+        <div class="cert-item">
+          <span class="cert-gold">✦</span>
+          <span>{c}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec">
+  <div class="wrap faq-layout">
+    <div>
+      <div class="eyebrow">Questions fréquentes</div>
+      <h2 class="h2 display">Les bonnes<br>réponses</h2>
+      <span class="gold-rule"></span>
+      <p class="lead">Une question technique ? Appelez-nous — 26 ans d'expérience à votre service.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1.75rem">
+        <a href={client.telephoneLink} class="btn btn-black">{client.telephone}</a>
+        <a href="/contact" class="btn btn-outline">Devis gratuit</a>
+      </div>
+    </div>
+    <div class="faq-list">
+      {client.faq.map((f, i) => (
+        <details class="faq-item" open={i === 0}>
+          <summary class="faq-q display">
+            <span class="faq-num">{String(i+1).padStart(2,'0')}</span>
+            {f.question}
+            <span class="faq-plus">+</span>
+          </summary>
+          <p class="faq-a">{f.reponse}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="wrap cta-dk">
+    <div>
+      <h2 class="h2 h2-white display">Prêt à démarrer votre projet ?</h2>
+      <p style="color:rgba(255,255,255,.38);margin-top:10px;font-weight:300;font-size:.9rem">Visite gratuite · devis sous 5 jours · prix ferme garanti</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/contact" class="btn btn-gold btn-lg">Devis gratuit →</a>
+      <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<style>
+.srow { display:grid; grid-template-columns:1fr 1fr; gap:0; border-bottom:1px solid var(--border); }
+.srow:last-child { border-bottom:none; }
+.srow.rev { direction:rtl; }
+.srow.rev > * { direction:ltr; }
+.srow-img { position:relative; height:480px; overflow:hidden; }
+.srow-img img { width:100%; height:100%; object-fit:cover; }
+.srow-img:hover img { transform:scale(1.03); }
+.srow-num { position:absolute; bottom:16px; right:20px; font-size:5rem; color:rgba(255,255,255,.15); line-height:1; }
+.srow-body { padding:clamp(2rem,4vw,4rem); display:flex; flex-direction:column; justify-content:center; }
+.srow-title { font-size:1.8rem; margin-bottom:0; }
+.srow-desc { font-size:.9rem; color:var(--text-muted); line-height:1.85; font-weight:300; margin-bottom:18px; }
+.tags-row { display:flex; flex-wrap:wrap; gap:6px; }
+
+.mat-table { border:1px solid var(--border); }
+.mt-head { display:grid; grid-template-columns:200px repeat(3,1fr); background:var(--black); }
+.mt-col-h { padding:18px 20px; font-size:.85rem; color:var(--gold); letter-spacing:.08em; border-right:1px solid rgba(255,255,255,.07); }
+.mt-col-h:last-child { border-right:none; }
+.mt-row { display:grid; grid-template-columns:200px repeat(3,1fr); border-top:1px solid var(--border); }
+.mt-row:hover { background:var(--bg-alt); }
+.mt-label { padding:14px 20px; font-size:.84rem; color:var(--text-muted); font-weight:300; border-right:1px solid var(--border); }
+.mt-val { padding:14px 20px; font-size:.88rem; color:var(--gold); letter-spacing:3px; border-right:1px solid var(--border); }
+.mt-val:last-child { border-right:none; }
+.mat-note { font-size:11.5px; color:var(--text-light); margin-top:12px; font-weight:300; }
+
+.certs-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.certs-grid { display:flex; flex-direction:column; gap:0; border:1px solid rgba(255,255,255,.08); }
+.cert-item { display:flex; align-items:center; gap:14px; padding:18px 22px; border-bottom:1px solid rgba(255,255,255,.06); font-size:.9rem; color:rgba(255,255,255,.55); font-weight:300; }
+.cert-item:last-child { border-bottom:none; }
+.cert-gold { color:var(--gold); font-size:.65rem; flex-shrink:0; }
+
+.faq-layout { display:grid; grid-template-columns:340px 1fr; gap:80px; align-items:start; }
+.faq-list { border:1px solid var(--border); }
+.faq-item { border-bottom:1px solid var(--border); }
+.faq-item:last-child { border-bottom:none; }
+.faq-q { display:flex; align-items:center; gap:14px; padding:18px 22px; cursor:pointer; font-size:.9rem; list-style:none; }
+.faq-q::-webkit-details-marker { display:none; }
+.faq-q:hover { background:var(--bg-alt); }
+.faq-num { font-size:1rem; color:var(--gold); opacity:.5; min-width:28px; flex-shrink:0; }
+.faq-plus { margin-left:auto; font-size:1.4rem; font-weight:300; color:var(--gold); flex-shrink:0; }
+details[open] .faq-plus { content:'−'; transform:rotate(45deg); }
+.faq-a { padding:0 22px 18px 64px; font-size:.86rem; color:var(--text-muted); line-height:1.85; font-weight:300; }
+.cta-dk { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
+
+@media(max-width:1024px) { .srow { grid-template-columns:1fr; } .srow.rev { direction:ltr; } .srow-img { height:300px; } .mat-table { overflow-x:auto; } .certs-layout { grid-template-columns:1fr; gap:32px; } .faq-layout { grid-template-columns:1fr; gap:32px; } }
+@media(max-width:768px) { .cta-dk { flex-direction:column; } .mt-head,.mt-row { grid-template-columns:120px repeat(3,1fr); } }
+</style>

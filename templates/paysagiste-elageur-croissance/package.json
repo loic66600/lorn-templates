@@ -1,0 +1,12 @@
+{
+  "name": "tpl-paysagiste-elageur-croissance",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4025",
+    "build": "astro build",
+    "preview": "astro preview --port 4025"
+  },
+  "dependencies": { "astro": "^4.0.0" }
+}

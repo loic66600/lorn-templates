@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+---
+<Layout title={`Contact & Devis — ${client.nom}`} description={`Contactez ${client.nom} pour un devis gratuit. Électricien Perpignan (66). Réponse sous 24h. Urgence 24h/24.`}>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><div class="nav-logo-bolt">⚡</div><div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div></a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li>
+      <li class="nav-dropdown"><button class="nav-dd-toggle">Plus <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-dd-menu"><a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a></div></li>
+      <li><a href="/contact" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-accent">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<header class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Contact</span></nav>
+    <div class="eyebrow" style="color:var(--accent)">Gratuit & sans engagement</div>
+    <h1 class="ph-title">Demandez votre devis</h1>
+    <p class="ph-sub">Diagnostic gratuit à domicile. Réponse sous 24h garantie. Urgence 24h/24 — 7j/7.</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap contact-grid">
+
+    <!-- INFO COLONNE -->
+    <div class="contact-info volt">
+
+      <!-- Urgence card -->
+      {client.urgence && (
+        <div class="urg-card">
+          <div class="urg-card-head">
+            <span>⚡</span>
+            <strong class="disp">Urgence électrique 24h/24</strong>
+          </div>
+          <p>Panne totale, court-circuit, disjoncteur qui disjoncte en permanence ? Appelez maintenant.</p>
+          <a href={client.urgenceTelLink} class="btn btn-accent" style="width:100%;justify-content:center;margin-top:12px">{client.urgenceTel}</a>
+        </div>
+      )}
+
+      <!-- Coordonnées -->
+      <div class="info-bloc">
+        <h3 class="disp ib-title">Coordonnées</h3>
+        <div class="info-items">
+          <div class="ii"><span class="ii-icon">📞</span><div><small>Téléphone</small><a href={client.telephoneLink}>{client.telephone}</a></div></div>
+          <div class="ii"><span class="ii-icon">✉️</span><div><small>Email</small><a href={`mailto:${client.email}`}>{client.email}</a></div></div>
+          <div class="ii"><span class="ii-icon">📍</span><div><small>Adresse</small><span>{client.adresse}</span></div></div>
+        </div>
+      </div>
+
+      <!-- Horaires -->
+      <div class="info-bloc">
+        <h3 class="disp ib-title">Horaires</h3>
+        <div class="horaires">
+          {client.horaires.map(h => (
+            <div class="h-row">
+              <span class="h-jour disp">{h.jour}</span>
+              <span class={`h-val ${h.horaire === 'Fermé' ? 'ferme' : ''} ${h.horaire.includes('Urgences') ? 'urgence' : ''}`}>{h.horaire}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Zones -->
+      <div class="info-bloc">
+        <h3 class="disp ib-title">Zone d'intervention</h3>
+        <p style="font-size:.86rem;color:var(--text-muted);line-height:1.6;margin-bottom:10px">{client.departement} — rayon {client.rayonKm} km.</p>
+        <div class="zone-tags">
+          {client.zones.slice(0,8).map(z => <span class="tag">{z}</span>)}
+          <span class="tag" style="background:var(--accent);border-color:var(--accent);color:#000">+{client.zones.length - 8} communes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMULAIRE -->
+    <div class="form-wrap volt-r">
+      <div class="form-card" id="contactForm">
+        <h2 class="disp form-title">Décrivez votre projet</h2>
+        <p class="form-sub">Plus votre description est précise, plus notre devis sera exact.</p>
+        <div class="fields">
+          <div class="f-row">
+            <div class="fg"><label for="fNom">Prénom & Nom *</label><input type="text" id="fNom" placeholder="Jean Dupont" required /></div>
+            <div class="fg"><label for="fTel">Téléphone *</label><input type="tel" id="fTel" placeholder="06 00 00 00 00" required /></div>
+          </div>
+          <div class="fg"><label for="fEmail">Email</label><input type="email" id="fEmail" placeholder="jean@exemple.fr" /></div>
+          <div class="fg"><label for="fVille">Commune du chantier *</label><input type="text" id="fVille" placeholder="Ex : Perpignan, Canet…" required /></div>
+          <div class="f-row">
+            <div class="fg">
+              <label for="fPresta">Type de travaux *</label>
+              <select id="fPresta" required>
+                <option value="">Choisir…</option>
+                {client.services.map(s => <option value={s.titre}>{s.icone} {s.titre}</option>)}
+                <option value="Diagnostic électrique">🔍 Diagnostic électrique</option>
+                <option value="Urgence">⚡ Urgence</option>
+                <option value="Autre">Autre / Je ne sais pas</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="fLogement">Type de logement</label>
+              <select id="fLogement">
+                <option value="">Choisir…</option>
+                <option>Appartement</option><option>Maison</option>
+                <option>Maison neuve</option><option>Local commercial</option>
+                <option>Copropriété</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg"><label for="fMsg">Description</label><textarea id="fMsg" rows="4" placeholder="Décrivez votre installation, le problème constaté, vos besoins, votre délai…"></textarea></div>
+          <button type="button" class="btn btn-accent btn-lg form-submit" id="submitBtn" style="width:100%;justify-content:center">Envoyer ma demande →</button>
+        </div>
+      </div>
+      <div class="form-ok" id="formOk" style="display:none">
+        <div class="ok-icon">✅</div>
+        <h3 class="disp">Demande reçue !</h3>
+        <p>Nous vous contactons sous 24h pour organiser le diagnostic gratuit.</p>
+        <p style="margin-top:8px;font-size:.88rem;color:var(--text-muted)">En attendant : <a href={client.telephoneLink}>{client.telephone}</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Carte -->
+{client.googleMapsEmbed && (
+  <div class="map-wrap">
+    <iframe src={client.googleMapsEmbed} width="100%" height="380" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localisation" />
+  </div>
+)}
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0"><p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p><a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a></div></div></footer>
+</Layout>
+
+<script define:vars={{ web3Key, emailClient: client.email, nomClient: client.nom }}>
+  const btn = document.getElementById('submitBtn'),
+        fc  = document.getElementById('contactForm'),
+        ok  = document.getElementById('formOk');
+  btn?.addEventListener('click', async () => {
+    const nom    = (document.getElementById('fNom') as HTMLInputElement)?.value || '',
+          tel    = (document.getElementById('fTel') as HTMLInputElement)?.value || '',
+          email  = (document.getElementById('fEmail') as HTMLInputElement)?.value || '',
+          ville  = (document.getElementById('fVille') as HTMLInputElement)?.value || '',
+          presta = (document.getElementById('fPresta') as HTMLSelectElement)?.value || '',
+          lgt    = (document.getElementById('fLogement') as HTMLSelectElement)?.value || '',
+          msg    = (document.getElementById('fMsg') as HTMLTextAreaElement)?.value || '';
+    if(!nom||!tel||!ville||!presta){alert('Remplissez les champs obligatoires (*).');return;}
+    (btn as HTMLButtonElement).disabled = true; btn.textContent = 'Envoi en cours…';
+    if(web3Key){try{
+      const r = await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({access_key:web3Key,subject:`Devis électricité — ${presta} — ${nom} (${ville})`,
+          from_name:nom,telephone:tel,email,commune:ville,prestation:presta,logement:lgt,message:msg})});
+      const d = await r.json();
+      if(d.success&&fc&&ok){fc.style.display='none';ok.style.display='flex';return;}
+    }catch(e){}}
+    window.location.href='mailto:'+emailClient+'?subject='+encodeURIComponent('Devis — '+presta+' — '+ville)+'&body='+encodeURIComponent('Nom: '+nom+'\nTél: '+tel+'\nCommune: '+ville+'\nPrestation: '+presta+'\nLogement: '+lgt+'\n\n'+msg);
+  });
+</script>
+
+<style>
+.contact-grid{display:grid;grid-template-columns:360px 1fr;gap:56px;align-items:start;}
+.urg-card{background:var(--primary);border-radius:var(--r-md);padding:18px;margin-bottom:16px;}
+.urg-card-head{display:flex;align-items:center;gap:10px;color:var(--accent);font-size:1rem;margin-bottom:8px;}
+.urg-card p{font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.65;}
+.info-bloc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:18px;margin-bottom:14px;}
+.ib-title{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;}
+.info-items{display:flex;flex-direction:column;gap:12px;}
+.ii{display:flex;align-items:flex-start;gap:10px;}
+.ii-icon{font-size:1rem;margin-top:3px;flex-shrink:0;}
+.ii small{display:block;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.ii a,.ii span{font-size:.88rem;font-weight:600;color:var(--text);}
+.ii a:hover{color:var(--accent);}
+.horaires{display:flex;flex-direction:column;gap:1px;}
+.h-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:.85rem;}
+.h-row:last-child{border-bottom:none;}
+.h-jour{font-weight:700;}
+.h-val{color:var(--text-muted);}
+.h-val.ferme{color:var(--text-light);}
+.h-val.urgence{color:var(--accent);font-weight:700;}
+.zone-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.form-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:32px;}
+.form-title{font-size:1.4rem;font-weight:700;letter-spacing:-.03em;margin-bottom:6px;}
+.form-sub{font-size:.88rem;color:var(--text-muted);margin-bottom:24px;}
+.fields{display:flex;flex-direction:column;gap:14px;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:12px;font-weight:700;font-family:var(--font-disp);color:var(--text);}
+.fg input,.fg select,.fg textarea{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r);font-family:var(--font-body);font-size:.88rem;color:var(--text);background:var(--bg);transition:border-color .2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--accent);}
+.fg textarea{resize:vertical;min-height:100px;}
+.form-ok{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:48px;flex-direction:column;align-items:center;text-align:center;gap:10px;}
+.ok-icon{font-size:3rem;}
+.form-ok h3{font-size:1.4rem;font-weight:700;}
+.form-ok p{color:var(--text-muted);line-height:1.7;}
+.form-ok a{color:var(--accent);font-weight:700;}
+.map-wrap{height:380px;}
+.map-wrap iframe{display:block;}
+@media(max-width:1024px){.contact-grid{grid-template-columns:1fr;}.contact-info{order:2;}.form-wrap{order:1;}}
+@media(max-width:640px){.f-row{grid-template-columns:1fr;}.form-card{padding:20px;}}
+</style>

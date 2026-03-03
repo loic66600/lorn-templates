@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`Mentions légales — ${client.nom}`}
+  description={`Mentions légales et politique de confidentialité de ${client.nom}, menuisier à Perpignan (66).`}
+  noIndex={true}
+>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/><rect x="2" y="13" width="16" height="5"/></svg></div>
+      <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">Menuisier · Perpignan</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/contact">Contact</a>
+  </div>
+</nav>
+
+<section class="legal-wrap">
+  <div class="wrap legal-container">
+    <nav class="l-bc"><a href="/">Accueil</a><span>›</span><span>Mentions légales</span></nav>
+    <h1 class="display l-title">Mentions légales</h1>
+    <p class="l-date">Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { year:'numeric', month:'long', day:'numeric' })}</p>
+
+    <div class="l-content">
+
+      <div class="lb">
+        <h2 class="display">1. Éditeur du site</h2>
+        <p><strong>{client.responsable}</strong><br />
+        Entreprise individuelle · SIRET : {client.siret}<br />
+        Adresse : {client.adresse}<br />
+        Téléphone : <a href={client.telephoneLink}>{client.telephone}</a><br />
+        Email : <a href={`mailto:${client.email}`}>{client.email}</a></p>
+        <p>Activité : {client.specialite}. Qualification Qualibat RGE 3711.</p>
+      </div>
+
+      <div class="lb">
+        <h2 class="display">2. Hébergement</h2>
+        <p>{client.hebergeur} — <a href="https://www.netlify.com" target="_blank" rel="noopener">www.netlify.com</a></p>
+      </div>
+
+      <div class="lb">
+        <h2 class="display">3. Conception & développement</h2>
+        <p>Site conçu et développé par <strong>LORN Digital Studio</strong> — <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener">vitemonsite-artisan.fr</a></p>
+      </div>
+
+      <div class="lb">
+        <h2 class="display">4. Propriété intellectuelle</h2>
+        <p>L'ensemble du contenu (textes, photographies, design, code) est la propriété de {client.nom} ou de ses partenaires. Toute reproduction sans autorisation écrite préalable est interdite (art. L.335-2 du CPI). Les photos proviennent de Unsplash.com (licence Unsplash, usage commercial autorisé).</p>
+      </div>
+
+      <div class="lb">
+        <h2 class="display">5. Protection des données personnelles (RGPD)</h2>
+
+        <h3 class="display">Données collectées</h3>
+        <p>Via le formulaire de contact : nom, téléphone, email, ville du chantier, type de prestation, description du projet. Ces données sont utilisées exclusivement pour traiter votre demande de devis et vous recontacter.</p>
+
+        <h3 class="display">Base légale</h3>
+        <p>Consentement de la personne concernée (art. 6.1.a RGPD) et intérêt légitime (art. 6.1.f RGPD).</p>
+
+        <h3 class="display">Durée de conservation</h3>
+        <p>3 ans à compter de votre dernière interaction. Les devis non transformés sont supprimés à l'issue du délai légal de prospection commerciale.</p>
+
+        <h3 class="display">Vos droits</h3>
+        <p>Droits d'accès, rectification, suppression, limitation, portabilité et opposition (RGPD art. 15 à 21). Pour les exercer : <a href={`mailto:${client.email}`}>{client.email}</a>. Recours possible auprès de la <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a>.</p>
+
+        <h3 class="display">Sous-traitant — Formulaire</h3>
+        <p>Les données du formulaire sont transmises via <strong>Web3Forms</strong> (web3forms.com), service conforme RGPD. Aucune revente ni transmission à des tiers.</p>
+      </div>
+
+      <div class="lb">
+        <h2 class="display">6. Cookies</h2>
+        <p>Ce site utilise uniquement des cookies techniques strictement nécessaires (mémorisation de votre choix de consentement via localStorage). Aucun cookie publicitaire, tracker analytique ou pixel tiers.</p>
+      </div>
+
+      <div class="lb">
+        <h2 class="display">7. Responsabilité</h2>
+        <p>{client.nom} s'efforce de maintenir les informations à jour mais ne saurait être tenu responsable d'inexactitudes ou d'omissions. Les tarifs indiqués sont indicatifs et sujets à modification. Tout chantier fait l'objet d'un devis personnalisé.</p>
+      </div>
+
+      <div class="lb">
+        <h2 class="display">8. Droit applicable</h2>
+        <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, compétence exclusive des tribunaux du ressort de Perpignan.</p>
+      </div>
+
+    </div>
+
+    <a href="/" class="btn btn-outline" style="margin-top:2.5rem">← Retour à l'accueil</a>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom}</p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<style>
+.legal-wrap { padding: calc(var(--nav-h) + 4.5rem) 0 5rem; }
+.legal-container { max-width:720px; }
+.l-bc { display:flex; gap:10px; font-size:10.5px; color:var(--text-muted); margin-bottom:20px; letter-spacing:.08em; text-transform:uppercase; align-items:center; }
+.l-bc a { color:var(--text-muted); } .l-bc a:hover { color:var(--gold); }
+.l-title { font-size:clamp(2rem,4vw,3rem); margin-bottom:6px; }
+.l-date { font-size:12px; color:var(--text-muted); margin-bottom:3.5rem; font-weight:300; }
+.l-content { display:flex; flex-direction:column; }
+.lb { padding:1.75rem 0; border-bottom:1px solid var(--border); }
+.lb:last-child { border-bottom:none; }
+.lb h2 { font-size:.9rem; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.9rem; color:var(--text); }
+.lb h3 { font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; margin:1rem 0 .4rem; color:var(--gold); font-weight:400; }
+.lb p { font-size:.87rem; color:var(--text-muted); line-height:1.9; margin-bottom:.6rem; font-weight:300; }
+.lb p:last-child { margin-bottom:0; }
+.lb a { color:var(--gold); }
+.lb strong { color:var(--text); font-weight:500; }
+</style>

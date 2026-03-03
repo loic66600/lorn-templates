@@ -1,0 +1,22 @@
+{
+  "id": "charpentier-couvreur-croissance",
+  "nom": "Charpentier Couvreur — Croissance",
+  "metier": "charpentier-couvreur",
+  "categorie": "batiment",
+  "formule": "croissance",
+  "pages": 7,
+  "pagesListe": ["index", "services", "realisations", "tarifs", "a-propos", "contact", "mentions-legales"],
+  "palette": {
+    "primary": "#1C1F2E",
+    "accent": "#C87941",
+    "bg": "#F8F7F4",
+    "theme": "clair"
+  },
+  "polices": ["Syne", "DM Sans"],
+  "tags": ["charpentier", "couvreur", "toiture", "couverture tuile", "zinguerie", "isolation toiture", "charpente bois"],
+  "port": 4023,
+  "preview": "",
+  "screenshot": "",
+  "version": "2.0.0",
+  "date": "2026-03-02"
+}

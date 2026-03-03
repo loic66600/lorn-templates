@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`Réalisations — ${client.nom}`}
+  description={`Galerie de chantiers réalisés par ${client.nom} : fenêtres, portes, baies vitrées, volets, vérandas dans les Pyrénées-Orientales.`}
+>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/><rect x="2" y="13" width="16" height="5"/></svg></div>
+      <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">Menuisier · Perpignan</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li>
+      <li><a href="/realisations" class="active">Réalisations</a></li><li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/a-propos">À Propos</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-gold">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<div class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Réalisations</span></nav>
+    <div class="eyebrow eyebrow-white">Chantiers</div>
+    <h1 class="ph-title display">{client.stats[1].chiffre}+ chantiers<br><em>dans le 66</em></h1>
+    <p class="ph-sub">Une sélection de réalisations récentes — fenêtres, portes, baies vitrées, volets et vérandas.</p>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap">
+    <!-- Filtres -->
+    <div class="filters">
+      {client.realisationsCategories.map(cat => (
+        <button class={`fbtn ${cat.id==='all'?'active':''}`} data-filter={cat.id}>
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Grille -->
+    <div class="real-grid" id="realGrid">
+      {client.realisations.map((r, i) => (
+        <article class="real-card" data-cat={r.categorie}>
+          <div class="real-img">
+            <img src={r.image} alt={r.titre} loading="lazy" />
+            <span class="real-mat tag tag-gold">{r.materiau}</span>
+          </div>
+          <div class="real-body">
+            <div class="real-meta">
+              <span class="display rm-cat">{r.categorie}</span>
+              <span>·</span><span>{r.lieu}</span>
+              <span>·</span><span>{r.annee}</span>
+            </div>
+            <h3 class="display real-title">{r.titre}</h3>
+            <p>{r.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="wrap cta-dk">
+    <div>
+      <h2 class="h2 h2-white display">Votre chantier,<br>notre prochain projet</h2>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/contact" class="btn btn-gold btn-lg">Devis gratuit →</a>
+      <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<script>
+  document.querySelectorAll('.fbtn').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = (btn as HTMLElement).dataset.filter || 'all';
+    document.querySelectorAll('[data-cat]').forEach(c => {
+      (c as HTMLElement).style.display = f==='all'||(c as HTMLElement).dataset.cat===f ? '' : 'none';
+    });
+  }));
+</script>
+
+<style>
+.filters { display:flex; gap:0; flex-wrap:wrap; border:1px solid var(--border); margin-bottom:2rem; }
+.fbtn { padding:12px 20px; font-family:var(--font-body); font-size:10.5px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; border:none; border-right:1px solid var(--border); background:transparent; color:var(--text-muted); cursor:pointer; }
+.fbtn:last-child { border-right:none; }
+.fbtn.active { background:var(--black); color:var(--gold); }
+.fbtn:hover:not(.active) { background:var(--bg-alt); }
+
+.real-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--border); }
+.real-card { border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+.real-card:nth-child(3n) { border-right:none; }
+.real-card:hover { background:var(--bg-alt); }
+.real-img { position:relative; height:260px; overflow:hidden; }
+.real-img img { width:100%; height:100%; object-fit:cover; }
+.real-card:hover .real-img img { transform:scale(1.03); }
+.real-mat { position:absolute; top:12px; left:12px; }
+.real-body { padding:22px; }
+.real-meta { display:flex; gap:8px; align-items:center; font-size:10px; color:var(--text-muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; flex-wrap:wrap; }
+.rm-cat { color:var(--gold); }
+.real-title { font-size:.95rem; margin-bottom:6px; }
+.real-body p { font-size:.82rem; color:var(--text-muted); line-height:1.7; font-weight:300; }
+.cta-dk { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
+@media(max-width:1024px) { .real-grid { grid-template-columns:repeat(2,1fr); } .real-card:nth-child(3n) { border-right:1px solid var(--border); } .real-card:nth-child(2n) { border-right:none; } }
+@media(max-width:640px) { .real-grid { grid-template-columns:1fr; } .real-card { border-right:none; } .cta-dk { flex-direction:column; } .filters { flex-direction:column; } .fbtn { border-right:none; border-bottom:1px solid var(--border); } }
+</style>

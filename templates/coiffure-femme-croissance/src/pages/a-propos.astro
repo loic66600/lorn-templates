@@ -1,0 +1,300 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`À Propos — ${client.nom}`}
+  description={`${client.apropos.sousTitre} — coiffeur femme certifié à Perpignan. Découvrez l'histoire du studio, l'équipe et les valeurs qui guident chaque prestation.`}
+>
+
+<nav class="navbar solid" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark">✂</div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">{client.nom}</span>
+        <span class="nav-logo-sub">Coiffure femme · Perpignan</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li><li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/a-propos" class="active">À Propos</a></li><li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
+      <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-rose">Réserver</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href={client.reservationUrl} target="_blank" class="mob-cta">Réserver en ligne →</a>
+  </div>
+</nav>
+
+<!-- HEADER DARK + STATS -->
+<header class="ap-header sec-dark">
+  <div class="wrap ap-header-inner">
+    <div class="ap-intro silk">
+      <nav class="ph-bc" style="margin-bottom:14px">
+        <a href="/" style="color:rgba(255,255,255,.25)">Accueil</a>
+        <span style="color:rgba(255,255,255,.2)">›</span>
+        <span style="color:rgba(255,255,255,.25)">À Propos</span>
+      </nav>
+      <div class="eyebrow eyebrow-rose">{client.apropos.sousTitre}</div>
+      <h1 class="serif ap-title">{client.apropos.titre}</h1>
+      <p class="ap-lead">{client.apropos.paragraphe1}</p>
+    </div>
+    <div class="ap-stats silk d2">
+      {client.stats.map(s => (
+        <div class="ap-stat">
+          <div class="ap-stat-num serif">
+            <span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span>
+          </div>
+          <div class="ap-stat-lbl">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</header>
+
+<!-- HISTOIRE + IMAGE + CERTIFS -->
+<section class="sec">
+  <div class="wrap story-layout">
+
+    <!-- Image + certifs -->
+    <div class="story-left silk">
+      <div class="story-img-wrap">
+        <div class="story-img iz">
+          <img src={client.apropos.image} alt={client.apropos.imageAlt} loading="lazy" />
+        </div>
+        <!-- Cadre décoratif -->
+        <div class="story-img-frame"></div>
+      </div>
+      <div class="certs-card">
+        <h3 class="serif certs-h">Certifications</h3>
+        {client.apropos.certifications.map(c => (
+          <div class="cert-item">
+            <span class="cert-dot">✦</span>
+            <span>{c}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Texte -->
+    <div class="story-right silk d2">
+      <div class="eyebrow">Notre histoire</div>
+      <h2 class="h2 serif">{client.nom}</h2>
+      <p class="story-p">{client.apropos.paragraphe1}</p>
+      <p class="story-p">{client.apropos.paragraphe2}</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:2rem">
+        <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-velvet">Réserver en ligne →</a>
+        <a href="/contact" class="btn btn-outline">Nous contacter</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VALEURS -->
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow silk">Ce qui nous guide</div>
+      <h2 class="h2 serif silk d1">Nos valeurs</h2>
+    </div>
+    <div class="val-grid">
+      {client.apropos.valeurs.map((v, i) => (
+        <div class={`val-card silk d${i + 1}`}>
+          <div class="val-icon">{v.icone}</div>
+          <h3 class="serif val-title">{v.titre}</h3>
+          <p class="val-desc">{v.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- L'ÉQUIPE -->
+<section class="sec">
+  <div class="wrap equipe-layout">
+    <div class="equipe-img silk">
+      <div class="eq-img-wrap iz">
+        <img src={client.heroImage2} alt="L'équipe du Studio Élise" loading="lazy" />
+      </div>
+      <div class="eq-badge serif">
+        <span class="eq-num">3</span>
+        <span class="eq-lbl">coiffeuses passionnées</span>
+      </div>
+    </div>
+    <div class="equipe-txt silk d2">
+      <div class="eyebrow">Notre équipe</div>
+      <h2 class="h2 serif">Des expertes<br><em style="font-style:italic">à votre service</em></h2>
+      <p class="story-p" style="margin-top:1rem">
+        Le Studio Élise c'est une équipe de 3 coiffeuses formées aux dernières techniques.
+        Pas de turn-over — vos stylistes vous connaissent, se souviennent de vos préférences
+        et anticipent vos envies. Cette continuité est notre fierté.
+      </p>
+      <p class="story-p">
+        Chaque année, l'équipe entière suit des formations certifiantes — nouvelles techniques
+        de balayage, colorations végétales, extensions premium. Parce que votre satisfaction
+        mérite que nous restions toujours à la pointe.
+      </p>
+      <div class="equipe-atouts">
+        {["Formation continue annuelle", "Produits L'Oréal Pro & Redken", "Diagnostic offert à chaque visite", "Satisfaction garantie ou retouche"].map(a => (
+          <div class="ea-item">
+            <span class="ea-check">✦</span>
+            <span>{a}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section class="sec-rose">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow silk">Ce qu'elles disent</div>
+      <h2 class="h2 serif silk d1">Clientes<br><em style="font-style:italic">satisfaites</em></h2>
+    </div>
+    <div class="test-mini-grid">
+      {client.temoignages.slice(0,2).map((t, i) => (
+        <div class={`test-mini silk d${i + 1}`}>
+          <div class="tm-stars">★★★★★</div>
+          <blockquote class="serif tm-q">"{t.texte}"</blockquote>
+          <div class="tm-who">
+            <div class="tm-av serif">{t.nom.charAt(0)}</div>
+            <div>
+              <strong class="serif">{t.nom}</strong>
+              <span>{t.type}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="/contact" class="btn btn-velvet silk">Rejoindre nos clientes →</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="wrap cta-dk">
+    <div class="silk">
+      <h2 class="h2 h2-white serif">Venez nous rendre visite</h2>
+      <p style="color:rgba(255,255,255,.4);margin-top:10px;font-weight:300">{client.adresse} · {client.horairesResume}</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap" class="silk d2">
+      <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-rose btn-lg">Réserver en ligne →</a>
+      <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-bottom" style="border-top:none;padding-top:0">
+      <p>© {new Date().getFullYear()} {client.nom} — <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+    </div>
+  </div>
+</footer>
+</Layout>
+
+<style>
+/* HEADER */
+.ap-header { padding: calc(var(--nav-h) + 4rem) 0 5rem; }
+.ap-header-inner { display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center; }
+.ap-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 600; color: #fff; margin: 12px 0 18px; letter-spacing: -.01em; line-height: 1.1; }
+.ap-lead { font-size: .9rem; color: rgba(255,255,255,.45); line-height: 1.85; max-width: 500px; font-weight: 300; }
+.ap-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(255,255,255,.06); border-radius: var(--r-md); overflow: hidden; min-width: 260px; }
+.ap-stat { background: rgba(255,255,255,.03); padding: 22px; }
+.ap-stat-num { font-size: 1.9rem; font-weight: 600; color: var(--rose-light); line-height: 1; }
+.ap-stat-lbl { font-size: 11px; color: rgba(255,255,255,.3); margin-top: 4px; letter-spacing: .04em; }
+
+/* STORY */
+.story-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.story-img-wrap { position: relative; margin-bottom: 20px; }
+.story-img { border-radius: var(--r-md); overflow: hidden; height: 460px; position: relative; z-index: 1; }
+.story-img img { width: 100%; height: 100%; object-fit: cover; }
+.story-img-frame {
+  position: absolute; inset: 18px -18px -18px 18px;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--r-md); z-index: 0;
+}
+.certs-card { background: var(--bg-alt); border: 1px solid var(--border-warm); border-radius: var(--r-md); padding: 22px; }
+.certs-h { font-size: .78rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+.cert-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: .84rem; color: var(--text-muted); font-weight: 300; }
+.cert-item:last-child { border-bottom: none; }
+.cert-dot { color: var(--rose); font-size: .65rem; flex-shrink: 0; }
+.story-p { font-size: .93rem; color: var(--text-muted); line-height: 1.9; font-weight: 300; margin-bottom: .9rem; }
+
+/* VALEURS */
+.val-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 3rem; }
+.val-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 28px 22px;
+  position: relative; overflow: hidden;
+  border-bottom: 2px solid var(--border);
+  transition: border-bottom-color .4s;
+}
+.val-card:hover { border-bottom-color: var(--rose); }
+.val-icon { font-size: 1.8rem; margin-bottom: 14px; }
+.val-title { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+.val-desc { font-size: .83rem; color: var(--text-muted); line-height: 1.75; font-weight: 300; }
+
+/* ÉQUIPE */
+.equipe-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.eq-img-wrap { border-radius: var(--r-md); overflow: hidden; height: 500px; margin-bottom: 20px; }
+.eq-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.equipe-img { position: relative; }
+.eq-badge {
+  position: absolute; bottom: 36px; left: -20px;
+  background: var(--bg-card); border: 1px solid var(--border-warm);
+  border-radius: var(--r-md); padding: 16px 22px;
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.eq-num { font-size: 2rem; font-weight: 600; color: var(--velvet); line-height: 1; }
+.eq-lbl { font-size: 11px; color: var(--text-muted); }
+.equipe-atouts { display: flex; flex-direction: column; gap: 10px; margin-top: 1.5rem; }
+.ea-item { display: flex; align-items: center; gap: 10px; font-size: .87rem; color: var(--text-muted); font-weight: 300; }
+.ea-check { color: var(--rose); font-size: .7rem; flex-shrink: 0; }
+
+/* TÉMOIGNAGES MINI */
+.test-mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 3rem; }
+.test-mini {
+  background: var(--bg-card); border: 1px solid var(--border-warm);
+  border-radius: var(--r-md); padding: 28px;
+}
+.tm-stars { color: var(--blush); letter-spacing: 2px; margin-bottom: 14px; font-size: .85rem; }
+.tm-q { font-family: var(--font-serif); font-size: .97rem; font-style: italic; line-height: 1.85; color: var(--text-muted); margin-bottom: 20px; font-weight: 400; }
+.tm-who { display: flex; align-items: center; gap: 12px; }
+.tm-av { width: 36px; height: 36px; border-radius: 50%; background: var(--rose); color: var(--velvet); display: flex; align-items: center; justify-content: center; font-size: .95rem; font-weight: 600; flex-shrink: 0; }
+.tm-who strong { display: block; font-size: .88rem; font-weight: 600; }
+.tm-who span { font-size: 11px; color: var(--text-muted); }
+
+.cta-dk { display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
+
+@media (max-width: 1024px) {
+  .ap-header-inner { grid-template-columns: 1fr; }
+  .ap-stats { grid-template-columns: repeat(4, 1fr); }
+  .story-layout { grid-template-columns: 1fr; gap: 36px; }
+  .val-grid { grid-template-columns: repeat(2, 1fr); }
+  .equipe-layout { grid-template-columns: 1fr; gap: 64px; }
+  .eq-img-wrap { height: 300px; }
+  .eq-badge { left: 10px; bottom: 20px; }
+}
+@media (max-width: 768px) {
+  .ap-stats { grid-template-columns: repeat(2, 1fr); }
+  .val-grid { grid-template-columns: 1fr; }
+  .test-mini-grid { grid-template-columns: 1fr; }
+  .cta-dk { flex-direction: column; }
+  .story-img-frame { display: none; }
+}
+</style>

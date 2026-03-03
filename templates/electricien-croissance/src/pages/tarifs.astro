@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Tarifs — ${client.nom}`} description={`Grille tarifaire ${client.nom} : tableau électrique, installation, domotique, IRVE, solaire. Prix indicatifs — devis gratuit Perpignan et 66.`}>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><div class="nav-logo-bolt">⚡</div><div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div></a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li>
+      <li class="nav-dropdown"><button class="nav-dd-toggle">Plus <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-dd-menu"><a href="/tarifs" class="active">Tarifs</a><a href="/a-propos">À Propos</a></div></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-accent">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<header class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+    <div class="eyebrow" style="color:var(--accent)">Prix indicatifs</div>
+    <h1 class="ph-title">Tarifs électricité<br>transparents</h1>
+    <p class="ph-sub">Prix HT indicatifs. Seul un devis après diagnostic donne un tarif précis. <strong style="color:#fff">Devis gratuit sous 24h.</strong></p>
+  </div>
+</header>
+
+<!-- GRILLE TARIFS -->
+<section class="section">
+  <div class="wrap">
+    <div class="tarifs-grid">
+      {client.tarifs.map((cat, i) => (
+        <div class={`tarif-bloc volt-up d${i+1}`}>
+          <div class="tb-head">
+            <span class="tb-num disp">0{i+1}</span>
+            <h2 class="disp tb-cat">{cat.categorie}</h2>
+          </div>
+          <div class="tb-items">
+            {cat.items.map(item => (
+              <div class="tb-item">
+                <div class="tb-left">
+                  <strong class="disp">{item.nom}</strong>
+                  <small>{item.detail}</small>
+                </div>
+                <span class="tb-prix disp">{item.prix}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Note -->
+    <div class="tarif-note volt">
+      <span class="note-ico">ℹ️</span>
+      <div>
+        <strong>Ces prix sont indicatifs (HT, hors fournitures spécifiques)</strong>
+        <p>Le tarif exact dépend de l'état de votre installation, de la superficie et des matériaux. Après diagnostic, le devis est fixe — aucune surprise en fin de chantier.</p>
+        <a href="/contact" class="btn btn-accent" style="margin-top:14px;display:inline-flex">Obtenir mon devis →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AIDES -->
+<section class="section-alt">
+  <div class="wrap">
+    <div class="sc"><div class="eyebrow volt">Financez vos travaux</div><h2 class="h2 volt d1">Aides & subventions disponibles</h2><p class="lead volt d2" style="margin:.75rem auto 0;text-align:center">Certifié <strong>RGE</strong>, vos projets solaires et isolation électrique sont éligibles à plusieurs aides cumulables.</p></div>
+    <div class="aides-grid">
+      {[
+        {icon:"🏛️",montant:"Jusqu'à 90%",    titre:"MaPrimeRénov'",     desc:"Aide État pour pompes à chaleur, panneaux solaires, isolation. Dossier accompagné."},
+        {icon:"⚡",montant:"Prime énergie",   titre:"CEE",               desc:"Certificats d'économie d'énergie versés par les fournisseurs. Cumulable avec MaPrimeRénov'."},
+        {icon:"📉",montant:"TVA à 10%",       titre:"TVA réduite",       desc:"Applicable sur l'installation de panneaux solaires dans les logements de plus de 2 ans."},
+        {icon:"🏦",montant:"Jusqu'à 50 000€", titre:"Éco-prêt 0%",       desc:"Financement sans intérêts pour travaux de rénovation énergétique."},
+        {icon:"🔋",montant:"Jusqu'à 1 000€",  titre:"Bonus IRVE",        desc:"Aide à l'installation de borne de recharge pour véhicule électrique."},
+        {icon:"🤝",montant:"Selon revenus",   titre:"Aide ANAH",         desc:"Aides aux ménages modestes pour travaux de rénovation énergétique."},
+      ].map((a, i) => (
+        <div class={`aide-card lift volt-up d${i+1}`}>
+          <div class="aide-icon">{a.icon}</div>
+          <div class="aide-montant disp">{a.montant}</div>
+          <h3 class="disp aide-titre">{a.titre}</h3>
+          <p class="aide-desc">{a.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap cta-tarif">
+    <div class="volt"><div class="eyebrow">Sans engagement</div><h2 class="h2">Devis gratuit sous 24h</h2><p class="lead" style="margin-top:.5rem">Nous vous rappelons pour fixer la visite diagnostic.</p></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap" class="volt d1"><a href="/contact" class="btn btn-dark btn-lg">Demander un devis →</a><a href={client.telephoneLink} class="btn btn-outline btn-lg">📞 {client.telephone}</a></div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0"><p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p><a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a></div></div></footer>
+</Layout>
+
+<style>
+.tarifs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:2rem;}
+.tarif-bloc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;}
+.tb-head{background:var(--primary);padding:18px 22px;display:flex;align-items:center;gap:12px;}
+.tb-num{font-size:1.8rem;font-weight:700;color:var(--accent);opacity:.45;line-height:1;}
+.tb-cat{font-size:1rem;font-weight:700;color:#fff;}
+.tb-items{padding:2px 0;}
+.tb-item{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;gap:14px;border-bottom:1px solid var(--border);transition:background .15s;}
+.tb-item:last-child{border-bottom:none;}
+.tb-item:hover{background:var(--bg-alt);}
+.tb-left{flex:1;}
+.tb-left strong{display:block;font-size:.88rem;font-weight:700;margin-bottom:2px;}
+.tb-left small{font-size:11px;color:var(--text-muted);}
+.tb-prix{font-family:var(--font-disp);font-size:.88rem;font-weight:800;color:var(--accent);white-space:nowrap;}
+.tarif-note{display:flex;gap:14px;background:var(--bg-alt);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--r);padding:20px 24px;}
+.note-ico{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+.tarif-note strong{display:block;font-size:.93rem;margin-bottom:6px;}
+.tarif-note p{font-size:.85rem;color:var(--text-muted);line-height:1.7;}
+.aides-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:3rem;}
+.aide-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:22px;}
+.aide-icon{font-size:1.5rem;margin-bottom:8px;}
+.aide-montant{font-size:.75rem;font-weight:700;color:var(--accent);letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;}
+.aide-titre{font-size:.95rem;font-weight:700;margin-bottom:6px;}
+.aide-desc{font-size:.82rem;color:var(--text-muted);line-height:1.7;}
+.cta-tarif{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;}
+@media(max-width:1024px){.tarifs-grid{grid-template-columns:1fr;}.aides-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){.aides-grid{grid-template-columns:1fr;}.cta-tarif{flex-direction:column;}}
+</style>

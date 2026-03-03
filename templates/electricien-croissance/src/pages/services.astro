@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Services — ${client.nom}`} description={`Tous les services électriques de ${client.nom} : tableau, installation, domotique, borne IRVE, solaire, dépannage urgence. Perpignan et 66.`}>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><div class="nav-logo-bolt">⚡</div><div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div></a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/services" class="active">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li>
+      <li class="nav-dropdown"><button class="nav-dd-toggle">Plus <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-dd-menu"><a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a></div></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-accent">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<header class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Services</span></nav>
+    <div class="eyebrow" style="color:var(--accent)">Nos prestations</div>
+    <h1 class="ph-title">Installation, domotique<br>& dépannage</h1>
+    <p class="ph-sub">Électricien certifié Qualifelec — tous travaux électriques avec remise du certificat Consuel.</p>
+  </div>
+</header>
+
+<!-- SERVICES ALTERNÉS -->
+<section class="section">
+  <div class="wrap">
+    {client.services.map((s, i) => (
+      <article class={`srow ${i%2===1 ? 'rev' : ''} volt`}>
+        <div class="srow-img iz">
+          <img src={s.image} alt={s.titre} loading="lazy" />
+          <div class="srow-num disp">0{i+1}</div>
+        </div>
+        <div class="srow-body">
+          <span class="srow-icon">{s.icone}</span>
+          <h2 class="disp srow-title">{s.titre}</h2>
+          <p class="srow-desc">{s.description}</p>
+          <div class="tags-row" style="margin-bottom:1.25rem">
+            {s.tags.map(t => <span class="tag">{t}</span>)}
+          </div>
+          <a href="/contact" class="btn btn-dark">Demander un devis →</a>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<!-- ENGAGEMENTS -->
+<section class="section-alt">
+  <div class="wrap">
+    <div class="sc"><div class="eyebrow volt">Nos engagements</div><h2 class="h2 volt d1">Pourquoi nous choisir ?</h2></div>
+    <div class="eng-grid">
+      {[
+        {icon:"🛡️",titre:"Normes NF C 15-100",desc:"Toutes nos installations respectent la norme en vigueur. Attestation Consuel remise à chaque chantier."},
+        {icon:"⚡",titre:"Urgence 24h/24",       desc:"Panne totale, court-circuit, disjoncteur — intervention sous 2h, 7 jours sur 7."},
+        {icon:"🌿",titre:"RGE certifié",        desc:"Éligible MaPrimeRénov', CEE, TVA réduite sur isolation et panneaux solaires."},
+        {icon:"🔋",titre:"IRVE certifié",        desc:"Seul un électricien IRVE peut installer votre borne de recharge en conformité."},
+        {icon:"📋",titre:"Devis 24h",            desc:"Déplacement gratuit, devis détaillé en 24h, tarif fixe garanti sans surprise."},
+        {icon:"👷",titre:"Équipe salariée",      desc:"Pas de sous-traitance. Nos 4 électriciens qualifiés interviennent directement chez vous."},
+      ].map((g, i) => (
+        <div class={`eng-card lift volt-up d${i+1}`}>
+          <div class="eng-icon">{g.icon}</div>
+          <h3 class="disp eng-title">{g.titre}</h3>
+          <p class="eng-desc">{g.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="wrap faq-layout">
+    <div class="faq-intro volt">
+      <div class="eyebrow">Questions fréquentes</div>
+      <h2 class="h2">Tout ce que vous voulez savoir</h2>
+      <p class="lead" style="margin-top:.75rem">Une question spécifique ? Appelez-nous directement.</p>
+      <a href={client.telephoneLink} class="btn btn-dark" style="margin-top:1.5rem">{client.telephone}</a>
+    </div>
+    <div class="faq-list">
+      {client.faq.map((f, i) => (
+        <details class="faq-item" open={i===0}>
+          <summary class="disp faq-q">{f.question}<span class="faq-chevron">+</span></summary>
+          <p class="faq-a">{f.reponse}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section-dark">
+  <div class="wrap cta-dk">
+    <div class="volt"><h2 class="h2 h2-white">Votre projet électrique</h2><p style="color:rgba(255,255,255,.45);margin-top:10px">Diagnostic gratuit · devis 24h · Consuel remis</p></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap" class="volt d1"><a href="/contact" class="btn btn-accent btn-lg">Devis gratuit →</a><a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a></div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0"><p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p><a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a></div></div></footer>
+</Layout>
+
+<style>
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;padding:4rem 0;border-bottom:1px solid var(--border);}
+.srow:last-child{border-bottom:none;}
+.srow.rev{direction:rtl;}.srow.rev>*{direction:ltr;}
+.srow-img{position:relative;border-radius:var(--r-md);overflow:hidden;height:360px;}
+.srow-img img{width:100%;height:100%;object-fit:cover;}
+.srow-num{position:absolute;bottom:14px;right:18px;font-size:5rem;font-weight:700;color:rgba(255,255,255,.14);line-height:1;}
+.srow-icon{font-size:1.8rem;display:block;margin-bottom:12px;}
+.srow-title{font-size:1.75rem;font-weight:700;letter-spacing:-.03em;margin-bottom:14px;}
+.srow-desc{font-size:.93rem;color:var(--text-muted);line-height:1.8;margin-bottom:16px;}
+.tags-row{display:flex;flex-wrap:wrap;gap:7px;}
+.eng-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:3rem;}
+.eng-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:24px;}
+.eng-icon{font-size:1.6rem;margin-bottom:12px;}
+.eng-title{font-size:.95rem;font-weight:700;margin-bottom:8px;}
+.eng-desc{font-size:.84rem;color:var(--text-muted);line-height:1.7;}
+.faq-layout{display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start;}
+.faq-list{display:flex;flex-direction:column;gap:3px;}
+.faq-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:2px;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;font-size:.93rem;font-weight:700;list-style:none;gap:12px;}
+.faq-q::-webkit-details-marker{display:none;}
+.faq-q:hover{background:var(--bg-alt);}
+.faq-chevron{flex-shrink:0;font-size:1.2rem;font-weight:300;color:var(--accent);transition:transform .2s;}
+details[open] .faq-chevron{transform:rotate(45deg);}
+.faq-a{padding:0 20px 16px;font-size:.88rem;color:var(--text-muted);line-height:1.8;}
+.cta-dk{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;}
+@media(max-width:1024px){.srow{grid-template-columns:1fr;gap:28px;}.srow.rev{direction:ltr;}.srow-img{height:260px;}.eng-grid{grid-template-columns:repeat(2,1fr);}.faq-layout{grid-template-columns:1fr;gap:28px;}}
+@media(max-width:768px){.eng-grid{grid-template-columns:1fr;}.cta-dk{flex-direction:column;}}
+</style>

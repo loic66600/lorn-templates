@@ -1,0 +1,227 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout
+  title={`À Propos — ${client.nom}`}
+  description={`${client.apropos.sousTitre} — paysagiste certifié ISA à Perpignan depuis 2005. Équipe de 5 arboristes, éco-responsable, pas de sous-traitance.`}
+>
+
+<nav class="navbar sc" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-leaf"><span>🌿</span></div>
+      <div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/realisations">Réalisations</a></li>
+      <li class="nav-dropdown"><button class="nav-dd-toggle">Plus <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-dd-menu"><a href="/tarifs">Tarifs</a><a href="/a-propos" class="active">À Propos</a></div></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-green">Devis gratuit</a></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
+    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+  </div>
+</nav>
+
+<!-- HEADER DARK + STATS -->
+<header class="ap-hero sec-dark">
+  <div class="wrap ap-hero-inner">
+    <div class="stem">
+      <nav class="ph-bc" style="margin-bottom:14px"><a href="/" style="color:rgba(255,255,255,.3)">Accueil</a><span style="color:rgba(255,255,255,.25)">›</span><span style="color:rgba(255,255,255,.3)">À Propos</span></nav>
+      <div class="eyebrow eyebrow-gold">{client.apropos.sousTitre}</div>
+      <h1 class="serif ap-title">{client.apropos.titre}</h1>
+      <p class="ap-lead">{client.apropos.paragraphe1}</p>
+    </div>
+    <!-- Stats compteurs -->
+    <div class="ap-stats branch">
+      {client.stats.map(s => (
+        <div class="ap-stat">
+          <div class="ap-stat-num serif">
+            <span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span>
+          </div>
+          <div class="ap-stat-lbl">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</header>
+
+<!-- HISTOIRE + IMAGE + CERTIFS -->
+<section class="sec">
+  <div class="wrap story-grid">
+    <div class="story-left stem">
+      <div class="story-img iz">
+        <img src={client.apropos.image} alt={client.apropos.imageAlt} loading="lazy" />
+      </div>
+      <!-- Certifications -->
+      <div class="certs-box">
+        <h3 class="serif certs-h">Certifications & Habilitations</h3>
+        {client.apropos.certifications.map(c => (
+          <div class="cert-row">
+            <span class="cert-leaf">🌿</span>
+            <span>{c}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="story-right branch">
+      <div class="eyebrow">Notre histoire</div>
+      <h2 class="h2 serif">{client.nom}</h2>
+      <p class="story-p">{client.apropos.paragraphe1}</p>
+      <p class="story-p">{client.apropos.paragraphe2}</p>
+
+      <!-- Éco-engagements -->
+      <div class="eco-box">
+        <h3 class="serif eco-h">🌱 Nos engagements éco-responsables</h3>
+        {client.eco.engagements.map(e => (
+          <div class="eco-row">
+            <span class="eco-ck">✓</span><span>{e}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:2rem">
+        <a href="/contact" class="btn btn-forest">Demander un devis →</a>
+        <a href={client.telephoneLink} class="btn btn-outline">{client.telephone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALEURS -->
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="sc">
+      <div class="eyebrow grow">Ce qui nous guide</div>
+      <h2 class="h2 serif grow d1">Nos valeurs</h2>
+    </div>
+    <div class="val-grid">
+      {client.apropos.valeurs.map((v, i) => (
+        <div class={`val-card lift grow d${i+1}`}>
+          <div class="val-icon">{v.icone}</div>
+          <h3 class="serif val-title">{v.titre}</h3>
+          <p class="val-desc">{v.description}</p>
+          <div class="val-num serif">0{i+1}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- L'ÉQUIPE — section narrative -->
+<section class="sec">
+  <div class="wrap equipe-grid">
+    <div class="equipe-img branch">
+      <div class="eq-img-stack">
+        <div class="eq-img iz">
+          <img src={client.heroImage2} alt="Équipe paysagiste" loading="lazy" />
+        </div>
+        <div class="eq-badge serif">
+          <span>5</span>
+          <span>arboristes qualifiés</span>
+        </div>
+      </div>
+    </div>
+    <div class="equipe-txt stem">
+      <div class="eyebrow">Notre équipe</div>
+      <h2 class="h2 serif">Des compagnons passionnés,<br><em style="font-style:italic">pas de sous-traitance</em></h2>
+      <p class="story-p" style="margin-top:1rem">Chez Verde Paysage, pas de sous-traitance. Chaque membre de l'équipe connaît votre jardin depuis le premier jour. Nos 5 arboristes et paysagistes sont salariés, formés en interne et certifiés ISA pour les travaux d'arboriculture.</p>
+      <p class="story-p">Ils interviennent en binôme ou en équipe selon la nature du chantier, toujours avec le même souci du détail et le même respect du vivant. Votre jardin est entre les meilleures mains.</p>
+      <div class="team-vals">
+        <span class="tv">✓ Arboristes certifiés ISA</span>
+        <span class="tv">✓ Habilitation travail en hauteur</span>
+        <span class="tv">✓ Formation continue</span>
+        <span class="tv">✓ Assurance RC Pro & décennale</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZONES -->
+<section class="sec-alt zones-sec">
+  <div class="wrap">
+    <div class="eyebrow grow">Zone d'intervention</div>
+    <h2 class="h2 serif grow d1">Tout le département 66</h2>
+    <p class="lead grow d2" style="margin-top:.5rem">{client.rayonKm} km autour de Perpignan — de la côte aux Corbières. Déplacement gratuit pour le diagnostic.</p>
+    <div class="zone-tags">
+      {client.zones.map((z, i) => <span class={`tag grow d${(i%4)+1}`}>{z}</span>)}
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="wrap cta-dk">
+    <div class="grow">
+      <h2 class="h2 h2-white serif">Travaillons ensemble</h2>
+      <p style="color:rgba(255,255,255,.45);margin-top:10px">Visite gratuite · devis 48h · arboriste certifié ISA</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap" class="grow d1">
+      <a href="/contact" class="btn btn-green btn-lg">Devis gratuit →</a>
+      <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
+</div></div></footer>
+</Layout>
+
+<style>
+/* HERO AP */
+.ap-hero { padding: calc(var(--nav-h) + 4rem) 0 5rem; }
+.ap-hero-inner { display:grid; grid-template-columns:1fr auto; gap:64px; align-items:center; }
+.ap-title { font-size:clamp(2rem,4vw,3rem); font-weight:700; letter-spacing:-.02em; color:#fff; margin:12px 0 16px; line-height:1.1; }
+.ap-lead { font-size:.92rem; color:rgba(255,255,255,.5); line-height:1.8; max-width:480px; }
+.ap-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:rgba(255,255,255,.07); border-radius:var(--r-md); overflow:hidden; min-width:260px; }
+.ap-stat { background:rgba(255,255,255,.03); padding:20px; }
+.ap-stat-num { font-size:1.8rem; font-weight:700; color:var(--green-light); line-height:1; }
+.ap-stat-lbl { font-size:11px; color:rgba(255,255,255,.35); margin-top:4px; }
+/* STORY */
+.story-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.story-img { border-radius:var(--r-md); overflow:hidden; height:420px; margin-bottom:18px; }
+.story-img img { width:100%; height:100%; object-fit:cover; }
+.certs-box { background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--r-md); padding:20px; }
+.certs-h { font-size:.78rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
+.cert-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:.86rem; }
+.cert-row:last-child { border-bottom:none; }
+.cert-leaf { color:var(--green); font-size:.9rem; }
+.story-p { font-size:.93rem; color:var(--text-muted); line-height:1.85; margin-bottom:.9rem; }
+.eco-box { background:var(--green-pale); border:1px solid rgba(92,158,74,.25); border-radius:var(--r-md); padding:18px 22px; margin-top:1.5rem; }
+.eco-h { font-size:.88rem; font-weight:700; margin-bottom:10px; }
+.eco-row { display:flex; align-items:center; gap:10px; padding:6px 0; font-size:.85rem; color:var(--text-muted); border-bottom:1px solid rgba(92,158,74,.12); }
+.eco-row:last-child { border-bottom:none; }
+.eco-ck { color:var(--green); font-weight:700; flex-shrink:0; }
+/* VALEURS */
+.val-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.val-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--r-md); padding:26px; position:relative; overflow:hidden; transition:border-color .25s, transform .38s, box-shadow .38s; }
+.val-card:hover { border-color:var(--green); }
+.val-num { position:absolute; bottom:8px; right:14px; font-size:3rem; font-weight:700; color:var(--bg-alt); line-height:1; }
+.val-icon { font-size:1.8rem; margin-bottom:12px; }
+.val-title { font-size:1rem; font-weight:700; margin-bottom:8px; }
+.val-desc { font-size:.84rem; color:var(--text-muted); line-height:1.72; }
+/* ÉQUIPE */
+.equipe-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.eq-img-stack { position:relative; }
+.eq-img { border-radius:var(--r-md); overflow:hidden; height:500px; }
+.eq-img img { width:100%; height:100%; object-fit:cover; }
+.eq-badge { position:absolute; bottom:-20px; left:24px; background:var(--green); color:#fff; padding:18px 26px; border-radius:var(--r-md); box-shadow:0 12px 40px rgba(92,158,74,.35); display:flex; flex-direction:column; gap:2px; }
+.eq-badge span:first-child { font-size:2.2rem; font-weight:700; line-height:1; }
+.eq-badge span:last-child { font-size:12px; opacity:.8; }
+.team-vals { display:flex; flex-direction:column; gap:8px; margin-top:1.5rem; }
+.tv { font-size:.88rem; color:var(--text-muted); display:flex; align-items:center; gap:8px; }
+/* ZONES */
+.zones-sec {}
+.zone-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:1.5rem; }
+.cta-dk { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
+@media(max-width:1024px) { .ap-hero-inner { grid-template-columns:1fr; } .ap-stats { grid-template-columns:repeat(4,1fr); } .story-grid { grid-template-columns:1fr; gap:36px; } .val-grid { grid-template-columns:repeat(2,1fr); } .equipe-grid { grid-template-columns:1fr; gap:64px; } }
+@media(max-width:768px) { .ap-stats { grid-template-columns:repeat(2,1fr); } .val-grid { grid-template-columns:1fr; } .cta-dk { flex-direction:column; } .eq-img { height:280px; } }
+</style>
