@@ -1,13 +1,17 @@
 {
-  "version": "2026-02-28",
-  "total": 9,
+  "version": "2026-03-03",
+  "total": 14,
   "metiers": [
     "barbershop",
     "batiment",
+    "charpentier-couvreur",
+    "coiffure",
     "electricien",
     "fastfood",
     "fleuriste",
     "massage",
+    "menuisier",
+    "paysagiste-elageur",
     "peintre",
     "plombier",
     "restaurant"
@@ -359,6 +363,116 @@
       "screenshot": "previews/restaurant-serenite.webp",
       "version": "2.0.0",
       "date": "2026-02-26"
+    },
+    {
+      "id": "electricien-croissance",
+      "nom": "Électricien — Croissance",
+      "metier": "electricien",
+      "categorie": "batiment",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "palette": {
+        "primary": "#0C0F1A",
+        "accent": "#F59E0B",
+        "bg": "#FAFAFA",
+        "theme": "clair"
+      },
+      "polices": ["Space Grotesk", "Inter"],
+      "tags": ["électricien", "tableau électrique", "domotique", "installation électrique", "dépannage électrique"],
+      "port": 4024,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-03-01"
+    },
+    {
+      "id": "charpentier-couvreur-croissance",
+      "nom": "Charpentier Couvreur — Croissance",
+      "metier": "charpentier-couvreur",
+      "categorie": "batiment",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "palette": {
+        "primary": "#1C1F2E",
+        "accent": "#C87941",
+        "bg": "#F8F7F4",
+        "theme": "clair"
+      },
+      "polices": ["Syne", "DM Sans"],
+      "tags": ["charpentier", "couvreur", "toiture", "couverture tuile", "zinguerie", "isolation toiture", "charpente bois"],
+      "port": 4023,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-03-02"
+    },
+    {
+      "id": "coiffure-femme-croissance",
+      "nom": "Salon de Coiffure Femme — Croissance",
+      "metier": "coiffure",
+      "categorie": "beaute",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "palette": {
+        "primary": "#2C1A1A",
+        "accent": "#D4A5A5",
+        "bg": "#FAF7F5",
+        "theme": "clair"
+      },
+      "polices": ["Cormorant Garamond", "DM Sans"],
+      "tags": ["coiffure femme", "salon coiffure", "coloration", "balayage", "soin cheveux"],
+      "port": 4026,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-03-02"
+    },
+    {
+      "id": "menuisier-croissance",
+      "nom": "Menuisier Fenêtres & Portes — Croissance",
+      "metier": "menuisier",
+      "categorie": "batiment",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "palette": {
+        "primary": "#111111",
+        "accent": "#B8964E",
+        "bg": "#FAFAF8",
+        "theme": "clair"
+      },
+      "polices": ["Tenor Sans", "Jost"],
+      "tags": ["menuisier", "fenêtres", "portes", "volets", "double vitrage"],
+      "port": 4027,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-03-02"
+    },
+    {
+      "id": "paysagiste-elageur-croissance",
+      "nom": "Paysagiste Élagueur — Croissance",
+      "metier": "paysagiste-elageur",
+      "categorie": "paysage",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "palette": {
+        "primary": "#1B2E1B",
+        "accent": "#5C9E4A",
+        "bg": "#F6F4EF",
+        "theme": "clair"
+      },
+      "polices": ["Playfair Display", "Outfit"],
+      "tags": ["paysagiste", "élagueur", "entretien jardin", "élagage", "création jardin"],
+      "port": 4025,
+      "preview": "",
+      "screenshot": "",
+      "version": "2.0.0",
+      "date": "2026-03-01"
     }
   ]
 }

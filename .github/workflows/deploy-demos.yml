@@ -36,7 +36,7 @@ jobs:
       - name: Copy previews
         run: cp -r previews _site/
 
-      - name: Generate ViteMonSite-style index page
+      - name: Generate index page
         run: |
           cat > _site/index.html << 'HTMLEOF'
           <!DOCTYPE html>
@@ -48,84 +48,118 @@ jobs:
             <style>
               *{margin:0;padding:0;box-sizing:border-box}
               body{
-                font-family:system-ui,sans-serif;
-                background:#FDFBF7;
-                color:#1F2937;
+                font-family:system-ui,-apple-system,sans-serif;
+                background:#F3F5F9;
+                color:#1E293B;
                 min-height:100vh;
                 padding:clamp(1.5rem,4vw,3rem);
               }
-              .container{max-width:1100px;margin:0 auto}
+              .container{max-width:1140px;margin:0 auto}
               .hero{
-                padding:32px;
-                border-radius:28px;
-                background:linear-gradient(135deg,#FFF7ED,#FFFFFF);
-                border:1px solid #F3E8D8;
-                box-shadow:0 20px 60px rgba(146,64,14,.08);
-                margin-bottom:32px;
+                padding:40px 44px;
+                border-radius:20px;
+                background:#ffffff;
+                border:1px solid #DBEAFE;
+                box-shadow:0 8px 40px rgba(29,78,216,.08), 0 1px 3px rgba(29,78,216,.06);
+                margin-bottom:36px;
+                position:relative;
+                overflow:hidden;
+              }
+              .hero::before{
+                content:"";
+                position:absolute;
+                inset:0;
+                background:linear-gradient(135deg,rgba(219,234,254,.5) 0%,transparent 60%);
+                pointer-events:none;
               }
               .kicker{
-                display:inline-block;
-                padding:6px 12px;
+                display:inline-flex;
+                align-items:center;
+                gap:6px;
+                padding:5px 12px;
                 border-radius:999px;
-                background:#FFF1E6;
-                color:#C2410C;
-                font-size:12px;
+                background:#EFF6FF;
+                color:#1D4ED8;
+                font-size:11px;
                 font-weight:700;
-                letter-spacing:.08em;
+                letter-spacing:.1em;
                 text-transform:uppercase;
-                margin-bottom:14px;
+                margin-bottom:16px;
+                border:1px solid #BFDBFE;
               }
               h1{
-                font-size:clamp(2rem,5vw,3.5rem);
-                line-height:1;
-                margin-bottom:12px;
-                color:#111827;
+                font-size:clamp(2rem,5vw,3rem);
+                font-weight:800;
+                line-height:1.1;
+                margin-bottom:14px;
+                color:#0F172A;
+                letter-spacing:-.02em;
               }
+              h1 span{color:#1D4ED8}
               .sub{
-                max-width:720px;
-                color:#6B7280;
-                line-height:1.7;
-                margin-bottom:18px;
+                max-width:640px;
+                color:#64748B;
+                line-height:1.75;
+                margin-bottom:24px;
+                font-size:15px;
               }
               .cta{
                 display:inline-flex;
                 align-items:center;
                 gap:8px;
-                padding:12px 18px;
-                border-radius:12px;
-                background:#D97706;
+                padding:11px 22px;
+                border-radius:10px;
+                background:#1D4ED8;
                 color:#fff;
                 text-decoration:none;
                 font-weight:700;
+                font-size:14px;
+                box-shadow:0 4px 14px rgba(29,78,216,.35);
+                transition:background .2s, box-shadow .2s, transform .15s;
               }
+              .cta:hover{
+                background:#1E40AF;
+                box-shadow:0 6px 20px rgba(29,78,216,.45);
+                transform:translateY(-1px);
+              }
+              .stats{
+                display:flex;
+                gap:24px;
+                flex-wrap:wrap;
+                margin-bottom:32px;
+              }
+              .stat{
+                font-size:13px;
+                color:#64748B;
+              }
+              .stat strong{color:#1D4ED8;font-weight:700}
               .grid{
                 display:grid;
-                grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-                gap:18px;
+                grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+                gap:20px;
               }
               .card{
                 display:block;
                 text-decoration:none;
                 color:inherit;
-                border-radius:22px;
+                border-radius:16px;
                 overflow:hidden;
-                background:#fff;
-                border:1px solid #F1E5D9;
-                box-shadow:0 10px 35px rgba(17,24,39,.06);
-                transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+                background:#ffffff;
+                border:1px solid #E2E8F0;
+                box-shadow:0 4px 16px rgba(15,23,42,.05);
+                transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
               }
               .card:hover{
-                transform:translateY(-4px);
-                box-shadow:0 18px 50px rgba(17,24,39,.12);
-                border-color:#E5C9A8;
+                transform:translateY(-5px);
+                box-shadow:0 16px 48px rgba(29,78,216,.12), 0 4px 12px rgba(15,23,42,.06);
+                border-color:#BFDBFE;
               }
               .thumb{
-                height:170px;
-                background:linear-gradient(135deg,#FFF7ED,#F9E8D9);
+                height:180px;
+                background:linear-gradient(135deg,#EFF6FF,#DBEAFE);
                 display:flex;
                 align-items:center;
                 justify-content:center;
-                font-size:42px;
                 overflow:hidden;
                 position:relative;
               }
@@ -142,116 +176,149 @@ jobs:
                 display:flex;
                 align-items:center;
                 justify-content:center;
-                font-size:42px;
+                font-size:44px;
               }
-              .content{padding:18px}
+              .content{padding:18px 20px}
               .top{
                 display:flex;
-                align-items:center;
+                align-items:flex-start;
                 justify-content:space-between;
                 gap:10px;
-                margin-bottom:10px;
+                margin-bottom:8px;
               }
               .badge{
-                font-size:11px;
+                font-size:10px;
                 font-weight:700;
-                padding:6px 10px;
+                padding:4px 10px;
                 border-radius:999px;
-                background:#FFF1E6;
-                color:#C2410C;
                 white-space:nowrap;
+                flex-shrink:0;
+                margin-top:2px;
               }
+              .badge-serenite{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+              .badge-croissance{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0}
               h3{
-                font-size:18px;
-                margin-bottom:8px;
-                color:#111827;
+                font-size:15px;
+                font-weight:700;
+                line-height:1.3;
+                color:#0F172A;
               }
-              p{
-                color:#6B7280;
-                font-size:14px;
-                line-height:1.6;
-                margin-bottom:12px;
+              .card-sub{
+                color:#64748B;
+                font-size:13px;
+                line-height:1.5;
+                margin-bottom:14px;
               }
               .meta{
                 display:flex;
                 flex-wrap:wrap;
-                gap:8px;
+                gap:6px;
               }
               .chip{
+                font-size:11px;
+                font-weight:500;
+                padding:4px 9px;
+                border-radius:6px;
+                background:#F8FAFC;
+                color:#475569;
+                border:1px solid #E2E8F0;
+              }
+              .arrow{
+                display:flex;
+                align-items:center;
+                justify-content:flex-end;
+                padding:10px 20px 14px;
                 font-size:12px;
-                padding:6px 10px;
-                border-radius:999px;
-                background:#F9FAFB;
-                color:#4B5563;
-                border:1px solid #E5E7EB;
+                font-weight:600;
+                color:#1D4ED8;
+                gap:4px;
               }
               .footer{
-                margin-top:40px;
+                margin-top:48px;
+                padding-top:24px;
+                border-top:1px solid #E2E8F0;
                 text-align:center;
-                color:#6B7280;
+                color:#94A3B8;
                 font-size:13px;
               }
-              .footer a{color:#C2410C;text-decoration:none}
+              .footer a{color:#1D4ED8;text-decoration:none;font-weight:500}
+              .footer a:hover{text-decoration:underline}
             </style>
           </head>
           <body>
             <div class="container">
               <section class="hero">
-                <span class="kicker">ViteMonSite</span>
-                <h1>Catalogue des demos templates</h1>
+                <div class="kicker">⬡ ViteMonSite · LORN Digital Studio</div>
+                <h1>Catalogue des <span>démos templates</span></h1>
                 <p class="sub">
-                  Selection de templates artisans et commerces propulses par LORN Digital Studio.
-                  Chaque demo ouvre un site de demonstration complet.
+                  Sélection de templates artisans et commerces locaux. Chaque démo ouvre un site complet.
+                  Formule Sérénité à partir de 49 €/mois, Croissance à 79 €/mois.
                 </p>
+                <div class="stats" id="stats"></div>
                 <a class="cta" href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener">
-                  Retour vers ViteMonSite
+                  → Retour vers ViteMonSite
                 </a>
               </section>
 
               <section class="grid" id="grid"></section>
 
               <div class="footer">
-                Propulse par <a href="https://lorn-digital-studio.fr" target="_blank" rel="noopener">LORN Digital Studio</a>
+                Propulsé par <a href="https://lorn-digital-studio.fr" target="_blank" rel="noopener">LORN Digital Studio</a>
               </div>
             </div>
 
             <script>
               const icons = {
                 batiment: "🏗️",
+                "charpentier-couvreur": "🏚️",
+                coiffure: "✂️",
                 electricien: "⚡",
-                plombier: "💧",
-                restaurant: "🍽️",
                 fastfood: "🍔",
                 barbershop: "💈",
                 fleuriste: "💐",
+                massage: "🧘",
+                menuisier: "🪵",
+                "paysagiste-elageur": "🌳",
                 peintre: "🎨",
-                massage: "🧘"
+                plombier: "💧",
+                restaurant: "🍽️"
               };
 
               fetch("./manifest.json")
                 .then(r => r.json())
                 .then(data => {
                   const grid = document.getElementById("grid");
+                  const statsEl = document.getElementById("stats");
+                  const total = data.templates.length;
+                  const croissance = data.templates.filter(t => t.formule === "croissance").length;
+                  const serenite = total - croissance;
+                  statsEl.innerHTML = `
+                    <span class="stat"><strong>${total}</strong> templates disponibles</span>
+                    <span class="stat"><strong>${serenite}</strong> Sérénité</span>
+                    <span class="stat"><strong>${croissance}</strong> Croissance</span>
+                  `;
                   data.templates.forEach(t => {
                     const icon = icons[t.metier] || "✨";
                     const url = `./${t.id}/`;
                     const thumb = t.screenshot
-                      ? `<img src="./${t.screenshot}" alt="Aperçu ${t.nom}" loading="lazy" />`
+                      ? `<img src="./${t.screenshot}" alt="${t.nom}" loading="lazy" />`
                       : `<div class="thumb-fallback">${icon}</div>`;
+                    const badgeClass = t.formule === "croissance" ? "badge-croissance" : "badge-serenite";
                     grid.innerHTML += `
                       <a class="card" href="${url}">
                         <div class="thumb">${thumb}</div>
                         <div class="content">
                           <div class="top">
                             <h3>${t.nom}</h3>
-                            <span class="badge">${t.formule}</span>
+                            <span class="badge ${badgeClass}">${t.formule.charAt(0).toUpperCase() + t.formule.slice(1)}</span>
                           </div>
-                          <p>${t.metier} • ${t.pages} page${t.pages > 1 ? "s" : ""}</p>
+                          <p class="card-sub">${t.pages} page${t.pages > 1 ? "s" : ""} · thème ${t.palette.theme}</p>
                           <div class="meta">
                             <span class="chip">${t.categorie}</span>
-                            <span class="chip">${t.palette.theme}</span>
+                            <span class="chip">${(t.polices || [])[0] || ""}</span>
                           </div>
                         </div>
+                        <div class="arrow">Voir la démo →</div>
                       </a>
                     `;
                   });
@@ -297,7 +364,6 @@ jobs:
           mkdir -p ../../_site/batipro-serenite
           cp -r dist/. ../../_site/batipro-serenite
 
-
       - name: Build restaurant-serenite
         run: |
           cd templates/restaurant-serenite
@@ -325,6 +391,46 @@ jobs:
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/plombier-serenite
           cp -r dist/. ../../_site/plombier-serenite
+
+      - name: Build electricien-croissance
+        run: |
+          cd templates/electricien-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/electricien-croissance
+          mkdir -p ../../_site/electricien-croissance
+          cp -r dist/. ../../_site/electricien-croissance
+
+      - name: Build charpentier-couvreur-croissance
+        run: |
+          cd templates/charpentier-couvreur-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/charpentier-couvreur-croissance
+          mkdir -p ../../_site/charpentier-couvreur-croissance
+          cp -r dist/. ../../_site/charpentier-couvreur-croissance
+
+      - name: Build coiffure-femme-croissance
+        run: |
+          cd templates/coiffure-femme-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/coiffure-femme-croissance
+          mkdir -p ../../_site/coiffure-femme-croissance
+          cp -r dist/. ../../_site/coiffure-femme-croissance
+
+      - name: Build menuisier-croissance
+        run: |
+          cd templates/menuisier-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/menuisier-croissance
+          mkdir -p ../../_site/menuisier-croissance
+          cp -r dist/. ../../_site/menuisier-croissance
+
+      - name: Build paysagiste-elageur-croissance
+        run: |
+          cd templates/paysagiste-elageur-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/paysagiste-elageur-croissance
+          mkdir -p ../../_site/paysagiste-elageur-croissance
+          cp -r dist/. ../../_site/paysagiste-elageur-croissance
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
