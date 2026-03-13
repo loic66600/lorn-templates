@@ -404,7 +404,7 @@
       "tags": ["électricien", "tableau électrique", "domotique", "installation électrique", "dépannage électrique"],
       "port": 4024,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/electricien-croissance.png",
       "version": "2.0.0",
       "date": "2026-03-01"
     },
@@ -426,7 +426,7 @@
       "tags": ["charpentier", "couvreur", "toiture", "couverture tuile", "zinguerie", "isolation toiture", "charpente bois"],
       "port": 4023,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/charpentier-couvreur-croissance.png",
       "version": "2.0.0",
       "date": "2026-03-02"
     },
@@ -448,7 +448,7 @@
       "tags": ["coiffure femme", "salon coiffure", "coloration", "balayage", "soin cheveux"],
       "port": 4026,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/coiffure-femme-croissance.png",
       "version": "2.0.0",
       "date": "2026-03-02"
     },
@@ -470,7 +470,7 @@
       "tags": ["menuisier", "fenêtres", "portes", "volets", "double vitrage"],
       "port": 4027,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/menuisier-croissance.png",
       "version": "2.0.0",
       "date": "2026-03-02"
     },
@@ -492,7 +492,7 @@
       "tags": ["paysagiste", "élagueur", "entretien jardin", "élagage", "création jardin"],
       "port": 4025,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/paysagiste-elageur-croissance.png",
       "version": "2.0.0",
       "date": "2026-03-01"
     }
