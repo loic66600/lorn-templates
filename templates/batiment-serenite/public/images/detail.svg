@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
-  <rect width="500" height="500" fill="#F3F4F6"/>
-  <rect x="2" y="2" width="496" height="496" fill="none" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="10,5"/>
-  <text x="250" y="230" font-family="system-ui,sans-serif" font-size="41" fill="#9CA3AF" text-anchor="middle">DETAIL</text>
-  <text x="250" y="264" font-family="system-ui,sans-serif" font-size="14" fill="#D1D5DB" text-anchor="middle">detail.svg — Detail de chantier</text>
-</svg>

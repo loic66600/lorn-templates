@@ -108,8 +108,8 @@ const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
         {client.services.map((s, i) => (
           <div class={`srv hover-lift reveal ${i > 0 ? `reveal-d${Math.min(i,3)}` : ''}`} data-tilt="5">
             <div class="srv-img img-zoom">
-              {/* TODO → Remplacer service-{i+1}.svg par une vraie photo 800x600 du service (renommer en .jpg) */}
-              <img src={`/images/service-${i+1}.svg`} alt={s.titre} loading="lazy"
+              {/* TODO CLIENT → Remplacer service-1..4.jpg par de vraies photos du client */}
+              <img src={`/images/service-${i+1}.jpg`} alt={s.titre} loading="lazy"
                    onerror={`this.parentElement.innerHTML='<div class="placeholder"><span>${s.icone}</span></div>'`} />
             </div>
             <div class="srv-body">
@@ -129,8 +129,8 @@ const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
   ══════════════════════════════════════════ -->
   <section class="par-banner">
     <div class="par-bg ken-burns">
-      {/* TODO → Remplacer banner.svg par une vraie photo de chantier large 1920x600 (renommer en .jpg) */}
-      <img src="/images/banner.svg" alt="" loading="lazy"
+      {/* TODO CLIENT → Remplacer banner.jpg par une photo de chantier large du client */}
+      <img src="/images/banner.jpg" alt="" loading="lazy"
            onerror="this.style.display='none'" />
     </div>
     <div class="par-overlay gradient-shift"></div>
@@ -183,13 +183,13 @@ const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
       <div class="about-grid">
         <div class="about-imgs">
           <div class="about-main clip-reveal">
-            {/* TODO → Remplacer equipe.svg par une photo de l'équipe ou du gérant 800x600 (renommer en .jpg) */}
-            <img src="/images/equipe.svg" alt={`Équipe ${client.nom}`} loading="lazy"
+            {/* TODO CLIENT → Remplacer equipe.jpg par la photo de l'équipe ou du gérant */}
+            <img src="/images/equipe.jpg" alt={`Équipe ${client.nom}`} loading="lazy"
                  onerror="this.parentElement.innerHTML='<div class=&quot;placeholder tall&quot;><span>📷</span><p>equipe.jpg</p></div>'" />
           </div>
           <div class="about-float scale-in" data-parallax="0.08">
-            {/* TODO → Remplacer detail.svg par une photo détail/outil de chantier 500x500 (renommer en .jpg) */}
-            <img src="/images/detail.svg" alt="Détail chantier" loading="lazy"
+            {/* TODO CLIENT → Remplacer detail.jpg par une photo détail/outil de chantier */}
+            <img src="/images/detail.jpg" alt="Détail chantier" loading="lazy"
                  onerror="this.parentElement.innerHTML='<div class=&quot;placeholder&quot;><span>🔨</span></div>'" />
           </div>
           <div class="about-badge float">

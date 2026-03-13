@@ -23,20 +23,16 @@ export const client = {
   descriptionSEO: "Artisan maçon à Perpignan. Construction, rénovation, extension, terrasse. Devis gratuit. Pyrénées-Orientales (66).",
   motsCles: "maçon perpignan, maçonnerie 66, rénovation perpignan, construction pyrénées orientales",
 
-  // ── Visuels (à placer dans public/images/) ──
-  // TODO → Remplacer par le vrai logo du client (200x200 min, fond transparent de préférence)
+  // ── Visuels ──
+  // TODO CLIENT → Remplacer logo.svg par le vrai logo (200x200 min, fond transparent)
   logo: "/images/logo.svg",
-  // TODO → Remplacer par la photo de chantier principale (1920x900, plein écran hero)
-  heroImage: "/images/hero.svg",
-  // TODO → Remplacer par une photo 1200x630 pour les partages réseaux sociaux (og:image)
-  ogImage: "/images/og.svg",
+  // TODO CLIENT → Remplacer hero.jpg par la photo de chantier principale du client
+  heroImage: "/images/hero.jpg",
+  // TODO CLIENT → Remplacer og.jpg par une photo représentative pour les réseaux sociaux
+  ogImage: "/images/og.jpg",
 
-  // ── Services (photos à placer dans public/images/) ──
-  // TODO → service-1.svg : photo du service "Construction neuve" (800x600)
-  // TODO → service-2.svg : photo du service "Rénovation" (800x600)
-  // TODO → service-3.svg : photo du service "Extension & Surélévation" (800x600)
-  // TODO → service-4.svg : photo du service "Terrasse & Aménagement" (800x600)
-  // Renommer en .jpg après remplacement (mettre à jour index.astro lignes service-X)
+  // ── Services ──
+  // TODO CLIENT → Remplacer service-1..4.jpg par de vraies photos des chantiers du client
   services: [
     { titre: "Construction neuve", description: "Maison individuelle, murs, fondations. Du gros œuvre aux finitions, clé en main.", icone: "🏠" },
     { titre: "Rénovation", description: "Rénovation intérieure et extérieure, remise aux normes, transformation de vos espaces.", icone: "🔨" },
@@ -44,17 +40,13 @@ export const client = {
     { titre: "Terrasse & Aménagement", description: "Terrasses, murets, clôtures, aménagements extérieurs pour valoriser votre bien.", icone: "🧱" },
   ],
 
-  // ── Réalisations (photos à placer dans public/images/) ──
-  // TODO → projet-1.svg : photo de la réalisation 1 — format portrait recommandé (600x800)
-  // TODO → projet-2.svg : photo de la réalisation 2 — format paysage ou carré (600x600)
-  // TODO → projet-3.svg : photo de la réalisation 3 — format paysage ou carré (600x600)
-  // TODO → projet-4.svg : photo de la réalisation 4 — format portrait recommandé (600x800)
-  // Renommer en .jpg après remplacement et mettre à jour les chemins ci-dessous
+  // ── Réalisations ──
+  // TODO CLIENT → Remplacer projet-1..4.jpg par les vraies photos de chantiers du client
   realisations: [
-    { titre: "Rénovation complète", lieu: "Perpignan centre", image: "/images/projet-1.svg" },
-    { titre: "Extension maison", lieu: "Canet-en-Roussillon", image: "/images/projet-2.svg" },
-    { titre: "Construction mur", lieu: "Saint-Estève", image: "/images/projet-3.svg" },
-    { titre: "Terrasse extérieure", lieu: "Le Boulou", image: "/images/projet-4.svg" },
+    { titre: "Rénovation complète", lieu: "Perpignan centre", image: "/images/projet-1.jpg" },
+    { titre: "Extension maison", lieu: "Canet-en-Roussillon", image: "/images/projet-2.jpg" },
+    { titre: "Construction mur", lieu: "Saint-Estève", image: "/images/projet-3.jpg" },
+    { titre: "Terrasse extérieure", lieu: "Le Boulou", image: "/images/projet-4.jpg" },
   ],
 
   // ── Témoignages ──

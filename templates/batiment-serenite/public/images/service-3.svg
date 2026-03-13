@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-  <rect width="800" height="600" fill="#F3F4F6"/>
-  <rect x="2" y="2" width="796" height="596" fill="none" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="10,5"/>
-  <text x="400" y="280" font-family="system-ui,sans-serif" font-size="50" fill="#9CA3AF" text-anchor="middle">SERVICE 3</text>
-  <text x="400" y="314" font-family="system-ui,sans-serif" font-size="14" fill="#D1D5DB" text-anchor="middle">service-3.svg — Extension</text>
-</svg>
