@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 900" width="1920" height="900">
+  <rect width="1920" height="900" fill="#F3F4F6"/>
+  <rect x="2" y="2" width="1916" height="896" fill="none" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="10,5"/>
+  <text x="960" y="430" font-family="system-ui,sans-serif" font-size="75" fill="#9CA3AF" text-anchor="middle">HERO</text>
+  <text x="960" y="464" font-family="system-ui,sans-serif" font-size="14" fill="#D1D5DB" text-anchor="middle">hero.svg — Photo chantier principale</text>
+</svg>
