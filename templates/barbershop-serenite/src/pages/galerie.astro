@@ -13,26 +13,26 @@ const categories = ['Tout', ...Array.from(new Set(allPhotos.map(p => p.categorie
   <!-- ══════ NAVBAR ══════ -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <img src={client.logo} alt={client.nom} class="nav-logo-img" onerror="this.style.display='none'" />
         <span class="nav-name font-display">{client.nom}</span>
       </a>
       <div class="nav-links">
-        <a href="/#tarifs">Tarifs</a>
-        <a href="/galerie" class="nav-active">Galerie</a>
-        <a href="/a-propos">L'histoire</a>
-        <a href="/#equipe">L'équipe</a>
-        <a href="/#rdv" class="nav-cta">Prendre RDV</a>
+        <a href={`${import.meta.env.BASE_URL}#tarifs`}>Tarifs</a>
+        <a href={`${import.meta.env.BASE_URL}galerie`} class="nav-active">Galerie</a>
+        <a href={`${import.meta.env.BASE_URL}a-propos`}>L'histoire</a>
+        <a href={`${import.meta.env.BASE_URL}#equipe`}>L'équipe</a>
+        <a href={`${import.meta.env.BASE_URL}#rdv`} class="nav-cta">Prendre RDV</a>
       </div>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
     <div class="nav-mobile" id="mobile-menu">
-      <a href="/#tarifs">Tarifs</a>
-      <a href="/galerie">Galerie</a>
-      <a href="/a-propos">L'histoire</a>
-      <a href="/#equipe">L'équipe</a>
-      <a href="/#avis">Avis</a>
-      <a href="/#rdv" class="mob-cta">Prendre rendez-vous</a>
+      <a href={`${import.meta.env.BASE_URL}#tarifs`}>Tarifs</a>
+      <a href={`${import.meta.env.BASE_URL}galerie`}>Galerie</a>
+      <a href={`${import.meta.env.BASE_URL}a-propos`}>L'histoire</a>
+      <a href={`${import.meta.env.BASE_URL}#equipe`}>L'équipe</a>
+      <a href={`${import.meta.env.BASE_URL}#avis`}>Avis</a>
+      <a href={`${import.meta.env.BASE_URL}#rdv`} class="mob-cta">Prendre rendez-vous</a>
     </div>
   </nav>
 
@@ -42,7 +42,7 @@ const categories = ['Tout', ...Array.from(new Set(allPhotos.map(p => p.categorie
     <div class="ph-overlay"></div>
     <div class="ph-gold-stripe"></div>
     <div class="container ph-content">
-      <a href="/" class="back-link reveal">← Retour à l'accueil</a>
+      <a href={import.meta.env.BASE_URL} class="back-link reveal">← Retour à l'accueil</a>
       <span class="sec-label font-display reveal reveal-d1">Portfolio</span>
       <h1 class="font-display reveal reveal-d2">NOTRE <span class="text-gold">GALERIE</span></h1>
       <p class="ph-sub reveal reveal-d3">{allPhotos.length} réalisations — coupes, barbes, dégradés &amp; ambiance</p>
@@ -91,7 +91,7 @@ const categories = ['Tout', ...Array.from(new Set(allPhotos.map(p => p.categorie
           <span class="sec-label font-display">Votre tour</span>
           <h2 class="font-display cta-title">PRÊT POUR UN <span class="text-gold">RÉSULTAT</span> COMME ÇA ?</h2>
         </div>
-        <a href="/#rdv" class="btn-gold btn-lg">Prendre rendez-vous</a>
+        <a href={`${import.meta.env.BASE_URL}#rdv`} class="btn-gold btn-lg">Prendre rendez-vous</a>
       </div>
     </div>
   </section>
@@ -106,18 +106,18 @@ const categories = ['Tout', ...Array.from(new Set(allPhotos.map(p => p.categorie
         </div>
         <div>
           <h4 class="font-display">NAVIGATION</h4>
-          <a href="/">Accueil</a>
-          <a href="/#tarifs">Tarifs</a>
-          <a href="/galerie">Galerie</a>
-          <a href="/a-propos">L'histoire</a>
-          <a href="/#rdv">Rendez-vous</a>
+          <a href={import.meta.env.BASE_URL}>Accueil</a>
+          <a href={`${import.meta.env.BASE_URL}#tarifs`}>Tarifs</a>
+          <a href={`${import.meta.env.BASE_URL}galerie`}>Galerie</a>
+          <a href={`${import.meta.env.BASE_URL}a-propos`}>L'histoire</a>
+          <a href={`${import.meta.env.BASE_URL}#rdv`}>Rendez-vous</a>
         </div>
         <div>
           <h4 class="font-display">INFOS</h4>
           <a href={client.telephoneLink}>{client.telephone}</a>
           <a href={`mailto:${client.email}`}>{client.email}</a>
           <span class="footer-addr">{client.adresse}</span>
-          <a href="/mentions-legales">Mentions légales</a>
+          <a href={`${import.meta.env.BASE_URL}mentions-legales`}>Mentions légales</a>
         </div>
       </div>
       <div class="footer-bottom">

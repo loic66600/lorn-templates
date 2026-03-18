@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
 ---
 <Layout title={`Mentions légales — ${client.nom}`}>
-  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href="/" class="back-link">← Retour</a><span class="font-display" style="color:var(--gold-light);font-size:16px;">{client.nom}</span></div></div>
+  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href={import.meta.env.BASE_URL} class="back-link">← Retour</a><span class="font-display" style="color:var(--gold-light);font-size:16px;">{client.nom}</span></div></div>
   <section class="section"><div class="container legal">
     <h1 class="font-display" style="font-size:36px;color:var(--white);margin-bottom:36px;">MENTIONS LÉGALES</h1>
     <h2>1. Informations légales</h2>
