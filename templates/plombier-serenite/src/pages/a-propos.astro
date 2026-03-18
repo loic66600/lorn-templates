@@ -5,6 +5,7 @@
 // ══════════════════════════════════════════════════════════════
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const a = client.apropos;
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
 const socialIcons: Record<string,string> = {
@@ -13,7 +14,7 @@ const socialIcons: Record<string,string> = {
 };
 ---
 <Layout title={`À propos — ${client.nom}`}>
-  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href="/" class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
+  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href={import.meta.env.BASE_URL} class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
   <section class="section">
     <div class="container about-grid">
       <div class="about-text reveal">
@@ -31,7 +32,7 @@ const socialIcons: Record<string,string> = {
     <div class="container">
       <div style="text-align:center;margin-bottom:40px;"><span class="sec-pill reveal">Nos valeurs</span><h2 class="sec-title font-head reveal reveal-d1" style="margin-top:10px;">Ce qui nous <span class="text-teal">anime</span></h2></div>
       <div class="val-grid">{a.valeurs.map((v,i) => <div class={`val-card hover-lift reveal ${i>0?`reveal-d${i}`:''}`}><span class="val-icon">{v.icone}</span><h3 class="font-head">{v.titre}</h3><p>{v.description}</p></div>)}</div>
-      <div style="text-align:center;margin-top:48px;" class="reveal"><a href="/#devis" class="btn-teal btn-lg">Demander un devis gratuit →</a></div>
+      <div style="text-align:center;margin-top:48px;" class="reveal"><a href={`${base}#devis`} class="btn-teal btn-lg">Demander un devis gratuit →</a></div>
     </div>
   </section>
 </Layout>

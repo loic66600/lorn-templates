@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import { client } from './client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
@@ -24,19 +25,19 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
    * ============================================================ -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         Street<span>Fusion</span>
       </a>
       <ul class="nav-links">
-        <li><a href="/" class="active">Accueil</a></li>
-        <li><a href="/menu">Notre Carte</a></li>
-        <li><a href="/a-propos">À Propos</a></li>
-        <li><a href="/avis">Avis</a></li>
-        <li><a href="/#contact">Commander</a></li>
+        <li><a href={import.meta.env.BASE_URL} class="active">Accueil</a></li>
+        <li><a href={`${base}/menu`}>Notre Carte</a></li>
+        <li><a href={`${base}/a-propos`}>À Propos</a></li>
+        <li><a href={`${base}/avis`}>Avis</a></li>
+        <li><a href={`${base}#contact`}>Commander</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
-        <a href="/#contact" class="btn btn-primary">Commander</a>
+        <a href={`${base}#contact`} class="btn btn-primary">Commander</a>
       </div>
       <button class="burger-btn" aria-label="Menu" id="burgerBtn">
         <span></span><span></span><span></span>
@@ -46,12 +47,12 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/">Accueil</a>
-    <a href="/menu">Notre Carte</a>
-    <a href="/a-propos">À Propos</a>
-    <a href="/avis">Avis</a>
+    <a href={import.meta.env.BASE_URL}>Accueil</a>
+    <a href={`${base}/menu`}>Notre Carte</a>
+    <a href={`${base}/a-propos`}>À Propos</a>
+    <a href={`${base}/avis`}>Avis</a>
     <div class="mobile-cta">
-      <a href="/#contact" class="btn btn-primary">Commander maintenant</a>
+      <a href={`${base}#contact`} class="btn btn-primary">Commander maintenant</a>
       <a href={client.whatsappLink} class="btn btn-outline">WhatsApp</a>
     </div>
   </div>
@@ -91,11 +92,11 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
 
       <!-- CTAs -->
       <div class="hero-ctas reveal reveal-d3">
-        <a href="/#contact" class="btn btn-primary btn-lg">
+        <a href={`${base}#contact`} class="btn btn-primary btn-lg">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           Commander maintenant
         </a>
-        <a href="/menu" class="btn btn-outline btn-lg">
+        <a href={`${base}/menu`} class="btn btn-outline btn-lg">
           Voir la carte →
         </a>
       </div>
@@ -159,7 +160,7 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
               <p class="product-desc">{item.description}</p>
               <div class="product-footer">
                 <span class="product-price">{item.prix}</span>
-                <a href="/#contact" class="btn btn-primary">Commander</a>
+                <a href={`${base}#contact`} class="btn btn-primary">Commander</a>
               </div>
             </div>
           </article>
@@ -167,7 +168,7 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
       </div>
 
       <div class="section-cta reveal">
-        <a href="/menu" class="btn btn-outline btn-lg">Voir toute la carte →</a>
+        <a href={`${base}/menu`} class="btn btn-outline btn-lg">Voir toute la carte →</a>
       </div>
     </div>
   </section>
@@ -308,7 +309,7 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
       </div>
 
       <div class="reviews-cta reveal">
-        <a href="/avis" class="btn btn-outline btn-lg">Voir tous les avis →</a>
+        <a href={`${base}/avis`} class="btn btn-outline btn-lg">Voir tous les avis →</a>
         <a href="https://search.google.com/local/writereview" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
           Laisser un avis Google
         </a>
@@ -331,7 +332,7 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
         On est là.
       </h2>
       <div class="cta-band-actions">
-        <a href="/#contact" class="btn btn-accent btn-xl">
+        <a href={`${base}#contact`} class="btn btn-accent btn-xl">
           Commander en ligne
         </a>
         <a href={client.telephoneLink} class="btn btn-outline-white btn-xl">
@@ -511,11 +512,11 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
         <div class="footer-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/menu">Notre Carte</a></li>
-            <li><a href="/a-propos">À Propos</a></li>
-            <li><a href="/avis">Avis Clients</a></li>
-            <li><a href="/#contact">Commander</a></li>
+            <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+            <li><a href={`${base}/menu`}>Notre Carte</a></li>
+            <li><a href={`${base}/a-propos`}>À Propos</a></li>
+            <li><a href={`${base}/avis`}>Avis Clients</a></li>
+            <li><a href={`${base}#contact`}>Commander</a></li>
           </ul>
         </div>
 
@@ -533,8 +534,8 @@ const bestsellers = client.menu.filter(item => item.bestseller).slice(0, 4);
           <ul>
             <li><a href={client.telephoneLink}>{client.telephone}</a></li>
             <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
-            <li><a href="/#livraison">Zones de livraison</a></li>
-            <li><a href="/mentions-legales">Mentions légales</a></li>
+            <li><a href={`${base}#livraison`}>Zones de livraison</a></li>
+            <li><a href={`${base}/mentions-legales`}>Mentions légales</a></li>
           </ul>
           <div class="footer-address">
             <p>{client.adresse}</p>

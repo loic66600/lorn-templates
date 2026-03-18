@@ -1,9 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <Layout title={`Mentions légales — ${client.nom}`}>
-  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href="/" class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
+  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href={import.meta.env.BASE_URL} class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
   <section class="section"><div class="container legal">
     <h1 class="font-head" style="font-size:32px;font-weight:800;color:var(--navy);margin-bottom:36px;">Mentions légales</h1>
     <h2>1. Informations légales</h2>

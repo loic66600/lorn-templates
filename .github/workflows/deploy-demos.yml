@@ -332,7 +332,7 @@ jobs:
         run: |
           cd templates/batiment-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/batiment-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/batiment-serenite npx astro build
           mkdir -p ../../_site/batiment-serenite
           cp -r dist/. ../../_site/batiment-serenite
 
@@ -340,35 +340,35 @@ jobs:
         run: |
           cd templates/fastfood-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/fastfood-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/fastfood-serenite npx astro build
           cp -r dist/. ../../_site/fastfood-serenite
 
       - name: Build fleuriste-serenite
         run: |
           cd templates/fleuriste-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/fleuriste-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/fleuriste-serenite npx astro build
           cp -r dist/. ../../_site/fleuriste-serenite
 
       - name: Build massage-starter
         run: |
           cd templates/massage-starter
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/massage-starter
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/massage-starter npx astro build
           cp -r dist/. ../../_site/massage-starter
 
       - name: Build peintre-serenite
         run: |
           cd templates/peintre-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/peintre-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/peintre-serenite npx astro build
           cp -r dist/. ../../_site/peintre-serenite
 
       - name: Build batipro-serenite
         run: |
           cd templates/batimentPro-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/batipro-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/batipro-serenite npx astro build
           mkdir -p ../../_site/batipro-serenite
           cp -r dist/. ../../_site/batipro-serenite
 
@@ -376,7 +376,7 @@ jobs:
         run: |
           cd templates/restaurant-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/restaurant-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/restaurant-serenite npx astro build
           cp -r dist/. ../../_site/restaurant-serenite
 
       - name: Build barbershop-serenite
@@ -390,21 +390,21 @@ jobs:
         run: |
           cd templates/electricien-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/electricien-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/electricien-serenite npx astro build
           cp -r dist/. ../../_site/electricien-serenite
 
       - name: Build plombier-serenite
         run: |
           cd templates/plombier-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/plombier-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/plombier-serenite npx astro build
           cp -r dist/. ../../_site/plombier-serenite
 
       - name: Build electricien-croissance
         run: |
           cd templates/electricien-croissance
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/electricien-croissance
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/electricien-croissance npx astro build
           mkdir -p ../../_site/electricien-croissance
           cp -r dist/. ../../_site/electricien-croissance
 
@@ -412,7 +412,7 @@ jobs:
         run: |
           cd templates/charpentier-couvreur-croissance
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/charpentier-couvreur-croissance
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/charpentier-couvreur-croissance npx astro build
           mkdir -p ../../_site/charpentier-couvreur-croissance
           cp -r dist/. ../../_site/charpentier-couvreur-croissance
 
@@ -420,7 +420,7 @@ jobs:
         run: |
           cd templates/coiffure-femme-croissance
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/coiffure-femme-croissance
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/coiffure-femme-croissance npx astro build
           mkdir -p ../../_site/coiffure-femme-croissance
           cp -r dist/. ../../_site/coiffure-femme-croissance
 
@@ -428,7 +428,7 @@ jobs:
         run: |
           cd templates/menuisier-croissance
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/menuisier-croissance
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/menuisier-croissance npx astro build
           mkdir -p ../../_site/menuisier-croissance
           cp -r dist/. ../../_site/menuisier-croissance
 
@@ -436,7 +436,7 @@ jobs:
         run: |
           cd templates/paysagiste-elageur-croissance
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/paysagiste-elageur-croissance
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/paysagiste-elageur-croissance npx astro build
           mkdir -p ../../_site/paysagiste-elageur-croissance
           cp -r dist/. ../../_site/paysagiste-elageur-croissance
 

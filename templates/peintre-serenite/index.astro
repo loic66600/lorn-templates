@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import { client } from './client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
@@ -18,7 +19,7 @@ const socialIcons: Record<string,string> = {
   <!-- NAVBAR -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <div class="nav-logo-mark">DP</div>
         <div class="nav-logo-text">
           <span class="nav-logo-name">{client.nom}</span>
@@ -26,15 +27,15 @@ const socialIcons: Record<string,string> = {
         </div>
       </a>
       <ul class="nav-links">
-        <li><a href="/" class="active">Accueil</a></li>
-        <li><a href="/realisations">Réalisations</a></li>
-        <li><a href="/tarifs">Tarifs</a></li>
-        <li><a href="/a-propos">À Propos</a></li>
-        <li><a href="/#contact">Contact</a></li>
+        <li><a href={import.meta.env.BASE_URL} class="active">Accueil</a></li>
+        <li><a href={`${base}/realisations`}>Réalisations</a></li>
+        <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+        <li><a href={`${base}/a-propos`}>À Propos</a></li>
+        <li><a href={`${base}#contact`}>Contact</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
-        <a href="/#contact" class="btn btn-accent">Devis gratuit</a>
+        <a href={`${base}#contact`} class="btn btn-accent">Devis gratuit</a>
       </div>
       <button class="burger-btn" id="burgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -43,13 +44,13 @@ const socialIcons: Record<string,string> = {
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/">Accueil</a>
-    <a href="/realisations">Réalisations</a>
-    <a href="/tarifs">Tarifs</a>
-    <a href="/a-propos">À Propos</a>
-    <a href="/#contact">Contact</a>
+    <a href={import.meta.env.BASE_URL}>Accueil</a>
+    <a href={`${base}/realisations`}>Réalisations</a>
+    <a href={`${base}/tarifs`}>Tarifs</a>
+    <a href={`${base}/a-propos`}>À Propos</a>
+    <a href={`${base}#contact`}>Contact</a>
     <div class="mobile-cta">
-      <a href="/#contact" class="btn btn-accent">Devis gratuit</a>
+      <a href={`${base}#contact`} class="btn btn-accent">Devis gratuit</a>
       <a href={client.telephoneLink} class="btn btn-outline">{client.telephone}</a>
     </div>
   </div>
@@ -84,7 +85,7 @@ const socialIcons: Record<string,string> = {
         </p>
 
         <div class="hero-ctas reveal reveal-d3">
-          <a href="/#contact" class="btn btn-accent btn-lg">
+          <a href={`${base}#contact`} class="btn btn-accent btn-lg">
             Obtenir un devis gratuit
           </a>
           <a href={client.telephoneLink} class="btn btn-outline-dark btn-lg">
@@ -153,7 +154,7 @@ const socialIcons: Record<string,string> = {
             Ce que je <span class="underline-stroke">réalise</span>
           </h2>
         </div>
-        <a href="/#contact" class="btn btn-primary">Demander un devis →</a>
+        <a href={`${base}#contact`} class="btn btn-primary">Demander un devis →</a>
       </div>
 
       <div class="services-list">
@@ -170,7 +171,7 @@ const socialIcons: Record<string,string> = {
                 {s.tags.map(tag => <span class="sr-tag">{tag}</span>)}
               </div>
             </div>
-            <a href="/#contact" class="sr-cta btn btn-outline">Devis →</a>
+            <a href={`${base}#contact`} class="sr-cta btn btn-outline">Devis →</a>
           </article>
         ))}
       </div>
@@ -216,7 +217,7 @@ const socialIcons: Record<string,string> = {
             Mes <span class="underline-stroke">réalisations</span>
           </h2>
         </div>
-        <a href="/realisations" class="btn btn-outline">Voir tout →</a>
+        <a href={`${base}/realisations`} class="btn btn-outline">Voir tout →</a>
       </div>
 
       <!-- Preview 2 before/after -->
@@ -253,7 +254,7 @@ const socialIcons: Record<string,string> = {
       </div>
 
       <div class="section-cta reveal">
-        <a href="/realisations" class="btn btn-primary btn-lg">Voir toutes les réalisations →</a>
+        <a href={`${base}/realisations`} class="btn btn-primary btn-lg">Voir toutes les réalisations →</a>
       </div>
     </div>
   </section>
@@ -316,7 +317,7 @@ const socialIcons: Record<string,string> = {
           <div class="zones-tags">
             {client.zones.map(z => <span class="zone-tag">{z}</span>)}
           </div>
-          <a href="/#contact" class="btn btn-primary btn-lg">
+          <a href={`${base}#contact`} class="btn btn-primary btn-lg">
             Vérifier ma zone →
           </a>
         </div>
@@ -491,18 +492,18 @@ const socialIcons: Record<string,string> = {
         <div class="footer-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/realisations">Réalisations</a></li>
-            <li><a href="/tarifs">Tarifs</a></li>
-            <li><a href="/a-propos">À Propos</a></li>
-            <li><a href="/#contact">Contact</a></li>
+            <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+            <li><a href={`${base}/realisations`}>Réalisations</a></li>
+            <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+            <li><a href={`${base}/a-propos`}>À Propos</a></li>
+            <li><a href={`${base}#contact`}>Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Prestations</h4>
           <ul>
-            {client.services.map(s => <li><a href="/#services">{s.titre}</a></li>)}
+            {client.services.map(s => <li><a href={`${base}#services`}>{s.titre}</a></li>)}
           </ul>
         </div>
 
@@ -511,7 +512,7 @@ const socialIcons: Record<string,string> = {
           <ul>
             <li><a href={client.telephoneLink}>{client.telephone}</a></li>
             <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
-            <li><a href="/mentions-legales">Mentions légales</a></li>
+            <li><a href={`${base}/mentions-legales`}>Mentions légales</a></li>
           </ul>
           <p style="margin-top: 16px; font-size: 13px; color: rgba(232,238,248,0.35);">
             {client.adresse}

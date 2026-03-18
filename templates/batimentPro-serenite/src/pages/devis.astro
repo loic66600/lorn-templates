@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <Layout title="Devis Gratuit — BatiPro Construction Perpignan" description="Demandez votre devis gratuit pour vos travaux de renovation ou construction a Perpignan et dans les Pyrenees-Orientales.">
@@ -60,7 +61,7 @@ import Footer from '../components/Footer.astro';
           Envoyer ma demande de devis
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
-        <p class="devis-note">Vos donnees sont protegees. Consultez notre <a href="/confidentialite">politique de confidentialite</a>.</p>
+        <p class="devis-note">Vos donnees sont protegees. Consultez notre <a href={`${base}/confidentialite`}>politique de confidentialite</a>.</p>
       </form>
     </div>
   </section>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <Layout
   title={`Services — ${client.nom}`}
@@ -10,7 +11,7 @@ import { client } from '../data/client';
 <!-- NAVBAR -->
 <nav class="navbar solid" id="navbar">
   <div class="nav-wrap">
-    <a href="/" class="nav-logo">
+    <a href={import.meta.env.BASE_URL} class="nav-logo">
       <div class="nav-logo-mark">✂</div>
       <div class="nav-logo-text">
         <span class="nav-logo-name">{client.nom}</span>
@@ -18,12 +19,12 @@ import { client } from '../data/client';
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="/">Accueil</a></li>
-      <li><a href="/services" class="active">Services</a></li>
-      <li><a href="/realisations">Réalisations</a></li>
-      <li><a href="/tarifs">Tarifs</a></li>
-      <li><a href="/a-propos">À Propos</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+      <li><a href={`${base}/services`} class="active">Services</a></li>
+      <li><a href={`${base}/realisations`}>Réalisations</a></li>
+      <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+      <li><a href={`${base}/a-propos`}>À Propos</a></li>
+      <li><a href={`${base}/contact`}>Contact</a></li>
     </ul>
     <div class="nav-cta">
       <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
@@ -32,8 +33,8 @@ import { client } from '../data/client';
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
   <div class="mob-menu" id="mob-menu">
-    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
-    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
+    <a href={import.meta.env.BASE_URL}>Accueil</a><a href={`${base}/services`}>Services</a><a href={`${base}/realisations`}>Réalisations</a>
+    <a href={`${base}/tarifs`}>Tarifs</a><a href={`${base}/a-propos`}>À Propos</a><a href={`${base}/contact`}>Contact</a>
     <a href={client.reservationUrl} target="_blank" class="mob-cta">Réserver en ligne →</a>
   </div>
 </nav>
@@ -41,7 +42,7 @@ import { client } from '../data/client';
 <!-- PAGE HEADER -->
 <div class="ph">
   <div class="wrap">
-    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Services</span></nav>
+    <nav class="ph-bc"><a href={import.meta.env.BASE_URL}>Accueil</a><span>›</span><span>Services</span></nav>
     <div class="eyebrow eyebrow-white">Nos prestations</div>
     <h1 class="ph-title">
       Toutes les techniques<br>
@@ -87,7 +88,7 @@ import { client } from '../data/client';
         Nous n'utilisons que des marques professionnelles testées et approuvées,
         pour un résultat durable et respectueux de la santé de votre cheveu.
       </p>
-      <a href="/contact" class="btn btn-velvet" style="margin-top: 1.75rem">Nous contacter →</a>
+      <a href={`${base}/contact`} class="btn btn-velvet" style="margin-top: 1.75rem">Nous contacter →</a>
     </div>
     <div class="produits-grid silk d2">
       {["L'Oréal Professionnel", "Redken", "Wella Professionals", "Great Lengths Extensions", "Kerastase Soin", "Olaplex"].map(p => (
@@ -146,7 +147,7 @@ import { client } from '../data/client';
 <footer class="footer">
   <div class="wrap">
     <div class="f-bottom" style="border-top:none;padding-top:0">
-      <p>© {new Date().getFullYear()} {client.nom} — <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+      <p>© {new Date().getFullYear()} {client.nom} — <a href={`${base}/mentions-legales`} style="color:inherit">Mentions légales</a></p>
       <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
     </div>
   </div>

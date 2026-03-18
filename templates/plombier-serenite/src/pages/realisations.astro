@@ -5,11 +5,12 @@
 // ══════════════════════════════════════════════════════════════
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const categories = ["Tous","Sanitaire","Dépannage","Chauffage","Rénovation"];
 const toutes = [...client.realisations, ...client.realisationsBonus];
 ---
 <Layout title={`Réalisations — ${client.nom}`}>
-  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href="/" class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
+  <div class="page-top"><div class="container" style="display:flex;justify-content:space-between;align-items:center;"><a href={import.meta.env.BASE_URL} class="back-link">← Retour</a><span class="font-head" style="font-weight:800;color:var(--navy);font-size:15px;">{client.nom}</span></div></div>
   <section class="section"><div class="container">
     <div style="text-align:center;margin-bottom:48px;">
       <span class="sec-pill reveal">Portfolio</span>
@@ -23,7 +24,7 @@ const toutes = [...client.realisations, ...client.realisationsBonus];
         <div class="gal-cap"><span class="gal-cat">{r.categorie}</span><span>{r.alt}</span></div>
       </div>
     ))}</div>
-    <div style="text-align:center;margin-top:48px;" class="reveal"><a href="/#devis" class="btn-teal btn-lg">Demander un devis →</a></div>
+    <div style="text-align:center;margin-top:48px;" class="reveal"><a href={`${base}#devis`} class="btn-teal btn-lg">Demander un devis →</a></div>
   </div></section>
 </Layout>
 <script>

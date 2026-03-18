@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const socialIcons: Record<string,string> = {
   facebook: '<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
@@ -17,7 +18,7 @@ const extraServices    = client.services.filter(s => !s.featured);
   <!-- ═══ NAVBAR ═══ -->
   <nav class="navbar transparent-init" id="navbar">
     <div class="nav-wrap">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <div class="nav-logo-mark wh">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
             <rect x="2" y="2" width="7" height="9"/><rect x="11" y="2" width="7" height="9"/>
@@ -30,26 +31,26 @@ const extraServices    = client.services.filter(s => !s.featured);
         </div>
       </a>
       <ul class="nav-links">
-        <li><a href="/" class="active wh">Accueil</a></li>
-        <li><a href="/services" class="wh">Services</a></li>
-        <li><a href="/realisations" class="wh">Réalisations</a></li>
-        <li><a href="/tarifs" class="wh">Tarifs</a></li>
-        <li><a href="/a-propos" class="wh">À Propos</a></li>
-        <li><a href="/contact" class="wh">Contact</a></li>
+        <li><a href={import.meta.env.BASE_URL} class="active wh">Accueil</a></li>
+        <li><a href={`${base}/services`} class="wh">Services</a></li>
+        <li><a href={`${base}/realisations`} class="wh">Réalisations</a></li>
+        <li><a href={`${base}/tarifs`} class="wh">Tarifs</a></li>
+        <li><a href={`${base}/a-propos`} class="wh">À Propos</a></li>
+        <li><a href={`${base}/contact`} class="wh">Contact</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel wh">{client.telephone}</a>
-        <a href="/contact" class="btn btn-gold">Devis gratuit</a>
+        <a href={`${base}/contact`} class="btn btn-gold">Devis gratuit</a>
       </div>
       <button class="burger wh" id="burger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
     <div class="mob-menu" id="mob-menu">
-      <a href="/">Accueil</a><a href="/services">Services</a>
-      <a href="/realisations">Réalisations</a><a href="/tarifs">Tarifs</a>
-      <a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
-      <a href="/contact" class="mob-cta">Devis gratuit →</a>
+      <a href={import.meta.env.BASE_URL}>Accueil</a><a href={`${base}/services`}>Services</a>
+      <a href={`${base}/realisations`}>Réalisations</a><a href={`${base}/tarifs`}>Tarifs</a>
+      <a href={`${base}/a-propos`}>À Propos</a><a href={`${base}/contact`}>Contact</a>
+      <a href={`${base}/contact`} class="mob-cta">Devis gratuit →</a>
     </div>
   </nav>
 
@@ -75,8 +76,8 @@ const extraServices    = client.services.filter(s => !s.featured);
         dans les Pyrénées-Orientales depuis 1998. Artisan RGE Qualibat.
       </p>
       <div class="hero-btns">
-        <a href="/contact" class="btn btn-gold btn-lg">Devis gratuit</a>
-        <a href="/realisations" class="btn btn-outline-white btn-lg">Nos réalisations</a>
+        <a href={`${base}/contact`} class="btn btn-gold btn-lg">Devis gratuit</a>
+        <a href={`${base}/realisations`} class="btn btn-outline-white btn-lg">Nos réalisations</a>
       </div>
     </div>
     <!-- Stats bande bas -->
@@ -126,7 +127,7 @@ const extraServices    = client.services.filter(s => !s.featured);
           <div class="eyebrow">Nos prestations</div>
           <h2 class="h2 display">Fenêtres, portes<br>& fermetures</h2>
         </div>
-        <a href="/services" class="btn btn-outline">Toutes nos prestations →</a>
+        <a href={`${base}/services`} class="btn btn-outline">Toutes nos prestations →</a>
       </div>
 
       <div class="svc-grid">
@@ -150,7 +151,7 @@ const extraServices    = client.services.filter(s => !s.featured);
       <!-- Services secondaires -->
       <div class="svc-extra">
         {extraServices.map((s, i) => (
-          <a href="/services" class="se-item">
+          <a href={`${base}/services`} class="se-item">
             <div class="se-left">
               <span class="se-num display">{String(featuredServices.length + i + 1).padStart(2,'0')}</span>
               <div>
@@ -196,7 +197,7 @@ const extraServices    = client.services.filter(s => !s.featured);
           <div class="eyebrow">Chantiers récents</div>
           <h2 class="h2 display">{client.stats[1].chiffre}+ chantiers<br>dans le 66</h2>
         </div>
-        <a href="/realisations" class="btn btn-outline">Voir tous les chantiers →</a>
+        <a href={`${base}/realisations`} class="btn btn-outline">Voir tous les chantiers →</a>
       </div>
       <div class="real-grid">
         {client.realisations.slice(0,4).map((r, i) => (
@@ -229,7 +230,7 @@ const extraServices    = client.services.filter(s => !s.featured);
         <div class="eyebrow eyebrow-dark">Financez vos travaux</div>
         <h2 class="h2 display">Jusqu'à 40%<br>d'aides disponibles</h2>
         <p class="lead" style="margin-top:.75rem;font-size:.88rem">MaPrimeRénov', CEE, TVA 5,5%, Éco-prêt 0% — nous vous aidons à monter le dossier.</p>
-        <a href="/tarifs" class="btn btn-black" style="margin-top:2rem">Voir les aides →</a>
+        <a href={`${base}/tarifs`} class="btn btn-black" style="margin-top:2rem">Voir les aides →</a>
       </div>
       <div class="aides-grid">
         {client.aides.map(a => (
@@ -300,7 +301,7 @@ const extraServices    = client.services.filter(s => !s.featured);
         <h2 class="h2 h2-white display">Demandez votre devis</h2>
       </div>
       <div class="cta-actions">
-        <a href="/contact" class="btn btn-gold btn-lg">Devis gratuit →</a>
+        <a href={`${base}/contact`} class="btn btn-gold btn-lg">Devis gratuit →</a>
         <a href={client.telephoneLink} class="btn btn-outline-white btn-lg">{client.telephone}</a>
       </div>
     </div>
@@ -332,18 +333,18 @@ const extraServices    = client.services.filter(s => !s.featured);
         <div class="f-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/realisations">Réalisations</a></li>
-            <li><a href="/tarifs">Tarifs</a></li>
-            <li><a href="/a-propos">À Propos</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+            <li><a href={`${base}/services`}>Services</a></li>
+            <li><a href={`${base}/realisations`}>Réalisations</a></li>
+            <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+            <li><a href={`${base}/a-propos`}>À Propos</a></li>
+            <li><a href={`${base}/contact`}>Contact</a></li>
           </ul>
         </div>
         <div class="f-col">
           <h4>Prestations</h4>
           <ul>
-            {client.services.map(s => <li><a href="/services">{s.titre}</a></li>)}
+            {client.services.map(s => <li><a href={`${base}/services`}>{s.titre}</a></li>)}
           </ul>
         </div>
         <div class="f-col">
@@ -356,7 +357,7 @@ const extraServices    = client.services.filter(s => !s.featured);
         </div>
       </div>
       <div class="f-bottom">
-        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} | <a href={`${base}/mentions-legales`} style="color:inherit">Mentions légales</a></p>
         <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a>
       </div>
     </div>

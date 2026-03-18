@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
 const socialIcons: Record<string,string> = {
@@ -30,23 +31,23 @@ const socialIcons: Record<string,string> = {
   <!-- ══════ NAVBAR ══════ -->
   <nav class="navbar" id="navbar" style={client.urgence ? 'top:48px;' : ''}>
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <img src={client.logo} alt={client.nom} class="nav-logo-img" onerror="this.style.display='none'" />
         <span class="nav-name font-head">{client.nom}</span>
       </a>
       <div class="nav-links">
-        <a href="/#services">Services</a>
-        <a href="/realisations">Réalisations</a>
-        <a href="/a-propos">À propos</a>
-        <a href="/tarifs">Tarifs</a>
-        <a href="/#devis" class="nav-cta">Devis gratuit</a>
+        <a href={`${base}#services`}>Services</a>
+        <a href={`${base}/realisations`}>Réalisations</a>
+        <a href={`${base}/a-propos`}>À propos</a>
+        <a href={`${base}/tarifs`}>Tarifs</a>
+        <a href={`${base}#devis`} class="nav-cta">Devis gratuit</a>
       </div>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
     <div class="nav-mobile" id="mobile-menu">
-      <a href="/#services">Services</a><a href="/realisations">Réalisations</a>
-      <a href="/a-propos">À propos</a><a href="/tarifs">Tarifs</a><a href="/#avis">Avis</a>
-      <a href="/#devis" class="mob-cta">Demander un devis</a>
+      <a href={`${base}#services`}>Services</a><a href={`${base}/realisations`}>Réalisations</a>
+      <a href={`${base}/a-propos`}>À propos</a><a href={`${base}/tarifs`}>Tarifs</a><a href={`${base}#avis`}>Avis</a>
+      <a href={`${base}#devis`} class="mob-cta">Demander un devis</a>
     </div>
   </nav>
 
@@ -173,7 +174,7 @@ const socialIcons: Record<string,string> = {
           <span class="sec-pill reveal">Réalisations</span>
           <h2 class="sec-title font-head reveal reveal-d1">Nos dernières <span class="text-teal">interventions</span></h2>
         </div>
-        <a href="/realisations" class="btn-outline-teal reveal">Voir tout →</a>
+        <a href={`${base}/realisations`} class="btn-outline-teal reveal">Voir tout →</a>
       </div>
       <div class="real-mosaic">
         {client.realisations.slice(0,5).map((r, i) => (
@@ -314,8 +315,8 @@ const socialIcons: Record<string,string> = {
         </div>
         <div>
           <h4>Navigation</h4>
-          <a href="/">Accueil</a><a href="/#services">Services</a><a href="/realisations">Réalisations</a>
-          <a href="/a-propos">À propos</a><a href="/tarifs">Tarifs</a><a href="/#devis">Devis</a>
+          <a href={import.meta.env.BASE_URL}>Accueil</a><a href={`${base}#services`}>Services</a><a href={`${base}/realisations`}>Réalisations</a>
+          <a href={`${base}/a-propos`}>À propos</a><a href={`${base}/tarifs`}>Tarifs</a><a href={`${base}#devis`}>Devis</a>
         </div>
         <div>
           <h4>Contact</h4>
@@ -325,7 +326,7 @@ const socialIcons: Record<string,string> = {
         </div>
         <div>
           <h4>Légal</h4>
-          <a href="/mentions-legales">Mentions légales</a>
+          <a href={`${base}/mentions-legales`}>Mentions légales</a>
           <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="footer-badge">Site par <strong>LORN Digital Studio</strong></a>
         </div>
       </div>

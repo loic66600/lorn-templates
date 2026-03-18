@@ -1,32 +1,33 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <Layout title={`Tarifs — ${client.nom}`} description={`Grille tarifaire ${client.nom} : tableau électrique, installation, domotique, IRVE, solaire. Prix indicatifs — devis gratuit Perpignan et 66.`}>
 
 <nav class="navbar scrolled" id="navbar">
   <div class="nav-inner">
-    <a href="/" class="nav-logo"><div class="nav-logo-bolt">⚡</div><div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div></a>
+    <a href={import.meta.env.BASE_URL} class="nav-logo"><div class="nav-logo-bolt">⚡</div><div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div></a>
     <ul class="nav-links">
-      <li><a href="/">Accueil</a></li>
-      <li><a href="/services">Services</a></li>
-      <li><a href="/realisations">Réalisations</a></li>
-      <li class="nav-dropdown"><button class="nav-dd-toggle">Plus <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-dd-menu"><a href="/tarifs" class="active">Tarifs</a><a href="/a-propos">À Propos</a></div></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+      <li><a href={`${base}/services`}>Services</a></li>
+      <li><a href={`${base}/realisations`}>Réalisations</a></li>
+      <li class="nav-dropdown"><button class="nav-dd-toggle">Plus <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="nav-dd-menu"><a href={`${base}/tarifs`} class="active">Tarifs</a><a href={`${base}/a-propos`}>À Propos</a></div></li>
+      <li><a href={`${base}/contact`}>Contact</a></li>
     </ul>
-    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href="/contact" class="btn btn-accent">Devis gratuit</a></div>
+    <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a><a href={`${base}/contact`} class="btn btn-accent">Devis gratuit</a></div>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
   <div class="mob-menu" id="mob-menu">
-    <a href="/">Accueil</a><a href="/services">Services</a><a href="/realisations">Réalisations</a>
-    <a href="/tarifs">Tarifs</a><a href="/a-propos">À Propos</a><a href="/contact">Contact</a>
-    <a href="/contact" class="mob-cta">Devis gratuit →</a>
+    <a href={import.meta.env.BASE_URL}>Accueil</a><a href={`${base}/services`}>Services</a><a href={`${base}/realisations`}>Réalisations</a>
+    <a href={`${base}/tarifs`}>Tarifs</a><a href={`${base}/a-propos`}>À Propos</a><a href={`${base}/contact`}>Contact</a>
+    <a href={`${base}/contact`} class="mob-cta">Devis gratuit →</a>
   </div>
 </nav>
 
 <header class="ph">
   <div class="wrap">
-    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+    <nav class="ph-bc"><a href={import.meta.env.BASE_URL}>Accueil</a><span>›</span><span>Tarifs</span></nav>
     <div class="eyebrow" style="color:var(--accent)">Prix indicatifs</div>
     <h1 class="ph-title">Tarifs électricité<br>transparents</h1>
     <p class="ph-sub">Prix HT indicatifs. Seul un devis après diagnostic donne un tarif précis. <strong style="color:#fff">Devis gratuit sous 24h.</strong></p>
@@ -64,7 +65,7 @@ import { client } from '../data/client';
       <div>
         <strong>Ces prix sont indicatifs (HT, hors fournitures spécifiques)</strong>
         <p>Le tarif exact dépend de l'état de votre installation, de la superficie et des matériaux. Après diagnostic, le devis est fixe — aucune surprise en fin de chantier.</p>
-        <a href="/contact" class="btn btn-accent" style="margin-top:14px;display:inline-flex">Obtenir mon devis →</a>
+        <a href={`${base}/contact`} class="btn btn-accent" style="margin-top:14px;display:inline-flex">Obtenir mon devis →</a>
       </div>
     </div>
   </div>
@@ -97,11 +98,11 @@ import { client } from '../data/client';
 <section class="section">
   <div class="wrap cta-tarif">
     <div class="volt"><div class="eyebrow">Sans engagement</div><h2 class="h2">Devis gratuit sous 24h</h2><p class="lead" style="margin-top:.5rem">Nous vous rappelons pour fixer la visite diagnostic.</p></div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap" class="volt d1"><a href="/contact" class="btn btn-dark btn-lg">Demander un devis →</a><a href={client.telephoneLink} class="btn btn-outline btn-lg">📞 {client.telephone}</a></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap" class="volt d1"><a href={`${base}/contact`} class="btn btn-dark btn-lg">Demander un devis →</a><a href={client.telephoneLink} class="btn btn-outline btn-lg">📞 {client.telephone}</a></div>
   </div>
 </section>
 
-<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0"><p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p><a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a></div></div></footer>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0"><p>© {new Date().getFullYear()} {client.nom} | <a href={`${base}/mentions-legales`} style="color:inherit">Mentions légales</a></p><a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par <strong>LORN Digital Studio</strong></a></div></div></footer>
 </Layout>
 
 <style>

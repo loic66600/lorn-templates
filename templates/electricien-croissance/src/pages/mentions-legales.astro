@@ -1,22 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <Layout title={`Mentions légales — ${client.nom}`} description={`Mentions légales et politique de confidentialité de ${client.nom}.`} noIndex={true}>
 
 <nav class="navbar scrolled" id="navbar">
   <div class="nav-inner">
-    <a href="/" class="nav-logo"><div class="nav-logo-bolt">⚡</div><div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div></a>
-    <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/services">Services</a></li><li><a href="/contact">Contact</a></li></ul>
+    <a href={import.meta.env.BASE_URL} class="nav-logo"><div class="nav-logo-bolt">⚡</div><div class="nav-logo-text"><span class="nav-logo-name">{client.nom}</span><span class="nav-logo-sub">{client.metier}</span></div></a>
+    <ul class="nav-links"><li><a href={import.meta.env.BASE_URL}>Accueil</a></li><li><a href={`${base}/services`}>Services</a></li><li><a href={`${base}/contact`}>Contact</a></li></ul>
     <div class="nav-cta"><a href={client.telephoneLink} class="nav-tel">{client.telephone}</a></div>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
-  <div class="mob-menu" id="mob-menu"><a href="/">Accueil</a><a href="/services">Services</a><a href="/contact">Contact</a></div>
+  <div class="mob-menu" id="mob-menu"><a href={import.meta.env.BASE_URL}>Accueil</a><a href={`${base}/services`}>Services</a><a href={`${base}/contact`}>Contact</a></div>
 </nav>
 
 <section class="legal-wrap">
   <div class="wrap legal-container">
-    <nav class="ph-bc ph-bc-light"><a href="/">Accueil</a><span>›</span><span>Mentions légales</span></nav>
+    <nav class="ph-bc ph-bc-light"><a href={import.meta.env.BASE_URL}>Accueil</a><span>›</span><span>Mentions légales</span></nav>
     <h1 class="disp legal-title">Mentions légales</h1>
     <p class="legal-date">Dernière mise à jour : {new Date().toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'})}</p>
 
@@ -73,7 +74,7 @@ import { client } from '../data/client';
       </div>
     </div>
 
-    <a href="/" class="btn btn-outline" style="margin-top:2rem">← Retour à l'accueil</a>
+    <a href={import.meta.env.BASE_URL} class="btn btn-outline" style="margin-top:2rem">← Retour à l'accueil</a>
   </div>
 </section>
 

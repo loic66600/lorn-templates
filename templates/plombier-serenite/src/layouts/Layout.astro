@@ -1,5 +1,6 @@
 ---
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 interface Props { title?: string; description?: string; }
 const { title = client.titreSEO, description = client.descriptionSEO } = Astro.props;
 ---
@@ -31,7 +32,7 @@ const { title = client.titreSEO, description = client.descriptionSEO } = Astro.p
   {client.cookieConsent && (
     <div class="cookie-banner" id="cookieBanner">
       <div class="cookie-inner">
-        <p>🍪 Ce site utilise des cookies techniques. <a href="/mentions-legales">En savoir plus</a></p>
+        <p>🍪 Ce site utilise des cookies techniques. <a href={`${base}/mentions-legales`}>En savoir plus</a></p>
         <div class="cookie-actions">
           <button class="cookie-accept" id="cookieAccept">Accepter</button>
           <button class="cookie-refuse" id="cookieRefuse">Refuser</button>

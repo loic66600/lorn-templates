@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import { client } from './client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
@@ -22,20 +23,20 @@ const otherServices = client.services.filter(s => !s.featured);
   <!-- NAVBAR -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         {client.nom}
         <span>{client.slogan}</span>
       </a>
       <ul class="nav-links">
-        <li><a href="/" class="active">Accueil</a></li>
-        <li><a href="/realisations">Créations</a></li>
-        <li><a href="/tarifs">Tarifs</a></li>
-        <li><a href="/a-propos">À Propos</a></li>
-        <li><a href="/#contact">Contact</a></li>
+        <li><a href={import.meta.env.BASE_URL} class="active">Accueil</a></li>
+        <li><a href={`${base}/realisations`}>Créations</a></li>
+        <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+        <li><a href={`${base}/a-propos`}>À Propos</a></li>
+        <li><a href={`${base}#contact`}>Contact</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
-        <a href="/#contact" class="btn btn-primary">Demander un devis</a>
+        <a href={`${base}#contact`} class="btn btn-primary">Demander un devis</a>
       </div>
       <button class="burger-btn" id="burgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -44,13 +45,13 @@ const otherServices = client.services.filter(s => !s.featured);
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/">Accueil</a>
-    <a href="/realisations">Créations</a>
-    <a href="/tarifs">Tarifs</a>
-    <a href="/a-propos">À Propos</a>
-    <a href="/#contact">Contact</a>
+    <a href={import.meta.env.BASE_URL}>Accueil</a>
+    <a href={`${base}/realisations`}>Créations</a>
+    <a href={`${base}/tarifs`}>Tarifs</a>
+    <a href={`${base}/a-propos`}>À Propos</a>
+    <a href={`${base}#contact`}>Contact</a>
     <div class="mobile-cta">
-      <a href="/#contact" class="btn btn-primary">Demander un devis</a>
+      <a href={`${base}#contact`} class="btn btn-primary">Demander un devis</a>
       <a href={client.telephoneLink} class="btn btn-outline">{client.telephone}</a>
     </div>
   </div>
@@ -79,8 +80,8 @@ const otherServices = client.services.filter(s => !s.featured);
           compositions uniques, livraison disponible.
         </p>
         <div class="hero-ctas reveal reveal-d3">
-          <a href="/#contact" class="btn btn-primary btn-lg">Commander un bouquet</a>
-          <a href="/realisations" class="btn btn-outline btn-lg">Voir mes créations</a>
+          <a href={`${base}#contact`} class="btn btn-primary btn-lg">Commander un bouquet</a>
+          <a href={`${base}/realisations`} class="btn btn-outline btn-lg">Voir mes créations</a>
         </div>
         <div class="hero-social reveal reveal-d4">
           <span class="social-label-sm">Suivez mes créations</span>
@@ -148,7 +149,7 @@ const otherServices = client.services.filter(s => !s.featured);
           <p class="section-label">Ce que je crée</p>
           <h2 class="section-title">Mes <em>prestations</em></h2>
         </div>
-        <a href="/#contact" class="btn btn-outline">Demander un devis →</a>
+        <a href={`${base}#contact`} class="btn btn-outline">Demander un devis →</a>
       </div>
 
       <!-- 2 services featured en grand -->
@@ -215,7 +216,7 @@ const otherServices = client.services.filter(s => !s.featured);
           <p class="section-label">Portfolio</p>
           <h2 class="section-title">Mes <em>créations</em> récentes</h2>
         </div>
-        <a href="/realisations" class="btn btn-outline">Voir tout →</a>
+        <a href={`${base}/realisations`} class="btn btn-outline">Voir tout →</a>
       </div>
 
       <div class="gallery-preview">
@@ -425,18 +426,18 @@ const otherServices = client.services.filter(s => !s.featured);
         <div class="footer-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/realisations">Créations</a></li>
-            <li><a href="/tarifs">Tarifs</a></li>
-            <li><a href="/a-propos">À Propos</a></li>
-            <li><a href="/#contact">Contact</a></li>
+            <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+            <li><a href={`${base}/realisations`}>Créations</a></li>
+            <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+            <li><a href={`${base}/a-propos`}>À Propos</a></li>
+            <li><a href={`${base}#contact`}>Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Prestations</h4>
           <ul>
-            {client.services.map(s => <li><a href="/#services">{s.titre}</a></li>)}
+            {client.services.map(s => <li><a href={`${base}#services`}>{s.titre}</a></li>)}
           </ul>
         </div>
 
@@ -445,7 +446,7 @@ const otherServices = client.services.filter(s => !s.featured);
           <ul>
             <li><a href={client.telephoneLink}>{client.telephone}</a></li>
             <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
-            <li><a href="/mentions-legales">Mentions légales</a></li>
+            <li><a href={`${base}/mentions-legales`}>Mentions légales</a></li>
           </ul>
           <p style="margin-top: 16px; font-size: 13px; color: rgba(245,237,232,0.4);">
             {client.adresse}

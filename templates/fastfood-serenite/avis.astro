@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import { client } from './client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <Layout
@@ -9,36 +10,36 @@ import { client } from './client';
 >
   <nav class="nav scrolled">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">Street<span>Fusion</span></a>
+      <a href={import.meta.env.BASE_URL} class="nav-logo">Street<span>Fusion</span></a>
       <ul class="nav-links">
-        <li><a href="/">Accueil</a></li>
-        <li><a href="/menu">Notre Carte</a></li>
-        <li><a href="/a-propos">À Propos</a></li>
-        <li><a href="/avis" class="active">Avis</a></li>
-        <li><a href="/#contact">Commander</a></li>
+        <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+        <li><a href={`${base}/menu`}>Notre Carte</a></li>
+        <li><a href={`${base}/a-propos`}>À Propos</a></li>
+        <li><a href={`${base}/avis`} class="active">Avis</a></li>
+        <li><a href={`${base}#contact`}>Commander</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
-        <a href="/#contact" class="btn btn-primary">Commander</a>
+        <a href={`${base}#contact`} class="btn btn-primary">Commander</a>
       </div>
       <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
   <div class="mobile-menu">
-    <a href="/">Accueil</a>
-    <a href="/menu">Notre Carte</a>
-    <a href="/a-propos">À Propos</a>
-    <a href="/avis">Avis</a>
+    <a href={import.meta.env.BASE_URL}>Accueil</a>
+    <a href={`${base}/menu`}>Notre Carte</a>
+    <a href={`${base}/a-propos`}>À Propos</a>
+    <a href={`${base}/avis`}>Avis</a>
     <div class="mobile-cta">
-      <a href="/#contact" class="btn btn-primary">Commander</a>
+      <a href={`${base}#contact`} class="btn btn-primary">Commander</a>
     </div>
   </div>
 
   <header class="page-header">
     <div class="container">
       <div class="breadcrumb reveal">
-        <a href="/">Accueil</a><span>→</span><span>Avis Clients</span>
+        <a href={import.meta.env.BASE_URL}>Accueil</a><span>→</span><span>Avis Clients</span>
       </div>
       <h1 class="page-title reveal reveal-d1">
         Avis <span class="flame-text">Clients</span>
@@ -105,7 +106,7 @@ import { client } from './client';
   <footer class="footer">
     <div class="container">
       <div class="footer-bottom" style="border-top: none; padding-top: 0;">
-        <p>© {new Date().getFullYear()} {client.nom} — {client.ville}. <a href="/mentions-legales" style="color: var(--text-muted);">Mentions légales</a></p>
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville}. <a href={`${base}/mentions-legales`} style="color: var(--text-muted);">Mentions légales</a></p>
         <a href="https://lorn.dev" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
       </div>
     </div>

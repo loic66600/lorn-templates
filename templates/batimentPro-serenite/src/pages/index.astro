@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <Layout title="BatiPro Construction — Renovation & Batiment a Perpignan | Devis Gratuit">
@@ -26,7 +27,7 @@ import Footer from '../components/Footer.astro';
       <h1 class="reveal reveal-d1">Construisons votre<br><span class="gradient-text-light">projet de vie</span></h1>
       <p class="hero-sub reveal reveal-d2">Renovation, construction neuve, extension — tous corps de metier.<br>Un interlocuteur unique, des finitions impeccables.</p>
       <div class="hero-actions reveal reveal-d3">
-        <a href="/devis" class="btn-primary btn-lg">
+        <a href={`${base}/devis`} class="btn-primary btn-lg">
           Demander un devis gratuit
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
@@ -95,7 +96,7 @@ import Footer from '../components/Footer.astro';
     <div class="container par-ct">
       <h2 class="reveal">Un projet ? <span class="gradient-text-light">Parlons-en.</span></h2>
       <p class="reveal reveal-d1">Chaque chantier est unique. Nous vous accompagnons de A a Z.</p>
-      <a href="/devis" class="btn-primary btn-lg reveal reveal-d2">Obtenir un devis gratuit <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a href={`${base}/devis`} class="btn-primary btn-lg reveal reveal-d2">Obtenir un devis gratuit <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     </div>
   </section>
 

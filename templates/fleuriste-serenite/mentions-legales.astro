@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import { client } from './client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <Layout
@@ -9,30 +10,30 @@ import { client } from './client';
 >
   <nav class="nav scrolled">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">{client.nom}<span>{client.slogan}</span></a>
+      <a href={import.meta.env.BASE_URL} class="nav-logo">{client.nom}<span>{client.slogan}</span></a>
       <ul class="nav-links">
-        <li><a href="/">Accueil</a></li>
-        <li><a href="/realisations">Créations</a></li>
-        <li><a href="/tarifs">Tarifs</a></li>
-        <li><a href="/a-propos">À Propos</a></li>
-        <li><a href="/#contact">Contact</a></li>
+        <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+        <li><a href={`${base}/realisations`}>Créations</a></li>
+        <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+        <li><a href={`${base}/a-propos`}>À Propos</a></li>
+        <li><a href={`${base}#contact`}>Contact</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
-        <a href="/#contact" class="btn btn-primary">Contact</a>
+        <a href={`${base}#contact`} class="btn btn-primary">Contact</a>
       </div>
       <button class="burger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
   <div class="mobile-menu">
-    <a href="/">Accueil</a><a href="/realisations">Créations</a>
-    <div class="mobile-cta"><a href="/#contact" class="btn btn-primary">Contact</a></div>
+    <a href={import.meta.env.BASE_URL}>Accueil</a><a href={`${base}/realisations`}>Créations</a>
+    <div class="mobile-cta"><a href={`${base}#contact`} class="btn btn-primary">Contact</a></div>
   </div>
 
   <div class="legal-page">
     <div class="container">
       <div class="legal-header">
-        <a href="/" class="back-link">← Retour à l'accueil</a>
+        <a href={import.meta.env.BASE_URL} class="back-link">← Retour à l'accueil</a>
         <h1>Mentions Légales</h1>
         <p class="legal-updated">Dernière mise à jour : Février 2026</p>
       </div>

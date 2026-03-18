@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const categories = client.realisationsCategories;
 ---
@@ -10,7 +11,7 @@ const categories = client.realisationsCategories;
   <!-- NAVBAR -->
   <nav class="navbar scrolled" id="navbar">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <div class="nav-logo-icon">🏠</div>
         <div class="nav-logo-text">
           <span class="nav-logo-name">{client.nom}</span>
@@ -18,35 +19,35 @@ const categories = client.realisationsCategories;
         </div>
       </a>
       <ul class="nav-links">
-        <li><a href="/">Accueil</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/realisations" class="active">Réalisations</a></li>
+        <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+        <li><a href={`${base}/services`}>Services</a></li>
+        <li><a href={`${base}/realisations`} class="active">Réalisations</a></li>
         <li class="nav-dropdown">
           <button class="nav-dropdown-toggle">
             Plus
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <div class="nav-dropdown-menu">
-            <a href="/tarifs">Tarifs</a>
-            <a href="/a-propos">À Propos</a>
+            <a href={`${base}/tarifs`}>Tarifs</a>
+            <a href={`${base}/a-propos`}>À Propos</a>
           </div>
         </li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href={`${base}/contact`}>Contact</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
-        <a href="/contact" class="btn btn-accent">Devis gratuit</a>
+        <a href={`${base}/contact`} class="btn btn-accent">Devis gratuit</a>
       </div>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
     <div class="nav-mobile" id="mobile-menu">
-      <a href="/">Accueil</a>
-      <a href="/services">Services</a>
-      <a href="/realisations">Réalisations</a>
-      <a href="/tarifs">Tarifs</a>
-      <a href="/a-propos">À Propos</a>
-      <a href="/contact">Contact</a>
-      <a href="/contact" class="mob-cta">Devis gratuit →</a>
+      <a href={import.meta.env.BASE_URL}>Accueil</a>
+      <a href={`${base}/services`}>Services</a>
+      <a href={`${base}/realisations`}>Réalisations</a>
+      <a href={`${base}/tarifs`}>Tarifs</a>
+      <a href={`${base}/a-propos`}>À Propos</a>
+      <a href={`${base}/contact`}>Contact</a>
+      <a href={`${base}/contact`} class="mob-cta">Devis gratuit →</a>
     </div>
   </nav>
 
@@ -58,7 +59,7 @@ const categories = client.realisationsCategories;
     <div class="page-header-ov"></div>
     <div class="container page-header-content">
       <nav class="breadcrumb" aria-label="Fil d'Ariane">
-        <a href="/">Accueil</a>
+        <a href={import.meta.env.BASE_URL}>Accueil</a>
         <span>›</span>
         <span>Réalisations</span>
       </nav>
@@ -111,7 +112,7 @@ const categories = client.realisationsCategories;
         <p>Devis gratuit, déplacement gratuit sur tout le 66.</p>
       </div>
       <div class="reveal reveal-d1">
-        <a href="/contact" class="btn btn-accent btn-lg">Demander un devis →</a>
+        <a href={`${base}/contact`} class="btn btn-accent btn-lg">Demander un devis →</a>
       </div>
     </div>
   </section>

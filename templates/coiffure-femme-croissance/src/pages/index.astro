@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
@@ -22,7 +23,7 @@ const extraServices    = client.services.filter(s => !s.featured);
   <!-- ═══ NAVBAR ═══ -->
   <nav class="navbar" id="navbar">
     <div class="nav-wrap">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <div class="nav-logo-mark">✂</div>
         <div class="nav-logo-text">
           <span class="nav-logo-name">{client.nom}</span>
@@ -30,12 +31,12 @@ const extraServices    = client.services.filter(s => !s.featured);
         </div>
       </a>
       <ul class="nav-links">
-        <li><a href="/" class="active">Accueil</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/realisations">Réalisations</a></li>
-        <li><a href="/tarifs">Tarifs</a></li>
-        <li><a href="/a-propos">À Propos</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href={import.meta.env.BASE_URL} class="active">Accueil</a></li>
+        <li><a href={`${base}/services`}>Services</a></li>
+        <li><a href={`${base}/realisations`}>Réalisations</a></li>
+        <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+        <li><a href={`${base}/a-propos`}>À Propos</a></li>
+        <li><a href={`${base}/contact`}>Contact</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
@@ -46,12 +47,12 @@ const extraServices    = client.services.filter(s => !s.featured);
       </button>
     </div>
     <div class="mob-menu" id="mob-menu">
-      <a href="/">Accueil</a>
-      <a href="/services">Services</a>
-      <a href="/realisations">Réalisations</a>
-      <a href="/tarifs">Tarifs</a>
-      <a href="/a-propos">À Propos</a>
-      <a href="/contact">Contact</a>
+      <a href={import.meta.env.BASE_URL}>Accueil</a>
+      <a href={`${base}/services`}>Services</a>
+      <a href={`${base}/realisations`}>Réalisations</a>
+      <a href={`${base}/tarifs`}>Tarifs</a>
+      <a href={`${base}/a-propos`}>À Propos</a>
+      <a href={`${base}/contact`}>Contact</a>
       <a href={client.reservationUrl} target="_blank" class="mob-cta">Réserver en ligne →</a>
     </div>
   </nav>
@@ -82,7 +83,7 @@ const extraServices    = client.services.filter(s => !s.featured);
           <a href={client.reservationUrl} target="_blank" rel="noopener" class="btn btn-velvet btn-lg">
             Réserver en ligne
           </a>
-          <a href="/services" class="btn btn-outline btn-lg">Nos prestations</a>
+          <a href={`${base}/services`} class="btn btn-outline btn-lg">Nos prestations</a>
         </div>
 
         <!-- Signature confiance -->
@@ -128,7 +129,7 @@ const extraServices    = client.services.filter(s => !s.featured);
             est réalisée avec soin et précision par notre équipe certifiée.
           </p>
         </div>
-        <a href="/services" class="btn btn-outline silk d1">Voir toutes nos prestations →</a>
+        <a href={`${base}/services`} class="btn btn-outline silk d1">Voir toutes nos prestations →</a>
       </div>
 
       <!-- 3 featured -->
@@ -147,7 +148,7 @@ const extraServices    = client.services.filter(s => !s.featured);
               <div class="svc-tags">
                 {s.tags.map(t => <span class="tag">{t}</span>)}
               </div>
-              <a href="/services" class="svc-link serif">En savoir plus →</a>
+              <a href={`${base}/services`} class="svc-link serif">En savoir plus →</a>
             </div>
           </article>
         ))}
@@ -156,7 +157,7 @@ const extraServices    = client.services.filter(s => !s.featured);
       <!-- Prestations complémentaires -->
       <div class="extra-grid">
         {extraServices.map((s, i) => (
-          <a href="/services" class={`extra-item silk d${i+1}`}>
+          <a href={`${base}/services`} class={`extra-item silk d${i+1}`}>
             <span class="extra-icon">{s.icone}</span>
             <div>
               <strong class="serif">{s.titre}</strong>
@@ -194,7 +195,7 @@ const extraServices    = client.services.filter(s => !s.featured);
             <em style="font-style:italic">réalisations récentes</em>
           </h2>
         </div>
-        <a href="/realisations" class="btn btn-outline silk">Voir toute la galerie →</a>
+        <a href={`${base}/realisations`} class="btn btn-outline silk">Voir toute la galerie →</a>
       </div>
       <div class="gal-mosaic">
         {client.realisations.slice(0,4).map((r, i) => (
@@ -311,18 +312,18 @@ const extraServices    = client.services.filter(s => !s.featured);
         <div class="f-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/realisations">Réalisations</a></li>
-            <li><a href="/tarifs">Tarifs</a></li>
-            <li><a href="/a-propos">À Propos</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+            <li><a href={`${base}/services`}>Services</a></li>
+            <li><a href={`${base}/realisations`}>Réalisations</a></li>
+            <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+            <li><a href={`${base}/a-propos`}>À Propos</a></li>
+            <li><a href={`${base}/contact`}>Contact</a></li>
           </ul>
         </div>
         <div class="f-col">
           <h4>Prestations</h4>
           <ul>
-            {client.services.map(s => <li><a href="/services">{s.titre}</a></li>)}
+            {client.services.map(s => <li><a href={`${base}/services`}>{s.titre}</a></li>)}
           </ul>
         </div>
         <div class="f-col">
@@ -336,7 +337,7 @@ const extraServices    = client.services.filter(s => !s.featured);
         </div>
       </div>
       <div class="f-bottom">
-        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} | <a href={`${base}/mentions-legales`} style="color:inherit">Mentions légales</a></p>
         <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">
           Site par <strong>LORN Digital Studio</strong>
         </a>

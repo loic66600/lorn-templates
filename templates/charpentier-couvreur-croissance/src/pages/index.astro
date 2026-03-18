@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
@@ -29,7 +30,7 @@ const recentRealisations = client.realisations.slice(0, 3);
   <!-- ══ NAVBAR ══ -->
   <nav class="navbar" id="navbar" class:list={[client.urgence ? 'with-urgence' : '']}>
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <div class="nav-logo-icon">🏠</div>
         <div class="nav-logo-text">
           <span class="nav-logo-name">{client.nom}</span>
@@ -37,35 +38,35 @@ const recentRealisations = client.realisations.slice(0, 3);
         </div>
       </a>
       <ul class="nav-links">
-        <li><a href="/" class="active">Accueil</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/realisations">Réalisations</a></li>
+        <li><a href={import.meta.env.BASE_URL} class="active">Accueil</a></li>
+        <li><a href={`${base}/services`}>Services</a></li>
+        <li><a href={`${base}/realisations`}>Réalisations</a></li>
         <li class="nav-dropdown">
           <button class="nav-dropdown-toggle">
             Plus
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <div class="nav-dropdown-menu">
-            <a href="/tarifs">Tarifs</a>
-            <a href="/a-propos">À Propos</a>
+            <a href={`${base}/tarifs`}>Tarifs</a>
+            <a href={`${base}/a-propos`}>À Propos</a>
           </div>
         </li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href={`${base}/contact`}>Contact</a></li>
       </ul>
       <div class="nav-cta">
         <a href={client.telephoneLink} class="nav-tel">{client.telephone}</a>
-        <a href="/contact" class="btn btn-accent">Devis gratuit</a>
+        <a href={`${base}/contact`} class="btn btn-accent">Devis gratuit</a>
       </div>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
     <div class="nav-mobile" id="mobile-menu">
-      <a href="/">Accueil</a>
-      <a href="/services">Services</a>
-      <a href="/realisations">Réalisations</a>
-      <a href="/tarifs">Tarifs</a>
-      <a href="/a-propos">À Propos</a>
-      <a href="/contact">Contact</a>
-      <a href="/contact" class="mob-cta">Devis gratuit →</a>
+      <a href={import.meta.env.BASE_URL}>Accueil</a>
+      <a href={`${base}/services`}>Services</a>
+      <a href={`${base}/realisations`}>Réalisations</a>
+      <a href={`${base}/tarifs`}>Tarifs</a>
+      <a href={`${base}/a-propos`}>À Propos</a>
+      <a href={`${base}/contact`}>Contact</a>
+      <a href={`${base}/contact`} class="mob-cta">Devis gratuit →</a>
     </div>
   </nav>
 
@@ -100,7 +101,7 @@ const recentRealisations = client.realisations.slice(0, 3);
         </p>
 
         <div class="hero-actions reveal reveal-d3">
-          <a href="/contact" class="btn btn-accent btn-lg">Devis gratuit →</a>
+          <a href={`${base}/contact`} class="btn btn-accent btn-lg">Devis gratuit →</a>
           <a href={client.urgenceTelLink} class="btn btn-outline-white btn-lg">⚡ Urgence : {client.urgenceTel}</a>
         </div>
 
@@ -148,7 +149,7 @@ const recentRealisations = client.realisations.slice(0, 3);
             avec des matériaux premium et la garantie décennale.
           </p>
         </div>
-        <a href="/services" class="btn btn-outline reveal reveal-d1">Toutes nos prestations →</a>
+        <a href={`${base}/services`} class="btn btn-outline reveal reveal-d1">Toutes nos prestations →</a>
       </div>
 
       <div class="svc-grid">
@@ -179,7 +180,7 @@ const recentRealisations = client.realisations.slice(0, 3);
               <strong class="font-display">{s.titre}</strong>
               <p>{s.tags.join(' · ')}</p>
             </div>
-            <a href="/services" class="svc-mini-arrow">→</a>
+            <a href={`${base}/services`} class="svc-mini-arrow">→</a>
           </div>
         ))}
       </div>
@@ -232,7 +233,7 @@ const recentRealisations = client.realisations.slice(0, 3);
           <div class="eyebrow reveal">Nos chantiers</div>
           <h2 class="section-title reveal reveal-d1">Réalisations récentes</h2>
         </div>
-        <a href="/realisations" class="btn btn-outline reveal">Voir tout →</a>
+        <a href={`${base}/realisations`} class="btn btn-outline reveal">Voir tout →</a>
       </div>
 
       <div class="real-grid">
@@ -303,7 +304,7 @@ const recentRealisations = client.realisations.slice(0, 3);
         <div class="zones-tags">
           {client.zones.map(z => <span class="zone-tag">{z}</span>)}
         </div>
-        <a href="/contact" class="btn btn-primary" style="margin-top:2rem">Vérifier ma zone →</a>
+        <a href={`${base}/contact`} class="btn btn-primary" style="margin-top:2rem">Vérifier ma zone →</a>
       </div>
       <div class="zones-img slide-right">
         <div class="zones-img-wrap img-zoom">
@@ -326,7 +327,7 @@ const recentRealisations = client.realisations.slice(0, 3);
         <p>Déplacement gratuit sur Perpignan et tout le 66. Diagnostic toiture inclus.</p>
       </div>
       <div class="cta-actions reveal reveal-d1">
-        <a href="/contact" class="btn btn-primary btn-lg">Demander un devis →</a>
+        <a href={`${base}/contact`} class="btn btn-primary btn-lg">Demander un devis →</a>
         <a href={client.telephoneLink} class="btn btn-outline btn-lg">📞 {client.telephone}</a>
       </div>
     </div>
@@ -354,19 +355,19 @@ const recentRealisations = client.realisations.slice(0, 3);
         <div class="footer-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/realisations">Réalisations</a></li>
-            <li><a href="/tarifs">Tarifs</a></li>
-            <li><a href="/a-propos">À Propos</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href={import.meta.env.BASE_URL}>Accueil</a></li>
+            <li><a href={`${base}/services`}>Services</a></li>
+            <li><a href={`${base}/realisations`}>Réalisations</a></li>
+            <li><a href={`${base}/tarifs`}>Tarifs</a></li>
+            <li><a href={`${base}/a-propos`}>À Propos</a></li>
+            <li><a href={`${base}/contact`}>Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Prestations</h4>
           <ul>
-            {client.services.map(s => <li><a href="/services">{s.titre}</a></li>)}
+            {client.services.map(s => <li><a href={`${base}/services`}>{s.titre}</a></li>)}
           </ul>
         </div>
 
@@ -382,7 +383,7 @@ const recentRealisations = client.realisations.slice(0, 3);
       </div>
 
       <div class="footer-bottom">
-        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+        <p>© {new Date().getFullYear()} {client.nom} — {client.ville} | <a href={`${base}/mentions-legales`} style="color:inherit">Mentions légales</a></p>
         <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">
           Site par <strong>LORN Digital Studio</strong>
         </a>

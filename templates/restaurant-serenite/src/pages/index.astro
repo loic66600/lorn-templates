@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
 const socialIcons: Record<string,string> = {
@@ -20,25 +21,25 @@ const categories = [...new Set(client.carte.map(p => p.categorie))];
   <!-- ══════ NAVBAR ══════ -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <img src={client.logo} alt={client.nom} class="nav-logo-img" onerror="this.style.display='none'" />
         <span class="nav-name font-display">{client.nom}</span>
       </a>
       <div class="nav-links">
-        <a href="/#carte">La carte</a>
-        <a href="/galerie">Galerie</a>
-        <a href="/a-propos">Notre histoire</a>
-        <a href="/#horaires">Horaires</a>
-        <a href="/#reservation" class="nav-cta">Réserver</a>
+        <a href={`${base}#carte`}>La carte</a>
+        <a href={`${base}/galerie`}>Galerie</a>
+        <a href={`${base}/a-propos`}>Notre histoire</a>
+        <a href={`${base}#horaires`}>Horaires</a>
+        <a href={`${base}#reservation`} class="nav-cta">Réserver</a>
       </div>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
     <div class="nav-mobile" id="mobile-menu">
-      <a href="/#carte">La carte</a>
-      <a href="/galerie">Galerie</a>
-      <a href="/a-propos">Notre histoire</a>
-      <a href="/#horaires">Horaires</a>
-      <a href="/#reservation" class="mob-cta">Réserver une table</a>
+      <a href={`${base}#carte`}>La carte</a>
+      <a href={`${base}/galerie`}>Galerie</a>
+      <a href={`${base}/a-propos`}>Notre histoire</a>
+      <a href={`${base}#horaires`}>Horaires</a>
+      <a href={`${base}#reservation`} class="mob-cta">Réserver une table</a>
     </div>
   </nav>
 
@@ -141,7 +142,7 @@ const categories = [...new Set(client.carte.map(p => p.categorie))];
           <span class="section-deco">✦</span>
           <h2 class="section-title font-display reveal">L'ambiance <em class="text-wine">en images</em></h2>
         </div>
-        <a href="/galerie" class="btn-outline reveal">Voir toute la galerie →</a>
+        <a href={`${base}/galerie`} class="btn-outline reveal">Voir toute la galerie →</a>
       </div>
       <div class="gal-preview">
         {client.galerie.slice(0,5).map((g, i) => (
@@ -282,8 +283,8 @@ const categories = [...new Set(client.carte.map(p => p.categorie))];
           )}
         </div>
         <div class="footer-nav">
-          <a href="/">Accueil</a><a href="/#carte">La carte</a><a href="/galerie">Galerie</a>
-          <a href="/a-propos">Notre histoire</a><a href="/#horaires">Horaires</a><a href="/mentions-legales">Mentions légales</a>
+          <a href={import.meta.env.BASE_URL}>Accueil</a><a href={`${base}#carte`}>La carte</a><a href={`${base}/galerie`}>Galerie</a>
+          <a href={`${base}/a-propos`}>Notre histoire</a><a href={`${base}#horaires`}>Horaires</a><a href={`${base}/mentions-legales`}>Mentions légales</a>
         </div>
         <div>
           <h4>Réservation</h4>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
 const socialIcons: Record<string,string> = {
@@ -28,7 +29,7 @@ const socialIcons: Record<string,string> = {
   <!-- ══════ NAVBAR ══════ -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href={import.meta.env.BASE_URL} class="nav-logo">
         <img src={client.logo} alt={client.nom} class="nav-logo-img" onerror="this.style.display='none'" />
         <span class="nav-name font-display">{client.nom}</span>
       </a>
@@ -319,7 +320,7 @@ const socialIcons: Record<string,string> = {
         </div>
         <div>
           <h4>Légal</h4>
-          <a href="/mentions-legales">Mentions légales</a>
+          <a href={`${base}/mentions-legales`}>Mentions légales</a>
           <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="footer-badge">Site par <strong>LORN Digital Studio</strong></a>
         </div>
       </div>

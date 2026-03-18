@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 ---
 
@@ -380,7 +381,7 @@ const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
           <h4>Informations</h4>
           <a href={client.telephoneLink}>{client.telephone}</a>
           <a href={`mailto:${client.email}`}>{client.email}</a>
-          <a href="/mentions-legales">Mentions légales</a>
+          <a href={`${base}/mentions-legales`}>Mentions légales</a>
         </div>
       </div>
       <div class="footer-bottom">
