@@ -383,7 +383,7 @@ jobs:
         run: |
           cd templates/barbershop-serenite
           npm install
-          npx astro build --site https://loic66600.github.io --base /lorn-templates/barbershop-serenite
+          ASTRO_SITE=https://loic66600.github.io ASTRO_BASE=/lorn-templates/barbershop-serenite npx astro build
           cp -r dist/. ../../_site/barbershop-serenite
 
       - name: Build electricien-serenite
