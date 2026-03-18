@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const allPhotos = [...client.galerie, ...client.galerieBonus];
 const categories = ['Tout', ...Array.from(new Set(allPhotos.map(p => p.categorie)))];
 ---

@@ -1,7 +1,7 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 import Layout from '../layouts/Layout.astro';
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
 const socialIcons: Record<string,string> = {

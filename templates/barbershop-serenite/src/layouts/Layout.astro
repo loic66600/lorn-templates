@@ -1,6 +1,6 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 import { client } from '../data/client';
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 interface Props { title?: string; description?: string; }
 const { title = client.titreSEO, description = client.descriptionSEO } = Astro.props;
 ---
