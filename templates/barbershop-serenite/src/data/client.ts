@@ -65,9 +65,9 @@ export const client = {
 
   // ── L'équipe / Barbiers ─────────────────────────────────────
   equipe: [
-    { prenom: "Marco", role: "Fondateur & Master Barber", experience: "12 ans", specialite: "Skin fade, razor art", image: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=80" },
-    { prenom: "Yassine", role: "Barbier Senior", experience: "8 ans", specialite: "Barbe sculptée, hot towel", image: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=80" },
-    { prenom: "Lucas", role: "Barbier", experience: "4 ans", specialite: "Coupe classique, pompadour", image: "https://images.unsplash.com/photo-1567894340315-735d7c361db7?w=600&q=80" },
+    { prenom: "Laure", role: "Fondatrice & Master Barber", experience: "12 ans", specialite: "Skin fade, razor art", image: "/images/laure.png" },
+    { prenom: "Meech", role: "Barbier Senior", experience: "8 ans", specialite: "Barbe sculptée, hot towel", image: "/images/meech.png" },
+    { prenom: "Remi", role: "Barbier", experience: "4 ans", specialite: "Coupe classique, pompadour", image: "/images/remi.png" },
   ],
 
   // ── Services & Tarifs ───────────────────────────────────────
@@ -114,8 +114,8 @@ export const client = {
     sousTitre: "Depuis 2018 à Perpignan",
     paragraphe1: "Black & Gold est né d'une conviction : aller chez le barbier ne devrait pas être une corvée, mais un moment pour soi. Un rituel. Un espace où le temps s'arrête, où le souci du détail prime sur la cadence.",
     paragraphe2: "Notre équipe de 3 barbiers passionnés vous accueille dans un cadre authentique, entre cuir patiné, bois brut et musique soul. Ici, on prend le temps de comprendre ce que vous voulez, et on s'assure que vous repartez avec le sourire.",
-    image: "https://images.unsplash.com/photo-1585747860019-8e4c2e1b1e4e?w=800&q=80",
-    imageAlt: "L'intérieur du barbershop",
+    image: "/images/laure.png",
+    imageAlt: "Laure, fondatrice du barbershop",
     image2: "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=800&q=80",
     image2Alt: "Produits et outils de barbier",
     valeurs: [
