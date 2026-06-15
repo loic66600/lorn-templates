@@ -300,8 +300,11 @@ jobs:
                   data.templates.forEach(t => {
                     const icon = icons[t.metier] || "✨";
                     const url = `./${t.id}/`;
-                    const thumb = t.screenshot
-                      ? `<img src="./${t.screenshot}" alt="${t.nom}" loading="lazy" />`
+                    const screenshotUrl = t.screenshot
+                      ? `./${t.screenshot}?v=${encodeURIComponent(data.version)}`
+                      : "";
+                    const thumb = screenshotUrl
+                      ? `<img src="${screenshotUrl}" alt="${t.nom}" loading="lazy" />`
                       : `<div class="thumb-fallback">${icon}</div>`;
                     const badgeClass = t.formule === "croissance" ? "badge-croissance" : "badge-serenite";
                     grid.innerHTML += `
