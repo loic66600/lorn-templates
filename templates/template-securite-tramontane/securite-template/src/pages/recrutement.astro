@@ -1,0 +1,533 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Recrutement — Rejoignez ${client.nom} | Agents sécurité & SSIAP`;
+const description = `${client.nom} recrute des agents de sécurité CQP APS, agents SSIAP 1-2-3 et rondiers en CDI/CDD à ${client.adresse.ville} (${client.adresse.departement}) et en ${client.adresse.region}. Postulez dès maintenant.`;
+---
+
+<Layout title={titre} description={description}>
+
+  <!-- ============================== EN-TÊTE PAGE ============================== -->
+  <section class="page-tete">
+    <div class="conteneur tete-grille">
+      <div>
+        <p class="etiquette">Recrutement</p>
+        <h1 class="titre-section">
+          Intégrez<br /><em>le dispositif.</em>
+        </h1>
+        <p class="page-intro">
+          {client.nom} recrute toute l'année des agents titulaires de la carte
+          professionnelle CNAPS. Plannings stables, heures réellement payées,
+          équipement fourni, encadrement terrain par un chef de secteur dédié.
+        </p>
+        <p class="statut">Postes ouverts — CDI & CDD disponibles</p>
+        <a href="#formulaire-candidature" class="btn btn-plein tete-cta">
+          Envoyer ma candidature →
+        </a>
+      </div>
+      <div class="tete-image">
+        <!-- Remplacer src par la photo d'agent fournie par le client -->
+        <img
+          src="https://images.unsplash.com/photo-1569098644584-210bcd375b59?q=80&w=1400&auto=format&fit=crop"
+          alt={`Agent de sécurité ${client.nom}`}
+        />
+        <div class="tete-image-cadre" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== AVANTAGES ============================== -->
+  <section class="avantages">
+    <div class="conteneur">
+      <p class="etiquette reveler">Pourquoi nous rejoindre</p>
+      <h2 class="titre-section reveler">Des conditions <em>concrètes</em></h2>
+      <div class="avantages-grille">
+        {[
+          {
+            code: "01",
+            titre: "Plannings stables",
+            desc: "Roulements prévisibles, postes fixes quand possible. Pas de changement de planning à la dernière minute.",
+          },
+          {
+            code: "02",
+            titre: "Heures 100 % payées",
+            desc: "Chaque heure travaillée est comptabilisée et réglée. Majorations légales strictement respectées.",
+          },
+          {
+            code: "03",
+            titre: "Équipement fourni",
+            desc: "Tenue, badge, équipements de liaison et de sécurité fournis par l'agence. Zéro avance de frais.",
+          },
+          {
+            code: "04",
+            titre: "Encadrement terrain",
+            desc: "Chef de secteur disponible, PC joignable 24h/24, contrôles de poste réguliers et inopinés.",
+          },
+          {
+            code: "05",
+            titre: "Formation continue",
+            desc: "Recyclages pris en charge, accompagnement pour le maintien et l'évolution des certifications.",
+          },
+          {
+            code: "06",
+            titre: "Évolution interne",
+            desc: "Parcours SSIAP 1→2→3 soutenu. Promotion interne prioritaire sur les postes d'encadrement.",
+          },
+        ].map((a) => (
+          <article class="avantage reveler">
+            <span class="avantage-code">{a.code}</span>
+            <div>
+              <h3 class="avantage-titre">{a.titre}</h3>
+              <p class="avantage-desc">{a.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== POSTES OUVERTS ============================== -->
+  <section class="postes">
+    <div class="conteneur">
+      <p class="etiquette reveler">Postes ouverts</p>
+      <h2 class="titre-section reveler">Rejoignez <em>nos équipes</em></h2>
+      <div class="postes-grille">
+        {
+          client.postes.map((p, i) => (
+            <article class="poste reveler" style={`transition-delay:${i * 0.07}s`}>
+              <div class="poste-tete">
+                <span class="poste-ref">{p.reference}</span>
+                <span class="poste-type">{p.type}</span>
+              </div>
+              <h3 class="poste-titre">{p.titre}</h3>
+              <p class="poste-desc">{p.description}</p>
+              <ul class="poste-prerequis">
+                {p.prerequis.map((pr) => (
+                  <li><span aria-hidden="true">▸</span> {pr}</li>
+                ))}
+              </ul>
+              <a href="#formulaire-candidature" class="poste-cta">
+                Postuler pour ce poste →
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FORMULAIRE ============================== -->
+  <section class="section-formulaire" id="formulaire-candidature">
+    <div class="conteneur formulaire-grille">
+
+      <!-- Intro -->
+      <div class="formulaire-intro">
+        <p class="etiquette reveler">Candidature</p>
+        <h2 class="titre-section reveler">Envoyez votre <em>dossier</em></h2>
+        <p class="formulaire-texte reveler">
+          Remplissez le formulaire ci-contre. Réponse garantie sous 5 jours
+          ouvrés. Pour joindre votre CV, envoyez-le directement par email en
+          mentionnant le poste visé.
+        </p>
+        <div class="formulaire-contact reveler">
+          <div class="fc-ligne">
+            <span class="fc-label">Email candidature</span>
+            <a href={`mailto:${client.email}?subject=Candidature agent de sécurité`}>
+              {client.email}
+            </a>
+          </div>
+          <div class="fc-ligne">
+            <span class="fc-label">Téléphone agence</span>
+            <a href={`tel:${client.telephoneLien}`}>{client.telephone}</a>
+          </div>
+        </div>
+        <p class="formulaire-cnaps reveler">
+          ▸ Seules les candidatures avec carte professionnelle CNAPS en cours de
+          validité seront traitées.
+        </p>
+      </div>
+
+      <!-- Formulaire -->
+      <form id="form-candidature" class="formulaire-form reveler" novalidate>
+        <input type="hidden" name="access_key" value={client.web3formsKey} />
+        <input
+          type="hidden"
+          name="subject"
+          value={`Candidature agent — ${client.nom}`}
+        />
+
+        <div class="champ-duo">
+          <div class="champ">
+            <label for="c-prenom">Prénom *</label>
+            <input type="text" id="c-prenom" name="prenom" required autocomplete="given-name" />
+          </div>
+          <div class="champ">
+            <label for="c-nom">Nom *</label>
+            <input type="text" id="c-nom" name="nom" required autocomplete="family-name" />
+          </div>
+        </div>
+
+        <div class="champ-duo">
+          <div class="champ">
+            <label for="c-tel">Téléphone *</label>
+            <input type="tel" id="c-tel" name="telephone" required autocomplete="tel" />
+          </div>
+          <div class="champ">
+            <label for="c-email">Email *</label>
+            <input type="email" id="c-email" name="email" required autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="champ">
+          <label for="c-poste">Poste souhaité *</label>
+          <select id="c-poste" name="poste" required>
+            <option value="" disabled selected>Sélectionner un poste…</option>
+            {
+              client.postes.map((p) => (
+                <option value={p.titre}>{p.titre} — {p.reference}</option>
+              ))
+            }
+            <option value="Candidature spontanée">Candidature spontanée</option>
+          </select>
+        </div>
+
+        <div class="champ">
+          <label for="c-carte">N° de carte professionnelle CNAPS *</label>
+          <input
+            type="text"
+            id="c-carte"
+            name="carte_cnaps"
+            required
+            placeholder="Ex : CPS-XXXXXXXXX"
+          />
+        </div>
+
+        <div class="champ">
+          <label for="c-dispo">Disponibilité</label>
+          <input
+            type="text"
+            id="c-dispo"
+            name="disponibilite"
+            placeholder="Ex : Immédiatement · Préavis 1 mois · À partir du JJ/MM/AAAA"
+          />
+        </div>
+
+        <div class="champ">
+          <label for="c-message">Lettre de motivation</label>
+          <textarea
+            id="c-message"
+            name="message"
+            rows="5"
+            placeholder="Parlez-nous de votre expérience, vos certifications et votre motivation à rejoindre Tramontane Sécurité…"
+          ></textarea>
+        </div>
+
+        <p class="champ-note">
+          Joignez votre CV par email à <strong>{client.email}</strong> en mentionnant le poste visé.
+        </p>
+
+        <button type="submit" id="btn-candidature" class="btn btn-plein btn-bloc">
+          Envoyer ma candidature
+        </button>
+
+        <p class="form-statut" id="rec-statut" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================== CTA BAS ============================== -->
+  <section class="cta-bas">
+    <div class="conteneur cta-inner">
+      <h2 class="cta-titre reveler">
+        Vous sécurisez les autres.<br /><em>On s'occupe de vous.</em>
+      </h2>
+      <div class="cta-actions reveler">
+        <a href="#formulaire-candidature" class="btn btn-plein">Postuler maintenant</a>
+        <a href="/a-propos" class="btn btn-vide">Découvrir l'agence</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* ---- En-tête ---- */
+  .page-tete { padding: 11rem 0 6rem; }
+  .tete-grille {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4.5rem;
+    align-items: center;
+  }
+  .page-intro {
+    color: var(--gris);
+    max-width: 56ch;
+    margin-bottom: 1.8rem;
+  }
+  .tete-cta { margin-top: 2rem; }
+  .tete-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+  }
+  .tete-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.6) contrast(1.1);
+  }
+  .tete-image-cadre {
+    position: absolute;
+    inset: -14px 14px 14px -14px;
+    border: 1px solid var(--alerte);
+    pointer-events: none;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+
+  /* ---- Avantages ---- */
+  .avantages {
+    padding-block: 7rem;
+    background: var(--nuit-2);
+    border-top: 1px solid var(--ligne);
+  }
+  .avantages-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .avantage {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1.2rem;
+    align-items: start;
+  }
+  .avantage-code {
+    font-family: var(--font-data);
+    font-size: 1.6rem;
+    color: var(--alerte);
+    line-height: 1.1;
+    opacity: 0.5;
+  }
+  .avantage-titre { font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .avantage-desc { color: var(--gris); font-size: 0.9rem; line-height: 1.6; }
+
+  /* ---- Postes ---- */
+  .postes {
+    padding-block: 7.5rem;
+    border-top: 1px solid var(--ligne);
+  }
+  .postes-grille {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .poste {
+    display: flex;
+    flex-direction: column;
+    padding: 2.4rem 2rem;
+    border: 1px solid var(--ligne);
+    background: var(--nuit-2);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .poste:hover { border-color: var(--alerte); transform: translateY(-3px); }
+  .poste-tete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  .poste-ref {
+    font-family: var(--font-data);
+    font-size: 0.66rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--alerte);
+  }
+  .poste-type {
+    font-family: var(--font-data);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    color: var(--gris);
+    border: 1px solid var(--ligne);
+    padding: 0.25rem 0.7rem;
+    white-space: nowrap;
+  }
+  .poste-titre { font-size: 1.35rem; margin-bottom: 0.9rem; }
+  .poste-desc { color: var(--gris); font-size: 0.92rem; margin-bottom: 1.4rem; }
+  .poste-prerequis {
+    list-style: none;
+    border-top: 1px solid var(--ligne);
+    padding-top: 1.2rem;
+    margin-bottom: 1.6rem;
+    flex: 1;
+  }
+  .poste-prerequis li {
+    font-size: 0.88rem;
+    padding: 0.45rem 0;
+    color: var(--gris);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .poste-prerequis li span { color: var(--alerte); margin-right: 0.4rem; }
+  .poste-cta {
+    margin-top: auto;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--alerte);
+    transition: opacity 0.25s ease;
+  }
+  .poste-cta:hover { opacity: 0.75; }
+
+  /* ---- Formulaire ---- */
+  .section-formulaire {
+    padding-block: 7rem;
+    background: var(--nuit-2);
+    border-top: 1px solid var(--ligne);
+  }
+  .formulaire-grille {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .formulaire-texte {
+    color: var(--gris);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+  .formulaire-contact {
+    display: grid;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  .fc-ligne { display: flex; flex-direction: column; gap: 0.2rem; }
+  .fc-label {
+    font-family: var(--font-data);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+  .fc-ligne a { font-size: 0.95rem; transition: color 0.25s ease; }
+  .fc-ligne a:hover { color: var(--alerte); }
+  .formulaire-cnaps {
+    font-size: 0.82rem;
+    color: var(--alerte);
+    opacity: 0.85;
+    border-left: 2px solid var(--alerte);
+    padding-left: 1rem;
+  }
+
+  .formulaire-form { display: grid; gap: 1.4rem; }
+  .champ-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+  .champ { display: grid; gap: 0.5rem; }
+  .champ label {
+    font-family: var(--font-data);
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+  .champ input,
+  .champ select,
+  .champ textarea {
+    font-family: var(--font-texte);
+    font-size: 0.95rem;
+    padding: 0.9rem 1rem;
+    background: var(--nuit);
+    border: 1px solid var(--ligne);
+    color: var(--blanc);
+    transition: border-color 0.25s ease;
+  }
+  .champ select { appearance: none; }
+  .champ input:focus,
+  .champ select:focus,
+  .champ textarea:focus {
+    outline: none;
+    border-color: var(--alerte);
+  }
+  .champ-note {
+    font-size: 0.82rem;
+    color: var(--gris);
+    border-top: 1px solid var(--ligne);
+    padding-top: 1rem;
+  }
+  .champ-note strong { color: var(--blanc); }
+  .btn-bloc { width: 100%; justify-content: center; }
+  .form-statut {
+    font-family: var(--font-data);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    min-height: 1.4em;
+  }
+  .form-statut.ok { color: var(--vert-actif); }
+  .form-statut.erreur { color: var(--alerte-claire); }
+
+  /* ---- CTA bas ---- */
+  .cta-bas { padding-block: 8rem; text-align: center; }
+  .cta-titre {
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    margin-bottom: 2.4rem;
+  }
+  .cta-titre em { font-style: normal; color: var(--alerte); }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 980px) {
+    .tete-grille { grid-template-columns: 1fr; gap: 2.5rem; }
+    .avantages-grille { grid-template-columns: 1fr 1fr; }
+    .postes-grille { grid-template-columns: 1fr; }
+    .formulaire-grille { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  @media (max-width: 560px) {
+    .avantages-grille { grid-template-columns: 1fr; }
+    .champ-duo { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script define:vars={{ web3formsKey: client.web3formsKey }}>
+  const form = document.getElementById("form-candidature");
+  const statut = document.getElementById("rec-statut");
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const btn = document.getElementById("btn-candidature");
+    btn.disabled = true;
+    btn.textContent = "Transmission en cours…";
+    statut.textContent = "";
+    statut.className = "form-statut";
+
+    const donnees = new FormData(form);
+
+    try {
+      const reponse = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: donnees,
+      });
+      const resultat = await reponse.json();
+      if (resultat.success) {
+        statut.textContent =
+          "Candidature transmise. Nous reviendrons vers vous sous 5 jours ouvrés.";
+        statut.className = "form-statut ok";
+        form.reset();
+        btn.textContent = "Candidature envoyée ✓";
+      } else {
+        throw new Error(resultat.message);
+      }
+    } catch {
+      statut.textContent =
+        "La transmission a échoué. Envoyez votre CV directement par email.";
+      statut.className = "form-statut erreur";
+      btn.disabled = false;
+      btn.textContent = "Envoyer ma candidature";
+    }
+  });
+</script>

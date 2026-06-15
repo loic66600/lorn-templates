@@ -252,6 +252,102 @@ export const client = {
     },
   ],
 
+  // ---- Partenaires & accréditations (page L'agence) ----
+  partenaires: [
+    {
+      acronyme: "USP",
+      nom: "Union des entreprises de Sécurité Privée",
+      description: "Syndicat professionnel représentatif — membres agréés CNAPS",
+      categorie: "Syndicat professionnel",
+    },
+    {
+      acronyme: "CNAPS",
+      nom: "Conseil National des Activités Privées de Sécurité",
+      description: "Organe de contrôle et autorisation d'exercice — CNAPS",
+      categorie: "Instance de contrôle",
+    },
+    {
+      acronyme: "SDIS 66",
+      nom: "Service Départemental d'Incendie et de Secours",
+      description: "Coordination opérationnelle incendie — Pyrénées-Orientales",
+      categorie: "Service public",
+    },
+    {
+      acronyme: "AXA",
+      nom: "AXA Assurances",
+      description: "Partenaire assureur — RC Pro & garanties opérationnelles",
+      categorie: "Assurance",
+    },
+    {
+      acronyme: "GEOS",
+      nom: "GEOS Sûreté & Sécurité",
+      description: "Réseau partenaire pour missions et renforts nationaux",
+      categorie: "Partenaire opérationnel",
+    },
+    {
+      acronyme: "HKVS",
+      nom: "Hikvision France",
+      description: "Solutions vidéosurveillance & contrôle d'accès intégrés",
+      categorie: "Technologie",
+    },
+  ],
+
+  // ---- Postes ouverts (page Recrutement) ----
+  postes: [
+    {
+      titre: "Agent de sécurité",
+      reference: "CQP APS",
+      type: "CDI — Temps plein",
+      description:
+        "Surveillance de site, contrôle d'accès, rondes et interventions sur alarme. Poste basé à Perpignan et la périphérie, sous supervision PC 24/7.",
+      prerequis: [
+        "Carte professionnelle CNAPS valide",
+        "CQP APS ou équivalent",
+        "Permis B apprécié",
+        "Aptitude médicale à jour",
+      ],
+    },
+    {
+      titre: "Agent SSIAP 1",
+      reference: "SSIAP 1 · SST",
+      type: "CDI / CDD",
+      description:
+        "Poste de sécurité incendie en ERP et IGH. Rondes incendie, tenue du registre de sécurité, premiers secours, alerte et évacuation.",
+      prerequis: [
+        "Carte pro CNAPS valide",
+        "SSIAP 1 à jour (recyclage ≤ 3 ans)",
+        "SST à jour",
+        "Habilitation H0-B0",
+      ],
+    },
+    {
+      titre: "Chef d'équipe SSIAP 2",
+      reference: "SSIAP 2",
+      type: "CDI — Temps plein",
+      description:
+        "Coordination des agents SSIAP 1, supervision du poste de sécurité, interface avec les secours. Expérience en ERP requise.",
+      prerequis: [
+        "Carte pro CNAPS valide",
+        "SSIAP 2 à jour",
+        "SST à jour",
+        "Expérience confirmée en ERP type M ou R",
+      ],
+    },
+    {
+      titre: "Agent événementiel",
+      reference: "CQP APS · Palpation",
+      type: "CDD / Missions",
+      description:
+        "Concerts, salons, compétitions sportives partout en France. Palpation autorisée indispensable. Missions ponctuelles week-ends et soirées.",
+      prerequis: [
+        "Carte pro CNAPS valide",
+        "Autorisation palpation valide",
+        "Disponibilités week-ends et soirées",
+        "Mobilité régionale et nationale",
+      ],
+    },
+  ],
+
   // ---- Mentions légales ----
   legal: {
     formeJuridique: "SAS au capital de 50 000 €",

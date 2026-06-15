@@ -25,7 +25,7 @@ export const client = {
 
   // ── Visuels ──
   logo: "/images/logo.svg",
-  heroImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop",
+  heroImage: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop",
   bannerImage: "https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?q=80&w=2000&auto=format&fit=crop",
   aboutImage: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1200&auto=format&fit=crop",
   aboutDetailImage: "https://images.unsplash.com/photo-1565011088671-bf2bfea79d4a?q=80&w=800&auto=format&fit=crop",
