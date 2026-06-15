@@ -1,0 +1,62 @@
+---
+---
+<div class="cookies" id="cookies" hidden>
+  <p>
+    Mistral utilise uniquement des cookies techniques nécessaires au
+    fonctionnement du site. Aucune donnée n'est exploitée à des fins
+    publicitaires.
+  </p>
+  <div class="cookies-actions">
+    <button class="cookies-btn cookies-ok" id="cookies-ok">Accepter</button>
+    <button class="cookies-btn cookies-non" id="cookies-non">Refuser</button>
+  </div>
+</div>
+
+<style>
+  .cookies {
+    position: fixed;
+    bottom: 1.4rem;
+    left: 1.4rem;
+    z-index: 200;
+    max-width: 380px;
+    background: var(--noir-2);
+    border: 1px solid var(--ligne);
+    padding: 1.4rem 1.6rem;
+    font-size: 0.85rem;
+    color: var(--blanc);
+  }
+  .cookies-actions { display: flex; gap: 0.8rem; margin-top: 1rem; }
+  .cookies-btn {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.4rem;
+    cursor: pointer;
+    border: 1px solid var(--ligne);
+    background: transparent;
+    color: var(--blanc);
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .cookies-ok { background: var(--bleu); border-color: var(--bleu); }
+  .cookies-btn:hover { border-color: var(--bleu-clair); }
+
+  @media (max-width: 480px) {
+    .cookies { left: 1rem; right: 1rem; max-width: none; }
+  }
+</style>
+
+<script>
+  const banniere = document.getElementById("cookies");
+  if (banniere && !localStorage.getItem("cookies-choice")) {
+    banniere.hidden = false;
+  }
+  document.getElementById("cookies-ok")?.addEventListener("click", () => {
+    localStorage.setItem("cookies-choice", "accepted");
+    if (banniere) banniere.hidden = true;
+  });
+  document.getElementById("cookies-non")?.addEventListener("click", () => {
+    localStorage.setItem("cookies-choice", "refused");
+    if (banniere) banniere.hidden = true;
+  });
+</script>

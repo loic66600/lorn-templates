@@ -1,0 +1,291 @@
+---
+import { client } from "@data/client";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import CookieBanner from "@components/CookieBanner.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  noIndex?: boolean;
+}
+
+const { title, description, noIndex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, client.siteUrl).href;
+
+// ---- Schéma LocalBusiness (SEO local) ----
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": client.siteUrl + "/#business",
+  name: client.nom,
+  description: client.description,
+  url: client.siteUrl,
+  telephone: client.telephoneLien,
+  email: client.email,
+  foundingDate: String(client.anneeFondation),
+  priceRange: "€€",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: client.adresse.rue,
+    postalCode: client.adresse.codePostal,
+    addressLocality: client.adresse.ville,
+    addressRegion: client.adresse.region,
+    addressCountry: "FR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: client.geo.lat,
+    longitude: client.geo.lng,
+  },
+  areaServed: client.zoneIntervention.map((ville) => ({
+    "@type": "City",
+    name: ville,
+  })),
+  openingHoursSpecification: client.horaires
+    .filter((h) => !/fermé/i.test(h.horaire))
+    .map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: h.jour,
+      description: h.horaire,
+    })),
+  sameAs: Object.values(client.reseaux),
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: String(client.avis.length),
+  },
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={client.seo.motsCles.join(", ")} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Géolocalisation -->
+    <meta name="geo.region" content="FR-66" />
+    <meta name="geo.placename" content={client.adresse.ville} />
+    <meta name="geo.position" content={`${client.geo.lat};${client.geo.lng}`} />
+    <meta name="ICBM" content={`${client.geo.lat}, ${client.geo.lng}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={client.nom} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Polices : Fraunces (display) + Epilogue (texte) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Epilogue:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <CookieBanner />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --noir: #161310;
+    --noir-2: #1f1b16;
+    --creme: #efe9dd;
+    --creme-2: #e6dfcf;
+    --acier: #8e887b;
+    --braise: #d2622b;
+    --braise-claire: #e07a42;
+    --ligne: rgba(239, 233, 221, 0.14);
+    --ligne-claire: rgba(22, 19, 16, 0.16);
+    --font-display: "Fraunces", Georgia, serif;
+    --font-texte: "Epilogue", system-ui, sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--noir);
+    color: var(--creme);
+    font-family: var(--font-texte);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Grain — texture signature */
+  .grain {
+    position: fixed;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 8s steps(10) infinite;
+  }
+  @keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-2%, 2%); }
+    40% { transform: translate(2%, -1%); }
+    60% { transform: translate(-1%, -2%); }
+    80% { transform: translate(1%, 2%); }
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  .conteneur {
+    width: min(1240px, 100% - 3rem);
+    margin-inline: auto;
+  }
+
+  /* Étiquette de section */
+  .etiquette {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--braise);
+    font-weight: 500;
+  }
+  .etiquette::before {
+    content: "";
+    width: 2.5rem;
+    height: 1px;
+    background: var(--braise);
+  }
+
+  .titre-section {
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    letter-spacing: -0.02em;
+    margin: 1rem 0 1.25rem;
+  }
+  .titre-section em {
+    font-style: italic;
+    color: var(--braise);
+  }
+
+  /* Boutons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 2rem;
+    font-family: var(--font-texte);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid var(--braise);
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  .btn-plein {
+    background: var(--braise);
+    color: var(--noir);
+  }
+  .btn-plein:hover {
+    background: var(--braise-claire);
+    transform: translateY(-2px);
+  }
+  .btn-vide {
+    color: var(--creme);
+  }
+  .btn-vide:hover {
+    background: var(--braise);
+    color: var(--noir);
+  }
+  .clair .btn-vide {
+    color: var(--noir);
+  }
+
+  /* Sections claires (alternance éditoriale) */
+  .clair {
+    background: var(--creme);
+    color: var(--noir);
+  }
+  .clair .titre-section em {
+    color: var(--braise);
+  }
+
+  /* Apparition au scroll */
+  .reveler {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveler.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .grain { animation: none; }
+    .reveler {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Apparition au scroll
+  const observateur = new IntersectionObserver(
+    (entrees) => {
+      entrees.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          observateur.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll(".reveler").forEach((el) => observateur.observe(el));
+</script>

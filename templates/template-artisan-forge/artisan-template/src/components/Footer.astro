@@ -1,0 +1,144 @@
+---
+import { client } from "@data/client";
+const annee = new Date().getFullYear();
+---
+
+<footer class="pied">
+  <div class="conteneur pied-grille">
+    <div class="pied-bloc pied-marque">
+      <p class="pied-nom">{client.nom}</p>
+      <p class="pied-metier">{client.metier.nom} à {client.adresse.ville}</p>
+      <p class="pied-texte">{client.slogan}</p>
+      <div class="pied-reseaux">
+        {
+          Object.entries(client.reseaux).map(([nom, url]) => (
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {nom}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="pied-bloc">
+      <p class="pied-titre">Atelier</p>
+      <address class="pied-texte">
+        {client.adresse.rue}<br />
+        {client.adresse.codePostal} {client.adresse.ville}<br />
+        {client.adresse.departement}
+      </address>
+      <a class="pied-lien" href={`tel:${client.telephoneLien}`}>{client.telephone}</a>
+      <a class="pied-lien" href={`mailto:${client.email}`}>{client.email}</a>
+    </div>
+
+    <div class="pied-bloc">
+      <p class="pied-titre">Navigation</p>
+      <a class="pied-lien" href="/">Accueil</a>
+      <a class="pied-lien" href="/realisations">Réalisations</a>
+      <a class="pied-lien" href="/a-propos">L'atelier</a>
+      <a class="pied-lien" href="/contact">Contact & devis</a>
+    </div>
+
+    <div class="pied-bloc">
+      <p class="pied-titre">Zone d'intervention</p>
+      <p class="pied-texte pied-zone">
+        {client.zoneIntervention.join(" · ")}
+      </p>
+    </div>
+  </div>
+
+  <div class="conteneur pied-bas">
+    <p>© {annee} {client.nom} — {client.metier.activite}, {client.adresse.ville} ({client.adresse.region})</p>
+    <a href="/mentions-legales">Mentions légales</a>
+  </div>
+</footer>
+
+<style>
+  .pied {
+    border-top: 1px solid var(--ligne);
+    padding-top: 4.5rem;
+    background: var(--noir);
+  }
+  .pied-grille {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    gap: 3rem;
+    padding-bottom: 3.5rem;
+  }
+  .pied-nom {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+  }
+  .pied-metier {
+    color: var(--braise);
+    font-size: 0.74rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0.4rem 0 1rem;
+  }
+  .pied-titre {
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acier);
+    margin-bottom: 1.1rem;
+  }
+  .pied-texte {
+    color: var(--acier);
+    font-size: 0.92rem;
+    font-style: normal;
+    margin-bottom: 0.8rem;
+  }
+  .pied-zone { line-height: 2; }
+  .pied-lien {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--creme);
+    opacity: 0.8;
+    margin-bottom: 0.55rem;
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+  .pied-lien:hover {
+    color: var(--braise);
+    opacity: 1;
+  }
+  .pied-reseaux {
+    display: flex;
+    gap: 1.4rem;
+    margin-top: 0.5rem;
+  }
+  .pied-reseaux a {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: capitalize;
+    color: var(--braise);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease;
+  }
+  .pied-reseaux a:hover {
+    border-color: var(--braise);
+  }
+  .pied-bas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--ligne);
+    font-size: 0.78rem;
+    color: var(--acier);
+  }
+  .pied-bas a {
+    color: var(--acier);
+    transition: color 0.25s ease;
+  }
+  .pied-bas a:hover { color: var(--braise); }
+
+  @media (max-width: 980px) {
+    .pied-grille { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .pied-grille { grid-template-columns: 1fr; }
+  }
+</style>

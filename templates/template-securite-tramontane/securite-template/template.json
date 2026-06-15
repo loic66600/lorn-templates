@@ -1,0 +1,20 @@
+{
+  "id": "securite-tramontane",
+  "nom": "Tramontane — Agence de sécurité privée & incendie",
+  "categorie": "services",
+  "description": "Template vitrine premium pour agence de sécurité privée et sécurité incendie. Esthétique poste de commandement : radar animé, HUD avec horloge temps réel, scanline, compteurs animés, boutons à coins coupés tactiques. SEO local (Perpignan/Occitanie) + national (France). 5 pages, schéma LocalBusiness avec areaServed Country, mentions CNAPS conformes (art. L612-14 CSI).",
+  "pages": ["index", "prestations", "a-propos", "contact", "mentions-legales"],
+  "palette": {
+    "fond": "#070B12",
+    "fondClair": "#0D131D",
+    "texte": "#E8EDF4",
+    "texteSecondaire": "#7C8696",
+    "accent": "#E8392C"
+  },
+  "polices": {
+    "display": "Chakra Petch",
+    "texte": "Archivo",
+    "utilitaire": "JetBrains Mono"
+  },
+  "port": 4033
+}

@@ -1,0 +1,183 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Prestations — Gardiennage, événementiel & SSIAP à ${client.adresse.ville} | ${client.nom}`;
+const description = `Gardiennage, rondes et interventions, sécurité événementielle, agents SSIAP 1-2-3, audit incendie : toutes les prestations de ${client.nom} à ${client.adresse.ville}, en ${client.adresse.region} et dans toute la France.`;
+---
+
+<Layout title={titre} description={description}>
+  <section class="page-tete">
+    <div class="conteneur">
+      <p class="etiquette">Prestations</p>
+      <h1 class="titre-section">Un dispositif <em>pour chaque risque</em></h1>
+      <p class="page-intro">
+        Chaque prestation est encadrée par un cahier des consignes contractuel,
+        des agents certifiés et un PC opérationnel 24h/24. Les qualifications
+        exigées sont indiquées sur chaque fiche.
+      </p>
+    </div>
+  </section>
+
+  {
+    client.poles.map((pole, indexPole) => (
+      <section class="pole-section" id={pole.id}>
+        <div class="conteneur">
+          <div class="pole-tete reveler">
+            <p class="pole-code">{pole.code}</p>
+            <h2 class="pole-titre">{pole.nom}</h2>
+            <p class="pole-desc">{pole.description}</p>
+          </div>
+          <div class="prestations">
+            {pole.prestations.map((p, i) => (
+              <article class="prestation reveler" style={`transition-delay:${i * 0.08}s`}>
+                <div class="prestation-tete">
+                  <h3>{p.titre}</h3>
+                  <p class="prestation-certif">{p.certification}</p>
+                </div>
+                <p class="prestation-texte">{p.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        {indexPole === 0 && (
+          <div class="inter-bande" aria-hidden="true">
+            <div class="inter-piste">
+              {Array.from({ length: 24 }).map(() => (
+                <span />
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    ))
+  }
+
+  <section class="garde">
+    <div class="conteneur garde-grille">
+      <div class="reveler">
+        <p class="etiquette">Sur mesure</p>
+        <h2 class="titre-section">Un besoin <em>hors cadre ?</em></h2>
+        <p class="garde-texte">
+          Protection de chantier, fermeture de site, renfort saisonnier,
+          accompagnement de tournée : décrivez votre situation, nous
+          construisons le dispositif. Audit gratuit et réponse chiffrée
+          sous 5 jours ouvrés.
+        </p>
+        <a href="/contact" class="btn btn-plein">Décrire mon besoin</a>
+      </div>
+      <ul class="garde-points reveler">
+        <li>Devis détaillé poste par poste</li>
+        <li>Démarrage possible sous 72h en local</li>
+        <li>Facturation transparente, sans heures cachées</li>
+        <li>Interlocuteur unique, joignable 24/7</li>
+      </ul>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-tete { padding: 11rem 0 5rem; }
+  .page-intro { max-width: 58ch; color: var(--gris); }
+
+  .pole-section {
+    padding-block: 5.5rem;
+    border-top: 1px solid var(--ligne);
+  }
+  .pole-section:nth-of-type(odd) { background: var(--nuit-2); }
+  .pole-code {
+    font-family: var(--font-data);
+    font-size: 0.66rem;
+    letter-spacing: 0.3em;
+    color: var(--alerte);
+    margin-bottom: 0.8rem;
+  }
+  .pole-titre { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 1rem; }
+  .pole-desc { color: var(--gris); max-width: 60ch; }
+  .prestations {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .prestation {
+    border: 1px solid var(--ligne);
+    background: var(--nuit);
+    padding: 2.2rem 2rem;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .prestation:hover {
+    border-color: var(--alerte);
+    transform: translateY(-4px);
+  }
+  .prestation-tete {
+    border-bottom: 1px solid var(--ligne);
+    padding-bottom: 1.1rem;
+    margin-bottom: 1.1rem;
+  }
+  .prestation h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .prestation-certif {
+    font-family: var(--font-data);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--alerte);
+  }
+  .prestation-texte { color: var(--gris); font-size: 0.92rem; }
+
+  /* Bande inter-pôles façon balisage chantier */
+  .inter-bande {
+    margin-top: 5.5rem;
+    overflow: hidden;
+    border-block: 1px solid var(--ligne);
+    padding-block: 0.6rem;
+  }
+  .inter-piste {
+    display: flex;
+    gap: 1.6rem;
+    width: max-content;
+    animation: glisser 18s linear infinite;
+  }
+  .inter-piste span {
+    width: 56px;
+    height: 10px;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--alerte) 0 8px,
+      transparent 8px 16px
+    );
+    opacity: 0.45;
+  }
+  @keyframes glisser { to { transform: translateX(-50%); } }
+
+  .garde { padding-block: 7.5rem; }
+  .garde-grille {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .garde-texte { color: var(--gris); margin-bottom: 2rem; max-width: 54ch; }
+  .garde-points {
+    list-style: none;
+    border-top: 1px solid var(--ligne);
+  }
+  .garde-points li {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 0.95rem;
+  }
+  .garde-points li::before {
+    content: "▸ ";
+    color: var(--alerte);
+  }
+
+  @media (max-width: 980px) {
+    .prestations { grid-template-columns: 1fr; }
+    .garde-grille { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .inter-piste { animation: none; }
+  }
+</style>

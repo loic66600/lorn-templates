@@ -1,0 +1,23 @@
+{
+  "id": "mistral-mobilite",
+  "nom": "Mistral — Trottinettes électriques premium",
+  "metier": "trottinette-electrique",
+  "categorie": "commerce",
+  "formule": "croissance",
+  "description": "Site vitrine e-commerce premium pour une marque de trottinettes électriques haut de gamme.",
+  "pages": 5,
+  "pagesListe": ["index", "modeles", "modeles/[slug]", "reservation", "mentions-legales"],
+  "palette": {
+    "primary": "#08080A",
+    "accent": "#2C5BFF",
+    "bg": "#101216",
+    "theme": "sombre"
+  },
+  "polices": ["Saira Condensed", "Manrope", "Spline Sans Mono"],
+  "tags": ["trottinette electrique", "mobilite", "commerce", "premium"],
+  "port": 4034,
+  "preview": "",
+  "screenshot": "",
+  "version": "1.0.0",
+  "date": "2026-06-13"
+}

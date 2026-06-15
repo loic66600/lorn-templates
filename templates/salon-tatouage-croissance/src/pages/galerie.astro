@@ -1,0 +1,97 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Galerie — ${client.nom}`} description={`Portfolio de tatouages ${client.nom} Perpignan — réalisme, japonais, blackwork, néo-traditionnel, fine line.`}>
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-mark">IC</div><div><div class="nav-logo-name">{client.nom}</div><div class="nav-logo-sub">Studio · Perpignan</div></div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/galerie" class="active">Galerie</a></li><li><a href="/services">Styles</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact">Contact</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu"><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/galerie" class="active">Galerie</a><a href="/services">Styles</a><a href="/tarifs">Tarifs</a><a href="/contact">Contact</a></div>
+</nav>
+<div class="ph"><div class="wrap"><nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Galerie</span></nav>
+<span class="eyebrow eyebrow-w">Portfolio</span>
+<h1 class="ph-title display">NOS<br><em>RÉALISATIONS</em></h1>
+<p class="ph-sub">Chaque photo est un tatouage réel, réalisé dans notre studio. Les styles, les tailles, les artistes — cliquez pour filtrer.</p>
+</div></div>
+
+<section class="sec">
+  <div class="wrap">
+    <!-- Filtres -->
+    <div class="filters">
+      {client.galerieCategories.map(cat => (
+        <button class={`fbtn display ${cat.id==='all'?'active':''}`} data-filter={cat.id}>{cat.label}</button>
+      ))}
+    </div>
+
+    <!-- Grille galerie -->
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         PHOTOS GALERIE — toutes depuis client.ts
+         Pour remplacer : dans client.ts, pour chaque item,
+         décommentez la ligne :
+           // image: "/images/galerie/NOM.jpg"
+         et commentez la ligne :
+           image: "https://images.unsplash.com/..."
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="gal-grid" id="galGrid">
+      {client.galerie.map((g, i) => (
+        <article class="gal-card" data-style={g.style}>
+          <div class="gc-img">
+            <img src={g.image} alt={g.titre} loading="lazy" />
+            <div class="gc-overlay">
+              <div class="gc-info">
+                <span class="tag">{g.style}</span>
+                <h3 class="display gc-t">{g.titre}</h3>
+                <span class="gc-artist">{g.artiste}</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band"><div class="wrap cta-inner">
+  <div><span class="eyebrow">Vous avez trouvé votre inspiration ?</span><h2 class="h2 display" style="margin-top:4px">Réservez votre séance</h2></div>
+  <a href="/contact" class="btn btn-red btn-lg">Prendre rendez-vous →</a>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<script>
+  document.querySelectorAll('.fbtn').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter || 'all';
+    document.querySelectorAll('[data-style]').forEach(c => {
+      c.style.display = f==='all'||c.dataset.style===f ? '' : 'none';
+    });
+  }));
+</script>
+
+<style>
+.filters{display:flex;gap:0;border:1px solid rgba(255,255,255,.07);margin-bottom:2rem;flex-wrap:wrap}
+.fbtn{padding:12px 20px;font-size:10px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;border:none;border-right:1px solid rgba(255,255,255,.07);background:transparent;color:var(--muted);cursor:pointer}
+.fbtn:last-child{border-right:none}
+.fbtn.active{background:var(--red);color:#fff}
+.fbtn:hover:not(.active){color:#fff;background:rgba(255,255,255,.05)}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.gal-card{aspect-ratio:3/4;overflow:hidden;cursor:pointer;position:relative}
+.gc-img{width:100%;height:100%;overflow:hidden}
+.gc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gal-card:hover .gc-img img{transform:scale(1.07)}
+.gc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 55%);opacity:0;transition:opacity .35s;display:flex;align-items:flex-end;padding:16px}
+.gal-card:hover .gc-overlay{opacity:1}
+.gc-t{font-size:.88rem;color:#fff;display:block;margin:6px 0 3px;letter-spacing:.04em}
+.gc-artist{font-size:10px;color:var(--red);letter-spacing:.1em;text-transform:uppercase}
+.cta-band{background:var(--bg-card);border-top:1px solid rgba(230,57,70,.2);padding:clamp(4rem,6vw,5rem) 0}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+@media(max-width:1024px){.gal-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.gal-grid{grid-template-columns:1fr}.gal-card{aspect-ratio:4/5}.filters{flex-direction:column}.fbtn{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}.cta-inner{flex-direction:column}}
+</style>

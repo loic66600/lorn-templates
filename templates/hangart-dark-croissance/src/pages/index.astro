@@ -1,0 +1,508 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+
+const instaIcon = '<svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>';
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+---
+<Layout>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-in">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-main">HANG<span class="f">ART</span></div>
+      <div class="nav-logo-sub">Tattoo Studio · Perpignan · 66</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="active">Accueil</a></li>
+      <li><a href="/artistes">Artistes</a></li>
+      <li><a href="/a-propos">Studio</a></li>
+      <li><a href="/hygiene">Hygiène</a></li>
+      <li><a href="/videos">Vidéos</a></li>
+      <li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/contact" class="reserve">Réserver →</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <!-- Overlay + Menu mobile -->
+  <div class="mob-overlay" id="mobOverlay"></div>
+  <div class="mob-menu" id="mob-menu">
+    <div class="mob-header">
+      <div class="mob-logo">HANG<span class="f">ART</span></div>
+      <button class="mob-close" id="mobClose">✕</button>
+    </div>
+    <nav class="mob-nav">
+      <a href="/" class="active">Accueil</a>
+      <a href="/artistes">Artistes</a>
+      <a href="/a-propos">Studio</a>
+      <a href="/hygiene">Hygiène</a>
+      <a href="/videos">Vidéos</a>
+      <a href="/tarifs">Tarifs</a>
+      <a href="/contact" class="mob-reserve">Réserver →</a>
+    </nav>
+    <div class="mob-footer">
+      <a href={client.telephoneLink}>{client.telephone}</a>
+      <a href={`mailto:${client.email}`}>{client.email}</a>
+      {client.reseaux.instagram && <a href={client.reseaux.instagram} target="_blank" rel="noopener">@hangart.tattoo.studio</a>}
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO — Mosaic + texte colossal ═══ -->
+<section class="hero" id="top">
+
+  <!-- Grille de 6 photos artistes en arrière-plan -->
+  <div class="hero-mosaic" aria-hidden="true">
+    {client.artistes.map((a, i) => (
+      <div class="hm-cell" style={`--delay:${i * .08}s`}>
+        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+             PHOTO ARTISTE (arrière-plan hero)
+             Pour remplacer : dans client.ts, commentez la ligne
+             `photo: "https://..."` et décommentez le chemin local.
+             Les photos servent ici d'arrière-plan dans la mosaïque.
+             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+        <img src={a.photo} alt={a.pseudo} loading={i < 3 ? 'eager' : 'lazy'}/>
+        <div class="hm-tint" style={`opacity: ${.45 + i*.05}`}></div>
+        <div class="hm-pseudo disp" data-glitch>{a.pseudo}</div>
+      </div>
+    ))}
+    <!-- Overlay global qui assombrit tout -->
+    <div class="mosaic-dark"></div>
+  </div>
+
+  <!-- Contenu hero -->
+  <div class="hero-content">
+    <div class="hero-overline mono">
+      <span class="ho-city">Perpignan · 66</span>
+      <span class="ho-sep">—</span>
+      <span>{client.adresse}</span>
+      <span class="ho-sep">—</span>
+      <span>Fondé en {client.fondation}</span>
+    </div>
+
+    <div class="hero-title-block">
+      <h1 class="h1 hero-h1">
+        <span class="ht-line">{client.heroLine1}</span>
+        <span class="ht-line ht-fire">{client.heroLine2}</span>
+        <span class="ht-line">{client.heroLine3}</span>
+      </h1>
+    </div>
+
+    <div class="hero-bottom">
+      <p class="hero-accroche mono">{client.accroche}</p>
+      <div class="hero-cta">
+        <a href="/contact" class="btn btn-fire btn-lg">Réserver une séance →</a>
+        <a href="/artistes" class="btn btn-ghost btn-lg">Voir les artistes</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicateur scroll -->
+  <div class="scroll-ind mono" aria-hidden="true">
+    <span>↓</span><span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ═══ TICKER braise ═══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    {[...Array(4)].map(_ =>
+      <span class="disp">HANGART · PERPIGNAN · TATOUAGE PREMIUM · 6 ARTISTES · SUR MESURE · HYGIÈNE CERTIFIÉE · CONVENTION · INK MASTER · 66 · </span>
+    )}
+  </div>
+</div>
+
+<!-- ═══ STATS — ligne de feu ═══ -->
+<div class="stats-bar">
+  <div class="wrap stats-row">
+    {client.stats.map((s, i) => (
+      <div class="st-item" data-r style={`transition-delay:${i*.1}s`}>
+        <strong class="disp st-n"><span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span></strong>
+        <span class="mono st-l">{s.label}</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<!-- ═══ ARTISTES — grille dramatique ═══ -->
+<section class="sec-1" id="artistes">
+  <div class="wrap">
+    <div class="sh" data-r>
+      <div>
+        <span class="lbl">6 artistes résidents</span>
+        <h2 class="h2" style="margin-top:8px">L'équipe.<br><span class="fire">6 niveaux.</span></h2>
+      </div>
+      <a href="/artistes" class="btn btn-ghost">Voir tous →</a>
+    </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         GRILLE ARTISTES — photos depuis client.ts
+         Pour remplacer chaque photo : dans client.ts,
+         commentez `photo: "https://..."` et décommentez le chemin local.
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="art-grid">
+      {client.artistes.map((a, i) => (
+        <a href={`/artistes/${a.slug}`} class="ag-card" data-r style={`transition-delay:${(i%3)*.1}s`}>
+          <div class="agc-img">
+            <img src={a.photo} alt={`${a.pseudo} tatoueur ${a.styleShort}`} loading="lazy"/>
+            <div class="agc-burn"></div>
+          </div>
+          <div class="agc-body">
+            <div class="agc-top">
+              <span class="tag tag-fire" style={`color:${a.couleur};border-color:${a.couleur};background:${a.couleur}18`}>{a.styleShort}</span>
+              <span class="mono agc-exp">{a.experience}</span>
+            </div>
+            <h3 class="disp agc-name" data-glitch>{a.pseudo}</h3>
+            <div class="agc-line" style={`background:${a.couleur}`}></div>
+            <p class="mono agc-dispo">{a.disponibilite}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PORTRAIT STUDIO — plein largeur dramatique ═══ -->
+<section class="studio-full">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTO STUDIO — depuis client.ts (champ apropos.photoStudio)
+       Pour remplacer : dans client.ts, commentez la ligne
+       `photoStudio: "https://..."` et décommentez le chemin local.
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="sf-img" data-parallax=".2">
+    <img src={client.apropos.photoStudio} alt="Hangart Tattoo Studio Perpignan" loading="lazy"/>
+    <div class="sf-dark"></div>
+  </div>
+  <div class="sf-text">
+    <div class="wrap">
+      <span class="lbl" data-r>Le Studio</span>
+      <blockquote class="sf-quote disp" data-r style="transition-delay:.1s">
+        "L'encre<br>ne ment<br>pas."
+      </blockquote>
+      <div class="fire-line" data-r style="transition-delay:.2s"></div>
+      <p class="lead" data-r style="transition-delay:.25s">{client.apropos.p1}</p>
+      <div class="sf-btns" data-r style="transition-delay:.3s">
+        <a href="/a-propos" class="btn btn-fire">En savoir plus →</a>
+        <a href="/hygiene" class="btn btn-ghost">Protocole hygiène</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VIDÉO ═══ -->
+{client.videos.length > 0 && (
+<section class="sec sec-2" id="videos">
+  <div class="wrap">
+    <div class="sh" data-r>
+      <div>
+        <span class="lbl">En images</span>
+        <h2 class="h2" style="margin-top:8px">Regardez.<br><span class="fire">Ressentez.</span></h2>
+      </div>
+      <a href="/videos" class="btn btn-ghost">Toutes les vidéos →</a>
+    </div>
+    <div class="vid-layout" data-r style="transition-delay:.1s">
+      <div class="vid-main">
+        <iframe
+          src={`https://www.youtube.com/embed/${client.videos[0].youtubeId}?rel=0&modestbranding=1&color=white`}
+          title={client.videos[0].titre}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy"
+        ></iframe>
+      </div>
+      <div class="vid-side">
+        <h3 class="disp vid-t">{client.videos[0].titre}</h3>
+        <p class="mono vid-d">{client.videos[0].description}</p>
+        {client.videos.slice(1).map(v => (
+          <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`} target="_blank" rel="noopener" class="vid-more">
+            <span class="mono vm-play">▶</span>
+            <div><strong class="disp">{v.titre}</strong><p class="mono">{v.description}</p></div>
+          </a>
+        ))}
+        <a href="/videos" class="btn btn-fire" style="margin-top:1.5rem">Voir tout →</a>
+      </div>
+    </div>
+  </div>
+</section>
+)}
+
+<!-- ═══ HYGIÈNE — bande sombre ═══ -->
+<section class="sec" id="hygiene">
+  <div class="wrap">
+    <div class="sh-center" data-r>
+      <span class="lbl">Sécurité & Confiance</span>
+      <h2 class="h2" style="margin-top:8px;text-align:center">Hygiène<br><span class="fire">irréprochable.</span></h2>
+    </div>
+    <div class="hy-grid">
+      {client.hygiene.map((h, i) => (
+        <div class="hy-item" data-r style={`transition-delay:${(i%3)*.1}s`}>
+          <span class="mono hy-num">{h.icone}</span>
+          <h3 class="disp hy-t">{h.titre}</h3>
+          <p class="mono hy-d">{h.desc}</p>
+        </div>
+      ))}
+    </div>
+    <div style="margin-top:2.5rem;display:flex;justify-content:center" data-r>
+      <a href="/hygiene" class="btn btn-ghost">Protocole complet →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="sec-1" id="faq">
+  <div class="wrap faq-lay">
+    <div data-r="l">
+      <span class="lbl">Questions</span>
+      <h2 class="h2" style="margin-top:8px">On répond<br><span class="fire">à tout.</span></h2>
+      <div class="fire-line"></div>
+      <p class="lead">Tout ce que vous voulez savoir avant de prendre rendez-vous.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:10px;flex-wrap:wrap">
+        <a href="/contact" class="btn btn-fire">Réserver →</a>
+        <a href={client.telephoneLink} class="btn btn-ghost">{client.telephone}</a>
+      </div>
+    </div>
+    <div class="faq-list" data-r="r">
+      {client.faq.map((f, i) => (
+        <details class="faq-item" open={i===0}>
+          <summary class="disp fq-q">
+            <span class="mono fq-n">{String(i+1).padStart(2,'0')}</span>
+            {f.q}
+            <span class="fq-arr">›</span>
+          </summary>
+          <p class="mono fq-a">{f.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="cta-blaze">
+  <!-- Ligne de feu en haut -->
+  <div class="blaze-line" aria-hidden="true"></div>
+  <div class="wrap cta-inner">
+    <div data-r>
+      <span class="lbl">Prêt ?</span>
+      <h2 class="h2" style="margin-top:8px;font-size:clamp(2rem,5vw,5rem)">Réservez.<br><span class="fire">Maintenant.</span></h2>
+      <p class="lead" style="margin-top:.6rem">{client.adresse}<br>{client.horairesResume}</p>
+    </div>
+    <div class="cta-acts" data-r="r">
+      <a href="/contact" class="btn btn-fire btn-lg">Réserver une séance →</a>
+      <a href={client.telephoneLink} class="btn btn-ghost btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="f-brand">
+        <div class="f-name">HANG<span class="f">ART</span></div>
+        <div class="f-sub">Tattoo Studio · Perpignan (66)</div>
+        <p>{client.adresse}<br>{client.horairesResume}</p>
+        <div class="f-soc">
+          {socials.map(([k,v]) => <a href={v} target="_blank" rel="noopener" title={k} set:html={instaIcon}/>)}
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>Navigation</h4>
+        <ul>
+          {[['/', 'Accueil'],['/artistes','Artistes'],['/a-propos','Studio'],['/hygiene','Hygiène'],['/videos','Vidéos'],['/tarifs','Tarifs'],['/contact','Réserver']].map(([h,l]) => (
+            <li><a href={h}>{l}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Artistes</h4>
+        <ul>
+          {client.artistes.map(a => <li><a href={`/artistes/${a.slug}`}>{a.pseudo}</a></li>)}
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <p>© {new Date().getFullYear()} {client.nomComplet} · SIRET {client.siret} · <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+    </div>
+  </div>
+</footer>
+
+</Layout>
+
+<style>
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* Mosaïque 6 photos */
+.hero-mosaic{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr)}
+.hm-cell{position:relative;overflow:hidden}
+.hm-cell img{width:100%;height:100%;object-fit:cover;object-position:center 15%;filter:grayscale(.7) contrast(1.1)}
+.hm-tint{position:absolute;inset:0;background:var(--noir)}
+.hm-pseudo{
+  position:absolute;bottom:10px;left:12px;
+  font-size:clamp(.65rem,1.2vw,1rem);font-weight:900;letter-spacing:.12em;
+  color:rgba(255,69,0,.4);line-height:1;
+}
+.hm-cell:hover .hm-pseudo{color:var(--braise)}
+.mosaic-dark{position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,8,6,.75) 0%,rgba(8,8,6,.5) 50%,rgba(8,8,6,.8) 100%)}
+
+/* Contenu hero */
+.hero-content{
+  position:relative;z-index:1;flex:1;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:calc(var(--nav-h)+5rem) clamp(1rem,3vw,2.5rem) 3rem;
+  max-width:var(--wrap);margin:0 auto;width:100%;
+}
+.hero-overline{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(232,227,220,.32);display:flex;align-items:center;gap:12px;
+  flex-wrap:wrap;margin-bottom:28px;
+}
+.ho-sep{color:var(--braise);opacity:.6}
+.ho-city{color:var(--braise)}
+
+/* Titre colossal — 3 lignes en escalier */
+.hero-title-block{margin-bottom:32px;overflow:hidden}
+.hero-h1{line-height:.88}
+.ht-line{display:block}
+.ht-fire{color:var(--braise)}
+/* Décalage en escalier */
+.ht-line:nth-child(2){padding-left:clamp(1rem,5vw,6rem)}
+.ht-line:nth-child(3){padding-left:clamp(2rem,10vw,12rem)}
+
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.hero-accroche{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(232,227,220,.35);margin-bottom:.5rem}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap}
+
+.scroll-ind{
+  position:absolute;bottom:24px;right:clamp(1rem,3vw,2.5rem);z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(232,227,220,.25);
+}
+.scroll-ind span:first-child{color:var(--braise)}
+
+/* ═══ TICKER ═══ */
+.ticker{overflow:hidden;background:var(--braise);padding:10px 0;border-top:1px solid rgba(255,255,255,.1)}
+.ticker-inner{display:flex;animation:tick 22s linear infinite;white-space:nowrap}
+.ticker span{
+  font-family:'Big Shoulders Display',sans-serif;font-weight:900;
+  font-size:clamp(.82rem,1.4vw,1rem);text-transform:uppercase;
+  letter-spacing:.1em;color:var(--noir);padding:0 2.5rem;
+}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-25%)}}
+
+/* ═══ STATS ═══ */
+.stats-bar{background:var(--noir-2);border-bottom:1px solid var(--border-w)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr)}
+.st-item{
+  padding:clamp(1.2rem,2.5vw,2rem) clamp(1rem,3vw,2.5rem);
+  border-right:1px solid var(--border-w);
+  display:flex;flex-direction:column;gap:6px;
+}
+.st-item:last-child{border-right:none}
+.st-n{font-size:clamp(2rem,4.5vw,4rem);color:var(--cendre);line-height:1}
+.st-l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fumee)}
+
+/* ═══ ARTISTES ═══ */
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ag-card{position:relative;overflow:hidden;display:block;background:var(--noir-2)}
+.agc-img{height:360px;overflow:hidden;position:relative}
+.agc-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.25);transition:transform .6s cubic-bezier(.4,0,.2,1),filter .4s ease}
+.ag-card:hover .agc-img img{transform:scale(1.08);filter:grayscale(0)}
+/* Burn effect — gradient braise en bas */
+.agc-burn{
+  position:absolute;bottom:0;left:0;right:0;height:60%;
+  background:linear-gradient(to top,rgba(8,8,6,.95) 0%,transparent 100%);
+}
+.agc-body{padding:16px 18px;background:var(--noir-1)}
+.agc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.agc-exp{font-size:10.5px;letter-spacing:.14em;color:var(--fumee);text-transform:uppercase}
+.agc-name{font-size:1.5rem;font-weight:900;letter-spacing:.04em;color:var(--cendre);margin-bottom:8px}
+.agc-line{height:2px;width:0;margin-bottom:8px;transition:width .4s ease}
+.ag-card:hover .agc-line{width:40px}
+.agc-dispo{font-size:10.5px;letter-spacing:.1em;color:var(--fumee-d);text-transform:uppercase}
+
+/* ═══ STUDIO FULL ═══ */
+.studio-full{position:relative;min-height:600px;display:grid;grid-template-columns:1fr 1fr}
+.sf-img{position:relative;overflow:hidden}
+.sf-img img{width:100%;height:100%;object-fit:cover;min-height:500px}
+.sf-dark{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,6,.2) 0%,rgba(8,8,6,.9) 100%)}
+.sf-text{background:var(--noir-1);display:flex;align-items:center;padding:clamp(3rem,5vw,6rem) 0}
+.sf-quote{
+  font-size:clamp(2.5rem,5vw,5rem);font-weight:900;color:var(--cendre);
+  line-height:.95;margin:12px 0;border-left:4px solid var(--braise);padding-left:1.5rem;
+}
+.sf-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.75rem}
+
+/* ═══ VIDÉOS ═══ */
+.vid-layout{display:grid;grid-template-columns:3fr 2fr;gap:2px;margin-top:2rem}
+.vid-main{aspect-ratio:16/9;overflow:hidden;background:var(--noir-2)}
+.vid-main iframe{width:100%;height:100%;border:none;display:block}
+.vid-side{background:var(--noir-1);padding:2rem;display:flex;flex-direction:column;justify-content:center}
+.vid-t{font-size:1.2rem;color:var(--cendre);margin-bottom:8px;letter-spacing:.04em}
+.vid-d{font-size:.84rem;color:var(--fumee);line-height:1.75;letter-spacing:.03em}
+.vid-more{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border-w)}
+.vid-more:first-of-type{border-top:1px solid var(--border-w);margin-top:1rem}
+.vm-play{color:var(--braise);font-size:.75rem;flex-shrink:0;margin-top:3px}
+.vid-more strong{display:block;font-size:.82rem;color:var(--cendre);margin-bottom:2px;letter-spacing:.04em}
+.vid-more p{font-size:9px;color:var(--fumee);letter-spacing:.08em}
+
+/* ═══ HYGIÈNE ═══ */
+.sh-center{text-align:center;margin-bottom:3rem}
+.hy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.hy-item{background:var(--noir-1);padding:28px 22px;border-bottom:2px solid transparent;transition:border-color .25s}
+.hy-item:hover{border-bottom-color:var(--braise)}
+.hy-num{font-size:2.2rem;color:rgba(232,227,220,.07);display:block;margin-bottom:10px;line-height:1}
+.hy-t{font-size:.9rem;color:var(--cendre);margin-bottom:8px;font-weight:900}
+.hy-d{font-size:.82rem;color:var(--fumee);line-height:1.85;letter-spacing:.03em}
+
+/* ═══ FAQ ═══ */
+.faq-lay{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.faq-list{display:flex;flex-direction:column;border:1px solid var(--border-w)}
+.faq-item{border-bottom:1px solid var(--border-w)}.faq-item:last-child{border-bottom:none}
+.fq-q{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;list-style:none;font-size:.8rem;font-weight:900;letter-spacing:.06em;color:var(--cendre)}
+.fq-q::-webkit-details-marker{display:none}.fq-q:hover{background:rgba(255,69,0,.04)}
+.fq-n{color:var(--braise);opacity:.5;min-width:26px;font-weight:400;font-size:.75rem}
+.fq-arr{margin-left:auto;font-size:1.2rem;color:var(--braise);font-style:normal;font-weight:400}
+details[open] .fq-arr{transform:rotate(90deg)}
+.fq-a{padding:0 18px 14px 56px;font-size:.76rem;color:var(--fumee);line-height:1.95;letter-spacing:.05em}
+
+/* ═══ CTA BLAZE ═══ */
+.cta-blaze{background:var(--noir-1);border-top:1px solid var(--border);padding:clamp(4rem,7vw,8rem) 0;position:relative}
+.blaze-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--braise),transparent)}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:3rem;flex-wrap:wrap}
+.cta-acts{display:flex;flex-direction:column;gap:12px}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1280px){.vid-layout{grid-template-columns:1fr}.art-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1024px){.hero-mosaic{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}.studio-full{grid-template-columns:1fr}.sf-img{height:360px;min-height:0}.sf-dark{background:rgba(8,8,6,.7)}.faq-lay{grid-template-columns:1fr;gap:32px}}
+@media(max-width:768px){
+  .hero-h1{font-size:clamp(3rem,12vw,6rem)}
+  .hero-mosaic{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}
+  .mosaic-dark{background:linear-gradient(160deg,rgba(8,8,6,.82) 0%,rgba(8,8,6,.65) 50%,rgba(8,8,6,.88) 100%)}
+  .hero-content{padding-top:calc(var(--nav-h)+3rem)}
+  .art-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .st-item:nth-child(2){border-right:none}
+  .st-item:nth-child(1),.st-item:nth-child(2){border-bottom:1px solid var(--border-w)}
+  .hy-grid{grid-template-columns:1fr}
+  .cta-inner{flex-direction:column}
+  .hero-bottom{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){.stats-row{grid-template-columns:1fr}.st-item{border-right:none;border-bottom:1px solid var(--border-w)}.hero-cta{flex-direction:column}}
+</style>
+
+<script>
+  // Effet de clignotement sur les pseudos de la mosaïque hero
+  document.querySelectorAll('.hm-pseudo').forEach(el => {
+    setInterval(() => {
+      if (Math.random() > 0.92) {
+        el.style.opacity = '0.1';
+        setTimeout(() => { (el as HTMLElement).style.opacity = ''; }, 80);
+      }
+    }, 400);
+  });
+</script>

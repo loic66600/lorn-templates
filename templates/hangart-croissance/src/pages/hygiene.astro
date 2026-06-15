@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Hygiène & Sécurité — ${client.nomComplet}`} description={`Protocole d'hygiène complet du ${client.nomComplet} Perpignan — aiguilles usage unique, autoclave, encres CE, surfaces protégées. Votre sécurité, notre priorité.`}>
+<nav class="navbar" id="navbar"><div class="nav-inner">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span>ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/a-propos">Le Studio</a></li><li><a href="/hygiene" class="active">Hygiène</a></li><li><a href="/videos">Vidéos</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact" class="reserve">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-menu" id="mob-menu"><nav><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/a-propos">Le Studio</a><a href="/hygiene" class="active">Hygiène</a><a href="/videos">Vidéos</a><a href="/tarifs">Tarifs</a><a href="/contact" class="reserve-mob">Réserver →</a></nav><div class="mob-bottom"><a href={client.telephoneLink}>{client.telephone}</a></div></div>
+</nav>
+<div class="ph"><div class="wrap">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Hygiène</span></nav>
+  <span class="label">Sécurité totale</span>
+  <h1 class="ph-title disp">HYGIÈNE<br><em>ZÉRO COMPROMIS</em></h1>
+  <p class="ph-sub mono">Votre sécurité n'est pas une option — c'est la base de tout ce que nous faisons.</p>
+</div></div>
+
+<section class="sec-light">
+  <div class="wrap">
+    <div class="hy-intro" data-reveal>
+      <div>
+        <span class="label label-dark">Notre protocole</span>
+        <h2 class="h2 h2-dark" style="margin-top:8px">6 piliers.<br>100% certifiés.</h2>
+      </div>
+      <p class="lead lead-dark">Chaque artiste du Hangart est titulaire du brevet professionnel de tatoueur, qui inclut une formation obligatoire en hygiène et salubrité. Notre protocole va au-delà des exigences légales.</p>
+    </div>
+    <div class="hy-grid">
+      {client.hygiene.map((h, i) => (
+        <div class="hy-card" data-reveal style={`transition-delay:${(i%2)*.1}s`}>
+          <span class="hc-num mono">{h.icone}</span>
+          <div>
+            <h3 class="disp hc-title h2-dark">{h.titre}</h3>
+            <p class="mono hc-desc lead-dark">{h.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-1">
+  <div class="wrap">
+    <span class="label" data-reveal>Avant, pendant, après</span>
+    <h2 class="h2" data-reveal style="transition-delay:.1s;margin-top:8px">Le déroulement<br><span style="color:var(--acid)">d'une séance.</span></h2>
+    <div class="steps-grid" style="margin-top:2.5rem">
+      {[
+        {n:"01",t:"Préparation du poste",d:"Nettoyage complet et désinfection de la station. Application de films barrières sur toutes les surfaces de contact (machine, câbles, flacon d'encre, repose-bras)."},
+        {n:"02",t:"Matériel stérile",d:"Ouverture devant vous de l'emballage stérile des aiguilles. Vérification de l'intégrité de l'emballage. Les aiguilles ne sont jamais réutilisées."},
+        {n:"03",t:"Protection individuelle",d:"L'artiste enfile des gants stériles et un masque chirurgical. Changement de gants si interruption de séance. Tablier de protection."},
+        {n:"04",t:"Préparation de la peau",d:"Nettoyage et rasage de la zone. Application d'un antiseptique. Impression ou dessin du motif. Vérification du placement avec vous."},
+        {n:"05",t:"La séance",d:"Tatouage réalisé avec des encres certifiées CE, sans métaux lourds. Pauses régulières selon la durée. Changement de gants si nécessaire."},
+        {n:"06",t:"Aftercare",d:"Nettoyage de la zone tatouée. Application d'un film protecteur Dermalize. Remise d'une fiche d'entretien détaillée. Disponibilité pour toute question post-séance."},
+      ].map((s, i) => (
+        <div class="step-item" data-reveal style={`transition-delay:${i*.08}s`}>
+          <span class="mono si-num">{s.n}</span>
+          <div class="si-dot" style="background:var(--acid)"></div>
+          <h3 class="disp si-t">{s.t}</h3>
+          <p class="mono si-d">{s.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sec-light">
+  <div class="wrap faq-light">
+    <div data-reveal><span class="label label-dark">Questions sur l'hygiène</span><h2 class="h2 h2-dark" style="margin-top:8px">Vous avez<br>le droit de savoir.</h2></div>
+    <div class="faq-list-light" data-reveal="right">
+      {[
+        {q:"Puis-je voir le matériel ouvert devant moi ?",r:"Absolument — et c'est même recommandé. Nos artistes ouvrent systématiquement les emballages d'aiguilles devant le client. C'est votre droit."},
+        {q:"Utilisez-vous des encres bio ?",r:"Nous utilisons des encres certifiées conformes à la réglementation REACH (Restriction des Substances Chimiques). Ces encres ne contiennent pas de métaux lourds ni de substances cancérogènes listées."},
+        {q:"Comment est stérilisé le matériel non jetable ?",r:"À l'autoclave à vapeur saturée sous pression, norme EN 13060. Chaque cycle est tracé et vérifié avec des indicateurs de stérilisation."},
+        {q:"Faites-vous des tatouages sur des personnes diabétiques ou immunodéprimées ?",r:"Nous évaluons au cas par cas. Certaines conditions médicales nécessitent un avis médical préalable. Consultez votre médecin et parlez-nous en lors de la prise de RDV."},
+      ].map((f, i) => (
+        <details class="faq-il" open={i===0}>
+          <summary class="disp fql-q"><span class="mono fql-n">{String(i+1).padStart(2,'0')}</span>{f.q}<span class="fql-p">+</span></summary>
+          <p class="mono fql-a">{f.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cta-final"><div class="wrap cta-inner">
+  <div data-reveal><h2 class="h2">Confiez-nous<br><span style="color:var(--acid)">votre peau.</span></h2></div>
+  <div class="cta-actions" data-reveal="right"><a href="/contact" class="btn btn-acid btn-lg">Réserver →</a></div>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+<style>
+.hy-intro { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; margin-bottom:2.5rem; }
+.hy-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid rgba(17,16,8,.1); }
+.hy-card { display:flex; gap:20px; align-items:flex-start; padding:28px; border-bottom:1px solid rgba(17,16,8,.08); border-right:1px solid rgba(17,16,8,.08); }
+.hy-card:nth-child(2n) { border-right:none; }
+.hy-card:nth-child(5),.hy-card:nth-child(6) { border-bottom:none; }
+.hy-card:hover { background:var(--peau-d); }
+.hc-num { font-size:2rem; color:rgba(17,16,8,.1); min-width:48px; flex-shrink:0; line-height:1; }
+.hc-title { font-size:.95rem; margin-bottom:8px; }
+.hc-desc { font-size:.77rem; line-height:1.9; }
+.steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--border-w); }
+.step-item { padding:28px; border-right:1px solid var(--border-w); border-bottom:1px solid var(--border-w); }
+.step-item:nth-child(3n) { border-right:none; }
+.step-item:nth-child(4),.step-item:nth-child(5),.step-item:nth-child(6) { border-bottom:none; }
+.si-num { font-size:1.8rem; color:rgba(240,237,232,.1); display:block; margin-bottom:10px; line-height:1; }
+.si-dot { width:5px; height:5px; margin-bottom:12px; }
+.si-t { font-size:.88rem; color:var(--peau); margin-bottom:8px; font-style:italic; }
+.si-d { font-size:.76rem; color:var(--muted); line-height:1.85; }
+.faq-light { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+.faq-list-light { border:1px solid rgba(17,16,8,.1); }
+.faq-il { border-bottom:1px solid rgba(17,16,8,.08); }.faq-il:last-child { border-bottom:none; }
+.fql-q { display:flex; align-items:center; gap:12px; padding:15px 18px; cursor:pointer; list-style:none; font-size:.82rem; font-style:italic; color:var(--noir); }
+.fql-q::-webkit-details-marker { display:none; }.fql-q:hover { background:var(--peau-d); }
+.fql-n { color:rgba(17,16,8,.2); min-width:26px; font-style:normal; font-size:.78rem; }
+.fql-p { margin-left:auto; font-size:1.2rem; font-weight:300; color:var(--noir); font-style:normal; }
+details[open] .fql-p { transform:rotate(45deg); }
+.fql-a { padding:0 18px 14px 56px; font-size:.77rem; color:rgba(17,16,8,.5); line-height:1.9; }
+.cta-final { background:var(--bg-1); border-top:2px solid var(--acid); padding:clamp(4rem,7vw,8rem) 0; }
+.cta-inner { display:flex; justify-content:space-between; align-items:center; gap:3rem; flex-wrap:wrap; }
+.cta-actions { display:flex; gap:12px; }
+@media(max-width:1024px) { .hy-intro { grid-template-columns:1fr; gap:24px; } .faq-light { grid-template-columns:1fr; gap:24px; } .steps-grid { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:768px) { .hy-grid { grid-template-columns:1fr; } .hy-card { border-right:none; } .steps-grid { grid-template-columns:1fr; } .step-item { border-right:none; } .cta-inner { flex-direction:column; } }
+</style>

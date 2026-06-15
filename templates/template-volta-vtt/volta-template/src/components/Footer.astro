@@ -1,0 +1,122 @@
+---
+import { client } from "@data/client";
+const annee = new Date().getFullYear();
+---
+
+<footer class="pied">
+  <div class="conteneur">
+    <a href="/" class="pied-wordmark">{client.nom}</a>
+
+    <div class="pied-grille">
+      <div class="pied-bloc">
+        <p class="pied-titre">Atelier & showroom</p>
+        <address>
+          {client.adresse.rue}<br />
+          {client.adresse.codePostal} {client.adresse.ville}<br />
+          {client.adresse.departement} — {client.adresse.region}
+        </address>
+        <a class="pied-lien" href={`tel:${client.telephoneLien}`}>{client.telephone}</a>
+        <a class="pied-lien" href={`mailto:${client.email}`}>{client.email}</a>
+      </div>
+
+      <div class="pied-bloc">
+        <p class="pied-titre">Les modèles</p>
+        {client.modeles.map((m) => (
+          <a class="pied-lien" href={`/modeles/${m.slug}`}>{m.nom} — {m.segment}</a>
+        ))}
+      </div>
+
+      <div class="pied-bloc">
+        <p class="pied-titre">Navigation</p>
+        <a class="pied-lien" href="/">Accueil</a>
+        <a class="pied-lien" href="/modeles">La collection</a>
+        <a class="pied-lien" href="/reservation">Essai & atelier</a>
+      </div>
+
+      <div class="pied-bloc">
+        <p class="pied-titre">Suivre Volta</p>
+        {
+          Object.entries(client.reseaux).map(([nom, url]) => (
+            <a class="pied-lien pied-reseau" href={url} target="_blank" rel="noopener noreferrer">{nom}</a>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="pied-seo">
+      VTT électriques (e-MTB) de luxe dessinés et assemblés à la main au pied du
+      Canigou, à {client.adresse.ville} ({client.adresse.region}). Essai sur les
+      sentiers des {client.adresse.departement} — livraison dans toute la France.
+    </p>
+
+    <div class="pied-bas">
+      <p>© {annee} {client.nomComplet} — {client.adresse.ville}, France</p>
+      <a href="/mentions-legales">Mentions légales</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .pied { border-top: 1px solid var(--ligne); padding-top: 4rem; overflow: hidden; }
+  .pied-wordmark {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(4rem, 20vw, 17rem);
+    line-height: 0.8;
+    letter-spacing: -0.02em;
+    color: var(--terre-2);
+    -webkit-text-stroke: 1px var(--sauge-fonce);
+    margin-bottom: 3rem;
+    transition: color 0.4s ease;
+  }
+  .pied-wordmark:hover { color: var(--terre-3); }
+  .pied-grille {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+  }
+  .pied-titre {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sauge);
+    margin-bottom: 1.2rem;
+  }
+  .pied-bloc address { font-style: normal; color: var(--sauge); margin-bottom: 0.9rem; }
+  .pied-lien {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--creme);
+    opacity: 0.78;
+    margin-bottom: 0.55rem;
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+  .pied-lien:hover { color: var(--cuivre-clair); opacity: 1; }
+  .pied-reseau { text-transform: capitalize; }
+  .pied-seo {
+    font-size: 0.82rem;
+    color: var(--sauge-fonce);
+    max-width: 72ch;
+    padding-block: 2rem;
+    border-top: 1px solid var(--ligne);
+  }
+  .pied-bas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--ligne);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--sauge);
+  }
+  .pied-bas a:hover { color: var(--cuivre-clair); }
+
+  @media (max-width: 880px) { .pied-grille { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .pied-grille { grid-template-columns: 1fr; } }
+</style>

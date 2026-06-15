@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Tarifs — ${client.nomComplet}`} description={`Prix tatouage Perpignan — petites pièces dès 80€, half sleeve, full sleeve, cover-up. ${client.nomComplet}. Devis gratuit.`}>
+<nav class="navbar" id="navbar"><div class="nav-inner">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span>ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/a-propos">Le Studio</a></li><li><a href="/hygiene">Hygiène</a></li><li><a href="/videos">Vidéos</a></li><li><a href="/tarifs" class="active">Tarifs</a></li><li><a href="/contact" class="reserve">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-menu" id="mob-menu"><nav><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/a-propos">Le Studio</a><a href="/hygiene">Hygiène</a><a href="/videos">Vidéos</a><a href="/tarifs" class="active">Tarifs</a><a href="/contact" class="reserve-mob">Réserver →</a></nav><div class="mob-bottom"><a href={client.telephoneLink}>{client.telephone}</a></div></div>
+</nav>
+<div class="ph"><div class="wrap">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+  <span class="label">Investissement</span>
+  <h1 class="ph-title disp">TARIFS<br><em>TRANSPARENTS</em></h1>
+  <p class="ph-sub mono">{client.tauxHoraire}</p>
+</div></div>
+
+<section class="sec sec-1">
+  <div class="wrap">
+    <div class="tarifs-table" data-reveal>
+      <div class="tt-head">
+        <span class="disp">TYPE</span><span class="disp">TAILLE</span><span class="disp">PRIX</span><span class="disp">DURÉE</span>
+      </div>
+      {client.tarifs.map((t, i) => (
+        <div class="tt-row">
+          <h3 class="disp tt-type">{t.type}</h3>
+          <span class="mono tt-taille">{t.taille}</span>
+          <span class="disp tt-prix">{t.prix}</span>
+          <span class="mono tt-duree">{t.duree}</span>
+        </div>
+      ))}
+    </div>
+    <div class="tarif-note" data-reveal>
+      <span style="color:var(--acid);font-size:1.2rem">◆</span>
+      <div>
+        <strong class="disp">{client.acompte}</strong>
+        <p class="mono">Les tarifs sont indicatifs et peuvent varier selon l'artiste choisi, la complexité du projet et l'emplacement sur le corps. Devis précis après consultation gratuite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-light">
+  <div class="wrap faq-light" data-reveal>
+    <div><span class="label label-dark">Questions fréquentes</span><h2 class="h2 h2-dark" style="margin-top:8px">FAQ Tarifs</h2></div>
+    <div class="faq-list-t">
+      {client.faq.map((f, i) => (
+        <details class="faq-lt" open={i===0}>
+          <summary class="disp fqlt-q"><span class="mono fqlt-n">{String(i+1).padStart(2,'0')}</span>{f.q}<span>+</span></summary>
+          <p class="mono fqlt-a">{f.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cta-final"><div class="wrap cta-inner">
+  <div data-reveal><h2 class="h2">Demandez votre<br><span style="color:var(--acid)">devis gratuit.</span></h2><p class="lead" style="margin-top:.6rem">Réponse sous 24h.</p></div>
+  <div class="cta-actions" data-reveal="right"><a href="/contact" class="btn btn-acid btn-lg">Réserver une séance →</a><a href={client.telephoneLink} class="btn btn-ghost btn-lg">{client.telephone}</a></div>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+<style>
+.tarifs-table { border:1px solid var(--border-w); margin-bottom:12px; }
+.tt-head { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:14px 24px; background:rgba(212,255,0,.08); border-bottom:1px solid var(--border-w); }
+.tt-head span { font-size:9.5px; letter-spacing:.2em; color:var(--acid); }
+.tt-row { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:18px 24px; border-bottom:1px solid var(--border-w); align-items:center; }
+.tt-row:last-child { border-bottom:none; }
+.tt-row:hover { background:rgba(212,255,0,.04); }
+.tt-type { font-size:.92rem; font-style:italic; letter-spacing:.04em; color:var(--peau); }
+.tt-taille { font-size:10px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; }
+.tt-prix { font-size:1rem; color:var(--acid); letter-spacing:.04em; }
+.tt-duree { font-size:10px; color:var(--muted); letter-spacing:.1em; }
+.tarif-note { display:flex; gap:14px; align-items:flex-start; border:1px solid rgba(212,255,0,.25); padding:20px; background:rgba(212,255,0,.04); }
+.tarif-note strong { display:block; font-size:.85rem; font-style:italic; text-transform:uppercase; letter-spacing:.04em; color:var(--peau); margin-bottom:8px; }
+.tarif-note p { font-size:.76rem; color:var(--muted); line-height:1.85; }
+.faq-light { display:grid; grid-template-columns:300px 1fr; gap:60px; align-items:start; }
+.faq-list-t { border:1px solid rgba(17,16,8,.1); }
+.faq-lt { border-bottom:1px solid rgba(17,16,8,.08); }.faq-lt:last-child { border-bottom:none; }
+.fqlt-q { display:flex; align-items:center; gap:10px; padding:14px 18px; cursor:pointer; list-style:none; font-size:.8rem; font-style:italic; color:var(--noir); }
+.fqlt-q::-webkit-details-marker { display:none; }.fqlt-q:hover { background:var(--peau-d); }
+.fqlt-n { color:rgba(17,16,8,.2); min-width:26px; font-style:normal; font-size:.76rem; }
+.fqlt-q span:last-child { margin-left:auto; font-size:1.1rem; font-weight:300; color:var(--noir); font-style:normal; }
+details[open] .fqlt-q span:last-child { transform:rotate(45deg); }
+.fqlt-a { padding:0 18px 14px 54px; font-size:.76rem; color:rgba(17,16,8,.5); line-height:1.9; }
+.cta-final { background:var(--bg-1); border-top:2px solid var(--acid); padding:clamp(4rem,7vw,8rem) 0; }
+.cta-inner { display:flex; justify-content:space-between; align-items:center; gap:3rem; flex-wrap:wrap; }
+.cta-actions { display:flex; flex-direction:column; gap:12px; }
+@media(max-width:1024px) { .tt-head,.tt-row { grid-template-columns:2fr 1fr 1fr; } .tt-head span:nth-child(4),.tt-duree { display:none; } .faq-light { grid-template-columns:1fr; gap:24px; } }
+@media(max-width:768px) { .tt-head,.tt-row { grid-template-columns:2fr 1fr; } .tt-head span:nth-child(3),.tt-taille { display:none; } .cta-inner { flex-direction:column; } }
+</style>

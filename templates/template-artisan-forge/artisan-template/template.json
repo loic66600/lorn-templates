@@ -1,0 +1,19 @@
+{
+  "id": "artisan-forge",
+  "nom": "Forge — Template artisan multi-métiers",
+  "categorie": "batiment",
+  "description": "Template vitrine éditorial haut de gamme pour artisan (ferronnier, menuisier, plombier, électricien, maçon…). Métier entièrement paramétrable depuis client.ts. SEO local optimisé (Perpignan / Occitanie par défaut), 5 pages, schéma LocalBusiness, fiches d'atelier signature.",
+  "pages": ["index", "realisations", "a-propos", "contact", "mentions-legales"],
+  "palette": {
+    "fond": "#161310",
+    "fondClair": "#EFE9DD",
+    "texte": "#EFE9DD",
+    "texteSecondaire": "#8E887B",
+    "accent": "#D2622B"
+  },
+  "polices": {
+    "display": "Fraunces",
+    "texte": "Epilogue"
+  },
+  "port": 4032
+}

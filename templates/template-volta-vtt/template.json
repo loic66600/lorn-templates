@@ -1,0 +1,23 @@
+{
+  "id": "volta-vtt",
+  "nom": "Volta — VTT électriques de luxe",
+  "metier": "vtt-electrique",
+  "categorie": "commerce",
+  "formule": "croissance",
+  "description": "Site vitrine e-commerce premium pour une marque de VTT électriques haut de gamme.",
+  "pages": 5,
+  "pagesListe": ["index", "modeles", "modeles/[slug]", "reservation", "mentions-legales"],
+  "palette": {
+    "primary": "#0E1310",
+    "accent": "#C97A45",
+    "bg": "#161C18",
+    "theme": "sombre"
+  },
+  "polices": ["Bricolage Grotesque", "Geist", "Geist Mono"],
+  "tags": ["vtt electrique", "velo", "commerce", "premium", "pyrenees"],
+  "port": 4035,
+  "preview": "",
+  "screenshot": "",
+  "version": "1.0.0",
+  "date": "2026-06-13"
+}

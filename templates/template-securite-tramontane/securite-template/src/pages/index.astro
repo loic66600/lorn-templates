@@ -1,0 +1,588 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Société de sécurité privée & incendie à ${client.adresse.ville} — ${client.nom} | ${client.adresse.region} & France`;
+const description = `${client.nom} : gardiennage, rondes et interventions, sécurité événementielle et agents SSIAP à ${client.adresse.ville} (${client.adresse.departement}), en ${client.adresse.region} et partout en France. PC opérationnel 24h/24. Audit de sûreté gratuit.`;
+
+const ville = client.adresse.ville;
+const geo = client.geo;
+---
+
+<Layout title={titre} description={description}>
+  <!-- ======================= HERO — PC DE CONTRÔLE ======================= -->
+  <section class="hero">
+    <div class="hero-grille-fond" aria-hidden="true"></div>
+    <div class="hero-radar" aria-hidden="true">
+      <div class="radar-cercle radar-c1"></div>
+      <div class="radar-cercle radar-c2"></div>
+      <div class="radar-cercle radar-c3"></div>
+      <div class="radar-balayage"></div>
+      <div class="radar-cible"></div>
+    </div>
+
+    <div class="conteneur hero-contenu">
+      <!-- Bandeau HUD : horloge temps réel + statut -->
+      <div class="hud" aria-hidden="true">
+        <span class="hud-item" id="hud-horloge">--:--:--</span>
+        <span class="hud-sep">|</span>
+        <span class="hud-item">{ville.toUpperCase()} · {geo.lat}N {geo.lng}E</span>
+        <span class="hud-sep">|</span>
+        <span class="statut">Dispositif actif — 24/7</span>
+      </div>
+
+      <h1 class="hero-titre">
+        <span class="hero-ligne">Veiller.</span>
+        <span class="hero-ligne hero-accent">Protéger.</span>
+        <span class="hero-ligne">Intervenir.</span>
+      </h1>
+
+      <p class="hero-sous">
+        Sécurité privée et sécurité incendie à {ville} : des agents certifiés,
+        un PC opérationnel jour et nuit, des dispositifs déployés en
+        {" " + client.adresse.region} et partout en France.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/contact" class="btn btn-plein">Audit de sûreté gratuit</a>
+        <a href="/prestations" class="btn btn-vide">Nos prestations</a>
+      </div>
+    </div>
+
+    <!-- Marquee certifications -->
+    <div class="hero-defile" aria-hidden="true">
+      <div class="defile-piste">
+        {[...client.certifications, ...client.certifications].map((c) => <span>{c}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CHIFFRES (compteurs animés) ======================= -->
+  <section class="chiffres">
+    <div class="conteneur chiffres-grille">
+      {
+        client.chiffres.map((c) => (
+          <div class="chiffre reveler">
+            <span class="chiffre-valeur">
+              <span class="compteur" data-cible={c.valeur}>0</span>{c.suffixe}
+            </span>
+            <span class="chiffre-label">{c.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ======================= DOUBLE PÔLE ======================= -->
+  <section class="poles">
+    <div class="conteneur">
+      <p class="etiquette reveler">Nos expertises</p>
+      <h2 class="titre-section reveler">Deux pôles, <em>une exigence</em></h2>
+    </div>
+    <div class="conteneur poles-grille">
+      {
+        client.poles.map((pole) => (
+          <a href={`/prestations#${pole.id}`} class="pole reveler">
+            <p class="pole-code">{pole.code}</p>
+            <h3 class="pole-nom">{pole.nom}</h3>
+            <p class="pole-desc">{pole.description}</p>
+            <ul class="pole-liste">
+              {pole.prestations.map((p) => (
+                <li>{p.titre}</li>
+              ))}
+            </ul>
+            <span class="pole-lien">Découvrir le pôle →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ======================= SECTEURS ======================= -->
+  <section class="secteurs">
+    <div class="conteneur">
+      <p class="etiquette reveler">Secteurs couverts</p>
+      <h2 class="titre-section reveler">Sur tous <em>vos terrains</em></h2>
+      <ul class="secteurs-liste reveler">
+        {client.secteurs.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================= ZONE LOCALE + NATIONALE ======================= -->
+  <section class="zone">
+    <div class="conteneur zone-grille">
+      <div class="reveler">
+        <p class="etiquette">Implantation locale</p>
+        <h2 class="titre-section">{ville} <em>& l'Occitanie</em></h2>
+        <p class="zone-texte">
+          Notre PC opérationnel est basé à {ville}. Rondes, interventions sur
+          alarme et gardiennage sont assurés en propre dans tout le département
+          et la région :
+        </p>
+        <ul class="zone-liste">
+          {client.zoneLocale.map((v) => <li>{v}</li>)}
+        </ul>
+      </div>
+      <div class="zone-national reveler">
+        <p class="etiquette">Couverture nationale</p>
+        <h2 class="titre-section">Partout <em>en France</em></h2>
+        <p class="zone-texte">{client.zoneNationale}</p>
+        <p class="zone-texte">
+          Un interlocuteur unique, des équipes mobilisables sur tout le
+          territoire, une qualité de dispositif identique du Roussillon à Paris.
+        </p>
+        <a href="/contact" class="btn btn-vide">Décrire votre besoin</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ENGAGEMENTS ======================= -->
+  <section class="engagements">
+    <div class="conteneur">
+      <p class="etiquette reveler">Nos engagements</p>
+      <h2 class="titre-section reveler">Ce qui est <em>au contrat</em></h2>
+      <div class="engagements-grille">
+        {
+          client.engagements.map((e) => (
+            <article class="engagement reveler">
+              <h3>{e.titre}</h3>
+              <p>{e.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= AVIS ======================= -->
+  <section class="avis">
+    <div class="conteneur">
+      <p class="etiquette reveler">Ils nous confient leurs sites</p>
+      <h2 class="titre-section reveler">Retours <em>de terrain</em></h2>
+      <div class="avis-grille">
+        {
+          client.avis.map((a) => (
+            <figure class="avis-carte reveler">
+              <p class="avis-note" aria-label={`${a.note} étoiles sur 5`}>{"★".repeat(a.note)}</p>
+              <blockquote>{a.texte}</blockquote>
+              <figcaption>{a.nom} — <span>{a.ville}</span></figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CTA FINAL ======================= -->
+  <section class="cta-final">
+    <div class="conteneur cta-inner reveler">
+      <p class="statut">Réponse sous 24h ouvrées</p>
+      <h2 class="cta-titre">Votre site mérite<br /><em>un dispositif sérieux.</em></h2>
+      <div class="hero-actions cta-actions">
+        <a href="/contact" class="btn btn-plein">Demander un audit gratuit</a>
+        <a href={`tel:${client.urgenceLien}`} class="btn btn-vide">Urgence : {client.urgence}</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ---- Hero PC de contrôle ---- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 5rem;
+  }
+  .hero-grille-fond {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232, 237, 244, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232, 237, 244, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%);
+  }
+  /* Radar */
+  .hero-radar {
+    position: absolute;
+    top: 50%;
+    right: -12%;
+    width: min(58vw, 760px);
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+    opacity: 0.55;
+  }
+  .radar-cercle {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(232, 237, 244, 0.12);
+    border-radius: 50%;
+  }
+  .radar-c2 { inset: 17%; }
+  .radar-c3 { inset: 34%; }
+  .radar-balayage {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      rgba(232, 57, 44, 0.32),
+      rgba(232, 57, 44, 0.06) 22%,
+      transparent 30%
+    );
+    animation: tourner 6s linear infinite;
+  }
+  .radar-cible {
+    position: absolute;
+    top: 32%;
+    left: 61%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--alerte);
+    box-shadow: 0 0 14px var(--alerte);
+    animation: pulser 2.2s ease-in-out infinite;
+  }
+  @keyframes tourner { to { transform: rotate(360deg); } }
+
+  .hero-contenu { position: relative; z-index: 2; }
+  .hud {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--gris);
+    margin-bottom: 2.2rem;
+  }
+  .hud-sep { opacity: 0.3; }
+  #hud-horloge { color: var(--blanc); min-width: 8ch; }
+
+  .hero-titre {
+    font-size: clamp(3rem, 9.5vw, 7.6rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .hero-ligne {
+    display: block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: monter 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  .hero-ligne:nth-child(2) { animation-delay: 0.14s; }
+  .hero-ligne:nth-child(3) { animation-delay: 0.28s; }
+  .hero-accent {
+    color: var(--alerte);
+    text-shadow: 0 0 36px rgba(232, 57, 44, 0.35);
+  }
+  @keyframes monter { to { opacity: 1; transform: none; } }
+
+  .hero-sous {
+    max-width: 52ch;
+    margin: 1.8rem 0 2.4rem;
+    color: var(--blanc);
+    opacity: 0.82;
+    font-size: 1.05rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .hero-defile {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 2;
+    border-top: 1px solid var(--ligne);
+    background: rgba(7, 11, 18, 0.75);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+    padding-block: 0.85rem;
+  }
+  .defile-piste {
+    display: flex;
+    gap: 3.2rem;
+    width: max-content;
+    animation: defiler 26s linear infinite;
+  }
+  .defile-piste span {
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--gris);
+    white-space: nowrap;
+  }
+  .defile-piste span::after {
+    content: "+";
+    color: var(--alerte);
+    margin-left: 3.2rem;
+  }
+  @keyframes defiler { to { transform: translateX(-50%); } }
+
+  /* ---- Chiffres ---- */
+  .chiffres {
+    border-block: 1px solid var(--ligne);
+    background: var(--nuit-2);
+  }
+  .chiffres-grille {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .chiffre {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--ligne);
+  }
+  .chiffre:last-child { border-right: none; }
+  .chiffre-valeur {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+    color: var(--alerte);
+    line-height: 1.1;
+  }
+  .chiffre-label {
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  /* ---- Pôles ---- */
+  .poles { padding-block: 7.5rem 0; }
+  .poles-grille {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-bottom: 7.5rem;
+  }
+  .pole {
+    display: flex;
+    flex-direction: column;
+    padding: 2.8rem 2.5rem;
+    background: var(--nuit-2);
+    border: 1px solid var(--ligne);
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+    transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  }
+  .pole:hover {
+    border-color: var(--alerte);
+    background: var(--nuit-3);
+    transform: translateY(-4px);
+  }
+  .pole-code {
+    font-family: var(--font-data);
+    font-size: 0.66rem;
+    letter-spacing: 0.3em;
+    color: var(--alerte);
+    margin-bottom: 1rem;
+  }
+  .pole-nom { font-size: 1.9rem; margin-bottom: 1rem; }
+  .pole-desc { color: var(--gris); margin-bottom: 1.6rem; }
+  .pole-liste {
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+  .pole-liste li {
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 0.92rem;
+  }
+  .pole-liste li::before {
+    content: "▸ ";
+    color: var(--alerte);
+  }
+  .pole-lien {
+    margin-top: auto;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--alerte);
+  }
+
+  /* ---- Secteurs ---- */
+  .secteurs {
+    padding-block: 7rem;
+    border-top: 1px solid var(--ligne);
+    background: var(--nuit-2);
+  }
+  .secteurs-liste {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    list-style: none;
+    background: var(--ligne);
+    border: 1px solid var(--ligne);
+    margin-top: 2.5rem;
+  }
+  .secteurs-liste li {
+    background: var(--nuit);
+    padding: 1.6rem 1.4rem;
+    font-family: var(--font-display);
+    font-size: 0.86rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.25s ease, background 0.25s ease;
+  }
+  .secteurs-liste li:hover {
+    color: var(--alerte);
+    background: var(--nuit-3);
+  }
+
+  /* ---- Zone ---- */
+  .zone { padding-block: 7.5rem; }
+  .zone-grille {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+  .zone-texte { color: var(--gris); margin-bottom: 1.6rem; max-width: 52ch; }
+  .zone-liste {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    list-style: none;
+  }
+  .zone-liste li {
+    font-family: var(--font-data);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1.05rem;
+    border: 1px solid var(--ligne);
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  .zone-liste li:hover { border-color: var(--alerte); color: var(--alerte); }
+  .zone-national {
+    border-left: 1px solid var(--ligne);
+    padding-left: 5rem;
+  }
+
+  /* ---- Engagements ---- */
+  .engagements {
+    padding-block: 7rem;
+    border-top: 1px solid var(--ligne);
+    background: var(--nuit-2);
+  }
+  .engagements-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .engagement {
+    border-top: 2px solid var(--alerte);
+    padding-top: 1.4rem;
+  }
+  .engagement h3 { font-size: 1.15rem; margin-bottom: 0.7rem; }
+  .engagement p { color: var(--gris); font-size: 0.92rem; }
+
+  /* ---- Avis ---- */
+  .avis { padding-block: 7.5rem; }
+  .avis-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .avis-carte {
+    border: 1px solid var(--ligne);
+    padding: 2.2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    background: var(--nuit-2);
+  }
+  .avis-note { color: var(--alerte); letter-spacing: 0.3em; }
+  .avis-carte blockquote {
+    font-size: 0.98rem;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+  .avis-carte figcaption {
+    font-family: var(--font-data);
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    margin-top: auto;
+  }
+  .avis-carte figcaption span { color: var(--gris); }
+
+  /* ---- CTA ---- */
+  .cta-final {
+    padding-block: 8rem;
+    border-top: 1px solid var(--ligne);
+    text-align: center;
+  }
+  .cta-titre {
+    font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+    margin: 1.4rem 0 2.4rem;
+  }
+  .cta-titre em { font-style: normal; color: var(--alerte); }
+  .cta-actions { justify-content: center; }
+
+  @media (max-width: 980px) {
+    .chiffres-grille { grid-template-columns: 1fr 1fr; }
+    .chiffre:nth-child(2) { border-right: none; }
+    .chiffre { border-bottom: 1px solid var(--ligne); }
+    .poles-grille, .zone-grille { grid-template-columns: 1fr; }
+    .zone-national { border-left: none; padding-left: 0; }
+    .secteurs-liste { grid-template-columns: 1fr 1fr; }
+    .engagements-grille, .avis-grille { grid-template-columns: 1fr; }
+    .hero-radar { opacity: 0.3; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .radar-balayage, .radar-cible, .defile-piste { animation: none; }
+    .hero-ligne { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+
+<script>
+  // ---- Horloge temps réel du HUD ----
+  const horloge = document.getElementById("hud-horloge");
+  function majHorloge() {
+    if (!horloge) return;
+    horloge.textContent = new Date().toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  }
+  majHorloge();
+  setInterval(majHorloge, 1000);
+
+  // ---- Compteurs animés ----
+  const compteurs = document.querySelectorAll<HTMLElement>(".compteur");
+  const animerCompteur = (el: HTMLElement) => {
+    const cible = Number(el.dataset.cible ?? 0);
+    const duree = 1400;
+    const depart = performance.now();
+    const etape = (t: number) => {
+      const progression = Math.min((t - depart) / duree, 1);
+      const facilite = 1 - Math.pow(1 - progression, 3);
+      el.textContent = String(Math.round(cible * facilite));
+      if (progression < 1) requestAnimationFrame(etape);
+    };
+    requestAnimationFrame(etape);
+  };
+  const obsCompteurs = new IntersectionObserver(
+    (entrees) => {
+      entrees.forEach((e) => {
+        if (e.isIntersecting) {
+          animerCompteur(e.target as HTMLElement);
+          obsCompteurs.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.6 }
+  );
+  compteurs.forEach((c) => obsCompteurs.observe(c));
+</script>

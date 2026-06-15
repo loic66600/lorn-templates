@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Tarifs — ${client.nomComplet}`} description={`Tarifs tatouage Hangart Perpignan — dès 80€. Half sleeve, full sleeve, cover-up. ${client.tauxHoraire}`}>
+<nav class="navbar" id="navbar"><div class="nav-in">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span class="f">ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/a-propos">Studio</a></li><li><a href="/hygiene">Hygiène</a></li><li><a href="/videos">Vidéos</a></li><li><a href="/tarifs" class="active">Tarifs</a></li><li><a href="/contact" class="reserve">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu"><div class="mob-header"><div class="mob-logo">HANG<span class="f">ART</span></div><button class="mob-close" id="mobClose">✕</button></div>
+<nav class="mob-nav"><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/a-propos">Studio</a><a href="/hygiene">Hygiène</a><a href="/videos">Vidéos</a><a href="/tarifs" class="active">Tarifs</a><a href="/contact" class="mob-reserve">Réserver →</a></nav>
+<div class="mob-footer"><a href={client.telephoneLink}>{client.telephone}</a></div></div></nav>
+
+<div class="ph"><div class="wrap">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+  <span class="lbl">Investissement</span>
+  <h1 class="ph-title">TARIFS<br><em>TRANSPARENTS</em></h1>
+  <p class="ph-sub mono">{client.tauxHoraire}</p>
+</div></div>
+
+<section class="sec sec-1">
+  <div class="wrap">
+    <div class="t-table" data-r>
+      <div class="tt-h"><span class="disp">PRESTATION</span><span class="disp">TAILLE</span><span class="disp">PRIX</span><span class="disp">DURÉE</span></div>
+      {client.tarifs.map((t, i) => (
+        <div class="tt-r">
+          <h3 class="disp tt-type">{t.type}</h3>
+          <span class="mono tt-tl">{t.taille}</span>
+          <span class="disp tt-px">{t.prix}</span>
+          <span class="mono tt-dur">{t.duree}</span>
+        </div>
+      ))}
+    </div>
+    <div class="t-note" data-r>
+      <span style="color:var(--braise)">▸</span>
+      <div>
+        <strong class="disp">{client.acompte}</strong>
+        <p class="mono">Tarifs indicatifs — varient selon artiste, complexité et emplacement. Devis précis après consultation gratuite.</p>
+        <a href="/contact" class="btn btn-fire" style="margin-top:12px;display:inline-flex">Devis gratuit →</a>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem" data-r>
+      <h2 class="h2" style="margin-bottom:1.5rem;font-size:clamp(1.5rem,3vw,2.5rem)">Comment<br><span class="fire">ça marche.</span></h2>
+      <div class="proc">
+        {[{n:"01",t:"Contact",d:"Formulaire + description de votre projet. Réponse 24h."},{n:"02",t:"Consultation",d:"Échange sur le projet, choix artiste, devis exact, date."},{n:"03",t:"Réservation",d:"Acompte 30% pour bloquer votre créneau."},{n:"04",t:"Séance",d:"Dans notre studio, par votre artiste choisi."},{n:"05",t:"Aftercare",d:"Conseils + fiche d'entretien. On reste disponibles."}].map(p => (
+          <div class="proc-item">
+            <span class="mono pi-n">{p.n}</span>
+            <div class="pi-dot"></div>
+            <h3 class="disp pi-t">{p.t}</h3>
+            <p class="mono pi-d">{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-blaze"><div class="blaze-line"></div><div class="wrap cta-inner">
+  <div data-r><h2 class="h2">Réservez.<br><span class="fire">Votre séance.</span></h2></div>
+  <div class="cta-acts" data-r="r"><a href="/contact" class="btn btn-fire btn-lg">Réserver →</a><a href={client.telephoneLink} class="btn btn-ghost btn-lg">{client.telephone}</a></div>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+<style>
+.t-table{border:1px solid var(--border-w);margin-bottom:12px}
+.tt-h{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:12px 22px;background:rgba(255,69,0,.08);border-bottom:1px solid var(--border-w)}
+.tt-h span{font-size:9px;letter-spacing:.2em;color:var(--braise)}
+.tt-r{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:16px 22px;border-bottom:1px solid var(--border-w);align-items:center}
+.tt-r:last-child{border-bottom:none}.tt-r:hover{background:rgba(255,69,0,.04)}
+.tt-type{font-size:.88rem;font-weight:900;color:var(--cendre);letter-spacing:.04em}
+.tt-tl{font-size:9.5px;letter-spacing:.12em;color:var(--fumee);text-transform:uppercase}
+.tt-px{font-size:.95rem;color:var(--braise)}
+.tt-dur{font-size:9.5px;color:var(--fumee);letter-spacing:.1em}
+.t-note{display:flex;gap:12px;border:1px solid var(--border);padding:18px;background:var(--braise-g)}
+.t-note strong{display:block;font-size:.82rem;color:var(--cendre);margin-bottom:7px}
+.t-note p{font-size:.76rem;color:var(--fumee);line-height:1.85}
+.proc{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--border-w)}
+.proc-item{padding:22px;border-right:1px solid var(--border-w)}.proc-item:last-child{border-right:none}
+.pi-n{font-size:1.6rem;color:rgba(232,227,220,.07);display:block;margin-bottom:8px;line-height:1}
+.pi-dot{width:4px;height:4px;background:var(--braise);margin-bottom:10px}
+.pi-t{font-size:.82rem;color:var(--cendre);margin-bottom:6px;font-weight:900}
+.pi-d{font-size:.75rem;color:var(--fumee);line-height:1.8}
+.cta-blaze{background:var(--noir-1);border-top:1px solid var(--border);padding:clamp(4rem,7vw,7rem) 0;position:relative}
+.blaze-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--braise),transparent)}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:3rem;flex-wrap:wrap}
+.cta-acts{display:flex;flex-direction:column;gap:12px}
+@media(max-width:1024px){.tt-h,.tt-r{grid-template-columns:2fr 1fr 1fr}.tt-h span:last-child,.tt-dur{display:none}.proc{grid-template-columns:repeat(3,1fr)}.proc-item:nth-child(3){border-right:none}}
+@media(max-width:768px){.tt-h,.tt-r{grid-template-columns:2fr 1fr}.tt-tl{display:none}.proc{grid-template-columns:1fr}.proc-item{border-right:none;border-bottom:1px solid var(--border-w)}.cta-inner{flex-direction:column}}
+</style>

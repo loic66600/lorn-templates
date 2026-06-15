@@ -1,0 +1,276 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `L'agence — ${client.nom}, sécurité privée & incendie à ${client.adresse.ville}`;
+const description = `Découvrez ${client.nom}, agence de sécurité privée et sécurité incendie fondée en ${client.anneeFondation} à ${client.adresse.ville}. Méthode, engagements, agréments CNAPS et encadrement des agents.`;
+
+const anciennete = new Date().getFullYear() - client.anneeFondation;
+---
+
+<Layout title={titre} description={description}>
+  <section class="page-tete">
+    <div class="conteneur tete-grille">
+      <div>
+        <p class="etiquette">L'agence</p>
+        <h1 class="titre-section">
+          Une agence,<br />un <em>poste de commandement</em>
+        </h1>
+        <p class="page-intro">
+          Fondée en {client.anneeFondation} à {client.adresse.ville} par
+          {" "}{client.dirigeant.prenom} {client.dirigeant.nom},
+          {" "}{client.dirigeant.titre.toLowerCase()}, {client.nom} est née d'une
+          conviction simple : la sécurité ne se sous-traite pas à la légère.
+          Nos agents sont recrutés, formés et encadrés par des professionnels
+          du terrain — et supervisés 24h/24 depuis notre PC opérationnel.
+        </p>
+        <p class="statut">PC opérationnel — supervision en cours</p>
+      </div>
+      <div class="tete-image">
+        <img
+          src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1400&auto=format&fit=crop"
+          alt={`PC de supervision de ${client.nom} à ${client.adresse.ville}`}
+        />
+        <!-- <img src="/images/pc-securite.jpg" alt={`PC de supervision de ${client.nom} à ${client.adresse.ville}`} /> -->
+        <div class="tete-image-cadre" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- La méthode : vraie séquence opérationnelle, la numérotation a du sens -->
+  <section class="methode">
+    <div class="conteneur">
+      <p class="etiquette reveler">Procédure</p>
+      <h2 class="titre-section reveler">De l'audit <em>au reporting</em></h2>
+      <ol class="etapes">
+        {
+          client.processus.map((etape, i) => (
+            <li class="etape reveler" style={`transition-delay:${i * 0.08}s`}>
+              <span class="etape-num">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3 class="etape-titre">{etape.titre}</h3>
+                <p class="etape-desc">{etape.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Engagements -->
+  <section class="engagements-page">
+    <div class="conteneur engagements-grille">
+      <div>
+        <p class="etiquette reveler">Engagements</p>
+        <h2 class="titre-section reveler">Ce qui est <em>au contrat</em></h2>
+        <p class="engagements-intro reveler">
+          Dans la sécurité, les promesses ne suffisent pas. Nos engagements
+          sont écrits, contractuels et vérifiables à tout moment.
+        </p>
+      </div>
+      <ul class="engagements-liste">
+        {
+          client.engagements.map((e) => (
+            <li class="reveler">
+              <h3>{e.titre}</h3>
+              <p>{e.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Habilitations -->
+  <section class="habilitations">
+    <div class="conteneur">
+      <p class="etiquette reveler">Habilitations</p>
+      <h2 class="titre-section reveler">Agréés, formés, <em>contrôlés</em></h2>
+      <ul class="habilitations-grille">
+        {
+          client.certifications.map((c) => (
+            <li class="habilitation reveler">
+              <span class="habilitation-coche" aria-hidden="true">✓</span>
+              {c}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="habilitations-cnaps reveler">
+        Autorisation d'exercice CNAPS n° {client.agrements.cnaps} —
+        {" "}{client.agrements.mentionLegale}
+      </p>
+    </div>
+  </section>
+
+  <!-- Recrutement -->
+  <section class="recrutement">
+    <div class="conteneur recrutement-inner reveler">
+      <div>
+        <p class="etiquette">Recrutement</p>
+        <h2 class="recrutement-titre">
+          Agent de sécurité ou SSIAP ?<br /><em>Rejoignez le dispositif.</em>
+        </h2>
+        <p class="recrutement-texte">
+          Nous recrutons toute l'année des agents titulaires de la carte
+          professionnelle sur {client.adresse.ville} et l'{client.adresse.region}.
+          Plannings stables, heures payées, équipement fourni.
+        </p>
+      </div>
+      <a href={`mailto:${client.email}?subject=Candidature agent de sécurité`} class="btn btn-vide">
+        Envoyer ma candidature
+      </a>
+    </div>
+  </section>
+
+  <section class="cta-bas">
+    <div class="conteneur cta-inner">
+      <h2 class="cta-titre reveler">
+        Évaluons votre site.<br /><em>L'audit de sûreté est gratuit.</em>
+      </h2>
+      <div class="cta-actions reveler">
+        <a href="/contact" class="btn btn-plein">Demander un audit gratuit</a>
+        <a href={`tel:${client.urgenceLien}`} class="btn btn-vide">Urgence 24/7 — {client.urgence}</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-tete { padding: 11rem 0 6rem; }
+  .tete-grille {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4.5rem;
+    align-items: center;
+  }
+  .page-intro {
+    color: var(--gris);
+    max-width: 56ch;
+    margin-bottom: 1.8rem;
+  }
+  .tete-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+  }
+  .tete-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.7) contrast(1.08);
+  }
+  /* Cadre HUD décalé — rappel salle de contrôle */
+  .tete-image-cadre {
+    position: absolute;
+    inset: -14px 14px 14px -14px;
+    border: 1px solid var(--alerte);
+    pointer-events: none;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+
+  .methode { padding-block: 7rem; background: var(--nuit-2); }
+  .etapes {
+    list-style: none;
+    margin-top: 3rem;
+    border-top: 1px solid var(--ligne);
+  }
+  .etape {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 2rem;
+    padding-block: 2.3rem;
+    border-bottom: 1px solid var(--ligne);
+  }
+  .etape-num {
+    font-family: var(--font-data);
+    font-size: 2.2rem;
+    color: var(--alerte);
+    line-height: 1.1;
+  }
+  .etape-titre { font-size: 1.35rem; margin-bottom: 0.6rem; }
+  .etape-desc { color: var(--gris); max-width: 64ch; }
+
+  .engagements-page { padding-block: 7.5rem; }
+  .engagements-grille {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 4rem;
+  }
+  .engagements-intro { color: var(--gris); max-width: 44ch; }
+  .engagements-liste {
+    list-style: none;
+    border-top: 1px solid var(--ligne);
+  }
+  .engagements-liste li {
+    padding-block: 1.8rem;
+    border-bottom: 1px solid var(--ligne);
+  }
+  .engagements-liste h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+  .engagements-liste p { color: var(--gris); font-size: 0.92rem; }
+
+  .habilitations { padding-block: 7rem; background: var(--nuit-2); }
+  .habilitations-grille {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2.6rem;
+  }
+  .habilitation {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-data);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--ligne);
+    background: var(--nuit);
+  }
+  .habilitation-coche { color: var(--vert-actif); }
+  .habilitations-cnaps {
+    margin-top: 2.2rem;
+    font-size: 0.78rem;
+    color: var(--gris);
+    max-width: 90ch;
+  }
+
+  .recrutement { padding-block: 6.5rem; border-bottom: 1px solid var(--ligne); }
+  .recrutement-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .recrutement-titre {
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    margin: 0.8rem 0 1rem;
+  }
+  .recrutement-titre em { font-style: normal; color: var(--alerte); }
+  .recrutement-texte { color: var(--gris); max-width: 56ch; }
+
+  .cta-bas { padding-block: 8rem; text-align: center; }
+  .cta-titre {
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    margin-bottom: 2.4rem;
+  }
+  .cta-titre em { font-style: normal; color: var(--alerte); }
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 980px) {
+    .tete-grille, .engagements-grille { grid-template-columns: 1fr; gap: 2.5rem; }
+    .habilitations-grille { grid-template-columns: 1fr 1fr; }
+    .etape { grid-template-columns: 4rem 1fr; gap: 1.2rem; }
+  }
+  @media (max-width: 560px) {
+    .habilitations-grille { grid-template-columns: 1fr; }
+  }
+</style>

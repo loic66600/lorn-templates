@@ -1,0 +1,75 @@
+---
+---
+<div class="cookies" id="cookies" hidden>
+  <p>
+    Ce site utilise uniquement des cookies techniques nécessaires à son bon
+    fonctionnement. Aucune donnée n'est utilisée à des fins publicitaires.
+  </p>
+  <div class="cookies-actions">
+    <button class="cookies-btn cookies-ok" id="cookies-ok">Accepter</button>
+    <button class="cookies-btn cookies-non" id="cookies-non">Refuser</button>
+  </div>
+</div>
+
+<style>
+  .cookies {
+    position: fixed;
+    bottom: 1.4rem;
+    left: 1.4rem;
+    z-index: 200;
+    max-width: 380px;
+    background: var(--noir-2);
+    border: 1px solid var(--ligne);
+    padding: 1.4rem 1.6rem;
+    font-size: 0.85rem;
+    color: var(--creme);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  }
+  .cookies-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+  .cookies-btn {
+    font-family: var(--font-texte);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.3rem;
+    cursor: pointer;
+    border: 1px solid var(--braise);
+    transition: opacity 0.25s ease;
+  }
+  .cookies-ok {
+    background: var(--braise);
+    color: var(--noir);
+  }
+  .cookies-non {
+    background: transparent;
+    color: var(--creme);
+  }
+  .cookies-btn:hover { opacity: 0.85; }
+
+  @media (max-width: 480px) {
+    .cookies {
+      left: 1rem;
+      right: 1rem;
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+  const banniere = document.getElementById("cookies");
+  if (banniere && !localStorage.getItem("cookies-choice")) {
+    banniere.hidden = false;
+  }
+  document.getElementById("cookies-ok")?.addEventListener("click", () => {
+    localStorage.setItem("cookies-choice", "accepted");
+    if (banniere) banniere.hidden = true;
+  });
+  document.getElementById("cookies-non")?.addEventListener("click", () => {
+    localStorage.setItem("cookies-choice", "refused");
+    if (banniere) banniere.hidden = true;
+  });
+</script>

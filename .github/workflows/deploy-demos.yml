@@ -440,6 +440,69 @@ jobs:
           mkdir -p ../../_site/paysagiste-elageur-croissance
           cp -r dist/. ../../_site/paysagiste-elageur-croissance
 
+      - name: Build hangart-croissance
+        run: |
+          cd templates/hangart-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/hangart-croissance
+          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/hangart-croissance/|g; s|src="/|src="/lorn-templates/hangart-croissance/|g' {} +
+          mkdir -p ../../_site/hangart-croissance
+          cp -r dist/. ../../_site/hangart-croissance
+
+      - name: Build hangart-dark-croissance
+        run: |
+          cd templates/hangart-dark-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/hangart-dark-croissance
+          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/hangart-dark-croissance/|g; s|src="/|src="/lorn-templates/hangart-dark-croissance/|g' {} +
+          mkdir -p ../../_site/hangart-dark-croissance
+          cp -r dist/. ../../_site/hangart-dark-croissance
+
+      - name: Build salon-tatouage-croissance
+        run: |
+          cd templates/salon-tatouage-croissance
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/salon-tatouage-croissance
+          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/salon-tatouage-croissance/|g; s|src="/|src="/lorn-templates/salon-tatouage-croissance/|g' {} +
+          mkdir -p ../../_site/salon-tatouage-croissance
+          cp -r dist/. ../../_site/salon-tatouage-croissance
+
+      - name: Build artisan-forge
+        run: |
+          cd templates/template-artisan-forge/artisan-template
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/artisan-forge
+          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/artisan-forge/|g; s|src="/|src="/lorn-templates/artisan-forge/|g' {} +
+          mkdir -p ../../../_site/artisan-forge
+          cp -r dist/. ../../../_site/artisan-forge
+
+      - name: Build mistral-mobilite
+        run: |
+          cd templates/template-mistral-trottinettes/mistral-template
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/mistral-mobilite
+          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/mistral-mobilite/|g; s|src="/|src="/lorn-templates/mistral-mobilite/|g' {} +
+          mkdir -p ../../../_site/mistral-mobilite
+          cp -r dist/. ../../../_site/mistral-mobilite
+
+      - name: Build securite-tramontane
+        run: |
+          cd templates/template-securite-tramontane/securite-template
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/securite-tramontane
+          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/securite-tramontane/|g; s|src="/|src="/lorn-templates/securite-tramontane/|g' {} +
+          mkdir -p ../../../_site/securite-tramontane
+          cp -r dist/. ../../../_site/securite-tramontane
+
+      - name: Build volta-vtt
+        run: |
+          cd templates/template-volta-vtt/volta-template
+          npm install
+          npx astro build --site https://loic66600.github.io --base /lorn-templates/volta-vtt
+          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/volta-vtt/|g; s|src="/|src="/lorn-templates/volta-vtt/|g' {} +
+          mkdir -p ../../../_site/volta-vtt
+          cp -r dist/. ../../../_site/volta-vtt
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

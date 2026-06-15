@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+
+// Utilitaire : extraire l'ID YouTube depuis différents formats
+function getYouTubeId(input: string): string {
+  if (!input) return '';
+  // URL complète : https://www.youtube.com/watch?v=XXXXXXXX
+  const m1 = input.match(/[?&]v=([^&]+)/);
+  if (m1) return m1[1];
+  // URL courte : https://youtu.be/XXXXXXXX
+  const m2 = input.match(/youtu\.be\/([^?&]+)/);
+  if (m2) return m2[1];
+  // URL embed : https://www.youtube.com/embed/XXXXXXXX
+  const m3 = input.match(/embed\/([^?&]+)/);
+  if (m3) return m3[1];
+  // ID seul
+  return input;
+}
+---
+<Layout title={`Vidéos — ${client.nomComplet}`} description={`Vidéos du ${client.nomComplet} Perpignan — coulisses, time-lapse, conventions. Découvrez nos tatoueurs en action.`}>
+<nav class="navbar" id="navbar"><div class="nav-inner">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span>ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/a-propos">Le Studio</a></li><li><a href="/hygiene">Hygiène</a></li><li><a href="/videos" class="active">Vidéos</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact" class="reserve">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-menu" id="mob-menu"><nav><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/a-propos">Le Studio</a><a href="/hygiene">Hygiène</a><a href="/videos" class="active">Vidéos</a><a href="/tarifs">Tarifs</a><a href="/contact" class="reserve-mob">Réserver →</a></nav><div class="mob-bottom"><a href={client.telephoneLink}>{client.telephone}</a></div></div>
+</nav>
+
+<div class="ph"><div class="wrap">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Vidéos</span></nav>
+  <span class="label">En images</span>
+  <h1 class="ph-title disp">NOS<br><em>VIDÉOS</em></h1>
+  <p class="ph-sub mono">Coulisses, time-lapse, conventions — le Hangart en mouvement.</p>
+</div></div>
+
+<section class="sec">
+  <div class="wrap">
+    <!-- Vidéo principale -->
+    {client.videos.length > 0 && (
+      <div class="video-hero" data-reveal>
+        <div class="vh-embed">
+          <iframe
+            src={`https://www.youtube.com/embed/${getYouTubeId(client.videos[0].youtubeId)}?rel=0&modestbranding=1&color=white`}
+            title={client.videos[0].titre}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="vh-info">
+          <span class="label">À la une</span>
+          <h2 class="h2" style="margin-top:8px">{client.videos[0].titre}</h2>
+          <p class="lead" style="margin-top:.75rem">{client.videos[0].description}</p>
+        </div>
+      </div>
+    )}
+
+    <!-- Grille vidéos secondaires -->
+    {client.videos.length > 1 && (
+      <div class="video-grid" style="margin-top:3px">
+        {client.videos.slice(1).map((v, i) => (
+          <div class="vg-item" data-reveal style={`transition-delay:${i*.1}s`}>
+            <div class="vg-embed">
+              <iframe
+                src={`https://www.youtube.com/embed/${getYouTubeId(v.youtubeId)}?rel=0&modestbranding=1`}
+                title={v.titre}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="vg-info">
+              <h3 class="disp vg-titre">{v.titre}</h3>
+              <p class="mono vg-desc">{v.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Instructions pour ajouter des vidéos -->
+    <div class="video-tip mono" data-reveal>
+      <span class="vt-icon">💡</span>
+      <div>
+        <strong class="disp">Ajouter vos propres vidéos</strong>
+        <p>Dans <code>client.ts</code>, ajoutez vos vidéos dans le tableau <code>videos[]</code> avec le champ <code>youtubeId</code>.<br/>
+        Formats acceptés : URL complète YouTube, URL courte youtu.be, ou ID seul (ex: <code>dQw4w9WgXcQ</code>).</p>
+      </div>
+    </div>
+
+    <!-- CTA Instagram si pas assez de vidéos -->
+    {client.reseaux.instagram && (
+      <div class="insta-cta" data-reveal>
+        <div>
+          <span class="label">Plus de contenu</span>
+          <h2 class="h2" style="margin-top:8px">Suivez-nous sur<br><span style="color:var(--acid)">Instagram.</span></h2>
+          <p class="lead" style="margin-top:.6rem">Stories, reels, posts — toute l'actualité du studio en temps réel.</p>
+        </div>
+        <a href={client.reseaux.instagram} target="_blank" rel="noopener" class="btn btn-acid btn-lg">@hangart.tattoo.studio →</a>
+      </div>
+    )}
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+<style>
+.video-hero { display:grid; grid-template-columns:3fr 2fr; gap:3px; margin-top:2rem; }
+.vh-embed { aspect-ratio:16/9; overflow:hidden; background:var(--noir-2); }
+.vh-embed iframe { width:100%; height:100%; border:none; display:block; }
+.vh-info { background:var(--bg-1); padding:2.5rem; display:flex; flex-direction:column; justify-content:center; }
+.video-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:3px; }
+.vg-item { background:var(--bg-1); }
+.vg-embed { aspect-ratio:16/9; overflow:hidden; }.vg-embed iframe { width:100%; height:100%; border:none; display:block; }
+.vg-info { padding:1.25rem; }
+.vg-titre { font-size:.95rem; font-style:italic; text-transform:uppercase; color:var(--peau); margin-bottom:6px; letter-spacing:.04em; }
+.vg-desc { font-size:.78rem; color:var(--muted); line-height:1.7; letter-spacing:.04em; }
+.video-tip { display:flex; gap:14px; align-items:flex-start; border:1px solid var(--border-w); padding:20px; margin-top:24px; background:var(--bg-1); }
+.vt-icon { font-size:1.2rem; flex-shrink:0; margin-top:2px; }
+.video-tip strong { display:block; font-size:.88rem; font-style:italic; text-transform:uppercase; color:var(--peau); margin-bottom:6px; letter-spacing:.04em; }
+.video-tip p { font-size:.76rem; color:var(--muted); line-height:1.85; }
+.video-tip code { color:var(--acid); font-size:.75rem; }
+.insta-cta { display:flex; justify-content:space-between; align-items:center; gap:3rem; flex-wrap:wrap; border:1px solid var(--border-w); padding:2.5rem; margin-top:3px; background:var(--bg-1); }
+@media(max-width:1024px) { .video-hero { grid-template-columns:1fr; } }
+@media(max-width:768px) { .video-grid { grid-template-columns:1fr; } .insta-cta { flex-direction:column; } }
+</style>

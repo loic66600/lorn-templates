@@ -1,0 +1,81 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Mentions légales — ${client.nomComplet}`;
+const description = `Mentions légales du site ${client.siteUrl}.`;
+---
+
+<Layout title={titre} description={description} noIndex={true}>
+  <section class="legales">
+    <div class="conteneur">
+      <p class="etiquette">Informations</p>
+      <h1 class="titre-section">Mentions <em>légales</em></h1>
+
+      <div class="legales-contenu">
+        <h2>Éditeur</h2>
+        <p>
+          {client.nomComplet} — {client.legal.formeJuridique}<br />
+          {client.adresse.rue}, {client.adresse.codePostal} {client.adresse.ville}<br />
+          SIRET : {client.legal.siret}<br />
+          TVA intracommunautaire : {client.legal.tva}<br />
+          Téléphone : {client.telephone} — Email : {client.email}
+        </p>
+
+        <h2>Hébergement</h2>
+        <p>{client.legal.hebergeur}</p>
+
+        <h2>Produits & conformité</h2>
+        <p>
+          Les trottinettes électriques commercialisées par {client.nom} sont des
+          engins de déplacement personnel motorisés (EDPM). Leur usage sur la
+          voie publique est encadré par le Code de la route : vitesse limitée à
+          25 km/h, circulation interdite aux moins de 14 ans, assurance
+          responsabilité civile obligatoire. Tout débridage rend l'engin
+          inapte à la circulation sur la voie publique.
+        </p>
+
+        <h2>Prix & disponibilité</h2>
+        <p>
+          Les prix affichés sont indiqués en euros TTC et susceptibles d'évoluer.
+          Ils ne constituent pas une offre contractuelle ; seul le devis ou le
+          bon de commande signé fait foi.
+        </p>
+
+        <h2>Propriété intellectuelle</h2>
+        <p>
+          L'ensemble des contenus du site (textes, photographies, vidéos,
+          identité visuelle, noms de modèles) est la propriété exclusive de
+          {" "}{client.nomComplet}, sauf mention contraire. Toute reproduction
+          sans autorisation écrite préalable est interdite.
+        </p>
+
+        <h2>Données personnelles</h2>
+        <p>
+          Les informations transmises via les formulaires sont utilisées
+          uniquement pour traiter votre demande. Elles ne sont ni revendues, ni
+          transmises à des tiers. Conformément au RGPD, vous disposez d'un droit
+          d'accès, de rectification et de suppression en écrivant à {client.email}.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          Ce site utilise uniquement des cookies techniques nécessaires à son
+          fonctionnement. Votre choix est mémorisé localement sur votre
+          navigateur et peut être modifié en supprimant les données du site.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legales { padding: 12rem 0 7rem; }
+  .legales-contenu { max-width: 72ch; margin-top: 2rem; }
+  .legales-contenu h2 {
+    font-size: 1.3rem;
+    margin: 2.4rem 0 0.7rem;
+    color: var(--bleu-clair);
+  }
+  .legales-contenu p { color: var(--gris); }
+</style>

@@ -1,0 +1,23 @@
+{
+  "id": "artisan-forge",
+  "nom": "Forge — Template artisan multi-métiers",
+  "metier": "artisan",
+  "categorie": "batiment",
+  "formule": "croissance",
+  "description": "Template vitrine éditorial haut de gamme pour artisan, entièrement paramétrable.",
+  "pages": 5,
+  "pagesListe": ["index", "realisations", "a-propos", "contact", "mentions-legales"],
+  "palette": {
+    "primary": "#161310",
+    "accent": "#D2622B",
+    "bg": "#EFE9DD",
+    "theme": "sombre"
+  },
+  "polices": ["Fraunces", "Epilogue"],
+  "tags": ["artisan", "forge", "ferronnier", "menuisier", "plombier", "electricien"],
+  "port": 4032,
+  "preview": "",
+  "screenshot": "",
+  "version": "1.0.0",
+  "date": "2026-06-11"
+}

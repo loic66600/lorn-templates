@@ -1,0 +1,434 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `${client.nom} — VTT électriques de luxe assemblés au pied du Canigou`;
+const description = `${client.nomComplet} : VTT électriques (e-MTB) haut de gamme assemblés à la main à ${client.adresse.ville}. Découvrez le Canigó, le Carlit et le Puigmal. Essai sur les sentiers, livraison nationale.`;
+
+const flagship = client.modeles[client.modeles.length - 1];
+---
+
+<Layout title={titre} description={description}>
+  <!-- ======================= HERO ======================= -->
+  <section class="hero">
+    <div class="hero-media" id="hero-media">
+      <img
+        src="https://images.unsplash.com/photo-1544191696-15693072e0b5?q=80&w=2200&auto=format&fit=crop"
+        alt={`VTT électrique ${client.nom} en montagne`}
+        fetchpriority="high"
+      />
+      <!-- <img src="/images/hero.jpg" alt={`VTT électrique ${client.nom} en montagne`} fetchpriority="high" /> -->
+    </div>
+    <div class="hero-voile" aria-hidden="true"></div>
+
+    <div class="conteneur hero-contenu">
+      <p class="hero-eyebrow">{client.signature}</p>
+      <h1 class="hero-titre">
+        <span>La montagne,</span>
+        <span class="hero-cuivre">amplifiée.</span>
+      </h1>
+      <p class="hero-sous">{client.manifeste}</p>
+      <div class="hero-actions">
+        <a href="/modeles" class="btn btn-plein btn-fleche">Découvrir la collection</a>
+        <a href="/reservation" class="btn btn-vide">Essayer sur sentier</a>
+      </div>
+    </div>
+
+    <div class="hero-bas">
+      <span class="hero-scroll">Descendre</span>
+      <span class="hero-ref">{flagship.nom} · {flagship.segment}</span>
+    </div>
+  </section>
+
+  <!-- ======================= PROFIL D'ALTITUDE (signature) ======================= -->
+  <section class="profil">
+    <div class="conteneur">
+      <div class="profil-tete reveler">
+        <p class="etiquette">Conçu en altitude</p>
+        <h2 class="titre-section">Né sur <em>les crêtes</em></h2>
+        <p class="profil-texte">
+          Chaque géométrie Volta est testée sur les sentiers du massif du
+          Canigou — du col aux single-tracks techniques. Ce que la montagne
+          valide, l'atelier le grave dans le carbone.
+        </p>
+      </div>
+
+      <!-- Courbe de dénivelé qui se dessine au scroll -->
+      <figure class="profil-graph reveler" aria-label="Profil de dénivelé d'un parcours type">
+        <svg viewBox="0 0 1200 260" preserveAspectRatio="none" class="profil-svg">
+          <defs>
+            <linearGradient id="remplissage" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--cuivre)" stop-opacity="0.28" />
+              <stop offset="100%" stop-color="var(--cuivre)" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            id="profil-aire"
+            d="M0,230 L80,200 L180,210 L300,120 L420,150 L560,40 L700,90 L840,30 L980,110 L1120,70 L1200,100 L1200,260 L0,260 Z"
+            fill="url(#remplissage)"
+          />
+          <path
+            id="profil-trace"
+            d="M0,230 L80,200 L180,210 L300,120 L420,150 L560,40 L700,90 L840,30 L980,110 L1120,70 L1200,100"
+            fill="none"
+            stroke="var(--cuivre-clair)"
+            stroke-width="2.5"
+          />
+        </svg>
+        <figcaption class="profil-legende">
+          <span>Départ atelier · 240 m</span>
+          <span>Sommet · 1 920 m</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ======================= GAMME ======================= -->
+  <section class="gamme">
+    <div class="conteneur gamme-tete">
+      <p class="etiquette reveler">La collection</p>
+      <h2 class="titre-section reveler">Trois <em>terrains</em></h2>
+    </div>
+    <div class="gamme-liste">
+      {
+        client.modeles.map((m) => (
+          <a href={`/modeles/${m.slug}`} class="gamme-item reveler">
+            <div class="gamme-image">
+              <img src={m.finitions[0].image} alt={`${client.nom} ${m.nom}`} loading="lazy" />
+              {/* <img src={m.finitions[0].imageLocale} alt={`${client.nom} ${m.nom}`} loading="lazy" /> */}
+            </div>
+            <div class="gamme-info">
+              <span class="gamme-ordre">{m.ordre}</span>
+              <div class="gamme-titre-bloc">
+                <h3 class="gamme-nom">{m.nom}</h3>
+                <span class="gamme-segment">{m.segment}</span>
+              </div>
+              <p class="gamme-accroche">{m.accroche}</p>
+              <div class="gamme-pied">
+                <span class="gamme-prix">dès {m.prix.toLocaleString("fr-FR")} €</span>
+                <span class="gamme-fleche" aria-hidden="true">→</span>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ======================= TECHNOLOGIE ======================= -->
+  <section class="techno">
+    <div class="topo" aria-hidden="true"></div>
+    <div class="conteneur">
+      <div class="techno-tete reveler">
+        <p class="etiquette">L'ingénierie</p>
+        <h2 class="titre-section">Le luxe, <em>c'est la mécanique</em></h2>
+      </div>
+      <div class="techno-grille">
+        {
+          client.technologie.map((t) => (
+            <article class="techno-item reveler">
+              <span class="techno-code">{t.code}</span>
+              <h3 class="techno-titre">{t.titre}</h3>
+              <p class="techno-desc">{t.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CHIFFRES ======================= -->
+  <section class="chiffres">
+    <div class="conteneur">
+      <h2 class="chiffres-phrase reveler">
+        Assemblés <em>un par un.</em><br />
+        Numérotés <em>pour la vie.</em>
+      </h2>
+      <div class="chiffres-grille">
+        {
+          client.chiffres.map((c) => (
+            <div class="chiffre reveler">
+              <span class="chiffre-valeur" data-cible={c.valeur}>0</span>
+              <span class="chiffre-suffixe">{c.suffixe}</span>
+              <span class="chiffre-label">{c.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FLAGSHIP ======================= -->
+  <section class="flagship">
+    <div class="flagship-media">
+      <img src={flagship.film.poster} alt={`${client.nom} ${flagship.nom}`} loading="lazy" />
+      <!-- <img src="/images/flagship.jpg" alt={`${client.nom} ${flagship.nom}`} loading="lazy" /> -->
+    </div>
+    <div class="flagship-voile" aria-hidden="true"></div>
+    <div class="conteneur flagship-contenu reveler">
+      <p class="etiquette">Série limitée — {flagship.specs.find((s) => s.label === "Série")?.valeur} exemplaires</p>
+      <h2 class="flagship-titre">{flagship.nom}</h2>
+      <p class="flagship-accroche">{flagship.accroche}</p>
+      <a href={`/modeles/${flagship.slug}`} class="btn btn-plein btn-fleche">Découvrir le {flagship.nom}</a>
+    </div>
+  </section>
+
+  <!-- ======================= AVIS ======================= -->
+  <section class="avis">
+    <div class="conteneur">
+      <p class="etiquette reveler">Ils roulent en Volta</p>
+      <h2 class="titre-section reveler">La <em>parole</em> aux pilotes</h2>
+      <div class="avis-grille">
+        {
+          client.avis.map((a) => (
+            <figure class="avis-carte reveler">
+              <p class="avis-note" aria-label={`${a.note} sur 5`}>{"★".repeat(a.note)}</p>
+              <blockquote>{a.texte}</blockquote>
+              <figcaption>{a.nom} — <span>{a.ville}</span></figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CTA ======================= -->
+  <section class="cta">
+    <div class="topo" aria-hidden="true"></div>
+    <div class="conteneur cta-inner reveler">
+      <h2 class="cta-titre">Le meilleur essai,<br /><em>c'est sur le sentier.</em></h2>
+      <p class="cta-sous">
+        Réservez une sortie d'essai au départ de notre atelier de {client.adresse.ville},
+        ou faites-vous livrer partout en France.
+      </p>
+      <div class="hero-actions">
+        <a href="/reservation" class="btn btn-plein btn-fleche">Réserver un essai</a>
+        <a href="/modeles" class="btn btn-vide">Comparer les modèles</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ---- Hero ---- */
+  .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; }
+  .hero-media { position: absolute; inset: 0; will-change: transform; }
+  .hero-media img { width: 100%; height: 112%; object-fit: cover; filter: saturate(0.92) contrast(1.04); }
+  .hero-voile {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to top, var(--terre) 3%, transparent 52%),
+      linear-gradient(to right, rgba(14,19,16,0.7), transparent 60%);
+  }
+  .hero-contenu { position: relative; z-index: 2; padding-bottom: 8rem; }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cuivre-clair);
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.1s forwards;
+  }
+  .hero-titre { font-size: clamp(3.4rem, 12vw, 9.5rem); line-height: 0.92; letter-spacing: -0.03em; }
+  .hero-titre span {
+    display: block;
+    opacity: 0; transform: translateY(40px);
+    animation: fadeUp 1s cubic-bezier(0.2,0.7,0.2,1) forwards;
+  }
+  .hero-titre span:nth-child(1) { animation-delay: 0.2s; }
+  .hero-titre span:nth-child(2) { animation-delay: 0.35s; }
+  .hero-cuivre { color: var(--cuivre-clair); }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+  .hero-sous {
+    max-width: 54ch;
+    margin: 2rem 0 2.4rem;
+    color: var(--creme);
+    font-size: 1.05rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.9s ease 0.65s forwards; }
+  .hero-bas {
+    position: absolute;
+    bottom: 2rem; left: 0; right: 0;
+    z-index: 2;
+    display: flex; justify-content: space-between;
+    width: min(1320px, 100% - 3rem);
+    margin-inline: auto;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sauge);
+  }
+  .hero-scroll { position: relative; padding-left: 1.6rem; }
+  .hero-scroll::before {
+    content: ""; position: absolute; left: 0; top: 50%;
+    width: 1rem; height: 1px; background: var(--cuivre);
+    animation: scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 50% { width: 1.4rem; opacity: 0.4; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-eyebrow, .hero-titre span, .hero-sous, .hero-actions { animation: none; opacity: 1; transform: none; }
+    .hero-scroll::before { animation: none; }
+  }
+
+  /* ---- Profil altitude ---- */
+  .profil { padding-block: 7rem 5rem; }
+  .profil-tete { max-width: 60ch; margin-bottom: 2.5rem; }
+  .profil-texte { color: var(--sauge); }
+  .profil-graph { border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); padding-block: 1rem; }
+  .profil-svg { width: 100%; height: clamp(160px, 22vw, 260px); display: block; }
+  #profil-trace, #profil-aire { }
+  .profil-legende {
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--sauge);
+    margin-top: 0.6rem;
+  }
+
+  /* ---- Gamme ---- */
+  .gamme { padding-block: 5rem 4rem; }
+  .gamme-tete { margin-bottom: 3.5rem; }
+  .gamme-liste { display: grid; gap: 1px; background: var(--ligne); border-block: 1px solid var(--ligne); }
+  .gamme-item { display: grid; grid-template-columns: 1fr 1fr; background: var(--terre); transition: background 0.4s ease; }
+  .gamme-item:hover { background: var(--terre-2); }
+  .gamme-image { overflow: hidden; aspect-ratio: 16 / 10; }
+  .gamme-image img {
+    width: 100%; height: 100%; object-fit: cover; filter: saturate(0.92);
+    transition: transform 0.8s cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .gamme-item:hover .gamme-image img { transform: scale(1.06); }
+  .gamme-info { padding: 3rem; display: grid; align-content: center; position: relative; }
+  .gamme-ordre { position: absolute; top: 2rem; right: 3rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--sauge-fonce); }
+  .gamme-titre-bloc { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .gamme-nom { font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: -0.03em; }
+  .gamme-segment {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cuivre-clair);
+  }
+  .gamme-accroche { font-size: 1.15rem; color: var(--sauge); margin: 0.8rem 0 1.8rem; }
+  .gamme-pied { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--ligne); padding-top: 1.4rem; }
+  .gamme-prix { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
+  .gamme-fleche { color: var(--cuivre-clair); font-size: 1.4rem; transition: transform 0.3s ease; }
+  .gamme-item:hover .gamme-fleche { transform: translateX(6px); }
+
+  /* ---- Technologie ---- */
+  .techno { position: relative; padding-block: 7rem; border-top: 1px solid var(--ligne); overflow: hidden; }
+  .techno-tete { position: relative; z-index: 1; margin-bottom: 3rem; }
+  .techno-grille { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+  .techno-item { background: var(--terre); padding: 2.8rem 2.4rem; transition: background 0.35s ease; }
+  .techno-item:hover { background: var(--terre-2); }
+  .techno-code { font-family: var(--font-mono); font-size: 0.8rem; color: var(--cuivre-clair); }
+  .techno-titre { font-size: 1.7rem; margin: 0.8rem 0 0.9rem; letter-spacing: -0.02em; }
+  .techno-desc { color: var(--sauge); max-width: 52ch; }
+
+  /* ---- Chiffres ---- */
+  .chiffres { padding-block: 7rem; }
+  .chiffres-phrase { font-size: clamp(2rem, 5.5vw, 4.2rem); line-height: 1.02; margin-bottom: 3.5rem; letter-spacing: -0.03em; }
+  .chiffres-phrase em { font-style: normal; color: var(--cuivre-clair); }
+  .chiffres-grille { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--ligne); border: 1px solid var(--ligne); }
+  .chiffre { background: var(--terre); padding: 2.4rem 2rem; display: flex; flex-direction: column; }
+  .chiffre-valeur { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.8rem, 6vw, 4.4rem); line-height: 1; color: var(--cuivre-clair); display: inline; }
+  .chiffre-suffixe { font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; color: var(--cuivre-clair); margin-bottom: 0.8rem; }
+  .chiffre-label { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sauge); }
+
+  /* ---- Flagship ---- */
+  .flagship { position: relative; min-height: 84svh; display: flex; align-items: center; overflow: hidden; }
+  .flagship-media { position: absolute; inset: 0; }
+  .flagship-media img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.9) contrast(1.05); }
+  .flagship-voile { position: absolute; inset: 0; background: linear-gradient(to right, rgba(14,19,16,0.92) 12%, rgba(14,19,16,0.3) 72%, transparent); }
+  .flagship-contenu { position: relative; z-index: 2; }
+  .flagship-titre { font-size: clamp(4rem, 13vw, 10rem); line-height: 0.86; margin: 1rem 0 0.6rem; letter-spacing: -0.03em; }
+  .flagship-accroche { font-size: clamp(1.2rem, 2.6vw, 1.8rem); color: var(--sauge); margin-bottom: 2rem; }
+
+  /* ---- Avis ---- */
+  .avis { padding-block: 7.5rem; }
+  .avis-grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .avis-carte { border: 1px solid var(--ligne); border-radius: 14px; padding: 2.2rem 2rem; display: flex; flex-direction: column; gap: 1.1rem; }
+  .avis-note { color: var(--cuivre-clair); letter-spacing: 0.3em; }
+  .avis-carte blockquote { font-size: 1rem; color: var(--creme); line-height: 1.6; }
+  .avis-carte figcaption { font-family: var(--font-mono); font-size: 0.76rem; color: var(--creme); margin-top: auto; }
+  .avis-carte figcaption span { color: var(--sauge); }
+
+  /* ---- CTA ---- */
+  .cta { position: relative; padding-block: 8rem; border-top: 1px solid var(--ligne); text-align: center; overflow: hidden; }
+  .cta-inner { position: relative; z-index: 1; }
+  .cta-titre { font-size: clamp(2.6rem, 7vw, 5.2rem); letter-spacing: -0.03em; }
+  .cta-titre em { font-style: normal; color: var(--cuivre-clair); }
+  .cta-sous { color: var(--sauge); max-width: 52ch; margin: 1.4rem auto 2.4rem; }
+  .cta-inner .hero-actions { justify-content: center; animation: none; opacity: 1; }
+
+  @media (max-width: 880px) {
+    .gamme-item { grid-template-columns: 1fr; }
+    .gamme-info { padding: 2rem; }
+    .gamme-ordre { right: 2rem; top: 1.4rem; }
+    .techno-grille, .chiffres-grille { grid-template-columns: 1fr 1fr; }
+    .avis-grille { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .chiffres-grille, .techno-grille { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Parallaxe hero
+  const heroMedia = document.getElementById("hero-media");
+  if (heroMedia && !reduit) {
+    window.addEventListener("scroll", () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight) heroMedia.style.transform = `translateY(${y * 0.32}px) scale(1.05)`;
+    }, { passive: true });
+  }
+
+  // Profil d'altitude : tracé qui se dessine
+  const trace = document.getElementById("profil-trace") as SVGPathElement | null;
+  if (trace) {
+    const longueur = trace.getTotalLength();
+    if (!reduit) {
+      trace.style.strokeDasharray = String(longueur);
+      trace.style.strokeDashoffset = String(longueur);
+      trace.style.transition = "stroke-dashoffset 2.2s cubic-bezier(0.2,0.7,0.2,1)";
+      const obsT = new IntersectionObserver((entrees) => {
+        entrees.forEach((e) => {
+          if (e.isIntersecting) {
+            trace.style.strokeDashoffset = "0";
+            obsT.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      obsT.observe(trace);
+    }
+  }
+
+  // Compteurs animés
+  const compteurs = document.querySelectorAll<HTMLElement>(".chiffre-valeur");
+  const animer = (el: HTMLElement) => {
+    const cible = parseFloat(el.dataset.cible || "0");
+    const debut = performance.now();
+    const pas = (t: number) => {
+      const p = Math.min((t - debut) / 1400, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = cible * eased;
+      el.textContent = cible >= 100 ? Math.round(val).toLocaleString("fr-FR") : val.toFixed(0);
+      if (p < 1) requestAnimationFrame(pas);
+      else el.textContent = cible.toLocaleString("fr-FR");
+    };
+    requestAnimationFrame(pas);
+  };
+  const obsC = new IntersectionObserver((entrees) => {
+    entrees.forEach((e) => {
+      if (e.isIntersecting) { animer(e.target as HTMLElement); obsC.unobserve(e.target); }
+    });
+  }, { threshold: 0.6 });
+  compteurs.forEach((c) => obsC.observe(c));
+</script>

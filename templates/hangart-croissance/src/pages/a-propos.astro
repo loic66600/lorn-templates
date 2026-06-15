@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Le Studio — ${client.nomComplet}`} description={`${client.nomComplet} à Perpignan — histoire du studio, notre philosophie, talent & Ink Master, tatouage sur mesure 66.`}>
+<nav class="navbar" id="navbar"><div class="nav-inner">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span>ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/a-propos" class="active">Le Studio</a></li><li><a href="/hygiene">Hygiène</a></li><li><a href="/videos">Vidéos</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact" class="reserve">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-menu" id="mob-menu"><nav><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/a-propos" class="active">Le Studio</a><a href="/hygiene">Hygiène</a><a href="/videos">Vidéos</a><a href="/tarifs">Tarifs</a><a href="/contact" class="reserve-mob">Réserver →</a></nav><div class="mob-bottom"><a href={client.telephoneLink}>{client.telephone}</a></div></div>
+</nav>
+
+<div class="ph"><div class="wrap">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Le Studio</span></nav>
+  <span class="label">Notre histoire</span>
+  <h1 class="ph-title disp">HANGART<br><em>TATTOO STUDIO</em></h1>
+  <p class="ph-sub mono">{client.adresse} · Fondé en {client.fondation}</p>
+</div></div>
+
+<section class="sec">
+  <div class="wrap story-layout">
+    <div class="story-content">
+      <span class="label" data-reveal>Notre philosophie</span>
+      <h2 class="h2" data-reveal style="transition-delay:.1s;margin-top:10px">L'art qui dure.<br><span style="color:var(--acid)">Pour toujours.</span></h2>
+      <div class="acid-line" data-reveal style="transition-delay:.15s"></div>
+      <p class="lead" data-reveal style="transition-delay:.2s">{client.apropos.p1}</p>
+      <p class="lead" data-reveal style="transition-delay:.25s;margin-top:.75rem">{client.apropos.p2}</p>
+      <p class="lead" data-reveal style="transition-delay:.3s;margin-top:.75rem">{client.apropos.p3}</p>
+    </div>
+    <div class="story-img" data-reveal="right">
+      <img src={client.apropos.photoStudio} alt={`Studio ${client.nomComplet}`} loading="lazy"/>
+    </div>
+  </div>
+</section>
+
+<!-- Valeurs -->
+<section class="sec-light">
+  <div class="wrap">
+    <div class="sc-center" data-reveal><span class="label label-dark">Nos engagements</span><h2 class="h2 h2-dark" style="margin-top:8px">Ce qui<br>nous définit.</h2></div>
+    <div class="valeurs-grid">
+      {[
+        {n:"Talent",i:"01",d:"Nos 6 artistes sont sélectionnés sur la qualité de leur travail. Chaque style est une expertise exclusive — pas de touche-à-tout. Les meilleurs dans leur domaine, c'est le minimum."},
+        {n:"Ink Master",i:"02",d:"Plusieurs de nos artistes ont participé à des concours de tatouage et compétitions de type Ink Master — au niveau national et européen. Cette émulation constante maintient notre niveau."},
+        {n:"Sur mesure",i:"03",d:"Nous ne copions pas. Chaque tatouage est pensé pour VOUS — votre corps, votre histoire, votre esthétique. Un flash, c'est possible. Un clone d'internet, non."},
+        {n:"Hygiène",i:"04",d:"Aiguilles usage unique, autoclave certifié, encres CE, surfaces protégées. Notre protocole d'hygiène est détaillé et transparent. Rien n'est laissé au hasard."},
+        {n:"Durabilité",i:"05",d:"Un tatouage bien fait dure toute la vie. Nous utilisons des encres certifiées, des techniques adaptées à votre type de peau, et nous vous guidons dans l'aftercare."},
+        {n:"Communauté",i:"06",d:"Nous participons à des conventions, accueillons des guests artistes, organisons des flash days. Le Hangart est un lieu vivant, ancré dans la culture tattoo."},
+      ].map((v, i) => (
+        <div class="val-item" data-reveal style={`transition-delay:${(i%3)*.1}s`}>
+          <span class="mono vi-num">{v.i}</span>
+          <h3 class="disp vi-title h2-dark">{v.n}</h3>
+          <div class="acid-line" style="width:32px;height:2px;background:var(--acid);margin:10px 0"></div>
+          <p class="mono vi-desc lead-dark">{v.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Stats + Artistes strip -->
+<section class="sec sec-1">
+  <div class="wrap">
+    <div class="stats-inner" style="border:1px solid var(--border-w)">
+      {client.stats.map((s, i) => (
+        <div class="stat-item" data-reveal style={`transition-delay:${i*.1}s`}>
+          <strong class="disp stat-n"><span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span></strong>
+          <span class="mono stat-l">{s.label}</span>
+        </div>
+      ))}
+    </div>
+    <div class="art-strip-mini" style="margin-top:3px">
+      {client.artistes.map(a => (
+        <a href={`/artistes/${a.slug}`} class="asm-item">
+          <img src={a.photo} alt={a.pseudo} loading="lazy"/>
+          <div class="asm-info">
+            <span class="disp asm-name" style={`color:${a.couleur}`}>{a.pseudo}</span>
+            <span class="mono asm-style">{a.styleShort}</span>
+          </div>
+          <div class="asm-bar" style={`background:${a.couleur}`}></div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cta-final"><div class="wrap cta-inner">
+  <div data-reveal><h2 class="h2">Venez nous voir.<br><span style="color:var(--acid)">Ou réservez en ligne.</span></h2><p class="lead" style="margin-top:.75rem">{client.adresse}</p></div>
+  <div class="cta-actions" data-reveal="right"><a href="/contact" class="btn btn-acid btn-lg">Réserver →</a><a href={client.telephoneLink} class="btn btn-ghost btn-lg">{client.telephone}</a></div>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<style>
+.story-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.story-img { position:sticky; top:calc(var(--nav-h)+2rem); height:580px; overflow:hidden; }
+.story-img img { width:100%; height:100%; object-fit:cover; }
+.valeurs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid rgba(17,16,8,.1); margin-top:2.5rem; }
+.val-item { padding:28px 24px; border-right:1px solid rgba(17,16,8,.08); border-bottom:1px solid rgba(17,16,8,.08); }
+.val-item:nth-child(3n) { border-right:none; }
+.val-item:nth-child(4),.val-item:nth-child(5),.val-item:nth-child(6) { border-bottom:none; }
+.val-item:hover { background:var(--peau-d); }
+.vi-num { font-size:2rem; color:rgba(17,16,8,.1); display:block; margin-bottom:8px; line-height:1; }
+.vi-title { font-size:1rem; color:var(--noir); margin-bottom:0; }
+.vi-desc { font-size:.76rem; line-height:1.9; color:rgba(17,16,8,.5); }
+.stats-inner { display:grid; grid-template-columns:repeat(4,1fr); }
+.stat-item { padding:1.5rem; border-right:1px solid var(--border-w); display:flex; flex-direction:column; gap:5px; }
+.stat-item:last-child { border-right:none; }
+.stat-n { font-size:2.5rem; color:var(--peau); line-height:1; }
+.stat-l { font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.art-strip-mini { display:grid; grid-template-columns:repeat(6,1fr); gap:3px; }
+.asm-item { position:relative; height:260px; overflow:hidden; cursor:pointer; display:block; }
+.asm-item img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.asm-item:hover img { transform:scale(1.07); }
+.asm-info { position:absolute; bottom:0; left:0; right:0; padding:12px; background:linear-gradient(to top,rgba(17,16,8,.9) 0%,transparent 100%); }
+.asm-name { font-size:.9rem; font-weight:900; font-style:italic; display:block; letter-spacing:.06em; }
+.asm-style { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.asm-bar { position:absolute; bottom:0; left:0; right:0; height:2px; }
+.cta-final { background:var(--bg-1); border-top:2px solid var(--acid); padding:clamp(4rem,7vw,8rem) 0; }
+.cta-inner { display:flex; justify-content:space-between; align-items:center; gap:3rem; flex-wrap:wrap; }
+.cta-actions { display:flex; flex-direction:column; gap:12px; }
+@media(max-width:1280px) { .art-strip-mini { grid-template-columns:repeat(3,1fr); } }
+@media(max-width:1024px) { .story-layout { grid-template-columns:1fr; } .story-img { position:static; height:320px; } }
+@media(max-width:768px) { .valeurs-grid { grid-template-columns:1fr; } .val-item { border-right:none; } .stats-inner { grid-template-columns:repeat(2,1fr); } .stat-item:nth-child(2) { border-right:none; } .art-strip-mini { grid-template-columns:repeat(2,1fr); } .cta-inner { flex-direction:column; } }
+</style>

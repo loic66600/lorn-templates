@@ -1,0 +1,504 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+export function getStaticPaths() {
+  return client.modeles.map((modele) => ({
+    params: { slug: modele.slug },
+    props: { modele },
+  }));
+}
+
+const { modele } = Astro.props;
+
+const titre = `${client.nom} ${modele.nom} — Trottinette électrique ${modele.segment.toLowerCase()} | ${modele.prix.toLocaleString("fr-FR")} €`;
+const description = `${modele.promesse} ${modele.specs.find((s) => s.label === "Autonomie")?.valeur ?? ""} km d'autonomie. Trottinette électrique ${client.nom} ${modele.nom}, conçue et assemblée en France. Essai sur rendez-vous.`;
+
+// Schéma Product (SEO e-commerce)
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: `${client.nom} ${modele.nom}`,
+  description: modele.promesse,
+  brand: { "@type": "Brand", name: client.nom },
+  category: "Trottinette électrique",
+  image: modele.finitions.map((f) => f.image),
+  offers: {
+    "@type": "Offer",
+    price: modele.prix,
+    priceCurrency: "EUR",
+    availability: "https://schema.org/InStock",
+    url: `${client.siteUrl}/modeles/${modele.slug}`,
+    seller: { "@type": "Organization", name: client.nomComplet },
+  },
+  additionalProperty: modele.specs.map((s) => ({
+    "@type": "PropertyValue",
+    name: s.label,
+    value: `${s.valeur} ${s.unite}`.trim(),
+  })),
+};
+
+const autres = client.modeles.filter((m) => m.slug !== modele.slug);
+const aSerie = modele.specs.some((s) => s.valeur.includes("*"));
+---
+
+<Layout title={titre} description={description} jsonLd={jsonLd}>
+  <!-- ======================= HERO PRODUIT ======================= -->
+  <section class="ph">
+    <div class="ph-media">
+      <img
+        id="ph-image"
+        src={modele.finitions[0].image}
+        alt={`${client.nom} ${modele.nom} — ${modele.finitions[0].nom}`}
+        fetchpriority="high"
+      />
+      <!-- Versions locales (à activer) :
+      {modele.finitions.map((f) => (
+        <img src={f.imageLocale} alt={`${client.nom} ${modele.nom} — ${f.nom}`} hidden />
+      ))} -->
+    </div>
+    <div class="ph-voile" aria-hidden="true"></div>
+
+    <div class="conteneur ph-contenu">
+      <a href="/modeles" class="ph-retour">← La gamme</a>
+      <p class="etiquette">{modele.segment} · Modèle {modele.ordre}</p>
+      <h1 class="ph-titre">{modele.nom}</h1>
+      <p class="ph-accroche">{modele.accroche}</p>
+
+      <!-- ---- Configurateur de finitions (swap image) ---- -->
+      <div class="config">
+        <span class="config-label" id="config-nom">{modele.finitions[0].nom}</span>
+        <div class="config-puces" role="group" aria-label="Choisir une finition">
+          {
+            modele.finitions.map((f, i) => (
+              <button
+                class:list={["config-puce", { actif: i === 0 }]}
+                style={`--c:${f.hex}`}
+                data-image={f.image}
+                data-nom={f.nom}
+                aria-label={f.nom}
+                title={f.nom}
+              />
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="ph-actions">
+        <a href={`/reservation?modele=${modele.slug}`} class="btn btn-plein btn-fleche">
+          Configurer — dès {modele.prix.toLocaleString("fr-FR")} €
+        </a>
+        <a href="#film" class="btn btn-vide">Voir le film</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SPECS ======================= -->
+  <section class="specs">
+    <div class="conteneur">
+      <p class="etiquette reveler">Fiche technique</p>
+      <div class="specs-grille">
+        {
+          modele.specs.map((s) => (
+            <div class="spec reveler">
+              <span class="spec-v">{s.valeur}<small>{s.unite}</small></span>
+              <span class="spec-l">{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+      {aSerie && <p class="specs-note">{client.noteVitesse}</p>}
+    </div>
+  </section>
+
+  <!-- ======================= BLOC FILM (VIDÉO) ======================= -->
+  <section class="film" id="film">
+    <div class="conteneur film-tete reveler">
+      <p class="etiquette">En mouvement</p>
+      <h2 class="titre-section">Le <em>film</em></h2>
+    </div>
+    <div class="film-cadre reveler">
+      <!--
+        Bloc vidéo : le poster (image) s'affiche immédiatement.
+        Déposer le fichier dans public/videos/ puis décommenter <source>
+        pour activer la lecture automatique en boucle.
+      -->
+      <video
+        class="film-video"
+        poster={modele.film.poster}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="none"
+      >
+        <!-- <source src={modele.film.src} type="video/mp4" /> -->
+      </video>
+      <button class="film-play" id="film-play" aria-label="Lire le film">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+      </button>
+      <span class="film-legende">{modele.film.legende}</span>
+    </div>
+  </section>
+
+  <!-- ======================= POINTS FORTS ======================= -->
+  <section class="forts">
+    <div class="conteneur forts-grille">
+      <div class="forts-texte reveler">
+        <p class="etiquette">Ce qui change tout</p>
+        <h2 class="titre-section">Pensée<br /><em>dans le détail</em></h2>
+        <p class="forts-promesse">{modele.promesse}</p>
+      </div>
+      <ul class="forts-liste">
+        {
+          modele.pointsForts.map((p, i) => (
+            <li class="reveler" style={`transition-delay:${i * 0.07}s`}>
+              <span class="forts-num">{String(i + 1).padStart(2, "0")}</span>
+              {p}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================= GALERIE (IMAGES) ======================= -->
+  <section class="galerie">
+    <div class="conteneur galerie-tete reveler">
+      <p class="etiquette">Galerie</p>
+      <h2 class="titre-section">Sous tous<br /><em>les angles</em></h2>
+    </div>
+    <div class="galerie-grille">
+      {
+        modele.galerie.map((img, i) => (
+          <figure class:list={["galerie-item reveler", { large: i === 0 }]}>
+            <img src={img} alt={`${client.nom} ${modele.nom} — vue ${i + 1}`} loading="lazy" />
+            {/* <img src={modele.galerieLocale?.[i]} alt={`${client.nom} ${modele.nom} — vue ${i + 1}`} loading="lazy" /> */}
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ======================= CTA + AUTRES MODÈLES ======================= -->
+  <section class="suite">
+    <div class="conteneur">
+      <div class="suite-cta reveler">
+        <h2 class="suite-titre">Prêt à rouler en {modele.nom} ?</h2>
+        <div class="ph-actions">
+          <a href={`/reservation?modele=${modele.slug}`} class="btn btn-plein btn-fleche">Configurer & réserver</a>
+          <a href="/reservation" class="btn btn-vide">Réserver un essai</a>
+        </div>
+      </div>
+
+      <p class="etiquette reveler" style="margin-top:5rem">Autres modèles</p>
+      <div class="suite-autres">
+        {
+          autres.map((m) => (
+            <a href={`/modeles/${m.slug}`} class="suite-item reveler">
+              <div class="suite-image">
+                <img src={m.finitions[0].image} alt={`${client.nom} ${m.nom}`} loading="lazy" />
+              </div>
+              <div class="suite-info">
+                <span class="suite-segment">{m.segment}</span>
+                <h3 class="suite-nom">{m.nom}</h3>
+                <span class="suite-prix">dès {m.prix.toLocaleString("fr-FR")} € →</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ---- Hero produit ---- */
+  .ph {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .ph-media { position: absolute; inset: 0; }
+  .ph-media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) contrast(1.05);
+    transition: opacity 0.4s ease;
+  }
+  .ph-media img.fade { opacity: 0; }
+  .ph-voile {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to top, var(--noir) 4%, transparent 50%),
+      linear-gradient(to right, rgba(8,8,10,0.65), transparent 55%);
+  }
+  .ph-contenu { position: relative; z-index: 2; padding-bottom: 5rem; }
+  .ph-retour {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--gris);
+    display: inline-block;
+    margin-bottom: 1.6rem;
+    transition: color 0.25s ease;
+  }
+  .ph-retour:hover { color: var(--bleu-clair); }
+  .ph-titre { font-size: clamp(4.5rem, 16vw, 13rem); line-height: 0.84; }
+  .ph-accroche {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    text-transform: uppercase;
+    color: var(--gris);
+    margin: 0.6rem 0 2rem;
+  }
+
+  /* Configurateur */
+  .config { display: flex; align-items: center; gap: 1.4rem; margin-bottom: 2.2rem; }
+  .config-label {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    min-width: 9rem;
+  }
+  .config-puces { display: flex; gap: 0.8rem; }
+  .config-puce {
+    width: 2.2rem; height: 2.2rem;
+    border-radius: 50%;
+    background: var(--c);
+    border: 1px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.25s ease;
+  }
+  .config-puce::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    transition: border-color 0.25s ease;
+  }
+  .config-puce:hover { transform: scale(1.1); }
+  .config-puce.actif::after { border-color: var(--bleu-clair); }
+
+  .ph-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* ---- Specs ---- */
+  .specs { padding-block: 6rem; }
+  .specs-grille {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--ligne);
+    border: 1px solid var(--ligne);
+    margin-top: 2rem;
+  }
+  .spec {
+    background: var(--noir);
+    padding: 1.8rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .spec-v { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1; }
+  .spec-v small { font-size: 0.8rem; color: var(--gris); margin-left: 3px; }
+  .spec-l {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+  .specs-note {
+    margin-top: 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--gris-fonce);
+    max-width: 80ch;
+  }
+
+  /* ---- Film ---- */
+  .film { padding-block: 5rem; }
+  .film-tete { margin-bottom: 2.5rem; }
+  .film-cadre {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--ligne);
+  }
+  .film-video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+  }
+  .film-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5.5rem; height: 5.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--blanc);
+    background: rgba(8,8,10,0.4);
+    backdrop-filter: blur(4px);
+    color: var(--blanc);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  }
+  .film-play svg { width: 2rem; height: 2rem; margin-left: 3px; }
+  .film-play:hover {
+    background: var(--bleu);
+    border-color: var(--bleu);
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+  .film-play.cache { opacity: 0; pointer-events: none; }
+  .film-legende {
+    position: absolute;
+    bottom: 1.2rem; left: 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--blanc);
+    background: rgba(8,8,10,0.55);
+    padding: 0.4rem 0.8rem;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ---- Points forts ---- */
+  .forts { padding-block: 6rem; }
+  .forts-grille {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .forts-promesse { color: var(--gris); max-width: 46ch; margin-top: 1rem; }
+  .forts-liste { list-style: none; border-top: 1px solid var(--ligne); }
+  .forts-liste li {
+    display: flex;
+    align-items: baseline;
+    gap: 1.4rem;
+    padding-block: 1.6rem;
+    border-bottom: 1px solid var(--ligne);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.6vw, 2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .forts-num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--bleu-clair);
+  }
+
+  /* ---- Galerie ---- */
+  .galerie { padding-block: 6rem; }
+  .galerie-tete { margin-bottom: 2.5rem; }
+  .galerie-grille {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .galerie-item { overflow: hidden; aspect-ratio: 3 / 2; }
+  .galerie-item.large { grid-column: 1 / -1; aspect-ratio: 21 / 9; }
+  .galerie-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+    transition: transform 0.8s cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .galerie-item:hover img { transform: scale(1.04); }
+
+  /* ---- Suite ---- */
+  .suite { padding-block: 6rem 8rem; border-top: 1px solid var(--ligne); }
+  .suite-cta { text-align: center; }
+  .suite-titre { font-size: clamp(2.2rem, 6vw, 4.4rem); margin-bottom: 2rem; }
+  .suite-cta .ph-actions { justify-content: center; }
+  .suite-autres {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .suite-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--ligne);
+    transition: background 0.35s ease;
+  }
+  .suite-item:hover { background: var(--noir-2); }
+  .suite-image { overflow: hidden; }
+  .suite-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    min-height: 160px;
+    transition: transform 0.7s ease;
+  }
+  .suite-item:hover .suite-image img { transform: scale(1.06); }
+  .suite-info { padding: 1.8rem; display: flex; flex-direction: column; justify-content: center; gap: 0.4rem; }
+  .suite-segment {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bleu-clair);
+  }
+  .suite-nom { font-size: 2.2rem; }
+  .suite-prix { font-family: var(--font-mono); font-size: 0.82rem; color: var(--gris); }
+
+  @media (max-width: 900px) {
+    .specs-grille { grid-template-columns: repeat(3, 1fr); }
+    .forts-grille { grid-template-columns: 1fr; gap: 2rem; }
+    .galerie-grille { grid-template-columns: 1fr; }
+    .galerie-item, .galerie-item.large { aspect-ratio: 16 / 10; }
+    .suite-autres { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .specs-grille { grid-template-columns: 1fr 1fr; }
+    .suite-item { grid-template-columns: 1fr; }
+    .config { flex-direction: column; align-items: flex-start; gap: 0.9rem; }
+  }
+</style>
+
+<script>
+  // ---- Configurateur : swap d'image au clic sur une finition ----
+  const image = document.getElementById("ph-image") as HTMLImageElement | null;
+  const nomFinition = document.getElementById("config-nom");
+  const puces = document.querySelectorAll<HTMLButtonElement>(".config-puce");
+
+  puces.forEach((puce) => {
+    puce.addEventListener("click", () => {
+      const src = puce.dataset.image;
+      const nom = puce.dataset.nom;
+      if (!image || !src) return;
+      image.classList.add("fade");
+      const tmp = new Image();
+      tmp.onload = () => {
+        image.src = src;
+        image.classList.remove("fade");
+      };
+      tmp.src = src;
+      if (nomFinition && nom) nomFinition.textContent = nom;
+      puces.forEach((p) => p.classList.remove("actif"));
+      puce.classList.add("actif");
+    });
+  });
+
+  // ---- Bouton lecture film (si une source vidéo est présente) ----
+  const video = document.querySelector<HTMLVideoElement>(".film-video");
+  const play = document.getElementById("film-play");
+  const aSource = !!video?.querySelector("source");
+  if (!aSource && play) {
+    // Pas de vidéo fournie : le bouton reste décoratif sur le poster.
+    play.addEventListener("click", () => play.classList.add("cache"));
+  } else if (play && video) {
+    play.addEventListener("click", () => {
+      video.play();
+      play.classList.add("cache");
+    });
+  }
+</script>

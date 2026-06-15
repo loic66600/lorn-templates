@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { client } from '../../data/client';
+---
+<Layout title={`Artistes — ${client.nomComplet}`} description={`6 artistes tatoueurs au Hangart Perpignan — THYTTOO, CECE, CORT, DCTATTTOO, LAB RAT, VINS FURY. Styles variés, hygiène certifiée.`}>
+<nav class="navbar" id="navbar"><div class="nav-in">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span class="f">ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes" class="active">Artistes</a></li><li><a href="/a-propos">Studio</a></li><li><a href="/hygiene">Hygiène</a></li><li><a href="/videos">Vidéos</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact" class="reserve">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-header"><div class="mob-logo">HANG<span class="f">ART</span></div><button class="mob-close" id="mobClose">✕</button></div>
+  <nav class="mob-nav"><a href="/">Accueil</a><a href="/artistes" class="active">Artistes</a><a href="/a-propos">Studio</a><a href="/hygiene">Hygiène</a><a href="/videos">Vidéos</a><a href="/tarifs">Tarifs</a><a href="/contact" class="mob-reserve">Réserver →</a></nav>
+  <div class="mob-footer"><a href={client.telephoneLink}>{client.telephone}</a></div>
+</div></nav>
+
+<div class="ph"><div class="wrap">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Artistes</span></nav>
+  <span class="lbl">L'équipe</span>
+  <h1 class="ph-title">NOS 6<br><em>ARTISTES</em></h1>
+  <p class="ph-sub mono">Chaque artiste est une pointure dans son style. Choisissez le vôtre.</p>
+</div></div>
+
+<div class="sec sec-1">
+  <div class="wrap">
+    {client.artistes.map((a, i) => (
+      <article class={`art-row ${i%2===1?'rev':''}`} id={a.slug}>
+        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+             PHOTO ARTISTE — depuis client.ts
+             Pour remplacer : commentez la ligne active
+             photo: "https://..." dans client.ts et
+             décommentez // photo: "/images/artistes/..."
+             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+        <div class="ar-img">
+          <img src={a.photo} alt={`${a.pseudo} — ${a.style}`} loading="lazy"/>
+          <div class="ar-overlay"></div>
+          <div class="ar-bar" style={`background:${a.couleur}`}></div>
+          <span class="ar-n disp">{String(i+1).padStart(2,'0')}</span>
+        </div>
+        <div class="ar-body">
+          <span class="lbl">{a.style}</span>
+          <h2 class="disp ar-name" data-glitch style="margin-top:10px">{a.pseudo}</h2>
+          <div class="fire-line" style={`background:${a.couleur}`}></div>
+          <p class="lead">{a.description}</p>
+          <p class="lead" style="margin-top:.6rem">{a.biographie}</p>
+          <div class="ar-tags">{a.specialites.map(s => <span class="tag" style={`color:${a.couleur};border-color:${a.couleur}40`}>{s}</span>)}</div>
+          <div class="ar-info mono">
+            <div><span>Expérience</span><strong style={`color:${a.couleur}`}>{a.experience}</strong></div>
+            <div><span>Disponibilité</span><strong>{a.disponibilite}</strong></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem">
+            <a href={`/artistes/${a.slug}`} class="btn btn-fire">Portfolio complet →</a>
+            {a.instagram && <a href={a.instagram} target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>}
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</div>
+
+<section class="cta-blaze"><div class="blaze-line"></div><div class="wrap cta-inner">
+  <div><span class="lbl">Votre projet</span><h2 class="h2" style="margin-top:8px">Choisissez.<br><span class="fire">Réservez.</span></h2></div>
+  <div class="cta-acts"><a href="/contact" class="btn btn-fire btn-lg">Réserver →</a></div>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+<style>
+.art-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border-w);min-height:600px}
+.art-row:last-child{border-bottom:none}
+.art-row.rev{direction:rtl}.art-row.rev>*{direction:ltr}
+.ar-img{position:relative;overflow:hidden;min-height:500px}
+.ar-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.35);transition:filter .4s ease}
+.ar-img:hover img{filter:grayscale(0)}
+.ar-overlay{position:absolute;inset:0;background:linear-gradient(to right,transparent 50%,var(--noir-1) 100%)}
+.art-row.rev .ar-overlay{background:linear-gradient(to left,transparent 50%,var(--noir-1) 100%)}
+.ar-bar{position:absolute;bottom:0;left:0;right:0;height:3px}
+.ar-n{position:absolute;top:16px;right:18px;font-size:5rem;font-weight:900;color:rgba(232,227,220,.06);line-height:1}
+.ar-body{background:var(--noir-1);padding:clamp(2.5rem,5vw,5rem);display:flex;flex-direction:column;justify-content:center}
+.ar-name{font-size:clamp(2rem,4vw,4.5rem);font-weight:900;color:var(--cendre);margin-bottom:0;line-height:1}
+.ar-tags{display:flex;flex-wrap:wrap;gap:6px;margin:1.2rem 0}
+.ar-info{display:flex;gap:0;border:1px solid var(--border-w);margin:1rem 0}
+.ar-info div{padding:12px 16px;border-right:1px solid var(--border-w);flex:1}
+.ar-info div:last-child{border-right:none}
+.ar-info span{display:block;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--fumee-d);margin-bottom:4px}
+.ar-info strong{font-size:.82rem;color:var(--cendre)}
+.cta-blaze{background:var(--noir-1);border-top:1px solid var(--border);padding:clamp(4rem,7vw,7rem) 0;position:relative}
+.blaze-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--braise),transparent)}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:3rem;flex-wrap:wrap}
+.cta-acts{display:flex;gap:12px}
+@media(max-width:1024px){.art-row{grid-template-columns:1fr;direction:ltr!important}.ar-img{min-height:360px}.ar-overlay{background:linear-gradient(to top,var(--noir-1) 0%,transparent 60%)!important}.cta-inner{flex-direction:column}}
+</style>

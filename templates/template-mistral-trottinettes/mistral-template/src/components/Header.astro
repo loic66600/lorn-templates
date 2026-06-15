@@ -1,0 +1,137 @@
+---
+import { client } from "@data/client";
+
+const liens = [
+  { href: "/modeles", label: "Modèles" },
+  { href: "/reservation", label: "Essai & réservation" },
+];
+const cheminActuel = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="entete" id="entete">
+  <div class="conteneur entete-inner">
+    <a href="/" class="wordmark" aria-label={`${client.nom} — accueil`}>{client.nom}</a>
+
+    <nav class="nav" id="nav">
+      <a href="/" class:list={["nav-lien", { actif: cheminActuel === "/" }]}>Accueil</a>
+      {
+        liens.map((l) => (
+          <a
+            href={l.href}
+            class:list={["nav-lien", { actif: cheminActuel.startsWith(l.href) }]}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <a href="/reservation" class="nav-cta">Configurer</a>
+    </nav>
+
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .entete {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    transition: background 0.4s ease, border-color 0.4s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .entete.colle {
+    background: rgba(8, 8, 10, 0.82);
+    backdrop-filter: blur(14px);
+    border-bottom-color: var(--ligne);
+  }
+  .entete-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.4rem;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    padding-left: 0.42em;
+  }
+  .nav { display: flex; align-items: center; gap: 2.4rem; }
+  .nav-lien {
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blanc);
+    opacity: 0.72;
+    transition: opacity 0.25s ease, color 0.25s ease;
+  }
+  .nav-lien:hover, .nav-lien.actif { opacity: 1; color: var(--bleu-clair); }
+  .nav-cta {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.4rem;
+    border: 1px solid var(--blanc);
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .nav-cta:hover {
+    background: var(--bleu);
+    border-color: var(--bleu);
+  }
+  .burger {
+    display: none;
+    flex-direction: column;
+    gap: 7px;
+    background: none; border: none; cursor: pointer;
+    padding: 0.5rem;
+  }
+  .burger span {
+    width: 26px; height: 1.5px;
+    background: var(--blanc);
+    transition: transform 0.3s ease;
+  }
+
+  @media (max-width: 880px) {
+    .burger { display: flex; }
+    .wordmark { font-size: 1.25rem; letter-spacing: 0.32em; }
+    .nav {
+      position: fixed;
+      inset: 0;
+      top: 0;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2.6rem;
+      background: var(--noir);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.2,0.7,0.2,1);
+    }
+    .nav.ouvert { transform: none; }
+    .nav-lien { font-size: 1.4rem; }
+    .burger[aria-expanded="true"] span:first-child { transform: translateY(4.5px) rotate(45deg); }
+    .burger[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+  }
+</style>
+
+<script>
+  const entete = document.getElementById("entete");
+  const burger = document.getElementById("burger");
+  const nav = document.getElementById("nav");
+
+  const onScroll = () => {
+    entete?.classList.toggle("colle", window.scrollY > 40);
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  burger?.addEventListener("click", () => {
+    const ouvert = nav?.classList.toggle("ouvert");
+    burger.setAttribute("aria-expanded", String(!!ouvert));
+  });
+</script>

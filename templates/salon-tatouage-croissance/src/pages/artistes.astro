@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Artistes — ${client.nom}`} description="5 artistes tatoueurs résidents au INK COLLECTIVE Perpignan. Réalisme, japonais, néo-traditionnel, blackwork, fine line.">
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-mark">IC</div><div><div class="nav-logo-name">{client.nom}</div><div class="nav-logo-sub">Studio · Perpignan</div></div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes" class="active">Artistes</a></li><li><a href="/galerie">Galerie</a></li><li><a href="/services">Styles</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact">Contact</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu"><a href="/">Accueil</a><a href="/artistes" class="active">Artistes</a><a href="/galerie">Galerie</a><a href="/services">Styles</a><a href="/tarifs">Tarifs</a><a href="/contact">Contact</a></div>
+</nav>
+<div class="ph"><div class="wrap"><nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Artistes</span></nav>
+<span class="eyebrow eyebrow-w">L'équipe</span>
+<h1 class="ph-title display">5 ARTISTES.<br><em>5 UNIVERS.</em></h1>
+<p class="ph-sub">Chaque artiste a son propre style, sa propre signature. Choisissez celui qui correspond à votre vision.</p>
+</div></div>
+
+<section class="sec">
+  <div class="wrap">
+    {client.artistes.map((a, i) => (
+      <article class={`artist-row ${i%2===1?'rev':''}`}>
+        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+             PHOTO ARTISTE — placeholder Unsplash
+             → Dans client.ts, décommentez :
+               // photo: "/images/artiste-PRENOM.jpg"
+             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+        <div class="ar-img">
+          <img src={a.photo} alt={`${a.prenom} ${a.nom} — ${a.style}`} loading="lazy" />
+          <!-- <img src={`/images/artiste-${a.prenom.toLowerCase()}.jpg`} alt={`${a.prenom} — ${a.style}`} loading="lazy" /> -->
+          <span class="ar-num display">{String(i+1).padStart(2,'0')}</span>
+          <div class="ar-bar" style={`background:${a.couleur}`}></div>
+        </div>
+        <div class="ar-body">
+          <span class="eyebrow eyebrow-w">{a.style}</span>
+          <h2 class="display ar-name">{a.prenom} <span style={`color:${a.couleur}`}>{a.nom}</span></h2>
+          <p class="ar-pseudo">{a.pseudo}</p>
+          <p class="lead">{a.description}</p>
+          <div class="ar-tags" style="margin:1.2rem 0">
+            {a.specialites.map(s => <span class="tag">{s}</span>)}
+          </div>
+          <div class="ar-meta">
+            <div class="am-item"><span>Expérience</span><strong class="display">{a.experience}</strong></div>
+            <div class="am-item"><span>Disponibilité</span><strong class="display" style={`color:${a.couleur}`}>{a.disponibilite}</strong></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem">
+            <a href="/contact" class="btn btn-red">Réserver avec {a.prenom} →</a>
+            {a.instagram && <a href={a.instagram} target="_blank" rel="noopener" class="btn btn-outline">Instagram</a>}
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="cta-band"><div class="wrap cta-inner">
+  <div><span class="eyebrow">Un doute sur le choix de l'artiste ?</span><h2 class="h2 display" style="margin-top:4px">On vous aide à choisir</h2></div>
+  <a href="/contact" class="btn btn-red btn-lg">Nous contacter →</a>
+</div></section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<style>
+.artist-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.07);min-height:520px}
+.artist-row:last-child{border-bottom:none}
+.artist-row.rev{direction:rtl}.artist-row.rev>*{direction:ltr}
+.ar-img{position:relative;overflow:hidden}
+.ar-img img{width:100%;height:100%;object-fit:cover;min-height:400px}
+.ar-num{position:absolute;top:16px;right:18px;font-size:5rem;color:rgba(255,255,255,.1);line-height:1}
+.ar-bar{position:absolute;bottom:0;left:0;right:0;height:3px}
+.ar-body{padding:clamp(2rem,4vw,4rem);display:flex;flex-direction:column;justify-content:center;background:var(--bg-card)}
+.ar-name{font-size:clamp(1.8rem,3.5vw,3rem);line-height:1.0;margin:8px 0 4px}
+.ar-pseudo{font-size:11px;color:var(--muted);letter-spacing:.12em;margin-bottom:18px}
+.ar-tags{display:flex;flex-wrap:wrap;gap:7px}
+.ar-meta{display:flex;gap:0;border:1px solid rgba(255,255,255,.07)}
+.am-item{padding:14px 20px;border-right:1px solid rgba(255,255,255,.07);flex:1}
+.am-item:last-child{border-right:none}
+.am-item span{display:block;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.am-item strong{font-size:.85rem;letter-spacing:.04em}
+.cta-band{background:var(--bg-card);border-top:1px solid rgba(230,57,70,.2);padding:clamp(4rem,6vw,5rem) 0}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+@media(max-width:1024px){.artist-row{grid-template-columns:1fr;direction:ltr!important}.ar-img{height:360px}}
+</style>

@@ -1,0 +1,23 @@
+{
+  "id": "securite-tramontane",
+  "nom": "Tramontane — Agence de sécurité privée & incendie",
+  "metier": "securite",
+  "categorie": "services",
+  "formule": "croissance",
+  "description": "Template vitrine premium pour agence de sécurité privée et sécurité incendie.",
+  "pages": 5,
+  "pagesListe": ["index", "prestations", "a-propos", "contact", "mentions-legales"],
+  "palette": {
+    "primary": "#070B12",
+    "accent": "#E8392C",
+    "bg": "#0D131D",
+    "theme": "sombre"
+  },
+  "polices": ["Chakra Petch", "Archivo", "JetBrains Mono"],
+  "tags": ["securite privee", "securite incendie", "gardiennage", "cnaps"],
+  "port": 4033,
+  "preview": "",
+  "screenshot": "",
+  "version": "1.0.0",
+  "date": "2026-06-12"
+}

@@ -1,7 +1,8 @@
 {
-  "version": "2026-03-03",
-  "total": 15,
+  "version": "2026-06-15",
+  "total": 22,
   "metiers": [
+    "artisan",
     "barbershop",
     "batiment",
     "charpentier-couvreur",
@@ -14,7 +15,11 @@
     "paysagiste-elageur",
     "peintre",
     "plombier",
-    "restaurant"
+    "restaurant",
+    "securite",
+    "tatouage",
+    "trottinette-electrique",
+    "vtt-electrique"
   ],
   "formules": [
     {
@@ -33,6 +38,45 @@
     }
   ],
   "templates": [
+    {
+      "id": "artisan-forge",
+      "nom": "Forge — Template artisan multi-métiers",
+      "metier": "artisan",
+      "categorie": "batiment",
+      "formule": "croissance",
+      "description": "Template vitrine éditorial haut de gamme pour artisan, entièrement paramétrable.",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "realisations",
+        "a-propos",
+        "contact",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#161310",
+        "accent": "#D2622B",
+        "bg": "#EFE9DD",
+        "theme": "sombre"
+      },
+      "polices": [
+        "Fraunces",
+        "Epilogue"
+      ],
+      "tags": [
+        "artisan",
+        "forge",
+        "ferronnier",
+        "menuisier",
+        "plombier",
+        "electricien"
+      ],
+      "port": 4032,
+      "preview": "",
+      "screenshot": "",
+      "version": "1.0.0",
+      "date": "2026-06-11"
+    },
     {
       "id": "barbershop-serenite",
       "nom": "Barbershop Coupe Homme & Barbe — Sérénité",
@@ -77,15 +121,28 @@
       "categorie": "batiment",
       "formule": "serenite",
       "pages": 2,
-      "pagesListe": ["index", "mentions-legales"],
+      "pagesListe": [
+        "index",
+        "mentions-legales"
+      ],
       "palette": {
         "primary": "#D97706",
         "accent": "#B45309",
         "bg": "#FAFAF9",
         "theme": "clair"
       },
-      "polices": ["Syne", "Outfit"],
-      "tags": ["maçon", "maçonnerie", "rénovation", "construction", "extension", "terrasse"],
+      "polices": [
+        "Syne",
+        "Outfit"
+      ],
+      "tags": [
+        "maçon",
+        "maçonnerie",
+        "rénovation",
+        "construction",
+        "extension",
+        "terrasse"
+      ],
       "port": 4006,
       "preview": "",
       "screenshot": "",
@@ -126,6 +183,126 @@
       "screenshot": "previews/batimentPro-serenite.webp",
       "version": "1.0.0",
       "date": "2026-02-26"
+    },
+    {
+      "id": "charpentier-couvreur-croissance",
+      "nom": "Charpentier Couvreur — Croissance",
+      "metier": "charpentier-couvreur",
+      "categorie": "batiment",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": [
+        "index",
+        "services",
+        "realisations",
+        "tarifs",
+        "a-propos",
+        "contact",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#1C1F2E",
+        "accent": "#C87941",
+        "bg": "#F8F7F4",
+        "theme": "clair"
+      },
+      "polices": [
+        "Syne",
+        "DM Sans"
+      ],
+      "tags": [
+        "charpentier",
+        "couvreur",
+        "toiture",
+        "couverture tuile",
+        "zinguerie",
+        "isolation toiture",
+        "charpente bois"
+      ],
+      "port": 4023,
+      "preview": "",
+      "screenshot": "previews/charpentier-couvreur-croissance.png",
+      "version": "2.0.0",
+      "date": "2026-03-02"
+    },
+    {
+      "id": "coiffure-femme-croissance",
+      "nom": "Salon de Coiffure Femme — Croissance",
+      "metier": "coiffure",
+      "categorie": "beaute",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": [
+        "index",
+        "services",
+        "realisations",
+        "tarifs",
+        "a-propos",
+        "contact",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#2C1A1A",
+        "accent": "#D4A5A5",
+        "bg": "#FAF7F5",
+        "theme": "clair"
+      },
+      "polices": [
+        "Cormorant Garamond",
+        "DM Sans"
+      ],
+      "tags": [
+        "coiffure femme",
+        "salon coiffure",
+        "coiffeur Perpignan",
+        "coloration",
+        "balayage",
+        "soin cheveux"
+      ],
+      "port": 4026,
+      "preview": "",
+      "screenshot": "previews/coiffure-femme-croissance.png",
+      "version": "2.0.0",
+      "date": "2026-03-02"
+    },
+    {
+      "id": "electricien-croissance",
+      "nom": "Électricien — Croissance",
+      "metier": "electricien",
+      "categorie": "batiment",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": [
+        "index",
+        "services",
+        "realisations",
+        "tarifs",
+        "a-propos",
+        "contact",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#0C0F1A",
+        "accent": "#F59E0B",
+        "bg": "#FAFAFA",
+        "theme": "clair"
+      },
+      "polices": [
+        "Space Grotesk",
+        "Inter"
+      ],
+      "tags": [
+        "électricien",
+        "tableau électrique",
+        "domotique",
+        "installation électrique",
+        "dépannage électrique"
+      ],
+      "port": 4024,
+      "preview": "",
+      "screenshot": "previews/electricien-croissance.png",
+      "version": "2.0.0",
+      "date": "2026-03-01"
     },
     {
       "id": "electricien-serenite",
@@ -274,6 +451,85 @@
       "date": "2026-02-23"
     },
     {
+      "id": "menuisier-croissance",
+      "nom": "Menuisier Fenêtres & Portes — Croissance",
+      "metier": "menuisier",
+      "categorie": "batiment",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": [
+        "index",
+        "services",
+        "realisations",
+        "tarifs",
+        "a-propos",
+        "contact",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#111111",
+        "accent": "#B8964E",
+        "bg": "#FAFAF8",
+        "theme": "clair"
+      },
+      "polices": [
+        "Tenor Sans",
+        "Jost"
+      ],
+      "tags": [
+        "menuisier",
+        "fenêtres",
+        "portes",
+        "volets",
+        "double vitrage",
+        "Perpignan"
+      ],
+      "port": 4027,
+      "preview": "",
+      "screenshot": "previews/menuisier-croissance.png",
+      "version": "2.0.0",
+      "date": "2026-03-02"
+    },
+    {
+      "id": "paysagiste-elageur-croissance",
+      "nom": "Paysagiste Élagueur — Croissance",
+      "metier": "paysagiste-elageur",
+      "categorie": "paysage",
+      "formule": "croissance",
+      "pages": 7,
+      "pagesListe": [
+        "index",
+        "services",
+        "realisations",
+        "tarifs",
+        "a-propos",
+        "contact",
+        "mentions-legales"
+      ],
+      "palette": {
+        "primary": "#1B2E1B",
+        "accent": "#5C9E4A",
+        "bg": "#F6F4EF",
+        "theme": "clair"
+      },
+      "polices": [
+        "Playfair Display",
+        "Outfit"
+      ],
+      "tags": [
+        "paysagiste",
+        "élagueur",
+        "entretien jardin",
+        "élagage",
+        "création jardin"
+      ],
+      "port": 4025,
+      "preview": "",
+      "screenshot": "previews/paysagiste-elageur-croissance.png",
+      "version": "2.0.0",
+      "date": "2026-03-01"
+    },
+    {
       "id": "peintre-serenite",
       "nom": "Peintre en Bâtiment — Sérénité",
       "metier": "peintre",
@@ -387,114 +643,193 @@
       "date": "2026-02-26"
     },
     {
-      "id": "electricien-croissance",
-      "nom": "Électricien — Croissance",
-      "metier": "electricien",
-      "categorie": "batiment",
+      "id": "securite-tramontane",
+      "nom": "Tramontane — Agence de sécurité privée & incendie",
+      "metier": "securite",
+      "categorie": "services",
       "formule": "croissance",
-      "pages": 7,
-      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "description": "Template vitrine premium pour agence de sécurité privée et sécurité incendie.",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "prestations",
+        "a-propos",
+        "contact",
+        "mentions-legales"
+      ],
       "palette": {
-        "primary": "#0C0F1A",
-        "accent": "#F59E0B",
-        "bg": "#FAFAFA",
-        "theme": "clair"
+        "primary": "#070B12",
+        "accent": "#E8392C",
+        "bg": "#0D131D",
+        "theme": "sombre"
       },
-      "polices": ["Space Grotesk", "Inter"],
-      "tags": ["électricien", "tableau électrique", "domotique", "installation électrique", "dépannage électrique"],
-      "port": 4024,
+      "polices": [
+        "Chakra Petch",
+        "Archivo",
+        "JetBrains Mono"
+      ],
+      "tags": [
+        "securite privee",
+        "securite incendie",
+        "gardiennage",
+        "cnaps"
+      ],
+      "port": 4033,
       "preview": "",
-      "screenshot": "previews/electricien-croissance.png",
-      "version": "2.0.0",
-      "date": "2026-03-01"
+      "screenshot": "",
+      "version": "1.0.0",
+      "date": "2026-06-12"
     },
     {
-      "id": "charpentier-couvreur-croissance",
-      "nom": "Charpentier Couvreur — Croissance",
-      "metier": "charpentier-couvreur",
-      "categorie": "batiment",
+      "id": "hangart-croissance",
+      "nom": "HANGART Tattoo Studio — Croissance",
+      "metier": "tatouage",
+      "categorie": "beaute",
       "formule": "croissance",
-      "pages": 7,
-      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "pages": 12,
       "palette": {
-        "primary": "#1C1F2E",
-        "accent": "#C87941",
-        "bg": "#F8F7F4",
-        "theme": "clair"
+        "primary": "#111008",
+        "accent": "#D4FF00",
+        "bg": "#F0EDE8",
+        "theme": "sombre"
       },
-      "polices": ["Syne", "DM Sans"],
-      "tags": ["charpentier", "couvreur", "toiture", "couverture tuile", "zinguerie", "isolation toiture", "charpente bois"],
-      "port": 4023,
-      "preview": "",
-      "screenshot": "previews/charpentier-couvreur-croissance.png",
+      "polices": [
+        "Barlow Condensed",
+        "IBM Plex Mono"
+      ],
+      "port": 4030,
       "version": "2.0.0",
-      "date": "2026-03-02"
+      "date": "2026-04-04"
     },
     {
-      "id": "coiffure-femme-croissance",
-      "nom": "Salon de Coiffure Femme — Croissance",
-      "metier": "coiffure",
+      "id": "hangart-dark-croissance",
+      "nom": "HANGART Dark — Croissance",
+      "metier": "tatouage",
+      "categorie": "beaute",
+      "formule": "croissance",
+      "pages": 9,
+      "palette": {
+        "primary": "#080806",
+        "accent": "#FF4500",
+        "bg": "#E8E3DC",
+        "theme": "sombre"
+      },
+      "polices": [
+        "Big Shoulders Display",
+        "Share Tech Mono"
+      ],
+      "port": 4031,
+      "version": "2.0.0",
+      "date": "2026-04-04"
+    },
+    {
+      "id": "salon-tatouage-croissance",
+      "nom": "Salon de Tatouage Collectif — Croissance",
+      "metier": "tatouage",
       "categorie": "beaute",
       "formule": "croissance",
       "pages": 7,
-      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "pagesListe": [
+        "index",
+        "artistes",
+        "galerie",
+        "services",
+        "tarifs",
+        "contact",
+        "mentions-legales"
+      ],
       "palette": {
-        "primary": "#2C1A1A",
-        "accent": "#D4A5A5",
-        "bg": "#FAF7F5",
-        "theme": "clair"
+        "primary": "#0A0A0A",
+        "accent": "#E63946",
+        "bg": "#F8F5F0",
+        "theme": "sombre"
       },
-      "polices": ["Cormorant Garamond", "DM Sans"],
-      "tags": ["coiffure femme", "salon coiffure", "coloration", "balayage", "soin cheveux"],
-      "port": 4026,
+      "polices": [
+        "Anton",
+        "Mulish"
+      ],
+      "port": 4028,
       "preview": "",
-      "screenshot": "previews/coiffure-femme-croissance.png",
+      "screenshot": "",
       "version": "2.0.0",
       "date": "2026-03-02"
     },
     {
-      "id": "menuisier-croissance",
-      "nom": "Menuisier Fenêtres & Portes — Croissance",
-      "metier": "menuisier",
-      "categorie": "batiment",
+      "id": "mistral-mobilite",
+      "nom": "Mistral — Trottinettes électriques premium",
+      "metier": "trottinette-electrique",
+      "categorie": "commerce",
       "formule": "croissance",
-      "pages": 7,
-      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "description": "Site vitrine e-commerce premium pour une marque de trottinettes électriques haut de gamme.",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "modeles",
+        "modeles/[slug]",
+        "reservation",
+        "mentions-legales"
+      ],
       "palette": {
-        "primary": "#111111",
-        "accent": "#B8964E",
-        "bg": "#FAFAF8",
-        "theme": "clair"
+        "primary": "#08080A",
+        "accent": "#2C5BFF",
+        "bg": "#101216",
+        "theme": "sombre"
       },
-      "polices": ["Tenor Sans", "Jost"],
-      "tags": ["menuisier", "fenêtres", "portes", "volets", "double vitrage"],
-      "port": 4027,
+      "polices": [
+        "Saira Condensed",
+        "Manrope",
+        "Spline Sans Mono"
+      ],
+      "tags": [
+        "trottinette electrique",
+        "mobilite",
+        "commerce",
+        "premium"
+      ],
+      "port": 4034,
       "preview": "",
-      "screenshot": "previews/menuisier-croissance.png",
-      "version": "2.0.0",
-      "date": "2026-03-02"
+      "screenshot": "",
+      "version": "1.0.0",
+      "date": "2026-06-13"
     },
     {
-      "id": "paysagiste-elageur-croissance",
-      "nom": "Paysagiste Élagueur — Croissance",
-      "metier": "paysagiste-elageur",
-      "categorie": "paysage",
+      "id": "volta-vtt",
+      "nom": "Volta — VTT électriques de luxe",
+      "metier": "vtt-electrique",
+      "categorie": "commerce",
       "formule": "croissance",
-      "pages": 7,
-      "pagesListe": ["index","services","realisations","tarifs","a-propos","contact","mentions-legales"],
+      "description": "Site vitrine e-commerce premium pour une marque de VTT électriques haut de gamme.",
+      "pages": 5,
+      "pagesListe": [
+        "index",
+        "modeles",
+        "modeles/[slug]",
+        "reservation",
+        "mentions-legales"
+      ],
       "palette": {
-        "primary": "#1B2E1B",
-        "accent": "#5C9E4A",
-        "bg": "#F6F4EF",
-        "theme": "clair"
+        "primary": "#0E1310",
+        "accent": "#C97A45",
+        "bg": "#161C18",
+        "theme": "sombre"
       },
-      "polices": ["Playfair Display", "Outfit"],
-      "tags": ["paysagiste", "élagueur", "entretien jardin", "élagage", "création jardin"],
-      "port": 4025,
+      "polices": [
+        "Bricolage Grotesque",
+        "Geist",
+        "Geist Mono"
+      ],
+      "tags": [
+        "vtt electrique",
+        "velo",
+        "commerce",
+        "premium",
+        "pyrenees"
+      ],
+      "port": 4035,
       "preview": "",
-      "screenshot": "previews/paysagiste-elageur-croissance.png",
-      "version": "2.0.0",
-      "date": "2026-03-01"
+      "screenshot": "",
+      "version": "1.0.0",
+      "date": "2026-06-13"
     }
   ]
 }

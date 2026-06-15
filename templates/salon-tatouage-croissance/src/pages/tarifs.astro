@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Tarifs — ${client.nom}`} description={`Prix tatouage Perpignan — petites pièces, grandes pièces, sleeve, cover-up. ${client.nom} studio.`}>
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-mark">IC</div><div><div class="nav-logo-name">{client.nom}</div><div class="nav-logo-sub">Studio · Perpignan</div></div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/galerie">Galerie</a></li><li><a href="/services">Styles</a></li><li><a href="/tarifs" class="active">Tarifs</a></li><li><a href="/contact">Contact</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu"><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/galerie">Galerie</a><a href="/services">Styles</a><a href="/tarifs" class="active">Tarifs</a><a href="/contact">Contact</a></div>
+</nav>
+<div class="ph"><div class="wrap"><nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Tarifs</span></nav>
+<span class="eyebrow eyebrow-w">Grille tarifaire</span>
+<h1 class="ph-title display">COMBIEN<br><em>ÇA COÛTE ?</em></h1>
+<p class="ph-sub">Tarifs indicatifs. Chaque devis est personnalisé après échange sur votre projet.</p>
+</div></div>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="tarifs-grid">
+      {client.tarifs.map((t, i) => (
+        <div class={`tarif-card ${i===4?'featured':''}`}>
+          <span class="tc-num display">{String(i+1).padStart(2,'0')}</span>
+          <h3 class="display tc-type">{t.type}</h3>
+          <p class="tc-detail">{t.detail}</p>
+          <div class="red-line"></div>
+          <div class="tc-prix display">{t.prix}</div>
+          <div class="tc-duree">{t.duree}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="tarif-note">
+      <span class="tn-icon">⚡</span>
+      <div>
+        <strong class="display">Tarif studio : {client.tauxHoraire}</strong>
+        <p style="margin-top:6px;font-size:.84rem;color:var(--muted);font-weight:300">{client.acompte}</p>
+        <p style="margin-top:4px;font-size:.84rem;color:var(--muted);font-weight:300">Les tarifs varient selon l'artiste choisi. Le devis final est établi après consultation.</p>
+        <a href="/contact" class="btn btn-red" style="margin-top:14px;display:inline-flex">Demander un devis gratuit →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-card">
+  <div class="wrap">
+    <div class="sc-center" style="text-align:center;margin-bottom:3rem"><span class="eyebrow eyebrow-w" style="justify-content:center">Infos pratiques</span><h2 class="h2 display" style="margin-top:4px">COMMENT ÇA MARCHE</h2></div>
+    <div class="proc-grid">
+      {[{n:"01",t:"Contact & projet",d:"Envoyez votre idée via le formulaire. Photo de référence bienvenue."},{n:"02",t:"Échange & devis",d:"On discute de votre projet, on choisit l'artiste, on établit un devis précis."},{n:"03",t:"Réservation",d:"Acompte de 30% pour bloquer votre créneau. Date confirmée par email."},{n:"04",t:"Séance",d:"Le jour J : séance dans notre studio, dans les règles de l'art et de l'hygiène."},{n:"05",t:"Aftercare",d:"Conseils d'entretien personnalisés. SAV inclus si moindre question."}].map(p => (
+        <div class="proc-item">
+          <span class="display pi-num">{p.n}</span>
+          <div class="pi-dot"></div>
+          <h3 class="display pi-title">{p.t}</h3>
+          <p class="pi-desc">{p.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band"><div class="wrap cta-inner">
+  <div><h2 class="h2 display">PRÊT ?</h2><p class="lead" style="margin-top:.4rem">Réservez votre séance en quelques clics.</p></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <a href="/contact" class="btn btn-red btn-lg">Prendre rendez-vous →</a>
+    <a href={client.telephoneLink} class="btn btn-outline btn-lg">{client.telephone}</a>
+  </div>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<style>
+.tarifs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(255,255,255,.07);margin-bottom:1.5rem}
+.tarif-card{padding:32px;border-right:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);position:relative}
+.tarif-card:nth-child(3n){border-right:none}
+.tarif-card:nth-child(4),.tarif-card:nth-child(5),.tarif-card:nth-child(6){border-bottom:none}
+.tarif-card:hover,.tarif-card.featured{background:rgba(230,57,70,.06)}
+.tarif-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)}
+.tc-num{font-size:3rem;color:rgba(255,255,255,.08);line-height:1;margin-bottom:12px;display:block}
+.tc-type{font-size:1rem;color:#fff;letter-spacing:.08em;margin-bottom:6px}
+.tc-detail{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-bottom:0}
+.red-line{display:block;width:32px;height:1px;background:var(--red);margin:16px 0}
+.tc-prix{font-size:1.3rem;color:var(--red);letter-spacing:.04em}
+.tc-duree{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:4px}
+.tarif-note{display:flex;gap:16px;align-items:flex-start;border:1px solid rgba(230,57,70,.3);padding:24px;background:rgba(230,57,70,.05)}
+.tn-icon{font-size:1.5rem;color:var(--red);flex-shrink:0;margin-top:2px}
+.tarif-note strong{display:block;font-family:var(--font-display);font-size:.9rem;color:#fff;letter-spacing:.06em;text-transform:uppercase}
+.proc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid rgba(255,255,255,.07)}
+.proc-item{padding:28px;border-right:1px solid rgba(255,255,255,.07)}
+.proc-item:last-child{border-right:none}
+.pi-num{font-size:1.8rem;color:rgba(255,255,255,.1);display:block;margin-bottom:10px}
+.pi-dot{width:5px;height:5px;background:var(--red);margin-bottom:12px}
+.pi-title{font-size:.82rem;color:#fff;letter-spacing:.06em;margin-bottom:6px}
+.pi-desc{font-size:.78rem;color:var(--muted);line-height:1.7;font-weight:300}
+.cta-band{background:var(--bg-card);border-top:1px solid rgba(230,57,70,.2);padding:clamp(4rem,6vw,5rem) 0}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+@media(max-width:1280px){.proc-grid{grid-template-columns:repeat(3,1fr)}.proc-item:nth-child(3){border-right:none}}
+@media(max-width:1024px){.tarifs-grid{grid-template-columns:repeat(2,1fr)}.tarif-card:nth-child(2n){border-right:none}.tarif-card:nth-child(3){border-right:1px solid rgba(255,255,255,.07)}}
+@media(max-width:768px){.tarifs-grid{grid-template-columns:1fr}.tarif-card{border-right:none}.proc-grid{grid-template-columns:repeat(2,1fr)}.cta-inner{flex-direction:column}}
+@media(max-width:480px){.proc-grid{grid-template-columns:1fr}}
+</style>

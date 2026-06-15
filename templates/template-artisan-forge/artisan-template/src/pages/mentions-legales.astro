@@ -1,0 +1,77 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Mentions légales — ${client.nom}`;
+const description = `Mentions légales du site ${client.siteUrl}.`;
+---
+
+<Layout title={titre} description={description} noIndex={true}>
+  <section class="legales">
+    <div class="conteneur">
+      <p class="etiquette">Informations</p>
+      <h1 class="titre-section">Mentions <em>légales</em></h1>
+
+      <div class="legales-contenu">
+        <h2>Éditeur du site</h2>
+        <p>
+          {client.nom} — {client.legal.formeJuridique}<br />
+          {client.adresse.rue}, {client.adresse.codePostal} {client.adresse.ville}<br />
+          SIRET : {client.legal.siret}<br />
+          TVA intracommunautaire : {client.legal.tva}<br />
+          Téléphone : {client.telephone} — Email : {client.email}
+        </p>
+
+        <h2>Directeur de la publication</h2>
+        <p>{client.artisan.prenom} {client.artisan.nom}</p>
+
+        <h2>Assurance professionnelle</h2>
+        <p>{client.legal.assurance}</p>
+
+        <h2>Hébergement</h2>
+        <p>{client.legal.hebergeur}</p>
+
+        <h2>Propriété intellectuelle</h2>
+        <p>
+          L'ensemble des contenus du site (textes, photographies, créations)
+          est la propriété exclusive de {client.nom}, sauf mention contraire.
+          Toute reproduction sans autorisation écrite préalable est interdite.
+        </p>
+
+        <h2>Données personnelles</h2>
+        <p>
+          Les informations transmises via le formulaire de contact sont
+          utilisées uniquement pour répondre à votre demande. Elles ne sont ni
+          revendues, ni transmises à des tiers. Conformément au RGPD, vous
+          disposez d'un droit d'accès, de rectification et de suppression de
+          vos données en écrivant à {client.email}.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          Ce site utilise uniquement des cookies techniques nécessaires à son
+          fonctionnement. Votre choix est mémorisé localement sur votre
+          navigateur et peut être modifié en supprimant les données du site.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legales {
+    padding: 11rem 0 7rem;
+  }
+  .legales-contenu {
+    max-width: 70ch;
+    margin-top: 2rem;
+  }
+  .legales-contenu h2 {
+    font-size: 1.4rem;
+    margin: 2.4rem 0 0.7rem;
+    color: var(--braise);
+  }
+  .legales-contenu p {
+    color: var(--acier);
+  }
+</style>

@@ -1,0 +1,153 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+---
+<Layout title={`Réserver — ${client.nomComplet}`} description={`Prenez rendez-vous au Hangart Perpignan. 6 artistes. ${client.adresse}. Réponse en 24h.`}>
+<nav class="navbar" id="navbar"><div class="nav-in">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span class="f">ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/a-propos">Studio</a></li><li><a href="/hygiene">Hygiène</a></li><li><a href="/videos">Vidéos</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact" class="reserve active">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu"><div class="mob-header"><div class="mob-logo">HANG<span class="f">ART</span></div><button class="mob-close" id="mobClose">✕</button></div>
+<nav class="mob-nav"><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/a-propos">Studio</a><a href="/hygiene">Hygiène</a><a href="/videos">Vidéos</a><a href="/tarifs">Tarifs</a><a href="/contact" class="mob-reserve">Réserver →</a></nav>
+<div class="mob-footer"><a href={client.telephoneLink}>{client.telephone}</a></div></div></nav>
+
+<div class="ph"><div class="wrap">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Réserver</span></nav>
+  <span class="lbl">Prise de RDV</span>
+  <h1 class="ph-title">RÉSERVEZ<br><em>VOTRE SÉANCE</em></h1>
+</div></div>
+
+<section class="sec sec-1">
+  <div class="wrap c-lay">
+    <div class="c-side">
+      <div class="cs-b">
+        <h4 class="disp cs-h">STUDIO</h4>
+        <div class="cs-rows">
+          <div class="csr"><span>Adresse</span><span>{client.adresse}</span></div>
+          <div class="csr"><span>Tél</span><a href={client.telephoneLink}>{client.telephone}</a></div>
+          <div class="csr"><span>Email</span><a href={`mailto:${client.email}`}>{client.email}</a></div>
+          {client.reseaux.instagram && <div class="csr"><span>Instagram</span><a href={client.reseaux.instagram} target="_blank" rel="noopener">@hangart.tattoo.studio</a></div>}
+        </div>
+      </div>
+      <div class="cs-b">
+        <h4 class="disp cs-h">HORAIRES</h4>
+        {client.horaires.map(h => (
+          <div class="hor-r">
+            <span class="disp">{h.jour.substring(0,3).toUpperCase()}</span>
+            <span class="mono" style={h.horaire==='Fermé'?'color:var(--fumee-d)':''}>{h.horaire}</span>
+          </div>
+        ))}
+      </div>
+      <div class="cs-b">
+        <h4 class="disp cs-h">ARTISTES</h4>
+        {client.artistes.map(a => (
+          <a href={`/artistes/${a.slug}`} class="ca">
+            <span class="ca-dot" style={`background:${a.couleur}`}></span>
+            <div><span class="disp ca-n">{a.pseudo}</span><span class="mono ca-s">{a.styleShort}</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="c-form">
+      <div id="cF">
+        <h2 class="disp ft">VOTRE PROJET</h2>
+        <p class="mono fs">Décrivez votre projet — on vous répond dans les 24h.</p>
+        <div class="fields">
+          <div class="frow">
+            <div class="fg"><label class="mono">Nom & Prénom *</label><input id="fN" type="text" placeholder="Alex Dupont" required class="mono"/></div>
+            <div class="fg"><label class="mono">Téléphone *</label><input id="fT" type="tel" placeholder="06 XX XX XX XX" required class="mono"/></div>
+          </div>
+          <div class="fg"><label class="mono">Email</label><input id="fE" type="email" placeholder="alex@exemple.fr" class="mono"/></div>
+          <div class="fg">
+            <label class="mono">Artiste souhaité *</label>
+            <select id="fA" required class="mono">
+              <option value="">Choisir un artiste…</option>
+              <option value="pas-de-preference">Pas de préférence — conseillez-moi</option>
+              {client.artistes.map(a => <option value={a.pseudo}>{a.pseudo} — {a.styleShort}</option>)}
+            </select>
+          </div>
+          <div class="frow">
+            <div class="fg"><label class="mono">Taille</label><select id="fTa" class="mono"><option>Petite (&lt; 5cm)</option><option>Moyenne (5–15cm)</option><option>Grande (&gt; 15cm)</option><option>Half sleeve</option><option>Full sleeve</option></select></div>
+            <div class="fg"><label class="mono">Zone du corps</label><input id="fZ" type="text" placeholder="Bras, dos, cheville…" class="mono"/></div>
+          </div>
+          <div class="fg"><label class="mono">Description du projet *</label><textarea id="fM" rows="5" class="mono" placeholder="Style, sujet, ambiance, références… Plus c'est précis, mieux c'est." required></textarea></div>
+          <label class="ck-lbl mono"><input type="checkbox" id="fFlash"/><span>Intéressé(e) par les flash days / conventions</span></label>
+          <button type="button" id="sBtn" class="btn btn-fire btn-lg" style="width:100%;justify-content:center;font-weight:700">ENVOYER MON PROJET →</button>
+          <p class="mono fl">{client.acompte} · Réponse sous 24h.</p>
+        </div>
+      </div>
+      <div id="cOk" style="display:none" class="f-ok">
+        <span class="disp fok-m">REÇU.</span>
+        <p class="mono">Votre projet a été envoyé. On vous répond dans les 24h.</p>
+        <a href="/" class="btn btn-ghost" style="margin-top:1.5rem">← Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{client.googleMapsEmbed && <div class="map-s"><iframe src={client.googleMapsEmbed} width="100%" height="360" style="border:0" allowfullscreen loading="lazy" title={`Plan ${client.nomComplet}`}/></div>}
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<script define:vars={{ web3Key, emailTo: client.email, nomStudio: client.nomComplet }}>
+  document.getElementById('sBtn')?.addEventListener('click', async () => {
+    const n=document.getElementById('fN')?.value||'',t=document.getElementById('fT')?.value||'';
+    const e=document.getElementById('fE')?.value||'',a=document.getElementById('fA')?.value||'';
+    const ta=document.getElementById('fTa')?.value||'',z=document.getElementById('fZ')?.value||'';
+    const m=document.getElementById('fM')?.value||'',fl=document.getElementById('fFlash')?.checked;
+    if (!n||!t||!a||!m){alert('Champs * obligatoires');return}
+    const btn=document.getElementById('sBtn');btn.textContent='Envoi…';btn.disabled=true;
+    if (web3Key){
+      try{
+        const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:web3Key,subject:`RDV ${nomStudio} — ${a} — ${n}`,from_name:n,telephone:t,email:e,artiste:a,taille:ta,zone:z,message:m,flash_days:fl?'Oui':'Non'})});
+        if((await r.json()).success){document.getElementById('cF').style.display='none';document.getElementById('cOk').style.display='flex';return}
+      }catch(err){}
+    }
+    window.location.href=`mailto:${emailTo}?subject=RDV ${a} — ${n}&body=Nom: ${n}%0ATel: ${t}%0AEmail: ${e}%0AArtiste: ${a}%0ATaille: ${ta}%0AZone: ${z}%0A%0A${m}`;
+  });
+</script>
+<style>
+.c-lay{display:grid;grid-template-columns:280px 1fr;gap:2px;align-items:start}
+.cs-b{border:1px solid var(--border-w);background:var(--noir-2);margin-bottom:2px}
+.cs-h{font-size:.68rem;letter-spacing:.26em;color:var(--braise);padding:10px 15px;border-bottom:1px solid var(--border-w)}
+.cs-rows{display:flex;flex-direction:column}
+.csr{display:flex;flex-direction:column;gap:2px;padding:10px 15px;border-bottom:1px solid var(--border-w)}
+.csr:last-child{border-bottom:none}
+.csr span:first-child{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--fumee-d)}
+.csr span:last-child,.csr a{font-size:.8rem;color:var(--cendre)}.csr a:hover{color:var(--braise)}
+.hor-r{display:flex;justify-content:space-between;padding:9px 15px;border-bottom:1px solid var(--border-w);font-size:.78rem}
+.hor-r:last-child{border-bottom:none}.hor-r .disp{font-size:.76rem;color:var(--fumee);font-weight:400}
+.ca{display:flex;align-items:center;gap:9px;padding:9px 15px;border-bottom:1px solid var(--border-w)}
+.ca:last-child{border-bottom:none}.ca:hover{background:rgba(255,69,0,.05)}
+.ca-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ca-n{font-size:.8rem;font-weight:900;display:block;letter-spacing:.06em;color:var(--cendre)}
+.ca-s{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--fumee-d)}
+.c-form{background:var(--noir-2);padding:2.5rem}
+.ft{font-size:1.5rem;color:var(--cendre);margin-bottom:7px}
+.fs{font-size:.76rem;color:var(--fumee);line-height:1.7;margin-bottom:2rem}
+.fields{display:flex;flex-direction:column;gap:12px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,227,220,.3)}
+.fg input,.fg select,.fg textarea{padding:11px 13px;border:1px solid var(--border-w);background:rgba(232,227,220,.03);font-size:.79rem;color:var(--cendre);letter-spacing:.04em}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--braise)}
+.fg select option{background:var(--noir-2);color:var(--cendre)}
+.fg textarea{resize:vertical;min-height:130px}
+.ck-lbl{display:flex;align-items:flex-start;gap:9px;font-size:.74rem;color:var(--fumee);cursor:pointer;line-height:1.7}
+.ck-lbl input{margin-top:3px;accent-color:var(--braise);flex-shrink:0}
+.fl{font-size:9.5px;color:var(--fumee-d);text-align:center;letter-spacing:.08em}
+.f-ok{background:rgba(255,69,0,.07);border:1px solid var(--border);padding:56px 36px;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.fok-m{font-size:4rem;font-weight:900;color:var(--braise)}
+.f-ok p{font-size:.79rem;color:var(--fumee);line-height:1.8}
+.map-s{height:360px}.map-s iframe{display:block}
+@media(max-width:1024px){.c-lay{grid-template-columns:1fr}}
+@media(max-width:640px){.frow{grid-template-columns:1fr}.c-form{padding:1.5rem}}
+</style>

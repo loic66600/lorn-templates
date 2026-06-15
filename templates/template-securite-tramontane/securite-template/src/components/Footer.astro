@@ -1,0 +1,159 @@
+---
+import { client } from "@data/client";
+const annee = new Date().getFullYear();
+---
+
+<footer class="pied">
+  <div class="conteneur pied-grille">
+    <div class="pied-bloc">
+      <p class="pied-nom">{client.nom}</p>
+      <p class="pied-metier">{client.activite} — {client.adresse.ville}</p>
+      <p class="pied-texte">{client.slogan}</p>
+      <p class="statut">Dispositif opérationnel</p>
+      <div class="pied-reseaux">
+        {
+          Object.entries(client.reseaux).map(([nom, url]) => (
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {nom}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="pied-bloc">
+      <p class="pied-titre">Agence</p>
+      <address class="pied-texte">
+        {client.adresse.rue}<br />
+        {client.adresse.codePostal} {client.adresse.ville}<br />
+        {client.adresse.departement}
+      </address>
+      <a class="pied-lien" href={`tel:${client.telephoneLien}`}>{client.telephone}</a>
+      <a class="pied-lien pied-urgence" href={`tel:${client.urgenceLien}`}>
+        Urgence 24/7 — {client.urgence}
+      </a>
+      <a class="pied-lien" href={`mailto:${client.email}`}>{client.email}</a>
+    </div>
+
+    <div class="pied-bloc">
+      <p class="pied-titre">Navigation</p>
+      <a class="pied-lien" href="/">Accueil</a>
+      <a class="pied-lien" href="/prestations">Prestations</a>
+      <a class="pied-lien" href="/a-propos">L'agence</a>
+      <a class="pied-lien" href="/contact">Contact & devis</a>
+    </div>
+
+    <div class="pied-bloc">
+      <p class="pied-titre">Zone d'intervention</p>
+      <p class="pied-texte pied-zone">{client.zoneLocale.join(" · ")}</p>
+      <p class="pied-texte pied-national">+ Déploiement national (événementiel & grands comptes)</p>
+    </div>
+  </div>
+
+  <!-- Mention CNAPS obligatoire (art. L612-14 du Code de la sécurité intérieure) -->
+  <div class="conteneur pied-cnaps">
+    <p>
+      Autorisation d'exercice CNAPS n° {client.agrements.cnaps}.
+      {client.agrements.mentionLegale}
+    </p>
+  </div>
+
+  <div class="conteneur pied-bas">
+    <p>© {annee} {client.nom} — {client.activite}, {client.adresse.ville} ({client.adresse.region})</p>
+    <a href="/mentions-legales">Mentions légales</a>
+  </div>
+</footer>
+
+<style>
+  .pied {
+    border-top: 1px solid var(--ligne);
+    padding-top: 4.5rem;
+    background: var(--nuit);
+  }
+  .pied-grille {
+    display: grid;
+    grid-template-columns: 1.5fr 1.1fr 0.9fr 1.3fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+  }
+  .pied-nom {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .pied-metier {
+    color: var(--alerte);
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0.4rem 0 1rem;
+  }
+  .pied-titre {
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gris);
+    margin-bottom: 1.1rem;
+  }
+  .pied-texte {
+    color: var(--gris);
+    font-size: 0.9rem;
+    font-style: normal;
+    margin-bottom: 0.8rem;
+  }
+  .pied-zone { line-height: 1.9; }
+  .pied-national { color: var(--blanc); opacity: 0.75; font-size: 0.82rem; }
+  .pied-lien {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--blanc);
+    opacity: 0.8;
+    margin-bottom: 0.55rem;
+    transition: color 0.25s ease, opacity 0.25s ease;
+  }
+  .pied-lien:hover { color: var(--alerte); opacity: 1; }
+  .pied-urgence { color: var(--alerte); font-weight: 500; opacity: 1; }
+  .pied-reseaux { display: flex; gap: 1.4rem; margin-top: 1rem; }
+  .pied-reseaux a {
+    font-family: var(--font-data);
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: capitalize;
+    color: var(--alerte);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease;
+  }
+  .pied-reseaux a:hover { border-color: var(--alerte); }
+
+  .pied-cnaps {
+    border-top: 1px solid var(--ligne);
+    padding-block: 1.3rem;
+  }
+  .pied-cnaps p {
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    color: var(--gris);
+    line-height: 1.8;
+  }
+
+  .pied-bas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--ligne);
+    font-size: 0.78rem;
+    color: var(--gris);
+  }
+  .pied-bas a { color: var(--gris); transition: color 0.25s ease; }
+  .pied-bas a:hover { color: var(--alerte); }
+
+  @media (max-width: 980px) { .pied-grille { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .pied-grille { grid-template-columns: 1fr; } }
+</style>

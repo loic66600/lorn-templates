@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Styles — ${client.nom}`} description={`Réalisme, japonais, néo-traditionnel, blackwork, fine line et cover-up — les 6 styles pratiqués au ${client.nom} Perpignan.`}>
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-mark">IC</div><div><div class="nav-logo-name">{client.nom}</div><div class="nav-logo-sub">Studio · Perpignan</div></div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes">Artistes</a></li><li><a href="/galerie">Galerie</a></li><li><a href="/services" class="active">Styles</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact">Contact</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu"><a href="/">Accueil</a><a href="/artistes">Artistes</a><a href="/galerie">Galerie</a><a href="/services" class="active">Styles</a><a href="/tarifs">Tarifs</a><a href="/contact">Contact</a></div>
+</nav>
+<div class="ph"><div class="wrap"><nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Styles</span></nav>
+<span class="eyebrow eyebrow-w">Nos spécialités</span>
+<h1 class="ph-title display">6 STYLES.<br><em>UN SEUL STANDARD.</em></h1>
+<p class="ph-sub">Du réalisme hyper-détaillé au blackwork radical — chaque style est pratiqué par un artiste qui en a fait sa spécialité exclusive.</p>
+</div></div>
+
+<section class="sec">
+  <div class="wrap">
+    {client.styles.map((s, i) => (
+      <div class={`style-row ${i%2===1?'rev':''}`}>
+        <div class="sr-num"><span class="display">{String(i+1).padStart(2,'0')}</span></div>
+        <div class="sr-body">
+          <span class="sr-icon">{s.icone}</span>
+          <h2 class="display sr-name">{s.nom}</h2>
+          <div class="red-line"></div>
+          <p class="lead">{s.description}</p>
+          <div style="display:flex;gap:10px;margin-top:1.5rem;flex-wrap:wrap">
+            <a href="/artistes" class="btn btn-outline">Voir les artistes →</a>
+            <a href="/contact" class="btn btn-red">Demander un devis</a>
+          </div>
+        </div>
+        <div class="sr-img">
+          <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+               PHOTO STYLE — placeholder Unsplash
+               Pour remplacer :
+                 1. /public/images/style-NOM.jpg
+                 2. Remplacez le src ci-dessous
+               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <img src={`https://images.unsplash.com/photo-${['1568515387631-8b650bbcdb90','1611501275019-9b5cda994e8d','1590246814883-55516d489eba','1586105449897-20b5efeb3233','1564177702909-9c80f3eb4f0d','1568515387631-8b650bbcdb90'][i]}?w=700&q=80`} alt={`Tatouage ${s.nom}`} loading="lazy" />
+          <!-- <img src={`/images/style-${s.nom.toLowerCase().replace(/\s+/g,'-').replace(/[^\w-]/g,'')}.jpg`} alt={`Tatouage ${s.nom}`} loading="lazy" /> -->
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="sec sec-card">
+  <div class="wrap">
+    <div class="sc-center" style="text-align:center;margin-bottom:3rem"><span class="eyebrow eyebrow-w" style="justify-content:center">Vous avez des questions ?</span><h2 class="h2 display" style="margin-top:4px">FAQ RAPIDE</h2></div>
+    <div class="faq-list">
+      {client.faq.map((f, i) => (
+        <details class="faq-item" open={i===0}>
+          <summary class="display faq-q"><span class="fq-num">{String(i+1).padStart(2,'0')}</span>{f.question}<span class="fq-plus">+</span></summary>
+          <p class="faq-a">{f.reponse}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nom} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<style>
+.style-row{display:grid;grid-template-columns:80px 1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.07);align-items:stretch}
+.style-row:last-child{border-bottom:none}
+.style-row.rev{direction:rtl}.style-row.rev>*{direction:ltr}
+.sr-num{padding:2.5rem;display:flex;align-items:center;justify-content:center;border-right:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02)}
+.sr-num .display{font-size:1.5rem;color:rgba(255,255,255,.12);writing-mode:vertical-rl}
+.sr-body{padding:clamp(2rem,4vw,4rem);display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.07)}
+.sr-icon{font-size:2rem;color:var(--red);margin-bottom:12px;display:block}
+.sr-name{font-size:1.8rem;color:#fff;margin-bottom:0}
+.red-line{display:block;width:40px;height:2px;background:var(--red);margin:16px 0}
+.sr-img{overflow:hidden;height:400px}.sr-img img{width:100%;height:100%;object-fit:cover}
+.faq-list{display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.07)}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.07)}.faq-item:last-child{border-bottom:none}
+.faq-q{display:flex;align-items:center;gap:14px;padding:18px 22px;cursor:pointer;list-style:none;font-size:.85rem;letter-spacing:.06em;color:#fff}
+.faq-q::-webkit-details-marker{display:none}.faq-q:hover{background:rgba(255,255,255,.03)}
+.fq-num{color:var(--red);opacity:.5;font-size:.9rem;min-width:30px}.fq-plus{margin-left:auto;font-size:1.4rem;font-weight:300;color:var(--red)}
+details[open] .fq-plus{transform:rotate(45deg)}
+.faq-a{padding:0 22px 18px 66px;font-size:.86rem;color:var(--muted);line-height:1.85;font-weight:300}
+@media(max-width:1024px){.style-row{grid-template-columns:1fr;direction:ltr!important}.sr-num{display:none}.sr-img{height:260px}}
+</style>

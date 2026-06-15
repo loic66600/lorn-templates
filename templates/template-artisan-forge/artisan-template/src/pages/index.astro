@@ -1,0 +1,474 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `${client.metier.nom} à ${client.adresse.ville} — ${client.nom} | ${client.adresse.departement}`;
+const description = `${client.nom}, ${client.metier.activite.toLowerCase()} à ${client.adresse.ville} (${client.adresse.departement}, ${client.adresse.region}). ${client.slogan} Devis gratuit.`;
+
+const realisationsAccueil = client.realisations.slice(0, 3);
+const motsMarquee = client.services.map((s) => s.titre);
+---
+
+<Layout title={titre} description={description}>
+  <!-- ======================= HERO ======================= -->
+  <section class="hero">
+    <div class="hero-fond">
+      <img
+        src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2000&auto=format&fit=crop"
+        alt={`Atelier de ${client.metier.activite.toLowerCase()} à ${client.adresse.ville}`}
+        fetchpriority="high"
+      />
+      <!-- <img src="/images/hero.jpg" alt={`Atelier de ${client.metier.activite.toLowerCase()} à ${client.adresse.ville}`} fetchpriority="high" /> -->
+    </div>
+
+    <div class="conteneur hero-contenu">
+      <p class="hero-lieu">
+        {client.adresse.ville} — {client.adresse.region} · Depuis {client.anneeFondation}
+      </p>
+      <h1 class="hero-titre">
+        <span class="hero-ligne">{client.metier.matiere},</span>
+        <span class="hero-ligne"><em>{client.metier.geste}</em> à la main</span>
+        <span class="hero-ligne">à {client.adresse.ville}.</span>
+      </h1>
+      <p class="hero-sous">{client.slogan}</p>
+      <div class="hero-actions">
+        <a href="/contact" class="btn btn-plein">Demander un devis gratuit</a>
+        <a href="/realisations" class="btn btn-vide">Voir l'atelier en images</a>
+      </div>
+    </div>
+
+    <div class="hero-defile" aria-hidden="true">
+      <div class="defile-piste">
+        {[...motsMarquee, ...motsMarquee].map((mot) => <span>{mot}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SAVOIR-FAIRE ======================= -->
+  <section class="services">
+    <div class="conteneur">
+      <p class="etiquette reveler">Savoir-faire</p>
+      <h2 class="titre-section reveler">
+        Ce qui sort <em>de l'atelier</em>
+      </h2>
+      <div class="services-grille">
+        {
+          client.services.map((s) => (
+            <article class="service reveler">
+              <p class="service-matiere">{s.matiere}</p>
+              <h3 class="service-titre">{s.titre}</h3>
+              <p class="service-desc">{s.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= RÉALISATIONS (fiches d'atelier) ======================= -->
+  <section class="realisations clair">
+    <div class="conteneur">
+      <div class="realisations-tete reveler">
+        <div>
+          <p class="etiquette">Réalisations</p>
+          <h2 class="titre-section">Dernières <em>fiches d'atelier</em></h2>
+        </div>
+        <a href="/realisations" class="btn btn-vide">Toutes les réalisations</a>
+      </div>
+
+      <div class="fiches">
+        {
+          realisationsAccueil.map((r, i) => (
+            <article class="fiche reveler" style={`transition-delay:${i * 0.1}s`}>
+              <div class="fiche-image">
+                <img src={r.image} alt={`${r.titre} — ${r.lieu}`} loading="lazy" />
+                {/* <img src={r.imageLocale} alt={`${r.titre} — ${r.lieu}`} loading="lazy" /> */}
+              </div>
+              <div class="fiche-meta">
+                <h3 class="fiche-titre">{r.titre}</h3>
+                <dl class="fiche-table">
+                  <div><dt>Matière</dt><dd>{r.matiere}</dd></div>
+                  <div><dt>Commune</dt><dd>{r.lieu}</dd></div>
+                  <div><dt>Année</dt><dd>{r.annee}</dd></div>
+                </dl>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= L'ATELIER (teaser) ======================= -->
+  <section class="atelier">
+    <div class="conteneur atelier-grille">
+      <div class="atelier-image reveler">
+        <img
+          src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?q=80&w=1400&auto=format&fit=crop"
+          alt={`${client.artisan.prenom} ${client.artisan.nom}, ${client.metier.nom.toLowerCase()} à ${client.adresse.ville}`}
+          loading="lazy"
+        />
+        <!-- <img src="/images/atelier.jpg" alt={`${client.artisan.prenom} ${client.artisan.nom}, ${client.metier.nom.toLowerCase()} à ${client.adresse.ville}`} loading="lazy" /> -->
+      </div>
+      <div class="atelier-texte">
+        <p class="etiquette reveler">L'atelier</p>
+        <h2 class="titre-section reveler">
+          Un artisan, <em>un atelier</em>, un engagement
+        </h2>
+        <p class="reveler">
+          Derrière chaque pièce, il y a {client.artisan.prenom} {client.artisan.nom},
+          {client.artisan.titre.toLowerCase()}. Installé à {client.adresse.ville} depuis
+          {" " + client.anneeFondation}, l'atelier conçoit, fabrique et pose chaque ouvrage
+          sans sous-traitance — du premier croquis à la dernière finition.
+        </p>
+        <a href="/a-propos" class="btn btn-vide reveler">Découvrir l'atelier</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= ZONE D'INTERVENTION (SEO local) ======================= -->
+  <section class="zone clair">
+    <div class="conteneur">
+      <p class="etiquette reveler">Zone d'intervention</p>
+      <h2 class="titre-section reveler">
+        {client.adresse.ville} <em>et tout le {client.adresse.departement}</em>
+      </h2>
+      <p class="zone-intro reveler">
+        Basé à {client.adresse.ville}, l'atelier se déplace gratuitement pour vos projets
+        de {client.metier.activite.toLowerCase()} dans un rayon de 30 km, partout en
+        {" " + client.adresse.region} sur demande.
+      </p>
+      <ul class="zone-liste reveler">
+        {client.zoneIntervention.map((ville) => <li>{ville}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================= AVIS ======================= -->
+  <section class="avis">
+    <div class="conteneur">
+      <p class="etiquette reveler">Ils nous font confiance</p>
+      <h2 class="titre-section reveler">Paroles <em>de clients</em></h2>
+      <div class="avis-grille">
+        {
+          client.avis.map((a) => (
+            <figure class="avis-carte reveler">
+              <p class="avis-note" aria-label={`${a.note} étoiles sur 5`}>
+                {"★".repeat(a.note)}
+              </p>
+              <blockquote>{a.texte}</blockquote>
+              <figcaption>
+                {a.nom} — <span>{a.ville}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CTA FINAL ======================= -->
+  <section class="cta-final">
+    <div class="conteneur cta-inner reveler">
+      <h2 class="cta-titre">
+        Un projet en tête ?<br /><em>Parlons-en autour d'un croquis.</em>
+      </h2>
+      <div class="hero-actions">
+        <a href="/contact" class="btn btn-plein">Demander un devis</a>
+        <a href={`tel:${client.telephoneLien}`} class="btn btn-vide">{client.telephone}</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    padding-top: 7rem;
+  }
+  .hero-fond {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .hero-fond::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, var(--noir) 4%, rgba(22, 19, 16, 0.55) 45%, rgba(22, 19, 16, 0.75) 100%);
+  }
+  .hero-fond img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.8) contrast(1.05);
+  }
+  .hero-contenu {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 7.5rem;
+  }
+  .hero-lieu {
+    font-size: 0.74rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--braise);
+    margin-bottom: 1.6rem;
+  }
+  .hero-titre {
+    font-size: clamp(3rem, 9vw, 7.2rem);
+    letter-spacing: -0.025em;
+    text-transform: lowercase;
+  }
+  .hero-titre .hero-ligne {
+    display: block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: monter 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  .hero-titre .hero-ligne:nth-child(2) { animation-delay: 0.15s; }
+  .hero-titre .hero-ligne:nth-child(3) { animation-delay: 0.3s; }
+  .hero-titre em {
+    font-style: italic;
+    color: var(--braise);
+  }
+  @keyframes monter {
+    to { opacity: 1; transform: none; }
+  }
+  .hero-sous {
+    max-width: 46ch;
+    margin: 1.8rem 0 2.4rem;
+    color: var(--creme);
+    opacity: 0.85;
+    font-size: 1.05rem;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .hero-defile {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    border-top: 1px solid var(--ligne);
+    background: rgba(22, 19, 16, 0.7);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+    padding-block: 0.9rem;
+  }
+  .defile-piste {
+    display: flex;
+    gap: 3.5rem;
+    width: max-content;
+    animation: defiler 28s linear infinite;
+  }
+  .defile-piste span {
+    font-size: 0.74rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--acier);
+    white-space: nowrap;
+  }
+  .defile-piste span::after {
+    content: "·";
+    color: var(--braise);
+    margin-left: 3.5rem;
+  }
+  @keyframes defiler {
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .defile-piste { animation: none; }
+    .hero-titre .hero-ligne { animation: none; opacity: 1; transform: none; }
+  }
+
+  /* ---- Services ---- */
+  .services { padding-block: 7.5rem; }
+  .services-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--ligne);
+    border-left: 1px solid var(--ligne);
+    margin-top: 3rem;
+  }
+  .service {
+    padding: 2.4rem 2rem;
+    border-right: 1px solid var(--ligne);
+    border-bottom: 1px solid var(--ligne);
+    transition: background 0.3s ease;
+  }
+  .service:hover { background: var(--noir-2); }
+  .service-matiere {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--braise);
+    margin-bottom: 1rem;
+  }
+  .service-titre {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+  .service-desc {
+    font-size: 0.92rem;
+    color: var(--acier);
+  }
+
+  /* ---- Réalisations ---- */
+  .realisations { padding-block: 7.5rem; }
+  .realisations-tete {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+  }
+  .fiches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .fiche-image {
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+  }
+  .fiche-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .fiche:hover .fiche-image img { transform: scale(1.05); }
+  .fiche-titre {
+    font-size: 1.4rem;
+    margin: 1.2rem 0 0.9rem;
+  }
+  .fiche-table {
+    border-top: 1px solid var(--ligne-claire);
+  }
+  .fiche-table div {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid var(--ligne-claire);
+    font-size: 0.82rem;
+  }
+  .fiche-table dt {
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    color: rgba(22, 19, 16, 0.55);
+    align-self: center;
+  }
+  .fiche-table dd { font-weight: 500; }
+
+  /* ---- Atelier ---- */
+  .atelier { padding-block: 7.5rem; }
+  .atelier-grille {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 4.5rem;
+    align-items: center;
+  }
+  .atelier-image {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+  .atelier-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85);
+  }
+  .atelier-texte p:not(.etiquette) {
+    color: var(--acier);
+    margin-bottom: 2rem;
+  }
+
+  /* ---- Zone ---- */
+  .zone { padding-block: 7rem; }
+  .zone-intro {
+    max-width: 60ch;
+    color: rgba(22, 19, 16, 0.7);
+    margin-bottom: 2.5rem;
+  }
+  .zone-liste {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    list-style: none;
+  }
+  .zone-liste li {
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    padding: 0.55rem 1.2rem;
+    border: 1px solid var(--ligne-claire);
+    transition: border-color 0.25s ease, color 0.25s ease;
+  }
+  .zone-liste li:hover {
+    border-color: var(--braise);
+    color: var(--braise);
+  }
+
+  /* ---- Avis ---- */
+  .avis { padding-block: 7.5rem; }
+  .avis-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .avis-carte {
+    border: 1px solid var(--ligne);
+    padding: 2.2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .avis-note {
+    color: var(--braise);
+    letter-spacing: 0.3em;
+  }
+  .avis-carte blockquote {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.55;
+  }
+  .avis-carte figcaption {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    margin-top: auto;
+  }
+  .avis-carte figcaption span { color: var(--acier); }
+
+  /* ---- CTA final ---- */
+  .cta-final {
+    padding-block: 8rem;
+    border-top: 1px solid var(--ligne);
+    text-align: center;
+  }
+  .cta-titre {
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    margin-bottom: 2.4rem;
+  }
+  .cta-titre em { color: var(--braise); }
+  .cta-inner .hero-actions { justify-content: center; }
+
+  @media (max-width: 980px) {
+    .services-grille, .fiches, .avis-grille { grid-template-columns: 1fr 1fr; }
+    .atelier-grille { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+  @media (max-width: 620px) {
+    .services-grille, .fiches, .avis-grille { grid-template-columns: 1fr; }
+  }
+</style>

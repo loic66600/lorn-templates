@@ -1,0 +1,298 @@
+---
+import { client } from "@data/client";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import CookieBanner from "@components/CookieBanner.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  noIndex?: boolean;
+}
+
+const { title, description, noIndex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, client.siteUrl).href;
+
+// ---- Schéma LocalBusiness — couverture locale ET nationale ----
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": client.siteUrl + "/#business",
+  additionalType: "https://schema.org/ProfessionalService",
+  name: client.nom,
+  description: client.description,
+  url: client.siteUrl,
+  telephone: client.telephoneLien,
+  email: client.email,
+  foundingDate: String(client.anneeFondation),
+  priceRange: "€€",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: client.adresse.rue,
+    postalCode: client.adresse.codePostal,
+    addressLocality: client.adresse.ville,
+    addressRegion: client.adresse.region,
+    addressCountry: "FR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: client.geo.lat,
+    longitude: client.geo.lng,
+  },
+  areaServed: [
+    ...client.zoneLocale.map((ville) => ({ "@type": "City", name: ville })),
+    { "@type": "AdministrativeArea", name: client.adresse.region },
+    { "@type": "Country", name: "France" },
+  ],
+  openingHoursSpecification: client.horaires
+    .filter((h) => !/fermé/i.test(h.horaire))
+    .map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: h.jour,
+      description: h.horaire,
+    })),
+  knowsAbout: [
+    "Sécurité privée",
+    "Gardiennage",
+    "Sécurité incendie",
+    "SSIAP",
+    "Sécurité événementielle",
+  ],
+  sameAs: Object.values(client.reseaux),
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: String(client.avis.length),
+  },
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={client.seo.motsCles.join(", ")} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Géolocalisation -->
+    <meta name="geo.region" content="FR-66" />
+    <meta name="geo.placename" content={client.adresse.ville} />
+    <meta name="geo.position" content={`${client.geo.lat};${client.geo.lng}`} />
+    <meta name="ICBM" content={`${client.geo.lat}, ${client.geo.lng}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={client.nom} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Polices : Chakra Petch (display) + Archivo (texte) + JetBrains Mono (données) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <div class="scanline" aria-hidden="true"></div>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <CookieBanner />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --nuit: #070b12;
+    --nuit-2: #0d131d;
+    --nuit-3: #131b28;
+    --blanc: #e8edf4;
+    --gris: #7c8696;
+    --alerte: #e8392c;
+    --alerte-claire: #ff5a4d;
+    --vert-actif: #41d17a;
+    --ligne: rgba(232, 237, 244, 0.1);
+    --font-display: "Chakra Petch", system-ui, sans-serif;
+    --font-texte: "Archivo", system-ui, sans-serif;
+    --font-data: "JetBrains Mono", monospace;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--nuit);
+    color: var(--blanc);
+    font-family: var(--font-texte);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Scanline — balayage vertical très lent, signature "salle de contrôle" */
+  .scanline {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: -10%;
+    height: 22vh;
+    z-index: 998;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(232, 57, 44, 0.025) 50%,
+      transparent
+    );
+    animation: balayage 9s linear infinite;
+  }
+  @keyframes balayage {
+    to { transform: translateY(560%); }
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.08;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  .conteneur {
+    width: min(1280px, 100% - 3rem);
+    margin-inline: auto;
+  }
+
+  /* Étiquette de section façon code radio */
+  .etiquette {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--alerte);
+  }
+  .etiquette::before {
+    content: "//";
+    color: var(--gris);
+  }
+
+  .titre-section {
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    margin: 1rem 0 1.25rem;
+  }
+  .titre-section em {
+    font-style: normal;
+    color: var(--alerte);
+  }
+
+  /* Boutons — coins coupés tactiques */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 2.1rem;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: 1px solid var(--alerte);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  .btn-plein {
+    background: var(--alerte);
+    color: var(--blanc);
+  }
+  .btn-plein:hover {
+    background: var(--alerte-claire);
+    transform: translateY(-2px);
+  }
+  .btn-vide { color: var(--blanc); }
+  .btn-vide:hover {
+    background: var(--alerte);
+  }
+
+  /* Pastille de statut */
+  .statut {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--vert-actif);
+  }
+  .statut::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--vert-actif);
+    box-shadow: 0 0 8px var(--vert-actif);
+    animation: pulser 1.6s ease-in-out infinite;
+  }
+  @keyframes pulser {
+    50% { opacity: 0.35; }
+  }
+
+  /* Apparition au scroll */
+  .reveler {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveler.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scanline { animation: none; display: none; }
+    .statut::before { animation: none; }
+    .reveler { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  const observateur = new IntersectionObserver(
+    (entrees) => {
+      entrees.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          observateur.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll(".reveler").forEach((el) => observateur.observe(el));
+</script>

@@ -1,0 +1,315 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Contact & devis — Agence de sécurité à ${client.adresse.ville} | ${client.nom}`;
+const description = `Contactez ${client.nom} pour un audit de sûreté gratuit ou un devis de gardiennage, sécurité événementielle ou agents SSIAP à ${client.adresse.ville}, en ${client.adresse.region} et partout en France.`;
+
+const web3formsKey = client.web3formsKey;
+const geo = client.geo;
+const nomAgence = client.nom;
+---
+
+<Layout title={titre} description={description}>
+  <section class="page-tete">
+    <div class="conteneur">
+      <p class="etiquette">Contact</p>
+      <h1 class="titre-section">Ouvrir <em>un dossier</em></h1>
+      <p class="page-intro">
+        Décrivez votre besoin : un chargé d'affaires vous rappelle sous 24h
+        ouvrées pour planifier l'audit de sûreté — gratuit et sans engagement.
+      </p>
+    </div>
+  </section>
+
+  <!-- Bandeau urgence -->
+  <section class="urgence">
+    <div class="conteneur urgence-inner">
+      <p class="statut">Ligne d'urgence active</p>
+      <p class="urgence-texte">
+        Besoin d'un dispositif immédiat (levée de doute, gardiennage d'urgence,
+        renfort événementiel) ?
+      </p>
+      <a href={`tel:${client.urgenceLien}`} class="urgence-tel">{client.urgence}</a>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="conteneur contact-grille">
+      <!-- ---- Formulaire ---- -->
+      <form id="formulaire" class="formulaire" novalidate>
+        <div class="champ-duo">
+          <div class="champ">
+            <label for="nom">Nom / Société *</label>
+            <input type="text" id="nom" name="nom" required autocomplete="organization" />
+          </div>
+          <div class="champ">
+            <label for="telephone">Téléphone *</label>
+            <input type="tel" id="telephone" name="telephone" required autocomplete="tel" />
+          </div>
+        </div>
+        <div class="champ">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required autocomplete="email" />
+        </div>
+        <div class="champ-duo">
+          <div class="champ">
+            <label for="besoin">Type de besoin *</label>
+            <select id="besoin" name="besoin" required>
+              <option value="" disabled selected>Sélectionner…</option>
+              <option>Gardiennage / surveillance</option>
+              <option>Rondes & interventions</option>
+              <option>Sécurité événementielle</option>
+              <option>Agents SSIAP / sécurité incendie</option>
+              <option>Audit & conformité incendie</option>
+              <option>Autre demande</option>
+            </select>
+          </div>
+          <div class="champ">
+            <label for="commune">Commune du site</label>
+            <input type="text" id="commune" name="commune" placeholder="Ex. Perpignan, Montpellier…" />
+          </div>
+        </div>
+        <div class="champ">
+          <label for="message">Votre besoin en détail *</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="6"
+            required
+            placeholder="Type de site, horaires à couvrir, effectif souhaité, date de démarrage…"
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-plein">Transmettre ma demande</button>
+        <p class="form-statut" id="form-statut" role="status" aria-live="polite"></p>
+      </form>
+
+      <!-- ---- Coordonnées ---- -->
+      <aside class="infos">
+        <div class="infos-bloc">
+          <h2>L'agence</h2>
+          <address>
+            {client.adresse.rue}<br />
+            {client.adresse.codePostal} {client.adresse.ville}<br />
+            {client.adresse.departement} — {client.adresse.region}
+          </address>
+          <a class="infos-lien" href={`tel:${client.telephoneLien}`}>{client.telephone}</a>
+          <a class="infos-lien infos-urgence" href={`tel:${client.urgenceLien}`}>
+            Urgence 24/7 — {client.urgence}
+          </a>
+          <a class="infos-lien" href={`mailto:${client.email}`}>{client.email}</a>
+        </div>
+
+        <div class="infos-bloc">
+          <h2>Accueil administratif</h2>
+          <ul class="horaires">
+            {
+              client.horaires.map((h) => (
+                <li>
+                  <span>{h.jour}</span>
+                  <span>{h.horaire}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="infos-note">Le PC opérationnel répond 24h/24, 7j/7.</p>
+        </div>
+
+        <div class="infos-bloc">
+          <h2>Zone d'intervention</h2>
+          <p class="infos-zone">{client.zoneLocale.join(" · ")}</p>
+          <p class="infos-note">{client.zoneNationale}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ---- Carte ---- -->
+  <section class="carte-section">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <div id="carte" aria-label={`Localisation de l'agence à ${client.adresse.ville}`}></div>
+  </section>
+</Layout>
+
+<style>
+  .page-tete { padding: 11rem 0 4rem; }
+  .page-intro { max-width: 56ch; color: var(--gris); }
+
+  .urgence {
+    border-block: 1px solid var(--ligne);
+    background: var(--nuit-2);
+    padding-block: 1.6rem;
+  }
+  .urgence-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .urgence-texte {
+    color: var(--gris);
+    font-size: 0.92rem;
+    flex: 1;
+    min-width: 260px;
+  }
+  .urgence-tel {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--alerte);
+    transition: color 0.25s ease;
+  }
+  .urgence-tel:hover { color: var(--alerte-claire); }
+
+  .contact { padding-block: 6rem; }
+  .contact-grille {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 5rem;
+  }
+
+  .formulaire { display: grid; gap: 1.6rem; }
+  .champ-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+  }
+  .champ { display: grid; gap: 0.5rem; }
+  .champ label {
+    font-family: var(--font-data);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+  .champ input,
+  .champ select,
+  .champ textarea {
+    font-family: var(--font-texte);
+    font-size: 0.95rem;
+    padding: 0.9rem 1rem;
+    background: var(--nuit-2);
+    border: 1px solid var(--ligne);
+    color: var(--blanc);
+    transition: border-color 0.25s ease;
+  }
+  .champ select { appearance: none; }
+  .champ input:focus,
+  .champ select:focus,
+  .champ textarea:focus {
+    outline: none;
+    border-color: var(--alerte);
+  }
+  .form-statut { font-size: 0.88rem; min-height: 1.4em; }
+  .form-statut.ok { color: var(--vert-actif); }
+  .form-statut.erreur { color: var(--alerte-claire); }
+
+  .infos { display: grid; gap: 2.6rem; align-content: start; }
+  .infos-bloc h2 { font-size: 1.15rem; margin-bottom: 0.9rem; }
+  .infos-bloc address {
+    font-style: normal;
+    color: var(--gris);
+    margin-bottom: 0.8rem;
+  }
+  .infos-lien {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.45rem;
+    transition: color 0.25s ease;
+  }
+  .infos-lien:hover { color: var(--alerte); }
+  .infos-urgence { color: var(--alerte); }
+  .horaires { list-style: none; border-top: 1px solid var(--ligne); }
+  .horaires li {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid var(--ligne);
+    font-size: 0.88rem;
+  }
+  .horaires li span:first-child { color: var(--gris); }
+  .infos-note {
+    margin-top: 0.9rem;
+    font-size: 0.82rem;
+    color: var(--gris);
+  }
+  .infos-zone { font-size: 0.88rem; color: var(--gris); line-height: 2; }
+
+  .carte-section { position: relative; }
+  #carte {
+    height: 440px;
+    width: 100%;
+    filter: invert(1) hue-rotate(190deg) saturate(0.4) brightness(0.9);
+    z-index: 1;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grille { grid-template-columns: 1fr; gap: 3.5rem; }
+    .champ-duo { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script define:vars={{ web3formsKey, geo, nomAgence }}>
+  // ---- Envoi du formulaire via Web3Forms ----
+  const formulaire = document.getElementById("formulaire");
+  const statut = document.getElementById("form-statut");
+
+  formulaire?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!formulaire.reportValidity()) return;
+
+    statut.textContent = "Transmission en cours…";
+    statut.className = "form-statut";
+
+    const donnees = new FormData(formulaire);
+    donnees.append("access_key", web3formsKey);
+    donnees.append("subject", `Nouvelle demande de devis — ${nomAgence}`);
+
+    try {
+      const reponse = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: donnees,
+      });
+      const resultat = await reponse.json();
+      if (resultat.success) {
+        statut.textContent = "Demande transmise. Un chargé d'affaires vous rappelle sous 24h ouvrées.";
+        statut.className = "form-statut ok";
+        formulaire.reset();
+      } else {
+        throw new Error(resultat.message);
+      }
+    } catch {
+      statut.textContent =
+        "La transmission a échoué. Appelez-nous directement ou réessayez dans un instant.";
+      statut.className = "form-statut erreur";
+    }
+  });
+
+  // ---- Carte Leaflet (tuiles CARTO, rendu nuit via filtre CSS) ----
+  const scriptLeaflet = document.createElement("script");
+  scriptLeaflet.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+  scriptLeaflet.integrity = "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
+  scriptLeaflet.crossOrigin = "";
+  scriptLeaflet.onload = () => {
+    const carte = L.map("carte", { scrollWheelZoom: false }).setView(
+      [geo.lat, geo.lng],
+      13
+    );
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        maxZoom: 19,
+      }
+    ).addTo(carte);
+    L.marker([geo.lat, geo.lng]).addTo(carte).bindPopup(nomAgence);
+  };
+  document.body.appendChild(scriptLeaflet);
+</script>

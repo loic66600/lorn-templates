@@ -1,0 +1,139 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { client } from '../../data/client';
+
+export function getStaticPaths() {
+  return client.artistes.map(a => ({ params: { slug: a.slug }, props: { artiste: a } }));
+}
+interface Props { artiste: typeof client.artistes[0]; }
+const { artiste: a } = Astro.props;
+const idx = client.artistes.findIndex(x => x.slug === a.slug);
+const next = client.artistes[(idx+1) % client.artistes.length];
+---
+<Layout title={`${a.pseudo} — ${a.style} | ${client.nomComplet} Perpignan`} description={`${a.pseudo}, tatoueur ${a.style} au Hangart Perpignan. ${a.experience} d'expérience. Réservez en ligne.`}>
+<nav class="navbar" id="navbar"><div class="nav-in">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">HANG<span class="f">ART</span></div><div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div></a>
+  <ul class="nav-links"><li><a href="/">Accueil</a></li><li><a href="/artistes" class="active">Artistes</a></li><li><a href="/a-propos">Studio</a></li><li><a href="/hygiene">Hygiène</a></li><li><a href="/videos">Vidéos</a></li><li><a href="/tarifs">Tarifs</a></li><li><a href="/contact" class="reserve">Réserver →</a></li></ul>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-header"><div class="mob-logo">HANG<span class="f">ART</span></div><button class="mob-close" id="mobClose">✕</button></div>
+  <nav class="mob-nav"><a href="/">Accueil</a><a href="/artistes" class="active">Artistes</a><a href="/a-propos">Studio</a><a href="/hygiene">Hygiène</a><a href="/videos">Vidéos</a><a href="/tarifs">Tarifs</a><a href="/contact" class="mob-reserve">Réserver →</a></nav>
+  <div class="mob-footer"><a href={client.telephoneLink}>{client.telephone}</a></div>
+</div></nav>
+
+<!-- Hero artiste plein écran -->
+<section class="art-hero">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTO ARTISTE — depuis client.ts (champ photo)
+       Pour remplacer : dans client.ts commentez la ligne
+       photo: "https://..." et décommentez le chemin local.
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="ah-bg">
+    <img src={a.photo} alt={a.pseudo} loading="eager"/>
+    <div class="ah-dark"></div>
+    <div class="ah-fire-bot" style={`background:linear-gradient(to top,${a.couleur}22 0%,transparent 50%)`}></div>
+  </div>
+  <div class="ah-content">
+    <div class="wrap">
+      <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><a href="/artistes">Artistes</a><span>›</span><span>{a.pseudo}</span></nav>
+      <span class="lbl">{a.style}</span>
+      <h1 class="disp ah-name" data-glitch>{a.pseudo}</h1>
+      <div class="ah-bar" style={`background:${a.couleur};width:60px;height:3px;margin:14px 0`}></div>
+      <div class="ah-meta mono">
+        <span>{a.experience} d'expérience</span>
+        <span class="ah-sep">·</span>
+        <span style={`color:${a.couleur}`}>{a.disponibilite}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bio + Portfolio -->
+<section class="sec sec-1">
+  <div class="wrap ap-lay">
+    <div class="ap-bio" data-r>
+      <span class="lbl">À propos</span>
+      <p class="lead" style="margin-top:1rem">{a.description}</p>
+      <p class="lead" style="margin-top:.6rem">{a.biographie}</p>
+      <div class="ap-tags">{a.specialites.map(s => <span class="tag" style={`color:${a.couleur};border-color:${a.couleur}50`}>{s}</span>)}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:1.5rem">
+        <a href="/contact" class="btn btn-fire">Réserver avec {a.prenom} →</a>
+        {a.instagram && <a href={a.instagram} target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>}
+      </div>
+    </div>
+    <div class="ap-port">
+      <span class="lbl" data-r>Portfolio</span>
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           PHOTOS PORTFOLIO — tableau portfolio[] dans client.ts
+           Pour remplacer : commentez les URL Unsplash et
+           décommentez les chemins locaux dans client.ts
+           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="port-grid">
+        {a.portfolio.map((img, i) => (
+          <div class="pg" data-r style={`transition-delay:${(i%3)*.07}s`}>
+            <img src={img} alt={`${a.pseudo} tatouage ${i+1}`} loading="lazy"/>
+            <div class="pg-dark"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Artiste suivant -->
+<a href={`/artistes/${next.slug}`} class="next-art">
+  <div class="na-bg"><img src={next.photo} alt={next.pseudo} loading="lazy"/><div class="na-dark"></div></div>
+  <div class="na-content">
+    <div class="wrap na-inner">
+      <div>
+        <span class="mono na-label">Artiste suivant</span>
+        <div class="disp na-name" data-glitch style={`color:${next.couleur}`}>{next.pseudo}</div>
+        <span class="mono na-style">{next.styleShort}</span>
+      </div>
+      <span class="disp na-arrow" style={`color:${next.couleur}`}>→</span>
+    </div>
+  </div>
+</a>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+<style>
+.art-hero{position:relative;height:85vh;min-height:500px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.ah-bg{position:absolute;inset:0}.ah-bg img{width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:grayscale(.2)}
+.ah-dark{position:absolute;inset:0;background:linear-gradient(170deg,rgba(8,8,6,.85) 0%,rgba(8,8,6,.45) 100%)}
+.ah-fire-bot{position:absolute;inset:0}
+.ah-content{position:relative;z-index:1;padding-bottom:4rem}
+.ah-name{font-size:clamp(3.5rem,10vw,9rem);font-weight:900;color:var(--cendre);line-height:.9;margin:10px 0}
+.ah-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fumee)}
+.ah-sep{color:var(--border-w)}
+
+.ap-lay{display:grid;grid-template-columns:340px 1fr;gap:4rem;align-items:start}
+.ap-bio{position:sticky;top:calc(var(--nav-h)+2rem)}
+.ap-tags{display:flex;flex-wrap:wrap;gap:6px;margin:1.5rem 0}
+.port-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:1rem}
+.pg{aspect-ratio:3/4;overflow:hidden;position:relative}
+.pg img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;filter:grayscale(.2)}
+.pg:hover img{transform:scale(1.05);filter:grayscale(0)}
+.pg-dark{position:absolute;inset:0;background:rgba(8,8,6,.15);transition:opacity .3s}
+.pg:hover .pg-dark{opacity:0}
+.pg:nth-child(3n+1){grid-column:span 2;aspect-ratio:16/7}
+
+.next-art{display:block;position:relative;height:260px;overflow:hidden}
+.na-bg{position:absolute;inset:0}.na-bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(.4);transition:transform .5s ease,filter .4s}
+.next-art:hover .na-bg img{transform:scale(1.05);filter:grayscale(0)}
+.na-dark{position:absolute;inset:0;background:rgba(8,8,6,.7)}
+.na-content{position:relative;z-index:1;height:100%}
+.na-inner{height:100%;display:flex;align-items:center;justify-content:space-between;padding:0}
+.na-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--fumee-d);display:block;margin-bottom:6px}
+.na-name{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;line-height:.95}
+.na-style{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--fumee-d);display:block;margin-top:5px}
+.na-arrow{font-size:3rem;transition:transform .3s ease}.next-art:hover .na-arrow{transform:translateX(10px)}
+
+@media(max-width:1024px){.ap-lay{grid-template-columns:1fr}.ap-bio{position:static}}
+@media(max-width:640px){.port-grid{grid-template-columns:1fr}.pg:nth-child(3n+1){grid-column:auto;aspect-ratio:3/4}}
+</style>

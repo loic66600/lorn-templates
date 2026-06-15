@@ -1,0 +1,349 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const socialIcons: Record<string,string> = {
+  instagram:'<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  facebook: '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
+  tiktok:   '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.73a8.19 8.19 0 004.76 1.52V6.83a4.84 4.84 0 01-1-.14z"/></svg>',
+};
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+---
+<Layout>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark">IC</div>
+      <div>
+        <div class="nav-logo-name">{client.nom}</div>
+        <div class="nav-logo-sub">{client.tagline} — Perpignan</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="active">Accueil</a></li>
+      <li><a href="/artistes">Artistes</a></li>
+      <li><a href="/galerie">Galerie</a></li>
+      <li><a href="/services">Styles</a></li>
+      <li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <a href="/contact" class="btn btn-red" style="display:none" id="navCta">Réserver</a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mob-overlay" id="mobOverlay"></div>
+  <div class="mob-menu" id="mob-menu">
+    <a href="/">Accueil</a>
+    <a href="/artistes">Artistes</a>
+    <a href="/galerie">Galerie</a>
+    <a href="/services">Styles</a>
+    <a href="/tarifs">Tarifs</a>
+    <a href="/contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTO HERO — Image libre de droit (Unsplash)
+       Pour utiliser VOTRE photo de studio :
+         1. Placez votre image dans /public/images/
+         2. Supprimez la balise <img src="https://..."> ci-dessous
+         3. Décommentez la balise img suivante
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1920&q=85" alt="INK COLLECTIVE — studio de tatouage Perpignan" loading="eager" />
+    <!-- <img src="/images/hero-studio.jpg" alt="INK COLLECTIVE — studio de tatouage Perpignan" loading="eager" /> -->
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="wrap hero-body">
+    <div class="hero-left">
+      <p class="hero-pre display">Perpignan · {client.ville} · Fondé en {client.fondation}</p>
+      <h1 class="hero-h1 display">
+        L'ART<br>
+        <span class="h1-red">SOUS</span><br>
+        LA PEAU.
+      </h1>
+      <p class="hero-sub">5 artistes. 5 univers. Un seul studio où votre tatouage devient une œuvre permanente.</p>
+      <div class="hero-btns">
+        <a href="/contact" class="btn btn-red btn-lg">Prendre rendez-vous</a>
+        <a href="/artistes" class="btn btn-outline btn-lg">Voir les artistes</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <!-- Aperçu artistes en vignettes -->
+      <div class="hero-artists">
+        {client.artistes.slice(0,3).map(a => (
+          <a href="/artistes" class="ha-pill">
+            <span class="ha-dot" style={`background:${a.couleur}`}></span>
+            <span class="ha-name display">{a.prenom}</span>
+            <span class="ha-style">{a.style.split(' & ')[0]}</span>
+          </a>
+        ))}
+        <a href="/artistes" class="ha-more display">+{client.artistes.length - 3} →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats bande -->
+  <div class="hero-stats">
+    {client.stats.map(s => (
+      <div class="hs">
+        <strong class="display hs-n"><span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span></strong>
+        <span class="hs-l">{s.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ═══ ARTISTES ═══ -->
+<section class="sec sec-artistes" id="artistes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">5 artistes résidents</span>
+        <h2 class="h2 display">Trouvez<br><span class="h2-red">votre artiste</span></h2>
+      </div>
+      <a href="/artistes" class="btn btn-outline">Tous les artistes →</a>
+    </div>
+
+    <div class="artists-strip">
+      {client.artistes.map((a, i) => (
+        <a href="/artistes" class="artist-card">
+          <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+               PHOTO ARTISTE — placeholder Unsplash
+               Pour utiliser votre vraie photo :
+                 • Dans client.ts : décommentez la ligne
+                   photo: "/images/artiste-NOM.jpg"
+                 • Commentez la ligne photo: "https://..."
+               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <div class="ac-img">
+            <img src={a.photo} alt={`${a.prenom} — tatoueur ${a.style}`} loading="lazy" />
+            <!-- Si la photo est dans client.ts déjà correcte, elle s'affiche automatiquement ↑ -->
+            <div class="ac-overlay" style={`background:linear-gradient(to top, ${a.couleur}33 0%, transparent 60%)`}></div>
+            <span class="ac-num display">{String(i+1).padStart(2,'0')}</span>
+          </div>
+          <div class="ac-body">
+            <div class="ac-top">
+              <span class="ac-style tag">{a.style}</span>
+            </div>
+            <h3 class="display ac-name">{a.prenom}</h3>
+            <p class="ac-dispo">{a.disponibilite}</p>
+          </div>
+          <div class="ac-bar" style={`background:${a.couleur}`}></div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALERIE APERÇU ═══ -->
+<section class="sec sec-card" id="galerie">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow eyebrow-w">Portfolio</span>
+        <h2 class="h2 display">Quelques<br>pièces récentes</h2>
+      </div>
+      <a href="/galerie" class="btn btn-outline">Voir la galerie →</a>
+    </div>
+
+    <div class="gal-grid">
+      {client.galerie.slice(0,6).map((g, i) => (
+        <a href="/galerie" class={`gal-item ${i===0?'big':''}`}>
+          <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+               PHOTO GALERIE — placeholder Unsplash
+               Pour votre photo réelle :
+                 • Dans client.ts : décommentez la ligne
+                   // image: "/images/galerie/NOM.jpg"
+                 • Commentez la ligne image: "https://..."
+               Le composant lira automatiquement g.image ↑
+               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <div class="gi-img">
+            <img src={g.image} alt={g.titre} loading="lazy" />
+          </div>
+          <div class="gi-label">
+            <span class="tag">{g.artiste}</span>
+            <span class="gi-titre display">{g.titre}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STYLES ═══ -->
+<section class="sec-light" id="styles">
+  <div class="wrap">
+    <div class="sc-center" style="text-align:center;margin-bottom:3rem">
+      <span class="eyebrow eyebrow-w" style="justify-content:center">Ce que nous faisons</span>
+      <h2 class="h2 display" style="margin-top:4px">6 styles maîtrisés</h2>
+    </div>
+    <div class="styles-grid">
+      {client.styles.map((s, i) => (
+        <div class="style-item">
+          <span class="si-icon">{s.icone}</span>
+          <div>
+            <h3 class="display si-name">{s.nom}</h3>
+            <p class="si-desc">{s.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-band">
+  <div class="wrap cta-inner">
+    <div>
+      <span class="eyebrow">Prêt à franchir le pas ?</span>
+      <h2 class="h2 display" style="margin-top:4px">Réservez votre séance</h2>
+      <p class="lead" style="margin-top:.6rem">{client.horairesResume}</p>
+    </div>
+    <div class="cta-btns">
+      <a href="/contact" class="btn btn-red btn-lg">Prendre rendez-vous →</a>
+      <a href={client.telephoneLink} class="btn btn-outline btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="f-brand">
+        <div class="f-logo">
+          <div class="f-logo-mark">IC</div>
+          <span class="f-logo-name">{client.nom}</span>
+        </div>
+        <p>{client.slogan}<br/>{client.adresse}</p>
+        {socials.length > 0 && (
+          <div class="soc-links">
+            {socials.map(([k,v]) => (
+              <a href={v} target="_blank" rel="noopener" class="soc-link" title={k} set:html={socialIcons[k]||k}/>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="f-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="/">Accueil</a></li>
+          <li><a href="/artistes">Artistes</a></li>
+          <li><a href="/galerie">Galerie</a></li>
+          <li><a href="/services">Styles</a></li>
+          <li><a href="/tarifs">Tarifs</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href={client.telephoneLink}>{client.telephone}</a></li>
+          <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
+          <li><span style="color:rgba(255,255,255,.2);font-size:11.5px">{client.adresse}</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <p>© {new Date().getFullYear()} {client.nom} · <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn-badge">Site par LORN Digital Studio</a>
+    </div>
+  </div>
+</footer>
+</Layout>
+
+<style>
+/* NAVBAR CTA visible au scroll */
+#navCta { display: none; }
+.navbar.scrolled #navCta { display: inline-flex; }
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.7) 50%,rgba(0,0,0,.4) 100%)}
+.hero-body{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;padding-top:calc(var(--nav-h)+3rem);padding-bottom:5rem}
+.hero-pre{font-size:10px;letter-spacing:.28em;color:rgba(255,255,255,.3);margin-bottom:20px;display:block}
+.hero-h1{font-size:clamp(4rem,9vw,9rem);line-height:.92;letter-spacing:.02em;color:#fff;margin-bottom:24px}
+.h1-red{color:var(--red)}
+.hero-sub{font-size:.95rem;color:rgba(255,255,255,.45);line-height:1.8;max-width:420px;font-weight:300;margin-bottom:32px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+.hero-artists{display:flex;flex-direction:column;gap:8px;min-width:220px}
+.ha-pill{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.4);backdrop-filter:blur(8px)}
+.ha-pill:hover{border-color:var(--red);background:rgba(230,57,70,.07)}
+.ha-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ha-name{font-size:13px;color:#fff;letter-spacing:.06em}
+.ha-style{font-size:10px;color:var(--muted);margin-left:auto;letter-spacing:.06em}
+.ha-more{color:var(--red);font-size:13px;letter-spacing:.1em;padding:10px 14px;border:1px solid rgba(230,57,70,.3)}
+
+/* Stats */
+.hero-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(0,0,0,.7);border-top:1px solid rgba(255,255,255,.08)}
+.hs{padding:22px clamp(1.25rem,3.5vw,3rem);border-right:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:4px}
+.hs:last-child{border-right:none}
+.hs-n{font-size:1.9rem;color:#fff;line-height:1}
+.hs-l{font-size:10px;color:var(--muted);letter-spacing:.1em}
+
+/* ARTISTES */
+.sec-card{background:var(--bg-card)}
+.sec-light{background:#111;padding:clamp(5rem,8vw,8rem) 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.h2-red{color:var(--red)}
+.artists-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid rgba(255,255,255,.07)}
+.artist-card{border-right:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden;cursor:pointer}
+.artist-card:last-child{border-right:none}
+.artist-card:hover .ac-img img{transform:scale(1.06)}
+.ac-img{height:320px;overflow:hidden;position:relative}
+.ac-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.ac-overlay{position:absolute;inset:0}
+.ac-num{position:absolute;top:10px;right:12px;font-size:2.2rem;color:rgba(255,255,255,.12);line-height:1}
+.ac-body{padding:18px;background:var(--bg-card)}
+.ac-top{margin-bottom:8px}
+.ac-name{font-size:1.1rem;color:#fff;margin-bottom:4px}
+.ac-dispo{font-size:10.5px;color:var(--muted);letter-spacing:.06em}
+.ac-bar{position:absolute;bottom:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s}
+.artist-card:hover .ac-bar{opacity:1}
+
+/* GALERIE */
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto;gap:4px}
+.gal-item{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:3/4}
+.gal-item.big{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.gi-img{width:100%;height:100%;min-height:280px;overflow:hidden}
+.gi-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gal-item:hover .gi-img img{transform:scale(1.05)}
+.gi-label{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,transparent 100%);display:flex;align-items:flex-end;justify-content:space-between;gap:8px;opacity:0;transition:opacity .35s}
+.gal-item:hover .gi-label{opacity:1}
+.gi-titre{font-size:.82rem;color:#fff;letter-spacing:.04em}
+
+/* STYLES */
+.styles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(255,255,255,.07)}
+.style-item{display:flex;align-items:flex-start;gap:14px;padding:24px;border-right:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
+.style-item:nth-child(3n){border-right:none}
+.style-item:nth-child(4),.style-item:nth-child(5),.style-item:nth-child(6){border-bottom:none}
+.style-item:hover{background:rgba(230,57,70,.05)}
+.si-icon{font-size:1.2rem;color:var(--red);flex-shrink:0;margin-top:3px}
+.si-name{font-size:.88rem;color:#fff;letter-spacing:.06em;margin-bottom:6px}
+.si-desc{font-size:.8rem;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* CTA BAND */
+.cta-band{background:var(--bg-card);border-top:1px solid rgba(230,57,70,.2);border-bottom:1px solid rgba(230,57,70,.2);padding:clamp(4rem,6vw,6rem) 0}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:3rem;flex-wrap:wrap}
+.cta-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* RESPONSIVE */
+@media(max-width:1280px){.artists-strip{grid-template-columns:repeat(3,1fr)}.artist-card:nth-child(3){border-right:none}}
+@media(max-width:1024px){.hero-body{grid-template-columns:1fr}.hero-right{display:none}.gal-grid{grid-template-columns:repeat(2,1fr)}.gal-item.big{grid-column:auto;grid-row:auto}.styles-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.artists-strip{grid-template-columns:repeat(2,1fr)}.hero-stats{grid-template-columns:repeat(2,1fr)}.cta-inner{flex-direction:column}.styles-grid{grid-template-columns:1fr}.gal-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.hero-stats{grid-template-columns:1fr}.artists-strip{grid-template-columns:1fr}}
+</style>
+
+<script>
+  // Afficher le CTA dans la navbar au scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 120), { passive: true });
+</script>

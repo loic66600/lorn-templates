@@ -1,0 +1,20 @@
+{
+  "id": "mistral-mobilite",
+  "nom": "Mistral — Trottinettes électriques premium (style Bugatti)",
+  "categorie": "commerce",
+  "description": "Site vitrine e-commerce premium pour une marque de trottinettes électriques haut de gamme. Esthétique cinéma noir inspirée de l'univers hypercar : type condensé monumental en capitales, bleu lumineux comme seul accent, médias plein cadre. Fiches produits modernes (galerie image + bloc film vidéo + configurateur de finitions). Routes dynamiques par modèle, schéma Product/Organization, SEO national + local (Perpignan/Occitanie).",
+  "pages": ["index", "modeles", "modeles/[slug]", "reservation", "mentions-legales"],
+  "palette": {
+    "fond": "#08080A",
+    "fondClair": "#101216",
+    "texte": "#F3F5F9",
+    "texteSecondaire": "#878D99",
+    "accent": "#2C5BFF"
+  },
+  "polices": {
+    "display": "Saira Condensed",
+    "texte": "Manrope",
+    "utilitaire": "Spline Sans Mono"
+  },
+  "port": 4034
+}

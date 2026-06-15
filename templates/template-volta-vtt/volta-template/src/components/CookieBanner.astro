@@ -1,0 +1,58 @@
+---
+---
+<div class="cookies" id="cookies" hidden>
+  <p>
+    Volta utilise uniquement des cookies techniques nécessaires au
+    fonctionnement du site. Aucune donnée n'est exploitée à des fins
+    publicitaires.
+  </p>
+  <div class="cookies-actions">
+    <button class="cookies-btn cookies-ok" id="cookies-ok">Accepter</button>
+    <button class="cookies-btn cookies-non" id="cookies-non">Refuser</button>
+  </div>
+</div>
+
+<style>
+  .cookies {
+    position: fixed;
+    bottom: 1.4rem; left: 1.4rem;
+    z-index: 200;
+    max-width: 380px;
+    background: var(--terre-2);
+    border: 1px solid var(--ligne);
+    border-radius: 14px;
+    padding: 1.4rem 1.6rem;
+    font-size: 0.85rem;
+    color: var(--creme);
+  }
+  .cookies-actions { display: flex; gap: 0.8rem; margin-top: 1rem; }
+  .cookies-btn {
+    font-family: var(--font-texte);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.55rem 1.4rem;
+    border-radius: 100px;
+    cursor: pointer;
+    border: 1px solid var(--ligne);
+    background: transparent;
+    color: var(--creme);
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .cookies-ok { background: var(--cuivre); border-color: var(--cuivre); color: var(--terre); }
+  .cookies-btn:hover { border-color: var(--cuivre-clair); }
+
+  @media (max-width: 480px) { .cookies { left: 1rem; right: 1rem; max-width: none; } }
+</style>
+
+<script>
+  const banniere = document.getElementById("cookies");
+  if (banniere && !localStorage.getItem("cookies-choice")) banniere.hidden = false;
+  document.getElementById("cookies-ok")?.addEventListener("click", () => {
+    localStorage.setItem("cookies-choice", "accepted");
+    if (banniere) banniere.hidden = true;
+  });
+  document.getElementById("cookies-non")?.addEventListener("click", () => {
+    localStorage.setItem("cookies-choice", "refused");
+    if (banniere) banniere.hidden = true;
+  });
+</script>

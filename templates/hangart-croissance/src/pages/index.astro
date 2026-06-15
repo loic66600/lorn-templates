@@ -1,0 +1,453 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+
+const instaIcon = '<svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" width="16" height="16"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>';
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+---
+
+<Layout page="home">
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar acid-nav" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-main">HANG<span>ART</span></div>
+      <div class="nav-logo-sub">Tattoo Studio · Perpignan 66</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="active">Accueil</a></li>
+      <li><a href="/artistes">Artistes</a></li>
+      <li><a href="/a-propos">Le Studio</a></li>
+      <li><a href="/hygiene">Hygiène</a></li>
+      <li><a href="/videos">Vidéos</a></li>
+      <li><a href="/tarifs">Tarifs</a></li>
+      <li><a href="/contact" class="reserve">Réserver →</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mob-menu" id="mob-menu">
+    <nav>
+      <a href="/" class="active">Accueil</a>
+      <a href="/artistes">Artistes</a>
+      <a href="/a-propos">Le Studio</a>
+      <a href="/hygiene">Hygiène</a>
+      <a href="/videos">Vidéos</a>
+      <a href="/tarifs">Tarifs</a>
+      <a href="/contact" class="reserve-mob">Réserver →</a>
+    </nav>
+    <div class="mob-bottom">
+      <a href={`tel:${client.telephoneLink.replace('tel:','')}`}>{client.telephone}</a>
+      <a href={`mailto:${client.email}`}>{client.email}</a>
+      {client.reseaux.instagram && <a href={client.reseaux.instagram} target="_blank" rel="noopener">Instagram @hangart.tattoo.studio</a>}
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO — Full screen ═══ -->
+<section class="hero" id="top">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTO HERO — placeholder Unsplash
+       Pour remplacer par votre photo :
+         1. /public/images/hero-studio.jpg
+         2. Commentez la balise img ci-dessous
+         3. Décommentez la balise img commentée
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1920&q=90" alt="Hangart Tattoo Studio Perpignan" loading="eager"/>
+    <!-- <img src="/images/hero-studio.jpg" alt="Hangart Tattoo Studio Perpignan" loading="eager"/> -->
+    <div class="hero-noise"></div>
+    <div class="hero-grad"></div>
+  </div>
+
+  <div class="hero-content">
+    <!-- LABEL -->
+    <div class="hero-label mono">
+      <span class="hl-city">Perpignan · 66</span>
+      <span class="hl-dot">●</span>
+      <span>68 Av. de Grande-Bretagne</span>
+      <span class="hl-dot">●</span>
+      <span>Fondé en {client.fondation}</span>
+    </div>
+
+    <!-- TITRE MASSIF -->
+    <h1 class="hero-h1 disp" data-glitch>
+      HANG<span class="ha-acid">ART</span>
+    </h1>
+
+    <!-- SOUS-TITRE -->
+    <p class="hero-tagline disp">{client.heroText}</p>
+
+    <!-- ARTISTES — strip compact -->
+    <div class="hero-artists">
+      {client.artistes.map(a => (
+        <a href={`/artistes/${a.slug}`} class="ha-chip">
+          <span class="hac-dot" style={`background:${a.couleur}`}></span>
+          <span class="hac-name disp" data-glitch>{a.pseudo}</span>
+          <span class="hac-style mono">{a.styleShort}</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="hero-cta">
+      <a href="/contact" class="btn btn-acid btn-lg">Réserver une séance →</a>
+      <a href="/artistes" class="btn btn-ghost btn-lg">Découvrir les artistes</a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-ind mono">
+    <span>SCROLL</span>
+    <div class="si-line"></div>
+  </div>
+</section>
+
+<!-- ═══ BANDE DÉFILANTE ═══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    {[...Array(3)].map(_ =>
+      <span class="disp">TATOUAGE · PERPIGNAN · ART SUR PEAU · HANGART · HYGIÈNE · TALENT · PERPIGNAN 66 · TATTOO STUDIO · PERSONNALISÉ · </span>
+    )}
+  </div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<section class="stats-bar">
+  <div class="wrap stats-inner">
+    {client.stats.map((s, i) => (
+      <div class="stat-item" data-reveal style={`transition-delay:${i*.1}s`}>
+        <strong class="disp stat-n"><span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span></strong>
+        <span class="mono stat-l">{s.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ═══ ARTISTES — cards éditoriales ═══ -->
+<section class="sec sec-1" id="artistes">
+  <div class="wrap">
+    <div class="sec-hd" data-reveal>
+      <div>
+        <span class="label">Nos artistes</span>
+        <h2 class="h2">6 univers.<br><span style="color:var(--acid)">Un seul niveau.</span></h2>
+      </div>
+      <a href="/artistes" class="btn btn-ghost">Voir tous les artistes →</a>
+    </div>
+
+    <!-- Grille 3+3 -->
+    <div class="artists-grid">
+      {client.artistes.map((a, i) => (
+        <a href={`/artistes/${a.slug}`} class="artist-card" data-reveal style={`transition-delay:${(i%3)*.12}s`}>
+          <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+               PHOTO ARTISTE — depuis client.ts
+               Pour remplacer : dans client.ts, commentez
+               la ligne `photo:` active et décommentez
+               la ligne `// photo: "/images/artistes/..."`
+               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <div class="ac-img">
+            <img src={a.photo} alt={`${a.pseudo} — tatoueur ${a.styleShort}`} loading="lazy"/>
+            <div class="ac-grad" style={`background: linear-gradient(to top, ${a.couleur}22 0%, transparent 50%)`}></div>
+          </div>
+          <div class="ac-body">
+            <div class="ac-top">
+              <span class="tag tag-acid" style={`color:${a.couleur};border-color:${a.couleur};background:${a.couleur}15`}>{a.styleShort}</span>
+              <span class="mono ac-exp">{a.experience}</span>
+            </div>
+            <h3 class="disp ac-name" data-glitch style={`color:var(--peau)`}>{a.pseudo}</h3>
+            <p class="ac-dispo mono">— {a.disponibilite}</p>
+          </div>
+          <div class="ac-accent" style={`background:${a.couleur}`}></div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ À PROPOS — cinématique ═══ -->
+<section class="sec-about">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTO STUDIO — depuis client.ts
+       Pour remplacer : dans client.ts, commentez
+       `photoStudio:` et décommentez le chemin local.
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="ab-img">
+    <img src={client.apropos.photoStudio} alt="Hangart Tattoo Studio Perpignan" loading="lazy"/>
+    <div class="ab-img-grad"></div>
+  </div>
+  <div class="ab-content">
+    <span class="label" data-reveal>Le Studio</span>
+    <h2 class="h2" data-reveal style="transition-delay:.1s">Un hangar.<br><span style="color:var(--acid)">De l'art.</span></h2>
+    <span class="acid-line" data-reveal style="transition-delay:.15s"></span>
+    <p class="lead" data-reveal style="transition-delay:.2s">{client.apropos.p1}</p>
+    <p class="lead" data-reveal style="transition-delay:.25s" style="margin-top:.75rem">{client.apropos.p2}</p>
+    <div class="ab-btns" data-reveal style="transition-delay:.3s">
+      <a href="/a-propos" class="btn btn-acid">En savoir plus →</a>
+      <a href="/hygiene" class="btn btn-ghost">Hygiène & Sécurité</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VIDÉO HIGHLIGHT ═══ -->
+{client.videos.length > 0 && (
+<section class="sec" id="videos">
+  <div class="wrap">
+    <div class="sec-hd" data-reveal>
+      <div>
+        <span class="label">En images</span>
+        <h2 class="h2">Voyez<br><span style="color:var(--acid)">notre travail.</span></h2>
+      </div>
+      <a href="/videos" class="btn btn-ghost">Toutes les vidéos →</a>
+    </div>
+    <div class="video-featured" data-reveal>
+      <div class="vf-embed">
+        <iframe
+          src={`https://www.youtube.com/embed/${client.videos[0].youtubeId}?rel=0&modestbranding=1`}
+          title={client.videos[0].titre}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div class="vf-info">
+        <span class="label">Vidéo à la une</span>
+        <h3 class="h3" style="margin-top:10px">{client.videos[0].titre}</h3>
+        <p class="lead" style="margin-top:.75rem">{client.videos[0].description}</p>
+        {client.videos.slice(1).map(v => (
+          <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`} target="_blank" rel="noopener" class="vf-more">
+            <span class="mono">▶</span>
+            <div><strong class="disp">{v.titre}</strong><span class="mono">{v.description}</span></div>
+          </a>
+        ))}
+        <a href="/videos" class="btn btn-acid" style="margin-top:1.5rem">Voir toutes les vidéos →</a>
+      </div>
+    </div>
+  </div>
+</section>
+)}
+
+<!-- ═══ HYGIENE STRIP ═══ -->
+<section class="sec-light" id="hygiene">
+  <div class="wrap">
+    <div class="sc-center" data-reveal>
+      <span class="label label-dark">Sécurité & Confiance</span>
+      <h2 class="h2 h2-dark" style="margin-top:8px">Hygiène<br>sans compromis.</h2>
+    </div>
+    <div class="hygiene-grid">
+      {client.hygiene.map((h, i) => (
+        <div class="hy-item" data-reveal style={`transition-delay:${(i%3)*.1}s`}>
+          <span class="hy-num mono">{h.icone}</span>
+          <h3 class="disp hy-title h2-dark">{h.titre}</h3>
+          <p class="mono hy-desc lead-dark">{h.desc}</p>
+        </div>
+      ))}
+    </div>
+    <div class="hy-cta" data-reveal>
+      <a href="/hygiene" class="btn btn-ghost-dark">Voir notre protocole complet →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="sec sec-1">
+  <div class="wrap faq-layout">
+    <div data-reveal="left">
+      <span class="label">Questions fréquentes</span>
+      <h2 class="h2" style="margin-top:8px">On répond<br><span style="color:var(--acid)">à tout.</span></h2>
+      <span class="acid-line"></span>
+      <p class="lead">Vous avez une question sur les prix, le déroulement, le style ? On est là.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem">
+        <a href="/contact" class="btn btn-acid">Nous contacter →</a>
+        <a href={client.telephoneLink} class="btn btn-ghost">{client.telephone}</a>
+      </div>
+    </div>
+    <div class="faq-list" data-reveal="right">
+      {client.faq.map((f, i) => (
+        <details class="faq-item" open={i===0}>
+          <summary class="faq-q disp">
+            <span class="fq-n mono">{String(i+1).padStart(2,'0')}</span>
+            {f.q}
+            <span class="fq-p">+</span>
+          </summary>
+          <p class="faq-a mono">{f.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="cta-final">
+  <div class="wrap cta-inner">
+    <div data-reveal>
+      <span class="label">Prêt ?</span>
+      <h2 class="h2" style="margin-top:8px;font-size:clamp(2rem,6vw,5rem)">Votre tatouage<br><span style="color:var(--acid)">commence ici.</span></h2>
+      <p class="lead" style="margin-top:.75rem">{client.adresse}<br>{client.horairesResume}</p>
+    </div>
+    <div class="cta-actions" data-reveal="right">
+      <a href="/contact" class="btn btn-acid btn-lg">Réserver une séance →</a>
+      <a href={client.telephoneLink} class="btn btn-ghost btn-lg">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="f-brand">
+        <div class="f-logo-main">HANG<span>ART</span></div>
+        <div class="f-logo-sub">Tattoo Studio · Perpignan (66)</div>
+        <p>{client.adresse}<br/>{client.horairesResume}</p>
+        <div class="f-soc">
+          {socials.map(([k,v]) => (
+            <a href={v} target="_blank" rel="noopener" title={k} set:html={instaIcon}/>
+          ))}
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>Navigation</h4>
+        <ul>
+          {[['/', 'Accueil'],['/artistes','Artistes'],['/a-propos','Le Studio'],['/hygiene','Hygiène'],['/videos','Vidéos'],['/tarifs','Tarifs'],['/contact','Contact']].map(([h,l]) => (
+            <li><a href={h}>{l}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Artistes</h4>
+        <ul>
+          {client.artistes.map(a => (
+            <li><a href={`/artistes/${a.slug}`}>{a.pseudo}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <p>© {new Date().getFullYear()} {client.nomComplet} · SIRET {client.siret} · <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+    </div>
+  </div>
+</footer>
+
+</Layout>
+
+<style>
+/* HERO */
+.hero { position:relative; min-height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; z-index:0; }
+.hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 25%; }
+.hero-noise {
+  position:absolute; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  background-repeat:repeat; background-size:200px; opacity:.6; mix-blend-mode:overlay;
+}
+.hero-grad { position:absolute; inset:0; background:linear-gradient(160deg,rgba(17,16,8,.95) 0%,rgba(17,16,8,.7) 45%,rgba(17,16,8,.35) 100%); }
+
+.hero-content { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; justify-content:center; padding:calc(var(--nav-h)+5rem) clamp(1rem,3vw,3rem) 3rem; max-width:var(--wrap); margin:0 auto; width:100%; }
+
+.hero-label { font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:rgba(240,237,232,.3); display:flex; align-items:center; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
+.hl-dot { color:var(--acid); font-size:.5rem; }
+
+.hero-h1 { font-size:clamp(5rem,16vw,16rem); font-weight:900; font-style:italic; text-transform:uppercase; letter-spacing:-.02em; line-height:.88; color:var(--peau); margin-bottom:20px; }
+.ha-acid { color:var(--acid); }
+
+.hero-tagline { font-size:clamp(1rem,2.5vw,1.8rem); font-weight:600; font-style:italic; text-transform:uppercase; color:rgba(240,237,232,.5); letter-spacing:.06em; margin-bottom:28px; }
+
+/* Artistes chips dans hero */
+.hero-artists { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; }
+.ha-chip { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border:1px solid rgba(240,237,232,.12); background:rgba(17,16,8,.6); backdrop-filter:blur(8px); }
+.ha-chip:hover { border-color:var(--acid); background:rgba(212,255,0,.08); }
+.hac-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.hac-name { font-size:11px; font-weight:700; letter-spacing:.1em; color:var(--peau); }
+.hac-style { font-size:9px; letter-spacing:.14em; color:var(--muted); }
+.hero-cta { display:flex; gap:12px; flex-wrap:wrap; }
+
+.scroll-ind { position:absolute; bottom:28px; left:clamp(1rem,3vw,3rem); z-index:1; display:flex; align-items:center; gap:14px; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(240,237,232,.3); }
+.si-line { width:40px; height:1px; background:var(--acid); }
+
+/* TICKER */
+.ticker { overflow:hidden; background:var(--acid); padding:11px 0; border-top:1px solid rgba(17,16,8,.2); }
+.ticker-inner { display:flex; animation:ticker 20s linear infinite; white-space:nowrap; }
+.ticker span { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-weight:700; font-size:clamp(.85rem,1.5vw,1.1rem); text-transform:uppercase; letter-spacing:.08em; color:var(--noir); padding:0 2rem; }
+@keyframes ticker { from { transform:translateX(0); } to { transform:translateX(-33.33%); } }
+
+/* STATS BAR */
+.stats-bar { background:var(--bg-1); border-bottom:1px solid var(--border-w); }
+.stats-inner { display:grid; grid-template-columns:repeat(4,1fr); }
+.stat-item { padding:clamp(1.2rem,3vw,2rem) clamp(1rem,3vw,2.5rem); border-right:1px solid var(--border-w); display:flex; flex-direction:column; gap:6px; }
+.stat-item:last-child { border-right:none; }
+.stat-n { font-size:clamp(1.8rem,4vw,3.5rem); color:var(--peau); line-height:1; }
+.stat-l { font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+
+/* ARTISTES SECTION */
+.sec-hd { display:flex; justify-content:space-between; align-items:flex-end; gap:2rem; margin-bottom:3rem; flex-wrap:wrap; }
+.artists-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; }
+.artist-card { position:relative; overflow:hidden; display:block; cursor:pointer; background:var(--noir-2); }
+.artist-card:hover .ac-img img { transform:scale(1.07); }
+.artist-card:hover .ac-accent { height:3px; }
+.ac-img { height:340px; overflow:hidden; position:relative; }
+.ac-img img { width:100%; height:100%; object-fit:cover; transition:transform .6s cubic-bezier(.4,0,.2,1); }
+.ac-grad { position:absolute; inset:0; }
+.ac-body { padding:18px 20px; background:var(--noir-1); }
+.ac-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.ac-exp { font-size:10px; letter-spacing:.14em; color:var(--muted); }
+.ac-name { font-size:1.4rem; font-weight:900; letter-spacing:.06em; margin-bottom:5px; }
+.ac-dispo { font-size:9.5px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; }
+.ac-accent { position:absolute; bottom:0; left:0; right:0; height:0; transition:height .3s ease; }
+
+/* À PROPOS */
+.sec-about { display:grid; grid-template-columns:1fr 1fr; min-height:600px; }
+.ab-img { position:relative; overflow:hidden; }
+.ab-img img { width:100%; height:100%; object-fit:cover; }
+.ab-img-grad { position:absolute; inset:0; background:linear-gradient(90deg,transparent 50%,var(--noir) 100%); }
+.ab-content { background:var(--noir); padding:clamp(3rem,6vw,7rem); display:flex; flex-direction:column; justify-content:center; }
+.ab-btns { display:flex; gap:10px; flex-wrap:wrap; margin-top:2rem; }
+
+/* VIDÉO */
+.video-featured { display:grid; grid-template-columns:3fr 2fr; gap:3px; margin-top:2rem; }
+.vf-embed { aspect-ratio:16/9; overflow:hidden; background:var(--noir-2); }
+.vf-embed iframe { width:100%; height:100%; border:none; display:block; }
+.vf-info { background:var(--bg-1); padding:2rem; display:flex; flex-direction:column; justify-content:center; }
+.vf-more { display:flex; gap:14px; align-items:flex-start; padding:14px 0; border-bottom:1px solid var(--border-w); }
+.vf-more:first-of-type { border-top:1px solid var(--border-w); margin-top:1rem; }
+.vf-more span:first-child { color:var(--acid); font-size:.75rem; margin-top:3px; flex-shrink:0; }
+.vf-more strong { display:block; font-size:.88rem; font-style:italic; text-transform:uppercase; letter-spacing:.04em; color:var(--peau); margin-bottom:3px; }
+.vf-more span:last-child { font-size:9.5px; color:var(--muted); letter-spacing:.06em; }
+
+/* HYGIENE */
+.sc-center { margin-bottom:3rem; }
+.hygiene-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid rgba(17,16,8,.1); }
+.hy-item { padding:28px 24px; border-right:1px solid rgba(17,16,8,.08); border-bottom:1px solid rgba(17,16,8,.08); }
+.hy-item:nth-child(3n) { border-right:none; }
+.hy-item:nth-child(4),.hy-item:nth-child(5),.hy-item:nth-child(6) { border-bottom:none; }
+.hy-item:hover { background:var(--peau-d); }
+.hy-num { font-size:2rem; color:rgba(17,16,8,.1); display:block; margin-bottom:10px; line-height:1; }
+.hy-title { font-size:.95rem; color:var(--noir); margin-bottom:8px; }
+.hy-desc { font-size:.78rem; line-height:1.85; color:rgba(17,16,8,.5); }
+.hy-cta { margin-top:2rem; display:flex; justify-content:center; }
+
+/* FAQ */
+.faq-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.faq-list { display:flex; flex-direction:column; border:1px solid var(--border-w); }
+.faq-item { border-bottom:1px solid var(--border-w); }
+.faq-item:last-child { border-bottom:none; }
+.faq-q { display:flex; align-items:center; gap:12px; padding:16px 20px; cursor:pointer; list-style:none; font-size:.82rem; font-style:italic; letter-spacing:.06em; color:var(--peau); }
+.faq-q::-webkit-details-marker { display:none; }
+.faq-q:hover { background:rgba(212,255,0,.04); }
+.fq-n { color:var(--acid); opacity:.5; min-width:28px; font-style:normal; font-size:.8rem; }
+.fq-p { margin-left:auto; font-size:1.2rem; font-weight:300; color:var(--acid); font-style:normal; }
+details[open] .fq-p { transform:rotate(45deg); }
+.faq-a { padding:0 20px 16px 60px; font-size:.78rem; color:var(--muted); line-height:1.9; letter-spacing:.03em; }
+
+/* CTA FINAL */
+.cta-final { background:var(--bg-1); border-top:2px solid var(--acid); padding:clamp(4rem,7vw,8rem) 0; }
+.cta-inner { display:flex; justify-content:space-between; align-items:center; gap:3rem; flex-wrap:wrap; }
+.cta-actions { display:flex; flex-direction:column; gap:12px; }
+
+/* RESPONSIVE */
+@media(max-width:1280px) { .artists-grid { grid-template-columns:repeat(2,1fr); } .video-featured { grid-template-columns:1fr; } }
+@media(max-width:1024px) { .sec-about { grid-template-columns:1fr; } .ab-img { height:380px; } .ab-img-grad { background:linear-gradient(0deg,var(--noir) 0%,transparent 100%); } .faq-layout { grid-template-columns:1fr; gap:32px; } }
+@media(max-width:768px) { .hero-h1 { font-size:clamp(3.5rem,14vw,8rem); } .artists-grid { grid-template-columns:1fr; } .stats-inner { grid-template-columns:repeat(2,1fr); } .stat-item:nth-child(2) { border-right:none; } .stat-item:nth-child(1),.stat-item:nth-child(2) { border-bottom:1px solid var(--border-w); } .cta-inner { flex-direction:column; align-items:flex-start; } .hygiene-grid { grid-template-columns:1fr; } .hy-item { border-right:none; } }
+@media(max-width:480px) { .stats-inner { grid-template-columns:1fr; } .stat-item { border-right:none; border-bottom:1px solid var(--border-w); } }
+</style>
