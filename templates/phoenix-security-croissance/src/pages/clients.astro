@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const stars = '★★★★★';
+---
+<Layout title={`Clients & Références — ${client.nomComplet}`} description={`Ils font confiance à Phoenix Security — ${client.stats[0].chiffre}+ missions réussies pour les leaders de l'industrie, du luxe, de la finance et de l'événementiel.`}>
+
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">PHOENIX<span> SECURITY</span></div><div class="nav-logo-sub">Event & Fire Security</div></a>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="/">Accueil</a></li>
+    <li class="nav-item"><a href="/services">Services</a></li>
+    <li class="nav-item"><a href="/a-propos">À Propos</a></li>
+    <li class="nav-item"><a href="/recrutement">Recrutement</a></li>
+    <li class="nav-item"><a href="/clients" class="active">Clients</a></li>
+    <li class="nav-item"><a href="/contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta"><a href="/devis" class="btn btn-rouge">Demander un devis</a></div>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu">
+  <nav class="mob-nav"><a href="/">Accueil</a><a href="/services">Services</a><a href="/a-propos">À Propos</a><a href="/recrutement">Recrutement</a><a href="/clients" class="active">Clients</a><a href="/contact">Contact</a></nav>
+  <div class="mob-cta-wrap"><a href="/devis" class="btn btn-rouge" style="width:100%;justify-content:center">Demander un devis →</a></div>
+  <div class="mob-footer"><a href={client.telephoneLink} class="mob-tel">{client.telephone}</a></div>
+</div></nav>
+
+<!-- Header -->
+<header class="ph">
+  <div class="wrap">
+    <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Clients</span></nav>
+    <div class="cl-head">
+      <div>
+        <span class="label-tac">Partenaires de confiance</span>
+        <h1 class="h1" style="margin-top:8px">ILS NOUS<br>FONT <span class="rouge" style="font-style:italic">CONFIANCE.</span></h1>
+        <p class="lead" style="margin-top:1rem;max-width:480px">De la sécurisation d'événements internationaux à la protection incendie de sites industriels critiques, Phoenix déploie son expertise auprès des acteurs les plus exigeants.</p>
+      </div>
+      <div class="cl-stat">
+        <strong class="disp cl-n rouge"><span class="ctr" data-target={500} data-suffix="+">0</span></strong>
+        <span style="font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--fumee)">Missions réussies</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Grille clients -->
+<section class="sec-1">
+  <div class="wrap">
+    <div class="cl-grid">
+      {client.clients.map((c, i) => (
+        <div class="cl-item" data-r style={`transition-delay:${(i%6)*.07}s`}>
+          <div class="cli-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24" width="28" height="28"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+          </div>
+          <span class="cli-name">{c.nom}</span>
+          <span class="cli-sect">{c.secteur}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Témoignage -->
+<section class="sec-2">
+  <div class="wrap testo-lay">
+    <div class="testo-left" data-r="l">
+      <div class="testo-stars">{stars}</div>
+      <blockquote class="testo-quote">"{client.temoignage.texte}"</blockquote>
+      <div class="testo-author">
+        <div class="ta-avatar disp">{client.temoignage.auteur.charAt(0)}</div>
+        <div>
+          <div class="disp ta-name">{client.temoignage.auteur}</div>
+          <div class="ta-role">{client.temoignage.fonction}</div>
+        </div>
+      </div>
+    </div>
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         PHOTO TÉMOIGNAGE — depuis client.ts
+         Pour remplacer : commentez image Unsplash
+         dans client.ts et décommentez le chemin local
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="testo-img" data-r="r">
+      <img src={client.temoignage.image} alt="Salle de surveillance Phoenix Security" loading="lazy"/>
+      <div style="position:absolute;bottom:16px;left:16px;z-index:1">
+        <span class="dot-live">Surveillance 24/7 active</span>
+      </div>
+      <div style="position:absolute;inset:0;background:rgba(8,8,8,.4)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec-rouge-cta"><div class="wrap cta-inner">
+  <div data-r>
+    <h2 class="h2" style="color:#fff">PRÊT À SÉCURISER<br><span style="color:rgba(255,255,255,.6)">VOTRE AVENIR ?</span></h2>
+    <p style="color:rgba(255,255,255,.6);margin-top:.5rem;letter-spacing:.06em;font-size:.82rem">Rejoignez les leaders qui font confiance à la force de sécurité Phoenix.</p>
+  </div>
+  <div class="cta-acts" data-r="r">
+    <a href="/devis" class="btn btn-rouge btn-xl">Consultation gratuite →</a>
+    <a href="/services" class="btn btn-ghost btn-xl">Nos services</a>
+  </div>
+</div></section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<style>
+.cl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:3rem;flex-wrap:wrap;margin-top:12px}
+.cl-stat{text-align:right;flex-shrink:0}
+.cl-n{font-size:4.5rem;display:block;line-height:1}
+.cl-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.cl-item{
+  background:var(--noir-2);border:1px solid var(--border-w);
+  padding:24px 16px;display:flex;flex-direction:column;align-items:center;
+  text-align:center;gap:10px;cursor:default;
+  transition:border-color .25s,background .25s;
+}
+.cl-item:hover{border-color:var(--rouge);background:var(--rouge-g)}
+.cli-icon{color:var(--fumee-d)}.cl-item:hover .cli-icon{color:var(--rouge)}
+.cli-name{font-family:var(--font-disp);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blanc);line-height:1.2;text-align:center}
+.cli-sect{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fumee-d)}
+.testo-lay{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.testo-left{padding:clamp(2.5rem,5vw,5rem);display:flex;flex-direction:column;justify-content:center}
+.testo-stars{color:var(--rouge);font-size:1rem;letter-spacing:3px;margin-bottom:20px}
+.testo-quote{font-size:1.1rem;line-height:1.7;color:var(--blanc);font-style:italic;margin-bottom:28px;letter-spacing:.03em}
+.testo-author{display:flex;align-items:center;gap:14px}
+.ta-avatar{width:44px;height:44px;border:2px solid var(--rouge);display:flex;align-items:center;justify-content:center;color:var(--rouge);font-size:1.2rem;flex-shrink:0}
+.ta-name{font-size:.85rem;color:var(--blanc);letter-spacing:.06em}
+.ta-role{font-size:10px;color:var(--fumee);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.testo-img{position:relative;overflow:hidden;height:400px}.testo-img img{width:100%;height:100%;object-fit:cover}
+.sec-rouge-cta{background:var(--noir-1);border-top:3px solid var(--rouge);border-bottom:3px solid var(--rouge);padding:clamp(4rem,7vw,7rem) 0}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:3rem;flex-wrap:wrap}
+.cta-acts{display:flex;flex-direction:column;gap:12px}
+@media(max-width:1100px){.cl-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:768px){.cl-grid{grid-template-columns:repeat(2,1fr)}.testo-lay{grid-template-columns:1fr}.testo-img{height:280px}.cta-inner{flex-direction:column;align-items:flex-start}.cl-head{flex-direction:column}.cl-stat{text-align:left}}
+</style>

@@ -1,0 +1,186 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+---
+<Layout title={`Demander un devis — ${client.nomComplet}`} description={`Demandez votre devis de sécurité privée sous 24h. Gardiennage, événementiel, SSIAP. Phoenix Security — réponse garantie.`}>
+
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">PHOENIX<span> SECURITY</span></div><div class="nav-logo-sub">Event & Fire Security</div></a>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="/">Accueil</a></li><li class="nav-item"><a href="/services">Services</a></li>
+    <li class="nav-item"><a href="/a-propos">À Propos</a></li><li class="nav-item"><a href="/recrutement">Recrutement</a></li>
+    <li class="nav-item"><a href="/clients">Clients</a></li><li class="nav-item"><a href="/contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta"><a href="/devis" class="btn btn-rouge">Demander un devis</a></div>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu">
+  <nav class="mob-nav"><a href="/">Accueil</a><a href="/services">Services</a><a href="/a-propos">À Propos</a><a href="/recrutement">Recrutement</a><a href="/clients">Clients</a><a href="/contact">Contact</a></nav>
+  <div class="mob-cta-wrap"><a href="/devis" class="btn btn-rouge" style="width:100%;justify-content:center">Demander un devis →</a></div>
+  <div class="mob-footer"><a href={client.telephoneLink} class="mob-tel">{client.telephone}</a></div>
+</div></nav>
+
+<section class="devis-wrap">
+  <div class="wrap devis-inner">
+
+    <!-- Titre + formulaire -->
+    <div class="devis-main">
+      <h1 class="h1 devis-title">
+        VOTRE SÉCURITÉ,<br>
+        <span class="rouge">NOTRE PRIORITÉ.</span>
+      </h1>
+      <p class="lead" style="margin-bottom:2.5rem">Expertise tactique et réactivité opérationnelle. Remplissez ce formulaire pour une étude personnalisée de vos besoins sous 24h.</p>
+
+      <div class="form-card" id="dForm">
+        <div class="fields">
+          <div class="frow">
+            <div class="fg"><label>Nom / Société *</label><input id="fNom" type="text" placeholder="Ex : Phoenix Global" required/></div>
+            <div class="fg"><label>Téléphone *</label><input id="fTel" type="tel" placeholder="+33 (0) 00 00 00 00" required/></div>
+          </div>
+          <div class="fg"><label>Email professionnel *</label><input id="fEmail" type="email" placeholder="CONTACT@VOTRESOCIETE.FR" required/></div>
+          <div class="frow">
+            <div class="fg">
+              <label>Type de besoin *</label>
+              <select id="fType" required>
+                <option value="">Choisir…</option>
+                {client.services.map(s => <option value={s.id}>{s.titre}</option>)}
+                <option value="autre">Autre / Plusieurs</option>
+              </select>
+            </div>
+            <div class="fg"><label>Localisation</label><input id="fLoc" type="text" placeholder="Ville ou département"/></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>Date d'intervention</label><input id="fDate" type="date"/></div>
+            <div class="fg"><label>Heure</label><input id="fHeure" type="time"/></div>
+          </div>
+          <div class="fg"><label>Nombre d'agents requis</label><input id="fAgents" type="number" min="1" value="1" placeholder="1"/></div>
+          <div class="fg"><label>Message & détails spécifiques</label><textarea id="fMsg" rows="4" placeholder="DÉCRIVEZ VOTRE BESOIN…"></textarea></div>
+          <button type="button" id="submitBtn" class="btn btn-rouge btn-xl" style="width:100%;justify-content:center">
+            SOUMETTRE LA DEMANDE →
+          </button>
+          <p class="form-legal">{client.acompte ?? 'Réponse garantie sous 24h ouvrées.'} Aucun engagement. Confidentialité assurée.</p>
+        </div>
+      </div>
+      <div id="dOk" style="display:none" class="form-ok">
+        <span class="disp fo-title">DEMANDE REÇUE.</span>
+        <p>Votre demande a été transmise à notre équipe. Un expert vous contacte sous 24h pour étudier votre projet.</p>
+        <a href="/" class="btn btn-ghost" style="margin-top:1.5rem">← Retour à l'accueil</a>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="devis-side">
+      <div class="ds-bloc">
+        <div class="dsb-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div>
+          <h4 class="disp dsb-title">Réponse rapide</h4>
+          <p>Engagement de réponse sous 24 heures pour toute demande conventionnelle.</p>
+        </div>
+      </div>
+      <div class="ds-bloc">
+        <div class="dsb-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="24" height="24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        </div>
+        <div>
+          <h4 class="disp dsb-title">Étude personnalisée</h4>
+          <p>Analyse de risques approfondie pour adapter nos ressources à votre contexte.</p>
+        </div>
+      </div>
+      <div class="ds-bloc">
+        <div class="dsb-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="24" height="24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div>
+          <h4 class="disp dsb-title">Certification SSIAP</h4>
+          <p>Agents hautement qualifiés et certifiés pour la sécurité incendie.</p>
+        </div>
+      </div>
+      <!-- Photo monitoring -->
+      <div class="ds-photo">
+        <img src="/images/pcsecu.png" alt="Surveillance 24/7" loading="lazy"/>
+        <!-- <img src="/images/monitoring.jpg" alt="Surveillance 24/7" loading="lazy"/> -->
+        <div style="position:absolute;bottom:12px;left:12px"><span class="dot-live">Surveillance 24/7 active</span></div>
+        <div style="position:absolute;inset:0;background:rgba(8,8,8,.3)"></div>
+      </div>
+      <div class="ds-urgence">
+        <h4 class="disp">CONTACT URGENT</h4>
+        <p style="margin:.5rem 0">Pour toute urgence opérationnelle immédiate :</p>
+        <a href={client.telephoneLink} class="urgent-tel">{client.telephoneUrgent}</a>
+      </div>
+      <!-- FAQ rapide -->
+      {client.faqDevis.map((f, i) => (
+        <details class="ds-faq" open={i===0}>
+          <summary class="disp faq-q"><span class="rouge" style="margin-right:8px">›</span>{f.q}</summary>
+          <p class="faq-a">{f.r}</p>
+        </details>
+      ))}
+    </aside>
+
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<script define:vars={{ web3Key, emailTo: client.email, nomSociete: client.nomComplet }}>
+  document.getElementById('submitBtn')?.addEventListener('click', async () => {
+    const n=document.getElementById('fNom')?.value||'',t=document.getElementById('fTel')?.value||'';
+    const e=document.getElementById('fEmail')?.value||'',ty=document.getElementById('fType')?.value||'';
+    const l=document.getElementById('fLoc')?.value||'',d=document.getElementById('fDate')?.value||'';
+    const h=document.getElementById('fHeure')?.value||'',a=document.getElementById('fAgents')?.value||'1';
+    const m=document.getElementById('fMsg')?.value||'';
+    if (!n||!t||!e||!ty) { alert('Champs * obligatoires'); return; }
+    const btn=document.getElementById('submitBtn'); btn.textContent='Envoi…'; btn.disabled=true;
+    if (web3Key) {
+      try {
+        const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:web3Key,subject:`Devis ${nomSociete} — ${ty} — ${n}`,from_name:n,telephone:t,email:e,type_besoin:ty,localisation:l,date:d,heure:h,agents:a,message:m})});
+        if ((await r.json()).success){document.getElementById('dForm').style.display='none';document.getElementById('dOk').style.display='flex';return}
+      } catch(err) {}
+    }
+    window.location.href=`mailto:${emailTo}?subject=Devis ${ty} — ${n}&body=Nom: ${n}%0ATel: ${t}%0AEmail: ${e}%0AType: ${ty}%0ALieu: ${l}%0ADate: ${d} ${h}%0AAgents: ${a}%0A%0A${m}`;
+  });
+</script>
+
+<style>
+.devis-wrap{padding:calc(var(--total-h)+4rem) 0 5rem;min-height:100vh;background:var(--noir)}
+.devis-inner{display:grid;grid-template-columns:1fr 400px;gap:3rem;align-items:start}
+.devis-title{font-size:clamp(2.5rem,6vw,5.5rem);margin-bottom:1.5rem}
+.form-card{background:var(--noir-1);border:1px solid var(--border-w);padding:2.5rem}
+.fields{display:flex;flex-direction:column;gap:14px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,240,238,.3)}
+.fg input,.fg select,.fg textarea{padding:12px 14px;border:1px solid var(--border-w);background:rgba(240,240,238,.03);font-family:var(--font-body);font-size:.85rem;color:var(--blanc);letter-spacing:.06em}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--rouge)}
+.fg select option{background:var(--noir-1);color:var(--blanc)}
+.fg textarea{resize:vertical;min-height:120px}
+.form-legal{font-size:9.5px;color:var(--fumee-d);text-align:center;letter-spacing:.1em;text-transform:uppercase}
+.form-ok{background:var(--rouge-g);border:1px solid var(--border);padding:56px 36px;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.fo-title{font-size:3.5rem;color:var(--rouge)}
+.form-ok p{font-size:.85rem;color:var(--fumee);line-height:1.8;max-width:360px}
+.ds-bloc{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--border-w)}
+.dsb-icon{color:var(--rouge);flex-shrink:0;margin-top:2px;width:24px;height:24px}
+.dsb-icon svg{width:100%;height:100%}
+.ds-bloc h4{font-size:.78rem;letter-spacing:.08em;color:var(--blanc);margin-bottom:5px}
+.ds-bloc p{font-size:.76rem;color:var(--fumee);line-height:1.7}
+.ds-photo{position:relative;height:200px;overflow:hidden;margin-top:16px;border:1px solid var(--border-w)}
+.ds-photo img{width:100%;height:100%;object-fit:cover}
+.ds-urgence{background:var(--rouge);padding:16px;margin-top:3px}
+.ds-urgence h4{font-size:.8rem;letter-spacing:.1em;color:#fff}
+.ds-urgence p{font-size:.78rem;color:rgba(255,255,255,.7)}
+.urgent-tel{font-family:var(--font-disp);font-size:1.5rem;letter-spacing:.04em;color:#fff;display:block;margin-top:4px}
+.urgent-tel:hover{opacity:.85}
+.ds-faq{border-bottom:1px solid var(--border-w);padding:10px 0}
+.faq-q{cursor:pointer;list-style:none;font-size:.78rem;letter-spacing:.06em;color:var(--blanc)}
+.faq-q::-webkit-details-marker{display:none}
+.faq-a{font-size:.75rem;color:var(--fumee);line-height:1.8;padding:.5rem 0 .25rem 1rem}
+@media(max-width:1100px){.devis-inner{grid-template-columns:1fr}}
+@media(max-width:640px){.frow{grid-template-columns:1fr}.form-card{padding:1.5rem}}
+</style>

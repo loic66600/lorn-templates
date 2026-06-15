@@ -1,0 +1,514 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+
+const icons: Record<string, string> = {
+  shield: '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L20 6v6c0 5.25-3.5 9.74-8 10.93C7.5 21.74 4 17.25 4 12V6l8-4z"/></svg>',
+  users:  '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>',
+  flame:  '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.12 5.678 17.5 7c1.7 1.5 2.5 4 2.5 6a6 6 0 01-2.343 4.657z"/><path d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/></svg>',
+  badge:  '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>',
+  clock:  '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+  check:  '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+  chart:  '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>',
+  li:     '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>',
+  ig:     '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  fb:     '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>',
+};
+const socialIconMap: Record<string,string> = { linkedin:icons.li, instagram:icons.ig, facebook:icons.fb };
+const socials = Object.entries(client.reseaux).filter(([_,v]) => v);
+---
+
+<Layout page="accueil">
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-main">PHOENIX<span> SECURITY</span></div>
+      <div class="nav-logo-sub">Event & Fire Security</div>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item"><a href="/" class="active">Accueil</a></li>
+      <!-- Services avec dropdown -->
+      <li class="nav-item" style="position:relative">
+        <button>Services <span class="nav-arrow">▾</span></button>
+        <div class="nav-dropdown">
+          {client.services.map(s => (
+            <a href={`/services/${s.id}`} class="nd-item">
+              <span class="nd-icon" set:html={icons[s.icone]}/>
+              <div class="nd-title">{s.titreCourt}</div>
+              <div class="nd-desc">{s.description.substring(0,60)}…</div>
+            </a>
+          ))}
+        </div>
+      </li>
+      <li class="nav-item"><a href="/a-propos">À Propos</a></li>
+      <li class="nav-item"><a href="/recrutement">Recrutement</a></li>
+      <li class="nav-item"><a href="/clients">Clients</a></li>
+      <li class="nav-item"><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="/devis" class="btn btn-rouge">Demander un devis</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <!-- Menu mobile -->
+  <div class="mob-overlay" id="mobOverlay"></div>
+  <div class="mob-menu" id="mob-menu">
+    <nav class="mob-nav">
+      <a href="/" class="active">Accueil</a>
+      <a href="/services">Services</a>
+      <div class="mob-nav-sub">
+        {client.services.map(s => <a href={`/services/${s.id}`}>— {s.titreCourt}</a>)}
+      </div>
+      <a href="/a-propos">À Propos</a>
+      <a href="/recrutement">Recrutement</a>
+      <a href="/clients">Clients</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="mob-cta-wrap">
+      <a href="/devis" class="btn btn-rouge" style="width:100%;justify-content:center">Demander un devis →</a>
+    </div>
+    <div class="mob-footer">
+      <a href={client.telephoneLink} class="mob-tel">{client.telephone}</a>
+      <a href={`mailto:${client.email}`}>{client.email}</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO — Scanner effect ═══ -->
+<section class="hero" id="top">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTO HÉRO — Image libre de droit (Unsplash)
+       Pour remplacer :
+         1. Déposez votre photo dans /public/images/hero.jpg
+         2. Commentez la balise img Unsplash ci-dessous
+         3. Décommentez la balise img locale
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="hero-bg">
+    <img
+      src="/images/filtrage dentree.png"
+      alt="Phoenix Security — Agent de protection"
+      loading="eager"
+    />
+    <!-- <img src="/images/hero.jpg" alt="Phoenix Security — Agent de protection" loading="eager"/> -->
+    <div class="hero-grad"></div>
+    <!-- Scan line animation -->
+    <div class="scan-line" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="wrap hero-inner">
+      <div class="hero-left">
+        <div class="hero-label">
+          <span class="dot-live">Surveillance Active 24/7</span>
+        </div>
+        <h1 class="h1 hero-h1">
+          <span>{client.heroTitle1}</span><br>
+          <span class="rouge">{client.heroTitle2}</span>
+        </h1>
+        <p class="hero-sub">{client.tagline}</p>
+        <div class="hero-btns">
+          <a href="/devis" class="btn btn-rouge btn-xl">Demander un devis</a>
+          <a href="/recrutement" class="btn btn-ghost btn-xl">Recrutement</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bande stats bas -->
+  <div class="hero-stats">
+    {client.stats.map((s, i) => (
+      <div class="hs" data-r style={`transition-delay:${i*.1}s`}>
+        <strong class="disp hs-n">
+          <span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span>
+        </strong>
+        <span class="hs-l">{s.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ═══ TICKER TACTIQUE ═══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    {[...Array(4)].map(_ =>
+      <span class="disp">SURVEILLANCE 24/7 &nbsp;·&nbsp; SSIAP CERTIFIÉ &nbsp;·&nbsp; GARDIENNAGE &nbsp;·&nbsp; SÉCURITÉ ÉVÉNEMENTIELLE &nbsp;·&nbsp; PROTECTION INCENDIE &nbsp;·&nbsp; CNAPS AGRÉÉ &nbsp;·&nbsp; RÉPONSE -15 MIN &nbsp;·&nbsp; </span>
+    )}
+  </div>
+</div>
+
+<!-- ═══ MISSION ═══ -->
+<section class="sec-1 sec-mission">
+  <div class="wrap mission-lay">
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         PHOTO MISSION — Image libre de droit
+         Pour remplacer : /public/images/mission.jpg
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="mission-img" data-r="l">
+      <img
+      src="/images/equipecyno.png"
+        alt="Phoenix Security — Mission de protection"
+        loading="lazy"
+      />
+      <!-- <img src="/images/mission.jpg" alt="Mission de protection" loading="lazy"/> -->
+      <div class="mi-overlay"></div>
+      <div class="mi-badge disp">Agréé CNAPS</div>
+    </div>
+    <div class="mission-body" data-r="r">
+      <span class="label-tac">Notre Mission</span>
+      <h2 class="h2">NOTRE<br><span class="rouge">MISSION</span></h2>
+      <div class="rouge-line"></div>
+      <p class="lead">La rigueur est au cœur de notre identité. Phoenix Security s'engage à fournir un service de protection sans compromis, alliant discrétion absolue et respect rigoureux des protocoles de sécurité.</p>
+      <p class="lead" style="margin-top:.6rem">Notre conformité aux normes les plus strictes garantit une sérénité totale à nos clients, qu'il s'agisse de surveillance de sites sensibles ou de gestion de flux événementiels complexes.</p>
+      <div class="mission-kpis">
+        {client.stats.slice(0,2).map(s => (
+          <div class="mk-item">
+            <strong class="disp mk-n rouge">
+              <span class="ctr" data-target={s.chiffre} data-suffix={s.suffix}>0</span>
+            </strong>
+            <span class="mk-l">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PHOTOS SPLIT ═══ -->
+<div class="photo-split">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTOS AMBIANCE — Images libres de droit
+       Pour remplacer : /public/images/ambiance-1.jpg et ambiance-2.jpg
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="ps-item">
+    <img src="/images/pcsecu.png" alt="Salle de surveillance Phoenix Security" loading="lazy"/>
+    <!-- <img src="/images/ambiance-1.jpg" alt="Salle de surveillance" loading="lazy"/> -->
+    <div class="ps-overlay"></div>
+  </div>
+  <div class="ps-item">
+    <img src="/images/concert.png" alt="Sécurité événementielle Phoenix" loading="lazy"/>
+    <!-- <img src="/images/ambiance-2.jpg" alt="Sécurité événementielle" loading="lazy"/> -->
+    <div class="ps-overlay"></div>
+  </div>
+</div>
+
+<!-- ═══ SPÉCIALITÉS ═══ -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-hd" data-r>
+      <span class="label-tac">Nos Spécialités</span>
+      <h2 class="h2">Des solutions intégrées<br>pour chaque<span class="rouge"> scénario.</span></h2>
+    </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         PHOTOS SERVICES — dans client.ts (champ image)
+         Pour remplacer : dans client.ts, commentez la ligne
+         `image: "https://..."` et décommentez le chemin local
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="svc-grid">
+      {client.services.map((s, i) => (
+        <article class="svc-card" data-r style={`transition-delay:${i*.12}s`}>
+          <div class="sc-img">
+            <img src={s.image} alt={s.titre} loading="lazy"/>
+            <div class="sc-grad"></div>
+            <div class="sc-icon" set:html={icons[s.icone]}/>
+          </div>
+          <div class="sc-body">
+            <h3 class="disp sc-titre">{s.titre}</h3>
+            <div class="rouge-line" style="width:32px;height:1px;margin:8px 0"></div>
+            <p class="sc-desc">{s.description}</p>
+            <a href={`/services/${s.id}`} class="sc-link">
+              En savoir plus
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ POURQUOI PHOENIX ═══ -->
+<section class="sec-1 sec-pourquoi">
+  <div class="wrap">
+    <div class="pq-layout">
+      <div class="pq-left" data-r="l">
+        <span class="label-tac">Nos Engagements</span>
+        <h2 class="h2">POURQUOI<br><span class="rouge">PHOENIX ?</span></h2>
+        <div class="rouge-line"></div>
+        <p class="lead">Le choix de la tranquillité d'esprit par l'expertise opérationnelle.</p>
+        <a href="/a-propos" class="btn btn-ghost" style="margin-top:2rem">Découvrir notre histoire →</a>
+      </div>
+      <div class="pq-grid">
+        {client.atouts.map((a, i) => (
+          <div class="pq-item" data-r style={`transition-delay:${i*.1}s`}>
+            <div class="pqi-icon" set:html={icons[a.icone]}/>
+            <h3 class="disp pqi-titre">{a.titre}</h3>
+            <p class="pqi-desc">{a.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ZONE D'INTERVENTION ═══ -->
+<section class="sec sec-zone">
+  <div class="wrap zone-lay">
+    <div class="zone-left" data-r="l">
+      <span class="label-tac">Couverture Nationale</span>
+      <h2 class="h2">ZONE<br><span class="rouge">D'INTERVENTION</span></h2>
+      <div class="rouge-line"></div>
+      <p class="lead">{client.zonesDescription}</p>
+      <div class="zone-tags">
+        {client.zones.map(z => <span class="tag-rouge">{z}</span>)}
+      </div>
+    </div>
+    <div class="zone-right" data-r="r">
+      <!-- Carte stylisée -->
+      <div class="zone-map-card">
+        <div class="zmc-live">
+          <span class="dot-live">Intervention immédiate</span>
+        </div>
+        <iframe
+          src={client.googleMapsEmbed}
+          width="100%" height="320"
+          style="border:0;filter:grayscale(1) contrast(1.2) brightness(0.35)"
+          allowfullscreen loading="lazy"
+          title="Zone d'intervention Phoenix Security"
+        ></iframe>
+        <div class="zmc-overlay"></div>
+        <div class="zmc-info">
+          <div class="disp zmc-stat">
+            <span class="rouge" style="font-size:2rem">24/7</span>
+            <span style="font-size:.75rem;color:var(--fumee);letter-spacing:.2em;display:block">DISPONIBILITÉ</span>
+          </div>
+          <div class="zmc-sep"></div>
+          <div>
+            <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--fumee-d);margin-bottom:4px">Siège Social</div>
+            <div style="font-size:.85rem;color:var(--blanc)">{client.siege}</div>
+            <a href={client.telephoneLink} style="font-size:.85rem;color:var(--rouge)">{client.siege2}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="sec-rouge-cta">
+  <div class="wrap cta-inner">
+    <div data-r>
+      <span class="label-tac" style="color:rgba(255,255,255,.6)">Disponible 24h/7j</span>
+      <h2 class="h2" style="margin-top:6px;color:#fff;font-size:clamp(2rem,5vw,4rem)">
+        DÉPLOYEZ LA FORCE<br>PHOENIX.
+      </h2>
+    </div>
+    <div class="cta-acts" data-r="r">
+      <a href="/devis" class="btn btn-rouge btn-xl">Demander un devis →</a>
+      <a href={client.telephoneLink} class="btn btn-ghost btn-xl">{client.telephone}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="f-brand">
+        <div class="f-logo-main">PHOENIX<span> SECURITY</span></div>
+        <div class="f-logo-sub">Event & Fire Security</div>
+        <p>{client.tagline}</p>
+        <div class="f-soc">
+          {socials.map(([k,v]) => (
+            <a href={v} target="_blank" rel="noopener" title={k} set:html={socialIconMap[k]||k}/>
+          ))}
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>Services</h4>
+        <ul>
+          {client.services.map(s => <li><a href={`/services/${s.id}`}>{s.titre}</a></li>)}
+          <li><a href="/services">Tous nos services</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Navigation</h4>
+        <ul>
+          {[['/', 'Accueil'],['/a-propos','À Propos'],['/recrutement','Recrutement'],['/clients','Clients'],['/contact','Contact'],['/devis','Demander un devis']].map(([h,l]) => (
+            <li><a href={h}>{l}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href={client.telephoneLink}>{client.telephone}</a></li>
+          <li><a href={`mailto:${client.email}`}>{client.email}</a></li>
+          <li><a href="/devis">Urgence : {client.telephoneUrgent}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <p>© {new Date().getFullYear()} {client.nomComplet} · SIRET {client.siret} · <a href="/mentions-legales" style="color:inherit">Mentions légales</a> · <a href="/mentions-legales" style="color:inherit">Confidentialité</a></p>
+      <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+    </div>
+  </div>
+</footer>
+
+</Layout>
+
+<style>
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;padding-top:var(--total-h)}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(105deg,rgba(8,8,8,.95) 0%,rgba(8,8,8,.75) 50%,rgba(8,8,8,.3) 100%)}
+
+/* Scan line animation */
+.scan-line{
+  position:absolute;left:0;right:0;height:1px;z-index:2;
+  background:linear-gradient(90deg,transparent,var(--rouge),transparent);
+  animation:scan 4s ease-in-out infinite;pointer-events:none;
+}
+@keyframes scan{
+  0%{top:-2px;opacity:0}
+  10%{opacity:.6}
+  90%{opacity:.6}
+  100%{top:100%;opacity:0}
+}
+
+.hero-content{position:relative;z-index:1;flex:1;display:flex;align-items:center;padding:3rem 0}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hero-label{margin-bottom:20px}
+.hero-h1{font-size:clamp(3.5rem,7.5vw,8rem);margin-bottom:18px}
+.hero-sub{font-size:.95rem;line-height:1.8;color:rgba(240,240,238,.55);max-width:480px;margin-bottom:32px;letter-spacing:.04em}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* Stats */
+.hero-stats{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(0,0,0,.8);border-top:1px solid var(--border);
+}
+.hs{padding:clamp(1rem,2.5vw,1.5rem) clamp(1rem,3vw,2.5rem);border-right:1px solid var(--border-w);display:flex;flex-direction:column;gap:5px}
+.hs:last-child{border-right:none}
+.hs-n{font-size:clamp(1.8rem,3.5vw,3rem);color:var(--blanc);line-height:1}
+.hs-l{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--fumee)}
+
+/* TICKER */
+.ticker{overflow:hidden;background:var(--rouge);padding:10px 0;border-top:1px solid rgba(0,0,0,.2)}
+.ticker-inner{display:flex;animation:tick 24s linear infinite;white-space:nowrap}
+.ticker span{
+  font-size:clamp(.78rem,1.2vw,.88rem);font-weight:400;
+  text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.9);
+  padding:0 2rem;
+}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-25%)}}
+
+/* MISSION */
+.mission-lay{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.mission-img{position:relative;height:520px;overflow:hidden}
+.mission-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.3)}
+.mi-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(220,26,42,.08) 0%,transparent 100%)}
+.mi-badge{
+  position:absolute;bottom:20px;left:20px;
+  background:var(--rouge);color:#fff;
+  font-size:10px;letter-spacing:.2em;padding:8px 16px;
+}
+.mission-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--border);margin-top:2rem}
+.mk-item{padding:18px 20px;border-right:1px solid var(--border)}.mk-item:last-child{border-right:none}
+.mk-n{font-size:2rem;line-height:1;display:block}
+.mk-l{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fumee)}
+
+/* PHOTO SPLIT */
+.photo-split{display:grid;grid-template-columns:1fr 1fr;height:320px}
+.ps-item{position:relative;overflow:hidden}
+.ps-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.ps-item:hover img{transform:scale(1.04)}
+.ps-overlay{position:absolute;inset:0;background:rgba(8,8,8,.35)}
+
+/* SPÉCIALITÉS */
+.sec-hd{margin-bottom:3rem}
+.sec-hd .h2{margin-top:8px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.svc-card{background:var(--noir-2);overflow:hidden;cursor:pointer}
+.svc-card:hover .sc-grad{opacity:.8}
+.svc-card:hover .sc-img img{transform:scale(1.06)}
+.sc-img{height:240px;position:relative;overflow:hidden}
+.sc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;filter:grayscale(.4)}
+.svc-card:hover .sc-img img{filter:grayscale(0)}
+.sc-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.9) 0%,transparent 60%);transition:opacity .3s}
+.sc-icon{
+  position:absolute;top:16px;right:16px;
+  width:36px;height:36px;color:var(--rouge);opacity:.8;
+}
+.sc-icon svg{width:100%;height:100%}
+.sc-body{padding:22px 24px;border-top:2px solid transparent;transition:border-color .3s}
+.svc-card:hover .sc-body{border-top-color:var(--rouge)}
+.sc-titre{font-size:1.1rem;color:var(--blanc);margin-bottom:0;letter-spacing:.04em}
+.sc-desc{font-size:.82rem;color:var(--fumee);line-height:1.7;letter-spacing:.03em;margin-bottom:14px}
+.sc-link{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:9.5px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--rouge);
+}
+.sc-link:hover{gap:12px}
+
+/* POURQUOI PHOENIX */
+.pq-layout{display:grid;grid-template-columns:360px 1fr;gap:64px;align-items:start}
+.pq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--border-w)}
+.pq-item{padding:24px;border-right:1px solid var(--border-w);border-bottom:1px solid var(--border-w);position:relative}
+.pq-item:nth-child(2n){border-right:none}
+.pq-item:nth-child(3),.pq-item:nth-child(4){border-bottom:none}
+.pq-item:hover{background:var(--rouge-g)}
+.pqi-icon{width:30px;height:30px;color:var(--rouge);margin-bottom:12px}
+.pqi-icon svg{width:100%;height:100%}
+.pqi-titre{font-size:.88rem;color:var(--blanc);letter-spacing:.06em;margin-bottom:8px}
+.pqi-desc{font-size:.78rem;color:var(--fumee);line-height:1.7;letter-spacing:.03em}
+
+/* ZONE */
+.zone-lay{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.zone-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:1.5rem}
+.zone-map-card{position:relative;border:1px solid var(--border-w);overflow:hidden}
+.zmc-live{position:absolute;top:14px;left:14px;z-index:2}
+.zmc-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--noir-2) 0%,transparent 40%);z-index:1;pointer-events:none}
+.zmc-info{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  display:flex;align-items:center;gap:20px;
+  padding:18px 22px;background:rgba(8,8,8,.95);
+  border-top:1px solid var(--border);
+}
+.zmc-sep{width:1px;height:32px;background:var(--border-w);flex-shrink:0}
+
+/* CTA ROUGE */
+.sec-rouge-cta{background:var(--noir-1);border-top:3px solid var(--rouge);border-bottom:3px solid var(--rouge);padding:clamp(4rem,7vw,7rem) 0}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:3rem;flex-wrap:wrap}
+.cta-acts{display:flex;flex-direction:column;gap:12px}
+
+/* RESPONSIVE */
+@media(max-width:1280px){.hero-inner{grid-template-columns:1fr}}
+@media(max-width:1024px){
+  .mission-lay{grid-template-columns:1fr;gap:36px}
+  .mission-img{height:320px}
+  .pq-layout{grid-template-columns:1fr;gap:36px}
+  .zone-lay{grid-template-columns:1fr;gap:36px}
+}
+@media(max-width:768px){
+  .svc-grid{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .hs:nth-child(2){border-right:none}
+  .hs:nth-child(1),.hs:nth-child(2){border-bottom:1px solid var(--border-w)}
+  .photo-split{height:200px}
+  .pq-grid{grid-template-columns:1fr}
+  .pq-item{border-right:none}
+  .cta-inner{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){
+  .hero-stats{grid-template-columns:1fr}
+  .hs{border-right:none;border-bottom:1px solid var(--border-w)}
+}
+</style>

@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+---
+<Layout title={`Mentions légales — ${client.nomComplet}`} noIndex={true}>
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">PHOENIX<span> SECURITY</span></div><div class="nav-logo-sub">Event & Fire Security</div></a>
+  <ul class="nav-links"><li class="nav-item"><a href="/">Accueil</a></li><li class="nav-item"><a href="/contact">Contact</a></li></ul>
+  <div class="nav-cta"><a href="/devis" class="btn btn-rouge">Devis</a></div>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu"><nav class="mob-nav"><a href="/">Accueil</a><a href="/contact">Contact</a></nav></div></nav>
+
+<section class="lw"><div class="wrap lc">
+  <nav class="ph-bc"><a href="/">Accueil</a><span>›</span><span>Mentions légales</span></nav>
+  <h1 style="font-family:var(--font-disp);font-size:clamp(3rem,6vw,6rem);text-transform:uppercase;color:var(--blanc);line-height:.9;margin-bottom:8px">MENTIONS<br><span style="color:var(--rouge)">LÉGALES</span></h1>
+  <p style="font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--fumee-d);margin-bottom:3rem">Mis à jour le {new Date().toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'})}</p>
+  <div class="lx">
+    <div class="lb"><h2 class="disp">01 — Éditeur</h2><p><strong>{client.responsable}</strong><br/>SIRET : {client.siret}<br/>Adresse : {client.adresse}<br/>Tél : <a href={client.telephoneLink}>{client.telephone}</a><br/>Email : <a href={`mailto:${client.email}`}>{client.email}</a></p></div>
+    <div class="lb"><h2 class="disp">02 — Hébergement</h2><p>{client.hebergeur}</p></div>
+    <div class="lb"><h2 class="disp">03 — Conception</h2><p>Site réalisé par <strong>LORN Digital Studio</strong> — <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener">vitemonsite-artisan.fr</a></p></div>
+    <div class="lb"><h2 class="disp">04 — Propriété intellectuelle</h2><p>Tout le contenu (textes, images, design) est la propriété de {client.nomComplet}. Toute reproduction sans autorisation est interdite (CPI art. L.335-2).</p></div>
+    <div class="lb"><h2 class="disp">05 — Données personnelles (RGPD)</h2><p><strong>Données collectées :</strong> nom, email, téléphone via les formulaires de contact et de devis. Utilisées uniquement pour traiter vos demandes.<br/><strong>Vos droits :</strong> <a href={`mailto:${client.email}`}>{client.email}</a> · <a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a><br/><strong>Sous-traitant formulaire :</strong> Web3Forms (RGPD conforme, aucune revente).</p></div>
+    <div class="lb"><h2 class="disp">06 — Cookies</h2><p>Cookies techniques uniquement (localStorage pour mémorisation du consentement). Aucun traceur publicitaire.</p></div>
+    <div class="lb"><h2 class="disp">07 — Droit applicable</h2><p>Droit français — tribunaux de Paris compétents.</p></div>
+  </div>
+  <a href="/" class="btn btn-ghost" style="margin-top:2.5rem">← Retour à l'accueil</a>
+</div></section>
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet}</p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+<style>
+.lw{padding:calc(var(--total-h)+4.5rem) 0 5rem;background:var(--noir)}
+.lc{max-width:680px}
+.lx{display:flex;flex-direction:column}
+.lb{padding:1.5rem 0;border-bottom:1px solid var(--border-w)}.lb:last-child{border-bottom:none}
+.lb h2{font-size:.76rem;letter-spacing:.2em;color:var(--rouge);margin-bottom:.9rem}
+.lb p{font-size:.82rem;color:var(--fumee);line-height:2.0;letter-spacing:.04em}
+.lb a{color:var(--rouge)}.lb strong{color:var(--blanc);font-weight:500}
+</style>

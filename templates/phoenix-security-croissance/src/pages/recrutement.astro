@@ -1,0 +1,203 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { client } from '../data/client';
+const web3Key = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+---
+<Layout title={`Recrutement — ${client.nomComplet}`} description={`Rejoignez l'élite opérationnelle Phoenix Security. Agents de sécurité, événementiel, SSIAP 1,2,3. Candidature spontanée avec dépôt de CV.`}>
+
+<nav class="navbar" id="navbar"><div class="nav-wrap">
+  <a href="/" class="nav-logo"><div class="nav-logo-main">PHOENIX<span> SECURITY</span></div><div class="nav-logo-sub">Event & Fire Security</div></a>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="/">Accueil</a></li><li class="nav-item"><a href="/services">Services</a></li>
+    <li class="nav-item"><a href="/a-propos">À Propos</a></li><li class="nav-item"><a href="/recrutement" class="active">Recrutement</a></li>
+    <li class="nav-item"><a href="/clients">Clients</a></li><li class="nav-item"><a href="/contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta"><a href="/devis" class="btn btn-rouge">Demander un devis</a></div>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mob-menu">
+  <nav class="mob-nav"><a href="/">Accueil</a><a href="/services">Services</a><a href="/a-propos">À Propos</a><a href="/recrutement" class="active">Recrutement</a><a href="/clients">Clients</a><a href="/contact">Contact</a></nav>
+  <div class="mob-cta-wrap"><a href="/devis" class="btn btn-rouge" style="width:100%;justify-content:center">Demander un devis →</a></div>
+  <div class="mob-footer"><a href={client.telephoneLink} class="mob-tel">{client.telephone}</a></div>
+</div></nav>
+
+<!-- Hero recrutement -->
+<section class="recru-hero">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PHOTO RECRUTEMENT — Image libre de droit
+       Pour remplacer : /public/images/recrutement.jpg
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="rh-bg">
+    <img src="/images/equipecyno.png" alt="Rejoindre Phoenix Security" loading="eager"/>
+    <!-- <img src="/images/recrutement.jpg" alt="Rejoindre Phoenix Security" loading="eager"/> -->
+    <div class="rh-grad"></div>
+    <div class="scan-line" aria-hidden="true"></div>
+  </div>
+  <div class="wrap rh-content">
+    <span class="label-tac" style="font-size:9px">Recrutement d'élite</span>
+    <h1 class="h1" style="margin-top:10px">REJOIGNEZ<br>L'ÉLITE<br><span class="rouge">OPÉRATIONNELLE</span></h1>
+    <p class="lead" style="max-width:500px;margin-top:1rem">Phoenix Event & Fire Security recherche des agents d'exception. Nous n'engageons pas seulement du personnel, nous recrutons des professionnels dévoués à la protection et à l'excellence opérationnelle.</p>
+  </div>
+</section>
+
+<!-- Profils + Exigences -->
+<section class="sec-1">
+  <div class="wrap recru-lay">
+    <div class="profils-bloc" data-r="l">
+      <h2 class="h2">PROFILS<br><span class="rouge">RECHERCHÉS</span></h2>
+      <div class="rouge-line"></div>
+      <div class="profils-list">
+        {client.profils.map(p => (
+          <div class="profil-item">
+            <div class="pi-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="20" height="20"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div>
+              <h4 class="disp pi-titre">{p.titre}</h4>
+              <p class="pi-desc">{p.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div data-r="r">
+      <h2 class="h2">EXIGENCES</h2>
+      <div class="exig-list">
+        {client.exigences.map(e => (
+          <div class="exig-item">
+            <span class="rouge" style="font-size:.6rem;margin-right:8px">■</span>
+            <div>
+              <div class="disp exig-titre">{e.titre}</div>
+              <div class="exig-detail">{e.detail}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="badge-postes disp">
+        <span style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.7;display:block">Postes ouverts</span>
+        <span style="font-size:2.5rem;color:#fff">24/7 INTERVENTION</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Formulaire candidature -->
+<section class="sec">
+  <div class="wrap">
+    <div class="cand-lay">
+      <div>
+        <h2 class="h2">CANDIDATURE<br><span class="rouge">SPONTANÉE</span></h2>
+        <div class="rouge-line"></div>
+        <p class="lead">Remplissez ce formulaire et joignez votre CV. Notre équipe RH revient vers vous sous 48h.</p>
+      </div>
+      <div class="cand-form" id="candForm">
+        <div class="fields">
+          <div class="frow">
+            <div class="fg"><label>Nom *</label><input id="cNom" type="text" placeholder="Entrez votre nom" required/></div>
+            <div class="fg"><label>Prénom *</label><input id="cPre" type="text" placeholder="Entrez votre prénom" required/></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>Téléphone *</label><input id="cTel" type="tel" placeholder="+33 0 00 00 00 00" required/></div>
+            <div class="fg"><label>Email *</label><input id="cEmail" type="email" placeholder="email@exemple.com" required/></div>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label>Spécialité *</label>
+              <select id="cSpec" required>
+                {client.profils.map(p => <option value={p.titre}>{p.titre}</option>)}
+              </select>
+            </div>
+            <div class="fg"><label>Expérience (années)</label><input id="cExp" type="number" min="0" value="0"/></div>
+          </div>
+          <div class="fg"><label>Message / Parcours</label><textarea id="cMsg" rows="4" placeholder="Parlez-nous de votre parcours…"></textarea></div>
+          <!-- Upload CV (simulation) -->
+          <div class="fg">
+            <label>Dépôt de CV (PDF/DOC)</label>
+            <div class="cv-drop" id="cvDrop" onclick="document.getElementById('cvFile').click()">
+              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="32" height="32"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+              <span id="cvLabel">Cliquez pour téléverser votre CV (PDF/DOC)</span>
+            </div>
+            <input type="file" id="cvFile" accept=".pdf,.doc,.docx" style="display:none"/>
+          </div>
+          <button type="button" id="candBtn" class="btn btn-rouge btn-xl" style="width:100%;justify-content:center">
+            SOUMETTRE MA CANDIDATURE
+          </button>
+        </div>
+      </div>
+      <div id="candOk" style="display:none" class="form-ok">
+        <span class="disp fo-title">CANDIDATURE REÇUE.</span>
+        <p>Notre équipe RH vous contacte sous 48h. Bienvenue dans l'élite Phoenix.</p>
+        <a href="/" class="btn btn-ghost" style="margin-top:1.5rem">← Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="wrap"><div class="f-bottom" style="border-top:none;padding-top:0">
+  <p>© {new Date().getFullYear()} {client.nomComplet} | <a href="/mentions-legales" style="color:inherit">Mentions légales</a></p>
+  <a href="https://vitemonsite-artisan.fr" target="_blank" rel="noopener" class="lorn">Site par LORN Digital Studio</a>
+</div></div></footer>
+</Layout>
+
+<script define:vars={{ web3Key, emailTo: client.email }}>
+  document.getElementById('cvFile')?.addEventListener('change', (e) => {
+    const f = (e.target as HTMLInputElement).files?.[0];
+    if (f) document.getElementById('cvLabel').textContent = `✓ ${f.name}`;
+  });
+  document.getElementById('candBtn')?.addEventListener('click', async () => {
+    const n=document.getElementById('cNom')?.value||'',p=document.getElementById('cPre')?.value||'';
+    const t=document.getElementById('cTel')?.value||'',e=document.getElementById('cEmail')?.value||'';
+    const s=document.getElementById('cSpec')?.value||'',x=document.getElementById('cExp')?.value||'0';
+    const m=document.getElementById('cMsg')?.value||'';
+    if (!n||!p||!t||!e){alert('Champs * obligatoires');return}
+    const btn=document.getElementById('candBtn');btn.textContent='Envoi…';btn.disabled=true;
+    if (web3Key) {
+      try {
+        const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({access_key:web3Key,subject:`Candidature Phoenix — ${s} — ${n} ${p}`,from_name:n+' '+p,telephone:t,email:e,specialite:s,experience:x+'ans',message:m})});
+        if ((await r.json()).success){document.getElementById('candForm').style.display='none';document.getElementById('candOk').style.display='flex';return}
+      } catch {}
+    }
+    window.location.href=`mailto:${emailTo}?subject=Candidature ${s} — ${n} ${p}&body=Nom: ${n} ${p}%0ATel: ${t}%0AEmail: ${e}%0ASpec: ${s}%0AExp: ${x} ans%0A%0A${m}`;
+  });
+</script>
+
+<style>
+.recru-hero{position:relative;min-height:70vh;display:flex;align-items:flex-end;padding:var(--total-h) 0 4rem;overflow:hidden}
+.rh-bg{position:absolute;inset:0}.rh-bg img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.rh-grad{position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,8,8,.9) 0%,rgba(8,8,8,.6) 100%)}
+.scan-line{position:absolute;left:0;right:0;height:1px;z-index:2;background:linear-gradient(90deg,transparent,var(--rouge),transparent);animation:scan 4s ease-in-out infinite;pointer-events:none}
+@keyframes scan{0%{top:-2px;opacity:0}10%{opacity:.6}90%{opacity:.6}100%{top:100%;opacity:0}}
+.rh-content{position:relative;z-index:1}
+.recru-lay{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.profils-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border-w);margin-top:1.5rem}
+.profil-item{display:flex;align-items:flex-start;gap:14px;padding:18px;border-bottom:1px solid var(--border-w)}
+.profil-item:last-child{border-bottom:none}.profil-item:hover{background:var(--rouge-g)}
+.pi-icon{color:var(--rouge);flex-shrink:0;margin-top:2px;width:20px;height:20px}
+.pi-titre{font-size:.88rem;color:var(--blanc);letter-spacing:.04em;margin-bottom:4px}
+.pi-desc{font-size:.78rem;color:var(--fumee);line-height:1.6}
+.exig-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border-w);margin-top:1.5rem}
+.exig-item{display:flex;align-items:flex-start;gap:4px;padding:14px 18px;border-bottom:1px solid var(--border-w)}
+.exig-item:last-child{border-bottom:none}
+.exig-titre{font-size:.85rem;letter-spacing:.08em;color:var(--blanc);margin-bottom:2px}
+.exig-detail{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--fumee-d)}
+.badge-postes{background:var(--rouge);padding:22px;margin-top:2px;display:block}
+.cand-lay{display:grid;grid-template-columns:360px 1fr;gap:48px;align-items:start}
+.cand-form{background:var(--noir-1);border:1px solid var(--border-w);padding:2.5rem}
+.fields{display:flex;flex-direction:column;gap:14px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,240,238,.3)}
+.fg input,.fg select,.fg textarea{padding:12px 14px;border:1px solid var(--border-w);background:rgba(240,240,238,.03);font-family:var(--font-body);font-size:.85rem;color:var(--blanc);letter-spacing:.04em}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--rouge)}
+.fg select option{background:var(--noir-1)}
+.fg textarea{resize:vertical;min-height:120px}
+.cv-drop{border:1px dashed var(--border-w);padding:24px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;color:var(--fumee);font-size:.78rem;letter-spacing:.1em;text-align:center}
+.cv-drop:hover{border-color:var(--rouge);color:var(--rouge)}
+.cv-drop svg{color:var(--rouge)}
+.form-ok{background:var(--rouge-g);border:1px solid var(--border);padding:56px 36px;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.fo-title{font-size:3rem;color:var(--rouge)}
+.form-ok p{font-size:.85rem;color:var(--fumee);line-height:1.8}
+@media(max-width:1024px){.recru-lay{grid-template-columns:1fr}.cand-lay{grid-template-columns:1fr}}
+@media(max-width:640px){.frow{grid-template-columns:1fr}.cand-form{padding:1.5rem}}
+</style>
