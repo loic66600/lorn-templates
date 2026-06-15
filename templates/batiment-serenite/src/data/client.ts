@@ -24,29 +24,63 @@ export const client = {
   motsCles: "maçon perpignan, maçonnerie 66, rénovation perpignan, construction pyrénées orientales",
 
   // ── Visuels ──
-  // TODO CLIENT → Remplacer logo.svg par le vrai logo (200x200 min, fond transparent)
   logo: "/images/logo.svg",
-  // TODO CLIENT → Remplacer hero.jpg par la photo de chantier principale du client
-  heroImage: "/images/hero.jpg",
-  // TODO CLIENT → Remplacer og.jpg par une photo représentative pour les réseaux sociaux
+  heroImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop",
+  bannerImage: "https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?q=80&w=2000&auto=format&fit=crop",
+  aboutImage: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1200&auto=format&fit=crop",
+  aboutDetailImage: "https://images.unsplash.com/photo-1565011088671-bf2bfea79d4a?q=80&w=800&auto=format&fit=crop",
   ogImage: "/images/og.jpg",
 
   // ── Services ──
-  // TODO CLIENT → Remplacer service-1..4.jpg par de vraies photos des chantiers du client
   services: [
-    { titre: "Construction neuve", description: "Maison individuelle, murs, fondations. Du gros œuvre aux finitions, clé en main.", icone: "🏠" },
-    { titre: "Rénovation", description: "Rénovation intérieure et extérieure, remise aux normes, transformation de vos espaces.", icone: "🔨" },
-    { titre: "Extension & Surélévation", description: "Agrandissez votre maison : extension, surélévation, garage, véranda.", icone: "📐" },
-    { titre: "Terrasse & Aménagement", description: "Terrasses, murets, clôtures, aménagements extérieurs pour valoriser votre bien.", icone: "🧱" },
+    {
+      titre: "Construction neuve",
+      description: "Maison individuelle, murs, fondations. Du gros œuvre aux finitions, clé en main.",
+      icone: "🏠",
+      image: "https://images.unsplash.com/photo-1541976590-713941681591?q=80&w=900&auto=format&fit=crop",
+    },
+    {
+      titre: "Rénovation",
+      description: "Rénovation intérieure et extérieure, remise aux normes, transformation de vos espaces.",
+      icone: "🔨",
+      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=900&auto=format&fit=crop",
+    },
+    {
+      titre: "Extension & Surélévation",
+      description: "Agrandissez votre maison : extension, surélévation, garage, véranda.",
+      icone: "📐",
+      image: "https://images.unsplash.com/photo-1590725140246-20acddc1ec6d?q=80&w=900&auto=format&fit=crop",
+    },
+    {
+      titre: "Terrasse & Aménagement",
+      description: "Terrasses, murets, clôtures, aménagements extérieurs pour valoriser votre bien.",
+      icone: "🧱",
+      image: "https://images.unsplash.com/photo-1571863533956-01c88e79957e?q=80&w=900&auto=format&fit=crop",
+    },
   ],
 
   // ── Réalisations ──
-  // TODO CLIENT → Remplacer projet-1..4.jpg par les vraies photos de chantiers du client
   realisations: [
-    { titre: "Rénovation complète", lieu: "Perpignan centre", image: "/images/projet-1.jpg" },
-    { titre: "Extension maison", lieu: "Canet-en-Roussillon", image: "/images/projet-2.jpg" },
-    { titre: "Construction mur", lieu: "Saint-Estève", image: "/images/projet-3.jpg" },
-    { titre: "Terrasse extérieure", lieu: "Le Boulou", image: "/images/projet-4.jpg" },
+    {
+      titre: "Rénovation complète",
+      lieu: "Perpignan centre",
+      image: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?q=80&w=900&auto=format&fit=crop",
+    },
+    {
+      titre: "Extension maison",
+      lieu: "Canet-en-Roussillon",
+      image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=900&auto=format&fit=crop",
+    },
+    {
+      titre: "Construction mur",
+      lieu: "Saint-Estève",
+      image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?q=80&w=900&auto=format&fit=crop",
+    },
+    {
+      titre: "Terrasse extérieure",
+      lieu: "Le Boulou",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=900&auto=format&fit=crop",
+    },
   ],
 
   // ── Témoignages ──
