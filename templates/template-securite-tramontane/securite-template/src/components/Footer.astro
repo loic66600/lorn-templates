@@ -41,6 +41,7 @@ const annee = new Date().getFullYear();
       <a class="pied-lien" href="/prestations">Prestations</a>
       <a class="pied-lien" href="/a-propos">L'agence</a>
       <a class="pied-lien" href="/contact">Contact & devis</a>
+      <a class="pied-lien pied-recrute" href="/a-propos#recrutement">▸ Recrutement</a>
     </div>
 
     <div class="pied-bloc">
@@ -117,6 +118,14 @@ const annee = new Date().getFullYear();
   }
   .pied-lien:hover { color: var(--alerte); opacity: 1; }
   .pied-urgence { color: var(--alerte); font-weight: 500; opacity: 1; }
+  .pied-recrute {
+    color: var(--alerte) !important;
+    opacity: 1 !important;
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--ligne);
+    font-weight: 500;
+  }
   .pied-reseaux { display: flex; gap: 1.4rem; margin-top: 1rem; }
   .pied-reseaux a {
     font-family: var(--font-data);

@@ -116,6 +116,49 @@ const geo = client.geo;
     </div>
   </section>
 
+  <!-- ======================= NOS ÉQUIPES ======================= -->
+  <section class="equipes">
+    <div class="conteneur">
+      <p class="etiquette reveler">Nos équipes</p>
+      <h2 class="titre-section reveler">Agents certifiés, <em>formés, opérationnels</em></h2>
+    </div>
+    <div class="equipes-grille">
+      <div class="equipe-photo reveler">
+        <img
+          src="https://images.unsplash.com/photo-1569098644584-210bcd375b59?q=80&w=1200&auto=format&fit=crop"
+          alt="Agent de sécurité en mission de surveillance de site"
+          loading="lazy"
+        />
+        <div class="equipe-label">
+          <span class="equipe-code">SEC-01</span>
+          <span class="equipe-nom">Agent de surveillance</span>
+        </div>
+      </div>
+      <div class="equipe-photo reveler">
+        <img
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=1200&auto=format&fit=crop"
+          alt="PC de supervision sécurité — opérationnel 24h/24"
+          loading="lazy"
+        />
+        <div class="equipe-label">
+          <span class="equipe-code">PC-24H</span>
+          <span class="equipe-nom">PC opérationnel</span>
+        </div>
+      </div>
+      <div class="equipe-photo reveler">
+        <img
+          src="https://images.unsplash.com/photo-1541534401786-2077eed87a74?q=80&w=1200&auto=format&fit=crop"
+          alt="Agent SSIAP — prévention et sécurité incendie"
+          loading="lazy"
+        />
+        <div class="equipe-label">
+          <span class="equipe-code">SSIAP</span>
+          <span class="equipe-nom">Agent SSIAP incendie</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ======================= ZONE LOCALE + NATIONALE ======================= -->
   <section class="zone">
     <div class="conteneur zone-grille">
@@ -178,6 +221,20 @@ const geo = client.geo;
           ))
         }
       </div>
+    </div>
+  </section>
+
+  <!-- ======================= RECRUTEMENT ======================= -->
+  <section class="rec-bande">
+    <div class="conteneur rec-inner reveler">
+      <div>
+        <p class="statut">Nous recrutons — postes ouverts</p>
+        <h2 class="rec-titre">Rejoignez <em>nos équipes</em></h2>
+        <p class="rec-sous">
+          Agents de sécurité, SSIAP 1-2-3, rondiers — CDI et CDD dans le {client.adresse.departement} et en France.
+        </p>
+      </div>
+      <a href="/a-propos#recrutement" class="btn btn-vide">Voir les postes →</a>
     </div>
   </section>
 
@@ -457,6 +514,53 @@ const geo = client.geo;
     background: var(--nuit-3);
   }
 
+  /* ---- Équipes ---- */
+  .equipes { padding-block: 7rem 0; }
+  .equipes-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 3rem;
+  }
+  .equipe-photo {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+  }
+  .equipe-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6) saturate(0.6);
+    transition: transform 0.65s ease, filter 0.4s ease;
+  }
+  .equipe-photo:hover img {
+    transform: scale(1.06);
+    filter: brightness(0.45) saturate(0.5);
+  }
+  .equipe-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2.2rem 1.8rem;
+    background: linear-gradient(to top, rgba(7, 11, 18, 0.94) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .equipe-code {
+    font-family: var(--font-data);
+    font-size: 0.64rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--alerte);
+  }
+  .equipe-nom {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--blanc);
+    letter-spacing: 0.04em;
+  }
+
   /* ---- Zone ---- */
   .zone { padding-block: 7.5rem; }
   .zone-grille {
@@ -534,6 +638,26 @@ const geo = client.geo;
   }
   .avis-carte figcaption span { color: var(--gris); }
 
+  /* ---- Recrutement bande ---- */
+  .rec-bande {
+    padding-block: 5rem;
+    border-top: 2px solid var(--alerte);
+    background: linear-gradient(135deg, rgba(232, 57, 44, 0.06) 0%, var(--nuit-2) 60%);
+  }
+  .rec-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .rec-titre {
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+    margin: 0.6rem 0 0.5rem;
+  }
+  .rec-titre em { font-style: normal; color: var(--alerte); }
+  .rec-sous { color: var(--gris); font-size: 0.95rem; max-width: 52ch; }
+
   /* ---- CTA ---- */
   .cta-final {
     padding-block: 8rem;
@@ -553,6 +677,9 @@ const geo = client.geo;
     .chiffre { border-bottom: 1px solid var(--ligne); }
     .poles-grille, .zone-grille { grid-template-columns: 1fr; }
     .zone-national { border-left: none; padding-left: 0; }
+    .equipes-grille { grid-template-columns: 1fr; }
+    .equipe-photo { aspect-ratio: 16 / 9; }
+    .rec-inner { flex-direction: column; align-items: flex-start; }
     .secteurs-liste { grid-template-columns: 1fr 1fr; }
     .engagements-grille, .avis-grille { grid-template-columns: 1fr; }
     .hero-radar { opacity: 0.3; }
