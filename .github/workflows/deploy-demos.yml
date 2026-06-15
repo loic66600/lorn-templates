@@ -284,7 +284,7 @@ jobs:
                 restaurant: "🍽️"
               };
 
-              fetch("./manifest.json")
+              fetch(`./manifest.json?v=${Date.now()}`, { cache: "no-store" })
                 .then(r => r.json())
                 .then(data => {
                   const grid = document.getElementById("grid");
@@ -445,7 +445,7 @@ jobs:
           cd templates/hangart-croissance
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/hangart-croissance
-          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/hangart-croissance/|g; s|src="/|src="/lorn-templates/hangart-croissance/|g' {} +
+          find dist -name '*.html' -exec perl -pi -e 's{(href|src)="/(?!lorn-templates/hangart-croissance/)}{$1="/lorn-templates/hangart-croissance/}g' {} +
           mkdir -p ../../_site/hangart-croissance
           cp -r dist/. ../../_site/hangart-croissance
 
@@ -454,7 +454,7 @@ jobs:
           cd templates/hangart-dark-croissance
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/hangart-dark-croissance
-          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/hangart-dark-croissance/|g; s|src="/|src="/lorn-templates/hangart-dark-croissance/|g' {} +
+          find dist -name '*.html' -exec perl -pi -e 's{(href|src)="/(?!lorn-templates/hangart-dark-croissance/)}{$1="/lorn-templates/hangart-dark-croissance/}g' {} +
           mkdir -p ../../_site/hangart-dark-croissance
           cp -r dist/. ../../_site/hangart-dark-croissance
 
@@ -463,7 +463,7 @@ jobs:
           cd templates/salon-tatouage-croissance
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/salon-tatouage-croissance
-          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/salon-tatouage-croissance/|g; s|src="/|src="/lorn-templates/salon-tatouage-croissance/|g' {} +
+          find dist -name '*.html' -exec perl -pi -e 's{(href|src)="/(?!lorn-templates/salon-tatouage-croissance/)}{$1="/lorn-templates/salon-tatouage-croissance/}g' {} +
           mkdir -p ../../_site/salon-tatouage-croissance
           cp -r dist/. ../../_site/salon-tatouage-croissance
 
@@ -472,7 +472,7 @@ jobs:
           cd templates/template-artisan-forge/artisan-template
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/artisan-forge
-          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/artisan-forge/|g; s|src="/|src="/lorn-templates/artisan-forge/|g' {} +
+          find dist -name '*.html' -exec perl -pi -e 's{(href|src)="/(?!lorn-templates/artisan-forge/)}{$1="/lorn-templates/artisan-forge/}g' {} +
           mkdir -p ../../../_site/artisan-forge
           cp -r dist/. ../../../_site/artisan-forge
 
@@ -481,7 +481,7 @@ jobs:
           cd templates/template-mistral-trottinettes/mistral-template
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/mistral-mobilite
-          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/mistral-mobilite/|g; s|src="/|src="/lorn-templates/mistral-mobilite/|g' {} +
+          find dist -name '*.html' -exec perl -pi -e 's{(href|src)="/(?!lorn-templates/mistral-mobilite/)}{$1="/lorn-templates/mistral-mobilite/}g' {} +
           mkdir -p ../../../_site/mistral-mobilite
           cp -r dist/. ../../../_site/mistral-mobilite
 
@@ -490,7 +490,7 @@ jobs:
           cd templates/template-securite-tramontane/securite-template
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/securite-tramontane
-          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/securite-tramontane/|g; s|src="/|src="/lorn-templates/securite-tramontane/|g' {} +
+          find dist -name '*.html' -exec perl -pi -e 's{(href|src)="/(?!lorn-templates/securite-tramontane/)}{$1="/lorn-templates/securite-tramontane/}g' {} +
           mkdir -p ../../../_site/securite-tramontane
           cp -r dist/. ../../../_site/securite-tramontane
 
@@ -499,7 +499,7 @@ jobs:
           cd templates/template-volta-vtt/volta-template
           npm install
           npx astro build --site https://loic66600.github.io --base /lorn-templates/volta-vtt
-          find dist -name '*.html' -exec sed -i 's|href="/|href="/lorn-templates/volta-vtt/|g; s|src="/|src="/lorn-templates/volta-vtt/|g' {} +
+          find dist -name '*.html' -exec perl -pi -e 's{(href|src)="/(?!lorn-templates/volta-vtt/)}{$1="/lorn-templates/volta-vtt/}g' {} +
           mkdir -p ../../../_site/volta-vtt
           cp -r dist/. ../../../_site/volta-vtt
 
