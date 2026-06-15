@@ -73,7 +73,7 @@
       ],
       "port": 4032,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/forge-croissance.png",
       "version": "1.0.0",
       "date": "2026-06-11"
     },
@@ -698,6 +698,7 @@
         "IBM Plex Mono"
       ],
       "port": 4030,
+      "screenshot": "previews/hangartatoosimple.png",
       "version": "2.0.0",
       "date": "2026-04-04"
     },
@@ -719,6 +720,7 @@
         "Share Tech Mono"
       ],
       "port": 4031,
+      "screenshot": "previews/hangartatoodark.png",
       "version": "2.0.0",
       "date": "2026-04-04"
     },
@@ -750,7 +752,7 @@
       ],
       "port": 4028,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/inkcollective-croissance.png",
       "version": "2.0.0",
       "date": "2026-03-02"
     },
@@ -788,7 +790,7 @@
       ],
       "port": 4034,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/mistral.png",
       "version": "1.0.0",
       "date": "2026-06-13"
     },
