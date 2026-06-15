@@ -145,7 +145,7 @@
       ],
       "port": 4006,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/dupontmaconerie.png",
       "version": "1.0.0",
       "date": "2026-03-03"
     },
@@ -829,7 +829,7 @@
       ],
       "port": 4035,
       "preview": "",
-      "screenshot": "",
+      "screenshot": "previews/volta.png",
       "version": "1.0.0",
       "date": "2026-06-13"
     }

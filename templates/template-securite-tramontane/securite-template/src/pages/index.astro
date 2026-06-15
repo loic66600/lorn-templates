@@ -14,7 +14,7 @@ const geo = client.geo;
   <section class="hero">
     <div class="hero-photo" aria-hidden="true">
       <img
-        src="https://images.unsplash.com/photo-1477346611705-65d1883cee1e?q=80&w=2200&auto=format&fit=crop"
+        src="/images/hero.png"
         alt=""
         fetchpriority="high"
       />
@@ -125,7 +125,7 @@ const geo = client.geo;
     <div class="equipes-grille">
       <div class="equipe-photo reveler">
         <img
-          src="https://images.unsplash.com/photo-1569098644584-210bcd375b59?q=80&w=1200&auto=format&fit=crop"
+          src="/images/agentconcert.png"
           alt="Agent de sécurité en mission de surveillance de site"
           loading="lazy"
         />
@@ -136,7 +136,7 @@ const geo = client.geo;
       </div>
       <div class="equipe-photo reveler">
         <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=1200&auto=format&fit=crop"
+          src="/images/pcssiap.png"
           alt="PC de supervision sécurité — opérationnel 24h/24"
           loading="lazy"
         />
@@ -147,13 +147,24 @@ const geo = client.geo;
       </div>
       <div class="equipe-photo reveler">
         <img
-          src="https://images.unsplash.com/photo-1541534401786-2077eed87a74?q=80&w=1200&auto=format&fit=crop"
+          src="/images/ssiap.png"
           alt="Agent SSIAP — prévention et sécurité incendie"
           loading="lazy"
         />
         <div class="equipe-label">
           <span class="equipe-code">SSIAP</span>
           <span class="equipe-nom">Agent SSIAP incendie</span>
+        </div>
+      </div>
+      <div class="equipe-photo reveler">
+        <img
+          src="/images/equipecyno.png"
+          alt="Équipe cynophile — maître-chien et unité K9"
+          loading="lazy"
+        />
+        <div class="equipe-label">
+          <span class="equipe-code">CYNO</span>
+          <span class="equipe-nom">Équipe cynophile</span>
         </div>
       </div>
     </div>
@@ -324,7 +335,7 @@ const geo = client.geo;
   }
   @keyframes tourner { to { transform: rotate(360deg); } }
 
-  .hero-contenu { position: relative; z-index: 2; }
+  .hero-contenu { position: relative; z-index: 2; padding-bottom: 5rem; }
   .hud {
     display: flex;
     align-items: center;
@@ -518,7 +529,7 @@ const geo = client.geo;
   .equipes { padding-block: 7rem 0; }
   .equipes-grille {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     margin-top: 3rem;
   }
   .equipe-photo {
@@ -677,8 +688,8 @@ const geo = client.geo;
     .chiffre { border-bottom: 1px solid var(--ligne); }
     .poles-grille, .zone-grille { grid-template-columns: 1fr; }
     .zone-national { border-left: none; padding-left: 0; }
-    .equipes-grille { grid-template-columns: 1fr; }
-    .equipe-photo { aspect-ratio: 16 / 9; }
+    .equipes-grille { grid-template-columns: repeat(2, 1fr); }
+    .equipe-photo { aspect-ratio: 4 / 3; }
     .rec-inner { flex-direction: column; align-items: flex-start; }
     .secteurs-liste { grid-template-columns: 1fr 1fr; }
     .engagements-grille, .avis-grille { grid-template-columns: 1fr; }

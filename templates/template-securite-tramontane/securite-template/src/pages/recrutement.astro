@@ -29,7 +29,7 @@ const description = `${client.nom} recrute des agents de sécurité CQP APS, age
       <div class="tete-image">
         <!-- Remplacer src par la photo d'agent fournie par le client -->
         <img
-          src="https://images.unsplash.com/photo-1569098644584-210bcd375b59?q=80&w=1400&auto=format&fit=crop"
+          src="/images/extincteur.png"
           alt={`Agent de sécurité ${client.nom}`}
         />
         <div class="tete-image-cadre" aria-hidden="true"></div>
@@ -491,7 +491,7 @@ const description = `${client.nom} recrute des agents de sécurité CQP APS, age
   }
 </style>
 
-<script define:vars={{ web3formsKey: client.web3formsKey }}>
+<script is:inline>
   const form = document.getElementById("form-candidature");
   const statut = document.getElementById("rec-statut");
 
