@@ -43,8 +43,8 @@ export const client = {
   // ── Visuels ─────────────────────────────────────────────────
   logo: "/images/logo.png",
   ogImage: "/images/og.jpg",
-    heroImage: "/images/hero-plombier.jpg",
-    heroImageAlt: "Photo d'un plombier en action dans une salle de bain moderne",
+    heroImage: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1200&auto=format&fit=crop",
+    heroImageAlt: "Plombier professionnel en intervention dans une salle de bain moderne",
   bannerImage: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80",
 
   // ── Google Maps (laisser "" pour désactiver) ────────────────
