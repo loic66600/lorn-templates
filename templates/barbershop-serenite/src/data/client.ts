@@ -3,6 +3,9 @@
 // Modifiez uniquement ce fichier pour personnaliser le site.
 // ══════════════════════════════════════════════════════════════
 
+const assetBase = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const asset = (path: string) => `${assetBase}${path.replace(/^\//, "")}`;
+
 export const client = {
 
   // ── Identité ────────────────────────────────────────────────
@@ -65,9 +68,9 @@ export const client = {
 
   // ── L'équipe / Barbiers ─────────────────────────────────────
   equipe: [
-    { prenom: "Laure", role: "Fondatrice & Master Barber", experience: "12 ans", specialite: "Skin fade, razor art", image: "/images/laure.png" },
-    { prenom: "Meech", role: "Barbier Senior", experience: "8 ans", specialite: "Barbe sculptée, hot towel", image: "/images/meech.png" },
-    { prenom: "Remi", role: "Barbier", experience: "4 ans", specialite: "Coupe classique, pompadour", image: "/images/remi.png" },
+    { prenom: "Laure", role: "Fondatrice & Master Barber", experience: "12 ans", specialite: "Skin fade, razor art", image: asset("images/laure.png") },
+    { prenom: "Meech", role: "Barbier Senior", experience: "8 ans", specialite: "Barbe sculptée, hot towel", image: asset("images/meech.png") },
+    { prenom: "Remi", role: "Barbier", experience: "4 ans", specialite: "Coupe classique, pompadour", image: asset("images/remi.png") },
   ],
 
   // ── Services & Tarifs ───────────────────────────────────────
@@ -88,15 +91,15 @@ export const client = {
     { image: "https://images.unsplash.com/photo-1599351431613-18ef1fdd27e1?w=800&q=80", alt: "Rasage au coupe-chou", categorie: "Rasage" },
     { image: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80", alt: "Taille de barbe sculptée", categorie: "Barbe" },
     { image: "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=800&q=80", alt: "Ambiance du salon", categorie: "Ambiance" },
-    { image: "https://images.unsplash.com/photo-1585747860019-8e4c2e1b1e4e?w=800&q=80", alt: "Pompadour classique", categorie: "Coupe" },
+    { image: "https://images.pexels.com/photos/32329615/pexels-photo-32329615.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Coupe classique aux ciseaux", categorie: "Coupe" },
     { image: "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?w=800&q=80", alt: "Détail dégradé", categorie: "Coupe" },
   ],
 
   galerieBonus: [
     { image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80", alt: "Portrait client satisfait", categorie: "Résultat" },
     { image: "https://images.unsplash.com/photo-1621607512214-68297480165e?w=800&q=80", alt: "Outils du barbier", categorie: "Ambiance" },
-    { image: "https://images.unsplash.com/photo-1596728325395-481c8f3e5bfa?w=800&q=80", alt: "Hot towel en cours", categorie: "Rasage" },
-    { image: "https://images.unsplash.com/photo-1578253859798-1e2c0e4a8e24?w=800&q=80", alt: "Barbe longue entretenue", categorie: "Barbe" },
+    { image: "https://images.pexels.com/photos/9387375/pexels-photo-9387375.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Rasage de barbe au coupe-chou", categorie: "Rasage" },
+    { image: "https://images.pexels.com/photos/33448216/pexels-photo-33448216.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Dégradé précis à la tondeuse", categorie: "Coupe" },
     { image: "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=800&q=80", alt: "Fauteuil vintage", categorie: "Ambiance" },
     { image: "https://images.unsplash.com/photo-1587909209111-5097ee578ec3?w=800&q=80", alt: "Finition cire coiffante", categorie: "Coupe" },
   ],
@@ -114,7 +117,7 @@ export const client = {
     sousTitre: "Depuis 2018 à Perpignan",
     paragraphe1: "Black & Gold est né d'une conviction : aller chez le barbier ne devrait pas être une corvée, mais un moment pour soi. Un rituel. Un espace où le temps s'arrête, où le souci du détail prime sur la cadence.",
     paragraphe2: "Notre équipe de 3 barbiers passionnés vous accueille dans un cadre authentique, entre cuir patiné, bois brut et musique soul. Ici, on prend le temps de comprendre ce que vous voulez, et on s'assure que vous repartez avec le sourire.",
-    image: "/images/laure.png",
+    image: asset("images/laure.png"),
     imageAlt: "Laure, fondatrice du barbershop",
     image2: "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=800&q=80",
     image2Alt: "Produits et outils de barbier",
