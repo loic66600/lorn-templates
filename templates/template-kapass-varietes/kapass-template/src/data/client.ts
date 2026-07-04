@@ -52,7 +52,7 @@ export const client = {
     instagram: "https://www.instagram.com/kapass_66/",
   },
 
-  web3formsKey: "VOTRE_CLE_WEB3FORMS",
+  web3formsKey: "b70808be-9159-4198-b66b-d47ecf2c822b",
 
   // ---- SEO (local) ----
   seo: {
