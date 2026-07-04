@@ -1,5 +1,4 @@
 [build]
-  base = "kapass-template"
   command = "npm run build"
   publish = "dist"
 
