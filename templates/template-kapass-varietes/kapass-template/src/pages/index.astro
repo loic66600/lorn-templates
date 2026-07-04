@@ -3,8 +3,8 @@ import Layout from "@layouts/Layout.astro";
 import Icon from "@components/Icon.astro";
 import { client } from "@data/client";
 
-const titre = `${client.nom} — Duo variété & show karaoké à ${client.adresse.ville} (${client.adresse.region})`;
-const description = `${client.duo}, duo de variété, karaoké concert festif et light show à ${client.adresse.ville}. Reprises Joe Dassin, Michel Sardou, Johnny Hallyday et autres tubes pour mariages, mairies, fêtes de village et soirées dans le 66.`;
+const titre = `${client.nom} — Variété populaire & show karaoké à ${client.adresse.ville} (${client.adresse.region})`;
+const description = `${client.duo}, orchestre participatif et interactif de variété populaire, karaoké concert festif et light show à ${client.adresse.ville}. Reprises Joe Dassin, Michel Sardou, Johnny Hallyday et tubes populaires pour mariages, mairies, fêtes de village et soirées dans le 66.`;
 ---
 
 <Layout title={titre} description={description}>
@@ -31,8 +31,8 @@ const description = `${client.duo}, duo de variété, karaoké concert festif et
         </h1>
         <p class="hero-sous">
           {client.artistes.prenom1} et {client.artistes.prenom2}, le duo {client.nom},
-          subliment vos soirées avec un répertoire prestigieux et une énergie
-          scénique idéale. Du jazz feutré aux pistes de danse enflammées.
+          font chanter et danser vos invités avec un répertoire de variété populaire,
+          une animation participative et une énergie scénique interactive.
         </p>
         <div class="hero-actions">
           <a href="/evenements" class="btn btn-or btn-bloc">Découvrir le spectacle</a>

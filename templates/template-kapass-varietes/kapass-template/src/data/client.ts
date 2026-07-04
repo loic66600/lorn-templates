@@ -12,7 +12,7 @@ export const client = {
   baseline:
     "L'excellence musicale pour tous vos événements prestigieux. Un duo passionné au service de votre émotion.",
   description:
-    "Kapass Variétés — duo de variété, karaoké concert festif et light show à Perpignan (Occitanie). Cathy & Pascal animent mariages, repas dansants, fêtes de village, mairies, galas et soirées d'entreprise avec les meilleurs tubes de Joe Dassin, Michel Sardou, Johnny Hallyday et bien d'autres. Sonorisation pro 6 colonnes, gestion automatique du son, devis gratuit.",
+    "Kapass Variétés — orchestre participatif et interactif de variété populaire, karaoké concert festif et light show à Perpignan (Occitanie). Cathy & Pascal animent mariages, repas dansants, fêtes de village, mairies, galas et soirées d'entreprise avec les meilleurs tubes de Joe Dassin, Michel Sardou, Johnny Hallyday et bien d'autres. Sonorisation pro 6 colonnes, gestion automatique du son, devis gratuit.",
   anneeFondation: 2009,
 
   artistes: { prenom1: "Cathy", prenom2: "Pascal" },
@@ -58,7 +58,10 @@ export const client = {
   seo: {
     motsCles: [
       "duo variété Perpignan",
+      "variété populaire Perpignan",
       "show karaoké Perpignan",
+      "orchestre participatif Perpignan",
+      "animation interactive Perpignan",
       "animation soirée Occitanie",
       "duo musical mariage Pyrénées-Orientales",
       "groupe variété repas dansant Occitanie",
@@ -89,9 +92,9 @@ export const client = {
     },
     {
       icone: "music",
-      titre: "Répertoire Éclectique",
+      titre: "Variété Populaire",
       description:
-        "Les meilleurs tubes de Joe Dassin, Michel Sardou, Johnny Hallyday et bien d'autres.",
+        "Les grands tubes populaires de Joe Dassin, Michel Sardou, Johnny Hallyday et bien d'autres.",
     },
     {
       icone: "sliders",
@@ -109,10 +112,11 @@ export const client = {
 
   immersion: {
     intro:
-      "Au-delà de la musique, nous créons une expérience multisensorielle où les voix de Cathy et Pascal s'harmonisent avec un jeu de lumières sophistiqué.",
+      "Au-delà de la musique, nous créons une animation vivante où les voix de Cathy et Pascal entraînent le public dans un spectacle participatif, interactif et lumineux.",
     points: [
       "Adaptation totale à l'acoustique de votre lieu",
-      "Animation assurée avec participation du public",
+      "Animation participative avec le public",
+      "Répertoire de variété populaire fédérateur",
       "Direction artistique sur-mesure",
     ],
   },
@@ -122,7 +126,7 @@ export const client = {
     {
       titre: "Mariages de Prestige",
       description:
-        "Du cocktail à la soirée dansante, une ambiance romantique et festive.",
+        "Du cocktail à la soirée dansante, une ambiance romantique, populaire et festive.",
       image:
         "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200&auto=format&fit=crop",
       // imageLocale: "/images/presta-mariage.jpg",
@@ -130,7 +134,7 @@ export const client = {
     {
       titre: "Soirées Corporate",
       description:
-        "Gala, séminaires ou lancements de produits avec un ton juste et professionnel.",
+        "Gala, séminaires ou lancements de produits avec une animation professionnelle et interactive.",
       image:
         "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200&auto=format&fit=crop",
       // imageLocale: "/images/presta-corporate.jpg",
@@ -138,7 +142,7 @@ export const client = {
     {
       titre: "Concerts Publics",
       description:
-        "Festivals, mairies, fêtes de village et événements associatifs pour tous les publics.",
+        "Festivals, mairies, fêtes de village et événements associatifs avec un répertoire populaire pour tous les publics.",
       image:
         "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1200&auto=format&fit=crop",
       // imageLocale: "/images/presta-concert.jpg",
@@ -146,7 +150,7 @@ export const client = {
     {
       titre: "Dîners de Gala",
       description:
-        "Ambiance lounge et jazz feutrée pour accompagner vos repas d'exception.",
+        "Variété populaire, interaction avec les convives et ambiance festive pour accompagner vos repas d'exception.",
       image:
         "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop",
       // imageLocale: "/images/presta-gala.jpg",
@@ -195,7 +199,7 @@ export const client = {
       icone: "heart",
       titre: "Mariages",
       description:
-        "L'élégance pour votre plus beau jour. Nous animons votre cocktail, votre dîner et enflammons la piste de danse avec un répertoire adapté à toutes les générations.",
+        "L'élégance pour votre plus beau jour. Nous animons votre cocktail, votre dîner et enflammons la piste de danse avec un répertoire de variété populaire adapté à toutes les générations.",
       points: [
         "Sonorisation voix + instruments",
         "Éclairage d'ambiance",
@@ -206,7 +210,7 @@ export const client = {
       icone: "cake",
       titre: "Anniversaires",
       description:
-        "Célébrez une nouvelle année en beauté. Une ambiance festive et conviviale pour ravir vos invités, peu importe l'âge fêté.",
+        "Célébrez une nouvelle année en beauté. Une ambiance festive, conviviale et participative pour ravir vos invités, peu importe l'âge fêté.",
       points: [
         "Playlist sur mesure",
         "Animation interactive",
@@ -217,7 +221,7 @@ export const client = {
       icone: "music",
       titre: "Repas Dansants",
       description:
-        "Spécialistes des comités des fêtes et CCAS. Un répertoire varié allant du rétro au moderne pour faire danser tous les convives.",
+        "Spécialistes des comités des fêtes et CCAS. Un répertoire de variété populaire, du rétro au moderne, pour faire chanter et danser tous les convives.",
       points: [
         "Gestion des volumes sonores",
         "Répertoire intergénérationnel",
@@ -228,7 +232,7 @@ export const client = {
       icone: "flag",
       titre: "Mairies & Fêtes de Village",
       description:
-        "Pour les mairies, comités des fêtes et fêtes de village, le duo Kapass apporte l'énergie nécessaire pour faire vibrer votre commune. Une présence scénique dynamique et rassembleuse.",
+        "Pour les mairies, comités des fêtes et fêtes de village, Kapass apporte l'énergie d'un orchestre participatif et interactif pour faire vibrer votre commune.",
       points: [
         "Grande puissance sonore",
         "Spécialité musique variée",
@@ -249,7 +253,7 @@ export const client = {
     eyebrow: "Puissance & Clarté",
     titre: "Sonorisation Pro LD Line Array",
     intro:
-      "Nous ne faisons aucun compromis sur la qualité sonore. Kapass Variétés travaille avec 6 colonnes d'enceintes pour une diffusion claire et homogène, une formule karaoké concert festif en duo, un light show immersif et un système de gestion du son automatique adapté à votre salle, votre scène ou votre fête de village.",
+      "Nous ne faisons aucun compromis sur la qualité sonore. Kapass Variétés travaille avec 6 colonnes d'enceintes pour une diffusion claire et homogène, une formule de variété populaire participative, un karaoké concert festif, un light show immersif et un système de gestion du son automatique adapté à votre salle, votre scène ou votre fête de village.",
     image: "/images/sonos.png",
     // imageLocale: "/images/sono.jpg",
     points: [
