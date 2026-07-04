@@ -12,7 +12,7 @@ export const client = {
   baseline:
     "L'excellence musicale pour tous vos événements prestigieux. Un duo passionné au service de votre émotion.",
   description:
-    "Kapass Variétés — orchestre participatif et interactif de variété populaire, karaoké concert festif et light show à Perpignan (Occitanie). Cathy & Pascal animent mariages, repas dansants, fêtes de village, mairies, galas et soirées d'entreprise avec les meilleurs tubes de Joe Dassin, Michel Sardou, Johnny Hallyday et bien d'autres. Sonorisation pro 6 colonnes, gestion automatique du son, devis gratuit.",
+    "Kapass Variétés — orchestre participatif et interactif de variété populaire, karaoké concert festif et light show à Perpignan (Occitanie). Cathy & Pascal animent mariages, repas dansants, fêtes de village, mairies, galas et soirées d'entreprise avec les meilleurs tubes de Joe Dassin, Michel Sardou, Johnny Hallyday et bien d'autres. Sonorisation pro 6 colonnes, gestion automatique des éclairages, devis gratuit.",
   anneeFondation: 2009,
 
   artistes: { prenom1: "Cathy", prenom2: "Pascal" },
@@ -100,7 +100,7 @@ export const client = {
       icone: "sliders",
       titre: "Son & Lumières",
       description:
-        "6 colonnes d'enceintes, light show et gestion automatique du son pour une ambiance maîtrisée.",
+        "6 colonnes d'enceintes, light show et gestion automatique des éclairages pour une ambiance maîtrisée.",
     },
     {
       icone: "shield",
@@ -265,7 +265,7 @@ export const client = {
       {
         titre: "Show Lumière Inclus",
         description:
-          "Light show, effets, projecteurs LED et gestion automatique du son pour une mise en place rapide et fiable.",
+          "Light show, effets, projecteurs LED et gestion automatique des éclairages pour une mise en place rapide et fiable.",
       },
     ],
   },
