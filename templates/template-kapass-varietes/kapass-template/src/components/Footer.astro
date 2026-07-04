@@ -1,0 +1,133 @@
+---
+import { client } from "@data/client";
+import Icon from "@components/Icon.astro";
+const annee = new Date().getFullYear();
+
+const reseauxLabels: Record<string, string> = {
+  facebook: "Facebook",
+  instagram: "Instagram",
+};
+---
+
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied-grille">
+      <div class="pied-marque">
+        <a href="/" class="pied-logo-bloc">
+          <img src="/logo-kapass.png" alt={`Logo ${client.nom}`} width="48" height="48" class="pied-logo" />
+          <span class="pied-nom">{client.nom}</span>
+        </a>
+        <p class="pied-tagline">{client.baseline}</p>
+        <div class="pied-reseaux">
+          {
+            Object.entries(client.reseaux).map(([cle, url]) => (
+              <a href={url} target="_blank" rel="noopener noreferrer" class="pied-reseau" aria-label={reseauxLabels[cle] ?? cle}>
+                <Icon nom={cle} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="pied-col">
+        <h2 class="pied-titre">Navigation</h2>
+        <a class="pied-lien" href="/">Accueil</a>
+        <a class="pied-lien" href="/photos">Galerie Photos</a>
+        <a class="pied-lien" href="/evenements">Événements</a>
+        <a class="pied-lien" href="/contact">Contact</a>
+      </div>
+
+      <div class="pied-col">
+        <h2 class="pied-titre">Informations</h2>
+        <a class="pied-lien" href="/mentions-legales">Mentions Légales</a>
+        <a class="pied-lien" href="/mentions-legales">Politique de Confidentialité</a>
+        <a class="pied-lien" href="/contact">Presse</a>
+        <a class="pied-lien" href="/contact">Partenaires</a>
+      </div>
+
+      <div class="pied-col">
+        <h2 class="pied-titre">Contact</h2>
+        <p class="pied-info">{client.localisation}</p>
+        <a class="pied-lien" href={`mailto:${client.email}`}>{client.email}</a>
+        <a class="pied-lien" href={`tel:${client.telephoneLien}`}>{client.telephone}</a>
+      </div>
+    </div>
+
+    <p class="pied-seo">
+      Kapass Variétés — {client.duo} : duo de variété et show karaoké de qualité à
+      {" "}{client.adresse.ville} ({client.adresse.region}). Animation de mariages,
+      repas dansants, fêtes de village et soirées d'entreprise dans les
+      {" "}{client.adresse.departement} et toute l'Occitanie.
+    </p>
+
+    <p class="pied-bas">© {annee} {client.nom}. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<style>
+  .pied {
+    border-top: 1px solid var(--ligne);
+    background: var(--noir);
+    padding-top: 3rem;
+  }
+  .pied-grille {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+    padding-bottom: 2.5rem;
+  }
+  .pied-logo-bloc { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+  .pied-logo { width: 44px; height: 44px; border-radius: 50%; }
+  .pied-nom { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--or); }
+  .pied-tagline { color: var(--gris); font-size: 0.92rem; max-width: 36ch; }
+  .pied-reseaux { display: flex; gap: 0.7rem; margin-top: 1.2rem; }
+  .pied-reseau {
+    width: 40px; height: 40px;
+    display: grid; place-items: center;
+    border: 1px solid var(--ligne);
+    border-radius: 50%;
+    color: var(--or);
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .pied-reseau svg { width: 18px; height: 18px; }
+  .pied-reseau:hover { background: rgba(239,198,98,0.12); border-color: var(--or); }
+
+  .pied-titre {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--or);
+    margin-bottom: 1rem;
+  }
+  .pied-lien {
+    display: block;
+    color: var(--gris);
+    font-size: 0.92rem;
+    margin-bottom: 0.6rem;
+    transition: color 0.2s ease;
+  }
+  .pied-lien:hover { color: var(--or); }
+  .pied-info { color: var(--gris); font-size: 0.92rem; margin-bottom: 0.6rem; }
+
+  .pied-seo {
+    font-size: 0.78rem;
+    color: var(--gris-fonce);
+    line-height: 1.7;
+    padding-block: 1.8rem;
+    border-top: 1px solid var(--ligne);
+  }
+  .pied-bas {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--gris-fonce);
+    padding-bottom: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .pied-grille { grid-template-columns: 1fr 1fr; gap: 2.5rem 2rem; }
+  }
+  @media (min-width: 980px) {
+    .pied-grille { grid-template-columns: 1.6fr 1fr 1fr 1fr; }
+    .pied-bas { text-align: center; }
+  }
+</style>

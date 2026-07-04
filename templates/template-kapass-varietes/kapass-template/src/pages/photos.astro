@@ -1,0 +1,130 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Photos — Galerie ${client.nom} | Show karaoké & soirées à ${client.adresse.ville}`;
+const description = `Galerie photos de ${client.nom} : scène, show karaoké, ambiance, événements, matériel, 6 colonnes d'enceintes et light show à ${client.adresse.ville} et dans le département 66.`;
+---
+
+<Layout title={titre} description={description}>
+  <section class="hero-page">
+    <div class="hero-fond" aria-hidden="true"></div>
+    <div class="conteneur hero-contenu">
+      <span class="eyebrow">Galerie exclusive</span>
+      <h1 class="hero-titre">L'Émotion en <span class="or">Images</span></h1>
+      <p class="hero-sous">{client.galerieIntro}</p>
+    </div>
+  </section>
+
+  <section class="section galerie-section">
+    <div class="conteneur">
+      <!-- Filtres -->
+      <div class="filtres" role="group" aria-label="Filtrer la galerie">
+        {
+          client.galerieFiltres.map((f, i) => (
+            <button class:list={["filtre", { actif: i === 0 }]} data-filtre={f}>{f}</button>
+          ))
+        }
+      </div>
+
+      <!-- Galerie masonry -->
+      <div class="galerie" id="galerie">
+        {
+          client.galerie.map((g) => (
+            <figure class:list={["g-item", `g-${g.taille}`]} data-cat={g.cat}>
+              <img src={g.image} alt={g.alt} loading="lazy" />
+              <figcaption class="g-cat">{g.cat}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur">
+      <div class="cta reveler">
+        <div class="cta-lueur" aria-hidden="true"></div>
+        <h2 class="cta-titre">Prêt pour votre <span class="or">Événement</span> ?</h2>
+        <p class="cta-sous">
+          Contactez-nous pour une prestation sur mesure qui restera gravée dans
+          les mémoires.
+        </p>
+        <div class="cta-actions">
+          <a href="/contact" class="btn btn-or btn-bloc">Réserver maintenant</a>
+          <a href="/evenements" class="btn btn-violet btn-bloc">Voir les prestations</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero-page { position: relative; padding: calc(68px + 3.5rem) 0 2.5rem; overflow: hidden; }
+  .hero-fond { position: absolute; inset: 0; background: radial-gradient(110% 90% at 50% 0%, var(--violet-sombre), var(--noir) 65%); }
+  .hero-contenu { position: relative; z-index: 1; text-align: center; }
+  .hero-titre { font-size: clamp(2.2rem, 9vw, 4rem); font-weight: 800; }
+  .hero-sous { color: var(--gris); max-width: 54ch; margin: 1.2rem auto 0; }
+
+  /* Filtres */
+  .filtres { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-bottom: 2rem; }
+  .filtre {
+    font-family: var(--font-texte);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.2rem;
+    border-radius: 100px;
+    border: 1px solid var(--ligne);
+    background: transparent;
+    color: var(--gris);
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .filtre:hover { border-color: var(--or); color: var(--or); }
+  .filtre.actif { background: var(--or); border-color: var(--or); color: #1a1408; }
+
+  /* Galerie : colonnes masonry (mobile-first 1 colonne) */
+  .galerie { columns: 1; column-gap: 1rem; }
+  .g-item { position: relative; break-inside: avoid; margin-bottom: 1rem; border-radius: var(--rayon); overflow: hidden; }
+  .g-item.cachee { display: none; }
+  .g-item img { width: 100%; display: block; transition: transform 0.6s cubic-bezier(0.2,0.7,0.2,1); }
+  .g-item:hover img { transform: scale(1.05); }
+  .g-cat {
+    position: absolute; bottom: 0.8rem; left: 0.8rem;
+    font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blanc);
+    background: rgba(16,15,18,0.6);
+    backdrop-filter: blur(4px);
+    padding: 0.3rem 0.7rem; border-radius: 100px;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .g-item:hover .g-cat { opacity: 1; transform: none; }
+  @media (min-width: 600px) { .galerie { columns: 2; } }
+  @media (min-width: 1000px) { .galerie { columns: 3; } }
+
+  .cta { position: relative; overflow: hidden; border: 1px solid rgba(239,198,98,0.22); border-radius: 24px; background: linear-gradient(160deg, rgba(239,198,98,0.1), rgba(138,106,208,0.06)); padding: 2.5rem 1.6rem; text-align: center; }
+  .cta-lueur { position: absolute; top: -40%; left: 50%; transform: translateX(-50%); width: 120%; height: 100%; background: radial-gradient(closest-side, rgba(239,198,98,0.18), transparent); pointer-events: none; }
+  .cta-titre { position: relative; font-size: clamp(1.7rem, 6vw, 2.6rem); }
+  .cta-sous { position: relative; color: var(--gris); max-width: 50ch; margin: 1rem auto 1.8rem; }
+  .cta-actions { position: relative; display: flex; flex-direction: column; gap: 0.9rem; }
+  @media (min-width: 560px) { .cta { padding: 3.5rem 2.5rem; } .cta-actions { flex-direction: row; justify-content: center; } }
+</style>
+
+<script>
+  const filtres = document.querySelectorAll<HTMLButtonElement>(".filtre");
+  const items = document.querySelectorAll<HTMLElement>(".g-item");
+  filtres.forEach((b) => {
+    b.addEventListener("click", () => {
+      filtres.forEach((x) => x.classList.remove("actif"));
+      b.classList.add("actif");
+      const f = b.dataset.filtre;
+      items.forEach((it) => {
+        const visible = f === "Tout" || it.dataset.cat === f;
+        it.classList.toggle("cachee", !visible);
+      });
+    });
+  });
+</script>

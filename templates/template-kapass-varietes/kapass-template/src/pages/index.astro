@@ -1,0 +1,314 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Icon from "@components/Icon.astro";
+import { client } from "@data/client";
+
+const titre = `${client.nom} — Duo variété & show karaoké à ${client.adresse.ville} (${client.adresse.region})`;
+const description = `${client.duo}, duo de variété, karaoké concert festif et light show à ${client.adresse.ville}. Reprises Joe Dassin, Michel Sardou, Johnny Hallyday et autres tubes pour mariages, mairies, fêtes de village et soirées dans le 66.`;
+---
+
+<Layout title={titre} description={description}>
+  <!-- ======================= HERO ======================= -->
+  <section class="hero">
+    <div class="hero-fond" aria-hidden="true"></div>
+    <img
+      class="hero-img"
+      src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=1800&auto=format&fit=crop"
+      alt={`${client.nom} en représentation`}
+      fetchpriority="high"
+    />
+    <!-- <img class="hero-img" src="/images/hero.jpg" alt={`${client.nom} en représentation`} fetchpriority="high" /> -->
+    <div class="hero-voile" aria-hidden="true"></div>
+
+    <div class="hero-photo" aria-hidden="true">
+      <img src="/images/duo.png" alt="" />
+    </div>
+
+    <div class="conteneur hero-contenu">
+      <div class="hero-texte">
+        <h1 class="hero-titre">
+          Faites de votre événement un <span class="or">Spectacle Inoubliable</span>
+        </h1>
+        <p class="hero-sous">
+          {client.artistes.prenom1} et {client.artistes.prenom2}, le duo {client.nom},
+          subliment vos soirées avec un répertoire prestigieux et une énergie
+          scénique idéale. Du jazz feutré aux pistes de danse enflammées.
+        </p>
+        <div class="hero-actions">
+          <a href="/evenements" class="btn btn-or btn-bloc">Découvrir le spectacle</a>
+          <a href="/evenements" class="btn btn-violet btn-bloc">Voir les prestations</a>
+        </div>
+      </div>
+    </div>
+    <span class="hero-chevron" aria-hidden="true">⌄</span>
+  </section>
+
+  <!-- ======================= POURQUOI ======================= -->
+  <section class="section pourquoi">
+    <div class="conteneur">
+      <h2 class="titre-section titre-centre reveler">
+        Pourquoi choisir <span class="or">{client.nom}</span> ?
+      </h2>
+      <div class="trait-or reveler"></div>
+      <div class="atouts">
+        {
+          client.atouts.map((a) => (
+            <article class="carte atout reveler">
+              <span class="atout-icone"><Icon nom={a.icone} /></span>
+              <h3 class="atout-titre">{a.titre}</h3>
+              <p class="atout-desc">{a.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= IMMERSION ======================= -->
+  <section class="section immersion">
+    <div class="conteneur immersion-grille">
+      <figure class="immersion-media reveler">
+        <img
+          src="/images/488251075_9643722929055512_5261462237597928989_n.jpg"
+          alt={`Ambiance scénique ${client.nom}`}
+          loading="lazy"
+        />
+        <!-- <img src="/images/immersion.jpg" alt={`Ambiance scénique ${client.nom}`} loading="lazy" /> -->
+        <figcaption class="immersion-note">
+          <strong>{client.noteClients}</strong>
+          <span>Note clients moyenne</span>
+        </figcaption>
+      </figure>
+
+      <div class="immersion-texte reveler">
+        <h2 class="titre-section">
+          Une immersion totale dans <span class="or it">l'univers du spectacle</span>
+        </h2>
+        <p class="immersion-intro">{client.immersion.intro}</p>
+        <ul class="immersion-liste">
+          {
+            client.immersion.points.map((p) => (
+              <li>
+                <span class="puce-check"><Icon nom="check" /></span>
+                {p}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PRESTATIONS ======================= -->
+  <section class="section prestations">
+    <div class="conteneur">
+      <h2 class="titre-section titre-centre reveler">
+        Nos Prestations <span class="or">Sur-Mesure</span>
+      </h2>
+      <p class="sous-centre reveler">Une offre adaptée à chaque moment de votre célébration.</p>
+
+      <div class="presta-grille">
+        {
+          client.prestations.map((p) =>
+            p.special ? (
+              <a href="/contact" class="presta presta-special reveler">
+                <span class="presta-plus"><Icon nom="plus" /></span>
+                <h3 class="presta-titre">{p.titre}</h3>
+                <p class="presta-desc">{p.description}</p>
+              </a>
+            ) : (
+              <a href="/evenements" class="presta reveler">
+                <img class="presta-img" src={p.image} alt={p.titre} loading="lazy" />
+                <div class="presta-voile" aria-hidden="true"></div>
+                <div class="presta-contenu">
+                  <h3 class="presta-titre">{p.titre}</h3>
+                  <p class="presta-desc">{p.description}</p>
+                </div>
+              </a>
+            )
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= TÉMOIGNAGES ======================= -->
+  <section class="section temoignages">
+    <div class="conteneur">
+      <h2 class="titre-section reveler">Ils nous ont fait <span class="it or">confiance</span></h2>
+      <p class="sous-gauche reveler">Découvrez les retours d'expérience de nos clients les plus prestigieux.</p>
+      <div class="temoin-piste" id="temoin-piste">
+        {
+          client.temoignages.map((t) => (
+            <figure class="carte temoin reveler">
+              <span class="temoin-guillemets" aria-hidden="true">”</span>
+              <blockquote>{t.texte}</blockquote>
+              <figcaption>
+                <span class="temoin-nom">{t.nom}</span>
+                <span class="temoin-role">{t.role}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CTA ======================= -->
+  <section class="section">
+    <div class="conteneur">
+      <div class="cta reveler">
+        <div class="cta-lueur" aria-hidden="true"></div>
+        <h2 class="cta-titre">Prêt à illuminer votre <span class="or">prochain événement</span> ?</h2>
+        <p class="cta-sous">
+          Contactez-nous dès aujourd'hui pour obtenir un devis personnalisé et
+          réserver votre date. Les plus belles soirées commencent ici.
+        </p>
+        <div class="cta-actions">
+          <a href="/contact" class="btn btn-or btn-bloc">Réserver maintenant</a>
+          <a href="/evenements" class="btn btn-ligne btn-bloc">Voir le catalogue</a>
+        </div>
+        <div class="cta-puces">
+          <span><Icon nom="check" class="ic" /> Disponibilité limitée {new Date().getFullYear()}</span>
+          <span><Icon nom="check" class="ic" /> Conseil artistique inclus</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    min-height: 92svh;
+    display: flex;
+    align-items: center;
+    padding-top: 68px;
+    overflow: hidden;
+  }
+  .hero-fond { position: absolute; inset: 0; background: radial-gradient(120% 80% at 70% 0%, var(--violet-sombre), var(--noir) 60%); }
+  .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+  .hero-voile { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(16,15,18,0.5) 0%, rgba(16,15,18,0.55) 40%, var(--noir) 100%); }
+  .hero-contenu { position: relative; z-index: 2; padding-block: 2rem; }
+  .hero-texte { width: min(48ch, 52%); }
+  .hero-photo { position: absolute; bottom: 0; right: 8%; z-index: 1; pointer-events: none; }
+  .hero-photo img { max-height: 84svh; width: auto; object-fit: contain; opacity: 0.65; filter: drop-shadow(0 0 40px rgba(138,106,208,0.25)); -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%); mask-image: linear-gradient(to bottom, black 70%, transparent 100%); }
+  .hero-titre { font-size: clamp(1.9rem, 7.5vw, 3.6rem); font-weight: 800; letter-spacing: -0.02em; }
+  .hero-sous { color: var(--gris); font-size: 1rem; margin: 1.4rem 0 2rem; }
+  .hero-actions { display: flex; flex-direction: column; gap: 0.9rem; }
+  .hero-chevron { position: absolute; bottom: 1.2rem; left: 50%; transform: translateX(-50%); z-index: 2; color: var(--gris); font-size: 1.6rem; animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translate(-50%, 6px); } }
+  @media (max-width: 767px) { .hero-photo { display: none; } .hero-texte { width: 100%; } }
+  @media (min-width: 560px) { .hero-actions { flex-direction: row; } }
+  @media (prefers-reduced-motion: reduce) { .hero-chevron { animation: none; } }
+
+  /* ---- Pourquoi / atouts ---- */
+  .atouts { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
+  .atout { padding: 1.8rem 1.6rem; text-align: center; transition: border-color 0.3s ease, transform 0.3s ease; }
+  .atout:hover { border-color: rgba(239,198,98,0.4); transform: translateY(-4px); }
+  .atout-icone {
+    display: inline-grid; place-items: center;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(239,198,98,0.1);
+    color: var(--or);
+    margin-bottom: 1rem;
+  }
+  .atout-icone svg { width: 26px; height: 26px; }
+  .atout-titre { font-size: 1.15rem; margin-bottom: 0.5rem; }
+  .atout-desc { color: var(--gris); font-size: 0.9rem; }
+  @media (min-width: 560px) { .atouts { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .atouts { grid-template-columns: repeat(4, 1fr); } }
+
+  /* ---- Immersion ---- */
+  .immersion-grille { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
+  .immersion-media { position: relative; border-radius: var(--rayon); overflow: hidden; }
+  .immersion-media img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .immersion-note {
+    position: absolute; bottom: 1rem; right: 1rem;
+    background: rgba(16,15,18,0.82);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--ligne);
+    border-radius: 12px;
+    padding: 0.7rem 1rem;
+    display: flex; flex-direction: column;
+    text-align: right;
+  }
+  .immersion-note strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--or); }
+  .immersion-note span { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gris); }
+  .immersion-intro { color: var(--gris); margin: 1.2rem 0 1.5rem; }
+  .immersion-liste { list-style: none; display: grid; gap: 0.9rem; }
+  .immersion-liste li { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.95rem; }
+  .puce-check { flex-shrink: 0; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: rgba(239,198,98,0.12); color: var(--or); }
+  .puce-check svg { width: 14px; height: 14px; }
+  @media (min-width: 900px) { .immersion-grille { grid-template-columns: 1fr 1fr; gap: 3.5rem; } }
+
+  /* ---- Prestations ---- */
+  .sous-centre { text-align: center; color: var(--gris); margin-top: 0.8rem; }
+  .presta-grille { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
+  .presta { position: relative; border-radius: var(--rayon); overflow: hidden; min-height: 230px; display: flex; align-items: flex-end; }
+  .presta-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+  .presta:hover .presta-img { transform: scale(1.06); }
+  .presta-voile { position: absolute; inset: 0; background: linear-gradient(to top, rgba(16,15,18,0.92) 12%, rgba(16,15,18,0.2) 75%); }
+  .presta-contenu { position: relative; z-index: 1; padding: 1.5rem; }
+  .presta-titre { font-size: 1.3rem; margin-bottom: 0.4rem; }
+  .presta-desc { color: var(--gris); font-size: 0.88rem; }
+  .presta-special {
+    flex-direction: column; justify-content: center; align-items: flex-start;
+    background: linear-gradient(160deg, rgba(239,198,98,0.16), rgba(239,198,98,0.04));
+    border: 1px solid rgba(239,198,98,0.3);
+    padding: 1.8rem 1.6rem;
+  }
+  .presta-plus { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: rgba(239,198,98,0.18); color: var(--or); margin-bottom: 1rem; }
+  .presta-plus svg { width: 24px; height: 24px; }
+  @media (min-width: 640px) { .presta-grille { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .presta-grille { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ---- Témoignages ---- */
+  .sous-gauche { color: var(--gris); margin-top: 0.6rem; margin-bottom: 2rem; }
+  .temoin-piste {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 85%;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .temoin-piste::-webkit-scrollbar { height: 4px; }
+  .temoin-piste::-webkit-scrollbar-thumb { background: var(--noir-3); border-radius: 4px; }
+  .temoin { scroll-snap-align: start; padding: 1.8rem 1.6rem; display: flex; flex-direction: column; gap: 1rem; }
+  .temoin-guillemets { font-family: var(--font-display); font-size: 3rem; line-height: 0.5; color: var(--or); }
+  .temoin blockquote { color: var(--blanc); font-size: 0.95rem; line-height: 1.6; }
+  .temoin figcaption { margin-top: auto; display: flex; flex-direction: column; gap: 0.2rem; }
+  .temoin-nom { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; }
+  .temoin-role { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); }
+  @media (min-width: 768px) {
+    .temoin-piste { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+  }
+
+  /* ---- CTA ---- */
+  .cta {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(239,198,98,0.22);
+    border-radius: 24px;
+    background: linear-gradient(160deg, rgba(239,198,98,0.1), rgba(138,106,208,0.06));
+    padding: 2.5rem 1.6rem;
+    text-align: center;
+  }
+  .cta-lueur { position: absolute; top: -40%; left: 50%; transform: translateX(-50%); width: 120%; height: 100%; background: radial-gradient(closest-side, rgba(239,198,98,0.18), transparent); pointer-events: none; }
+  .cta-titre { position: relative; font-size: clamp(1.7rem, 6vw, 2.8rem); }
+  .cta-sous { position: relative; color: var(--gris); max-width: 50ch; margin: 1rem auto 1.8rem; }
+  .cta-actions { position: relative; display: flex; flex-direction: column; gap: 0.9rem; }
+  .cta-puces { position: relative; display: flex; flex-direction: column; gap: 0.6rem; align-items: center; margin-top: 1.6rem; font-size: 0.76rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gris); }
+  .cta-puces span { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .cta-puces .ic { width: 15px; height: 15px; color: var(--or); }
+  @media (min-width: 560px) {
+    .cta { padding: 3.5rem 2.5rem; }
+    .cta-actions { flex-direction: row; justify-content: center; }
+    .cta-puces { flex-direction: row; gap: 1.6rem; }
+  }
+</style>

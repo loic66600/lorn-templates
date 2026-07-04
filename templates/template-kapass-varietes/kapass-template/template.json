@@ -1,0 +1,20 @@
+{
+  "id": "kapass-varietes",
+  "nom": "Kapass Variétés — Duo show & karaoké (mobile-first)",
+  "categorie": "evenementiel",
+  "description": "Site vitrine mobile-first pour le duo de variété et show karaoké Kapass Variétés (Cathy & Pascal). Reproduction fidèle de la charte fournie : fond sombre, or doré, dégradés violets, typo ronde. 5 pages (Accueil, Événements, Photos, Contact, Mentions légales). SEO local Perpignan / Occitanie, schéma LocalBusiness + MusicGroup, avis agrégés 4.9.",
+  "pages": ["index", "evenements", "photos", "contact", "mentions-legales"],
+  "palette": {
+    "fond": "#100F12",
+    "fondClair": "#1A181E",
+    "texte": "#F6F4EF",
+    "texteSecondaire": "#9B97A1",
+    "accent": "#EFC662",
+    "accentSecondaire": "#7B5CC0"
+  },
+  "polices": {
+    "display": "Poppins",
+    "texte": "Inter"
+  },
+  "port": 4036
+}

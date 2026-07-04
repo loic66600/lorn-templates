@@ -1,0 +1,240 @@
+---
+import { client } from "@data/client";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import CookieBanner from "@components/CookieBanner.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  noIndex?: boolean;
+}
+
+const { title, description, noIndex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, client.siteUrl).href;
+
+// ---- Schéma LocalBusiness + MusicGroup (SEO local) ----
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "MusicGroup"],
+  "@id": client.siteUrl + "/#kapass",
+  name: client.nom,
+  description: client.description,
+  url: client.siteUrl,
+  email: client.email,
+  telephone: client.telephoneLien,
+  foundingDate: String(client.anneeFondation),
+  priceRange: "€€",
+  genre: ["Variété française", "Pop", "Jazz", "Karaoké"],
+  member: [
+    { "@type": "Person", name: `${client.artistes.prenom1}` },
+    { "@type": "Person", name: `${client.artistes.prenom2}` },
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: client.adresse.ville,
+    addressRegion: client.adresse.region,
+    addressCountry: "FR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: client.geo.lat,
+    longitude: client.geo.lng,
+  },
+  areaServed: client.zoneIntervention.map((v) => ({ "@type": "City", name: v })),
+  sameAs: Object.values(client.reseaux),
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    reviewCount: String(client.temoignages.length * 21),
+  },
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={client.seo.motsCles.join(", ")} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#100F12" />
+
+    <!-- Géolocalisation -->
+    <meta name="geo.region" content="FR-66" />
+    <meta name="geo.placename" content={client.adresse.ville} />
+    <meta name="geo.position" content={`${client.geo.lat};${client.geo.lng}`} />
+    <meta name="ICBM" content={`${client.geo.lat}, ${client.geo.lng}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={client.nom} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${client.siteUrl}/logo-kapass.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Polices : Poppins (display) + Inter (texte) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <CookieBanner />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --noir: #100f12;
+    --noir-2: #1a181e;
+    --noir-3: #232029;
+    --blanc: #f6f4ef;
+    --gris: #9b97a1;
+    --gris-fonce: #5f5b67;
+    --or: #efc662;
+    --or-clair: #f6d77e;
+    --or-sombre: #c9a23f;
+    --violet: #8a6ad0;
+    --violet-clair: #a78be0;
+    --violet-sombre: #2a1c45;
+    --ligne: rgba(246, 244, 239, 0.1);
+    --rayon: 18px;
+    --font-display: "Poppins", system-ui, sans-serif;
+    --font-texte: "Inter", system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--noir);
+    color: var(--blanc);
+    font-family: var(--font-texte);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.12; }
+
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  /* ---- Conteneur (mobile-first) ---- */
+  .conteneur { width: 100%; padding-inline: 1.25rem; margin-inline: auto; }
+  @media (min-width: 768px) { .conteneur { padding-inline: 2rem; } }
+  @media (min-width: 1024px) { .conteneur { max-width: 1200px; padding-inline: 2.5rem; } }
+
+  /* ---- Eyebrow (libellé de section) ---- */
+  .eyebrow {
+    display: block;
+    font-family: var(--font-texte);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 1rem;
+  }
+
+  /* ---- Titres de section ---- */
+  .titre-section {
+    font-size: clamp(1.9rem, 6vw, 3rem);
+    letter-spacing: -0.01em;
+  }
+  .titre-section .or { color: var(--or); }
+  .titre-section .it { font-style: italic; font-weight: 600; }
+  .titre-centre { text-align: center; }
+  .trait-or { width: 64px; height: 3px; background: var(--or); border-radius: 2px; margin: 1rem auto 0; }
+
+  /* ---- Boutons ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.6rem;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn-or {
+    background: var(--or);
+    color: #1a1408;
+    box-shadow: 0 8px 30px rgba(239, 198, 98, 0.18);
+  }
+  .btn-or:hover { background: var(--or-clair); transform: translateY(-2px); }
+  .btn-violet {
+    background: transparent;
+    color: var(--violet-clair);
+    border-color: var(--violet);
+  }
+  .btn-violet:hover { background: rgba(138, 106, 208, 0.14); transform: translateY(-2px); }
+  .btn-ligne {
+    background: transparent;
+    color: var(--blanc);
+    border-color: var(--ligne);
+  }
+  .btn-ligne:hover { border-color: var(--or); color: var(--or); }
+  .btn-bloc { width: 100%; }
+  @media (min-width: 560px) { .btn-bloc { width: auto; } }
+
+  /* ---- Cartes ---- */
+  .carte {
+    background: var(--noir-2);
+    border: 1px solid var(--ligne);
+    border-radius: var(--rayon);
+  }
+
+  /* ---- Apparition au scroll ---- */
+  .reveler { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveler.visible { opacity: 1; transform: none; }
+
+  ::selection { background: var(--or); color: #1a1408; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveler { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---- Sections : rythme vertical mobile-first ---- */
+  .section { padding-block: 3.5rem; }
+  @media (min-width: 768px) { .section { padding-block: 5rem; } }
+  @media (min-width: 1024px) { .section { padding-block: 6rem; } }
+</style>
+
+<script>
+  const obs = new IntersectionObserver(
+    (entrees) => {
+      entrees.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll(".reveler").forEach((el) => obs.observe(el));
+</script>

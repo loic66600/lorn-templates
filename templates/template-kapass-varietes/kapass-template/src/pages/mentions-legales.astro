@@ -1,0 +1,65 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { client } from "@data/client";
+
+const titre = `Mentions légales — ${client.nom}`;
+const description = `Mentions légales du site ${client.siteUrl}.`;
+---
+
+<Layout title={titre} description={description} noIndex={true}>
+  <section class="contact-tete"><div class="contact-fond" aria-hidden="true"></div></section>
+
+  <section class="section legales">
+    <div class="conteneur">
+      <span class="eyebrow">Informations</span>
+      <h1 class="titre-section">Mentions <span class="or">légales</span></h1>
+
+      <div class="legales-contenu">
+        <h2>Éditeur du site</h2>
+        <p>
+          {client.legal.nomCommercial}<br />
+          {client.legal.raisonSociale} — {client.legal.formeJuridique}<br />
+          {client.legal.adresse}<br />
+          SIRET : {client.legal.siret}<br />
+          APE : {client.legal.ape}<br />
+          Téléphone : {client.legal.telephone} — Email : {client.legal.email}
+        </p>
+
+        <h2>Hébergement</h2>
+        <p>{client.legal.hebergeur}</p>
+
+        <h2>Propriété intellectuelle</h2>
+        <p>
+          L'ensemble des contenus du site (textes, photographies, identité
+          visuelle, logo {client.nom}) est protégé et reste la propriété
+          exclusive de ses auteurs. Toute reproduction sans autorisation écrite
+          préalable est interdite.
+        </p>
+
+        <h2>Données personnelles</h2>
+        <p>
+          Les informations transmises via le formulaire de contact sont
+          utilisées uniquement pour répondre à votre demande de prestation.
+          Elles ne sont ni revendues, ni transmises à des tiers. Conformément au
+          RGPD, vous disposez d'un droit d'accès, de rectification et de
+          suppression de vos données en écrivant à {client.email}.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          Ce site utilise uniquement des cookies techniques nécessaires à son
+          bon fonctionnement. Votre choix est mémorisé localement sur votre
+          navigateur et peut être modifié à tout moment.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact-tete { position: relative; height: calc(68px + 1rem); }
+  .contact-fond { position: absolute; inset: 0; background: radial-gradient(120% 140% at 20% 0%, var(--violet-sombre), var(--noir) 70%); }
+  .legales-contenu { max-width: 70ch; margin-top: 1.5rem; }
+  .legales-contenu h2 { font-size: 1.2rem; color: var(--or); margin: 2rem 0 0.6rem; }
+  .legales-contenu p { color: var(--gris); }
+</style>

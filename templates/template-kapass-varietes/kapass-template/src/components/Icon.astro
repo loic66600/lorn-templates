@@ -1,0 +1,39 @@
+---
+interface Props {
+  nom: string;
+  classe?: string;
+}
+const { nom, classe = "" } = Astro.props;
+
+// Tracés simples, contour, pour coller aux pictos des maquettes
+const tracés: Record<string, string> = {
+  star: '<path d="M12 3l2.6 5.6L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.4-.7z"/>',
+  music: '<circle cx="7" cy="18" r="2.2"/><circle cx="17" cy="16" r="2.2"/><path d="M9.2 18V7l9.8-2v11"/>',
+  sliders: '<path d="M5 21V14M5 10V3M12 21v-9M12 8V3M19 21v-5M19 12V3"/><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="10" r="1.6"/><circle cx="19" cy="14" r="1.6"/>',
+  shield: '<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9.5 12l1.8 1.8L15 10"/>',
+  heart: '<path d="M12 20s-7-4.6-9.2-9C1.3 7.6 3 5 5.8 5c1.8 0 3.1 1 4.2 2.4C11.1 6 12.4 5 14.2 5 17 5 18.7 7.6 17.2 11 15 15.4 12 20 12 20z"/>',
+  cake: '<path d="M4 20h16v-7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2z"/><path d="M4 15c1.5 1.4 3 1.4 4 0s2.5-1.4 4 0 2.5 1.4 4 0 2.5-1.4 4 0"/><path d="M12 4v3"/><circle cx="12" cy="3" r="0.8"/>',
+  flag: '<path d="M6 21V4M6 4h11l-2 3 2 3H6"/>',
+  users: '<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 6a3 3 0 0 1 0 6M21 20a6 6 0 0 0-4-5.7"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7"/>',
+  phone: '<path d="M7 4h4l1.5 4-2 1.5a12 12 0 0 0 5 5l1.5-2 4 1.5v4a2 2 0 0 1-2 2A16 16 0 0 1 5 6a2 2 0 0 1 2-2z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/>',
+  pin: '<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  facebook: '<path d="M18 3a1 1 0 0 0-1-1h-3a5 5 0 0 0-5 5v3H7a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h2v7a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-7h2.6l.4-3H14V7a1 1 0 0 1 1-1h3a1 1 0 0 0 1-1z"/>',
+  instagram: '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>',
+};
+const d = tracés[nom] ?? tracés.star;
+---
+
+<svg
+  class={classe}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  set:html={d}
+/>

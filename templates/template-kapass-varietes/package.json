@@ -1,0 +1,11 @@
+{
+  "name": "lorn-template-kapass-varietes-wrapper",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "npm --prefix kapass-template install",
+    "dev": "npm --prefix kapass-template run dev",
+    "build": "npm --prefix kapass-template run build",
+    "preview": "npm --prefix kapass-template run preview"
+  }
+}

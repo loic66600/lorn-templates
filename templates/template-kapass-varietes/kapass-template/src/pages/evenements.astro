@@ -1,0 +1,188 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Icon from "@components/Icon.astro";
+import { client } from "@data/client";
+
+const titre = `Événements — ${client.nom}, animation soirées à ${client.adresse.ville} | Occitanie`;
+const description = `Mariages, anniversaires, repas dansants, mairies, fêtes de village et soirées d'entreprise à ${client.adresse.ville} et dans le 66. Sonorisation 6 colonnes, karaoké concert festif, light show et gestion automatique du son avec ${client.duo}.`;
+---
+
+<Layout title={titre} description={description}>
+  <!-- ======================= HERO ======================= -->
+  <section class="hero-page">
+    <div class="hero-fond" aria-hidden="true"></div>
+    <div class="conteneur hero-contenu">
+      <span class="eyebrow">{client.signature}</span>
+      <h1 class="hero-titre">Des Événements sur Mesure pour Chaque Instant</h1>
+      <p class="hero-sous">
+        De la réception intime au festival, {client.nom} transforme vos moments
+        forts en souvenirs inoubliables avec une prestation taillée pour vous.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================= TYPES D'ÉVÉNEMENTS ======================= -->
+  <section class="section types">
+    <div class="conteneur">
+      <div class="types-grille">
+        {
+          client.evenements.map((e) => (
+            <article class="carte type reveler">
+              <span class="type-icone"><Icon nom={e.icone} /></span>
+              <h2 class="type-titre">{e.titre}</h2>
+              <p class="type-desc">{e.description}</p>
+              {e.points && (
+                <ul class="type-liste">
+                  {e.points.map((p) => (
+                    <li><span class="puce-check"><Icon nom="check" /></span>{p}</li>
+                  ))}
+                </ul>
+              )}
+              {e.lien && (
+                <a href="/contact" class="type-lien">Demander un devis sur-mesure →</a>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SONORISATION ======================= -->
+  <section class="section sono">
+    <div class="conteneur sono-grille">
+      <figure class="sono-media reveler">
+        <img src={client.sono.image} alt="Système de sonorisation professionnel Line Array" loading="lazy" />
+        <!-- <img src={client.sono.imageLocale} alt="Système de sonorisation professionnel Line Array" loading="lazy" /> -->
+      </figure>
+      <div class="sono-texte reveler">
+        <span class="eyebrow">{client.sono.eyebrow}</span>
+        <h2 class="titre-section">{client.sono.titre}</h2>
+        <p class="sono-intro">{client.sono.intro}</p>
+        <div class="sono-points">
+          {
+            client.sono.points.map((p) => (
+              <div class="sono-point">
+                <span class="sono-point-ic"><Icon nom="sliders" /></span>
+                <div>
+                  <h3 class="sono-point-titre">{p.titre}</h3>
+                  <p class="sono-point-desc">{p.description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= DÉROULEMENT ======================= -->
+  <section class="section etapes">
+    <div class="conteneur">
+      <h2 class="titre-section titre-centre reveler">Le Déroulement en 4 Étapes</h2>
+      <div class="trait-or reveler"></div>
+      <div class="etapes-grille">
+        {
+          client.etapes.map((e) => (
+            <article class="etape reveler">
+              <span class="etape-num">{e.num}</span>
+              <h3 class="etape-titre">{e.titre}</h3>
+              <p class="etape-desc">{e.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CTA ======================= -->
+  <section class="section">
+    <div class="conteneur">
+      <div class="cta reveler">
+        <div class="cta-lueur" aria-hidden="true"></div>
+        <h2 class="cta-titre">Prêt à faire briller votre événement ?</h2>
+        <p class="cta-sous">
+          Vérifiez nos disponibilités dès aujourd'hui et demandez un devis
+          gratuit pour votre projet.
+        </p>
+        <div class="cta-actions">
+          <a href="/contact" class="btn btn-or btn-bloc">Demander un devis</a>
+          <a href="/contact" class="btn btn-ligne btn-bloc">Nous contacter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PHOTO DUO ======================= -->
+  <div class="duo-banniere" aria-hidden="true">
+    <img src="/images/duo-2.png" alt="" />
+  </div>
+</Layout>
+
+<style>
+  .hero-page { position: relative; padding: calc(68px + 3.5rem) 0 2.5rem; overflow: hidden; }
+  .hero-fond { position: absolute; inset: 0; background: radial-gradient(110% 90% at 60% 0%, var(--violet-sombre), var(--noir) 65%); }
+  .hero-contenu { position: relative; z-index: 1; text-align: center; }
+  .hero-titre { font-size: clamp(2.1rem, 8vw, 3.6rem); font-weight: 800; max-width: 18ch; margin: 0 auto; }
+  .hero-sous { color: var(--gris); max-width: 56ch; margin: 1.2rem auto 0; }
+
+  .types-grille { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .type { padding: 1.8rem 1.6rem; transition: border-color 0.3s ease; }
+  .type:hover { border-color: rgba(239,198,98,0.35); }
+  .type-icone { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: rgba(239,198,98,0.1); color: var(--or); margin-bottom: 1rem; }
+  .type-icone svg { width: 24px; height: 24px; }
+  .type-titre { font-size: 1.2rem; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .type-desc { color: var(--gris); font-size: 0.9rem; }
+  .type-liste { list-style: none; display: grid; gap: 0.6rem; margin-top: 1.2rem; }
+  .type-liste li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.86rem; color: var(--blanc); }
+  .puce-check { flex-shrink: 0; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: rgba(239,198,98,0.12); color: var(--or); }
+  .puce-check svg { width: 12px; height: 12px; }
+  .type-lien { display: inline-block; margin-top: 1.2rem; color: var(--or); font-weight: 500; font-size: 0.9rem; }
+  .type-lien:hover { color: var(--or-clair); }
+  @media (min-width: 640px) { .types-grille { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .types-grille { grid-template-columns: repeat(3, 1fr); } }
+
+  .sono-grille { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
+  .sono-media { border-radius: var(--rayon); overflow: hidden; }
+  .sono-media img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .sono-intro { color: var(--gris); margin: 1.2rem 0 1.6rem; }
+  .sono-points { display: grid; gap: 1.2rem; }
+  .sono-point { display: flex; gap: 1rem; }
+  .sono-point-ic { flex-shrink: 0; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(239,198,98,0.1); color: var(--or); }
+  .sono-point-ic svg { width: 22px; height: 22px; }
+  .sono-point-titre { font-size: 1.05rem; margin-bottom: 0.2rem; }
+  .sono-point-desc { color: var(--gris); font-size: 0.88rem; }
+  @media (min-width: 900px) { .sono-grille { grid-template-columns: 1fr 1fr; gap: 3.5rem; } }
+
+  .etapes-grille { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+  .etape { position: relative; padding-top: 0.5rem; }
+  .etape-num { font-family: var(--font-display); font-weight: 800; font-size: 3.4rem; color: rgba(239,198,98,0.16); line-height: 1; display: block; margin-bottom: 0.4rem; }
+  .etape-titre { font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .etape-desc { color: var(--gris); font-size: 0.9rem; }
+  @media (min-width: 640px) { .etapes-grille { grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; } }
+  @media (min-width: 1024px) { .etapes-grille { grid-template-columns: repeat(4, 1fr); } }
+
+  .cta { position: relative; overflow: hidden; border: 1px solid rgba(239,198,98,0.22); border-radius: 24px; background: linear-gradient(160deg, rgba(239,198,98,0.1), rgba(138,106,208,0.06)); padding: 2.5rem 1.6rem; text-align: center; }
+  .cta-lueur { position: absolute; top: -40%; left: 50%; transform: translateX(-50%); width: 120%; height: 100%; background: radial-gradient(closest-side, rgba(239,198,98,0.18), transparent); pointer-events: none; }
+  .cta-titre { position: relative; font-size: clamp(1.7rem, 6vw, 2.6rem); }
+  .cta-sous { position: relative; color: var(--gris); max-width: 50ch; margin: 1rem auto 1.8rem; }
+  .cta-actions { position: relative; display: flex; flex-direction: column; gap: 0.9rem; }
+  @media (min-width: 560px) { .cta { padding: 3.5rem 2.5rem; } .cta-actions { flex-direction: row; justify-content: center; } }
+
+  .duo-banniere {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+    margin-top: -2rem;
+  }
+  .duo-banniere img {
+    max-width: 680px;
+    width: 70%;
+    object-fit: contain;
+    opacity: 0.55;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    filter: drop-shadow(0 0 30px rgba(138,106,208,0.2));
+  }
+</style>

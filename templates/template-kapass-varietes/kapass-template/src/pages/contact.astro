@@ -1,0 +1,271 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Icon from "@components/Icon.astro";
+import { client } from "@data/client";
+
+const titre = `Contact & devis — ${client.nom}, duo & karaoké à ${client.adresse.ville}`;
+const description = `Contactez ${client.nom} pour votre mariage, repas dansant, mairie, fête de village ou soirée dans tout le département 66. Devis gratuit, réponse sous 48h ouvrées.`;
+
+const web3formsKey = client.web3formsKey;
+const nomMarque = client.nom;
+const geo = client.geo;
+---
+
+<Layout title={titre} description={description}>
+  <section class="contact-tete">
+    <div class="contact-fond" aria-hidden="true"></div>
+  </section>
+
+  <section class="contact">
+    <div class="conteneur contact-grille">
+      <!-- ---- Colonne gauche : intro + coordonnées + zone ---- -->
+      <div class="contact-gauche">
+        <h1 class="contact-titre">Parlons de votre <span class="or">Événement</span></h1>
+        <p class="contact-intro">
+          Donnez une dimension exceptionnelle à vos soirées privées ou
+          professionnelles avec notre duo musical premium.
+        </p>
+
+        <div class="carte bloc-info reveler">
+          <h2 class="bloc-titre">Coordonnées</h2>
+          <ul class="coord">
+            <li>
+              <span class="coord-ic"><Icon nom="phone" /></span>
+              <div><span class="coord-label">Téléphone</span><a href={`tel:${client.telephoneLien}`}>{client.telephone}</a></div>
+            </li>
+            <li>
+              <span class="coord-ic"><Icon nom="mail" /></span>
+              <div><span class="coord-label">Email</span><a href={`mailto:${client.email}`}>{client.email}</a></div>
+            </li>
+            <li>
+              <span class="coord-ic"><Icon nom="pin" /></span>
+              <div><span class="coord-label">Localisation</span><span>{client.localisation}</span></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="carte bloc-info reveler">
+          <h2 class="bloc-titre">Zone d'intervention</h2>
+          <p class="zone-texte">
+            Nous intervenons dans tout le département 66, les Pyrénées-Orientales,
+            et autour de Perpignan pour vos mariages, mairies, fêtes de village,
+            repas dansants, galas et soirées privées.
+          </p>
+          <ul class="zone-liste">
+            {client.zoneIntervention.map((zone) => <li>{zone}</li>)}
+          </ul>
+          <div class="zone-carte" id="carte" aria-label={`Zone d'intervention de ${client.nom}`}></div>
+        </div>
+      </div>
+
+      <!-- ---- Colonne droite : formulaire ---- -->
+      <form id="formulaire" class="carte formulaire reveler">
+        <div class="champ-duo">
+          <div class="champ"><label for="nom">Nom</label><input id="nom" name="nom" type="text" placeholder="Dupont" required autocomplete="family-name" /></div>
+          <div class="champ"><label for="prenom">Prénom</label><input id="prenom" name="prenom" type="text" placeholder="Jean" required autocomplete="given-name" /></div>
+        </div>
+        <div class="champ-duo">
+          <div class="champ"><label for="telephone">Téléphone</label><input id="telephone" name="telephone" type="tel" placeholder={client.telephone} required autocomplete="tel" /></div>
+          <div class="champ"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="jean@exemple.com" required autocomplete="email" /></div>
+        </div>
+        <div class="champ-duo">
+          <div class="champ">
+            <label for="type">Type d'événement</label>
+            <select id="type" name="type">
+              {client.typesEvenement.map((t) => <option>{t}</option>)}
+            </select>
+          </div>
+          <div class="champ"><label for="date">Date de l'événement</label><input id="date" name="date" type="date" /></div>
+        </div>
+        <div class="champ-duo">
+          <div class="champ"><label for="lieu">Lieu (Ville / CP)</label><input id="lieu" name="lieu" type="text" placeholder="Perpignan, 66000" /></div>
+          <div class="champ"><label for="convives">Nombre de convives</label><input id="convives" name="convives" type="number" placeholder="150" min="1" /></div>
+        </div>
+        <div class="champ">
+          <label for="message">Votre message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Détaillez vos attentes, l'ambiance souhaitée…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-or btn-bloc envoyer">Envoyer ma demande</button>
+        <p class="form-statut" id="form-statut" role="status" aria-live="polite">Réponse garantie sous 48h ouvrées.</p>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact-tete { position: relative; height: calc(68px + 1rem); }
+  .contact-fond { position: absolute; inset: 0; background: radial-gradient(120% 140% at 20% 0%, var(--violet-sombre), var(--noir) 70%); }
+
+  .contact { padding-bottom: 4rem; }
+  .contact-grille { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+
+  .contact-titre { font-size: clamp(2.4rem, 11vw, 4rem); font-weight: 800; }
+  .contact-intro { color: var(--gris); margin: 1rem 0 2rem; max-width: 44ch; }
+
+  .bloc-info { padding: 1.6rem; margin-bottom: 1.2rem; }
+  .bloc-titre { font-size: 1.3rem; color: var(--or); margin-bottom: 1.2rem; }
+  .coord { list-style: none; display: grid; gap: 1.2rem; }
+  .coord li { display: flex; align-items: center; gap: 1rem; }
+  .coord-ic { flex-shrink: 0; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(239,198,98,0.1); color: var(--or); }
+  .coord-ic svg { width: 20px; height: 20px; }
+  .coord-label { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); margin-bottom: 0.1rem; }
+  .coord a, .coord div > span:not(.coord-label) { color: var(--blanc); font-size: 0.98rem; }
+  .coord a:hover { color: var(--or); }
+
+  .zone-texte { color: var(--gris); font-size: 0.92rem; margin-bottom: 1.2rem; }
+  .zone-liste { display: flex; flex-wrap: wrap; gap: 0.55rem; list-style: none; margin: 0 0 1.2rem; padding: 0; }
+  .zone-liste li { border: 1px solid var(--ligne); border-radius: 999px; padding: 0.35rem 0.7rem; color: var(--blanc); font-size: 0.78rem; background: rgba(239,198,98,0.06); }
+  .zone-carte {
+    height: 340px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #e8e0d8;
+  }
+  .zone-carte :global(.leaflet-container) { background: #e8e0d8; border-radius: 12px; }
+  .zone-carte :global(.leaflet-attribution-flag) { display: none; }
+  .zone-carte :global(.leaflet-control-attribution) { font-size: 0.6rem; }
+  .zone-carte :global(.marqueur-ville) {
+    background: #1a1820;
+    color: #EFC662;
+    border: 2px solid #EFC662;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+    pointer-events: none;
+  }
+  .zone-carte :global(.marqueur-principal) {
+    background: #EFC662;
+    color: #1a1820;
+    border-color: #1a1820;
+    font-size: 0.72rem;
+  }
+
+  /* Formulaire */
+  .formulaire { padding: 1.6rem; display: grid; gap: 1.3rem; align-content: start; }
+  .champ-duo { display: grid; grid-template-columns: 1fr; gap: 1.3rem; }
+  .champ { display: grid; gap: 0.45rem; }
+  .champ label { font-family: var(--font-texte); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); }
+  .champ input, .champ select, .champ textarea {
+    font-family: var(--font-texte);
+    font-size: 0.95rem;
+    padding: 0.8rem 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--ligne);
+    color: var(--blanc);
+    transition: border-color 0.25s ease;
+  }
+  .champ select { padding: 0.8rem 0; }
+  .champ textarea { border: 1px solid var(--ligne); border-radius: 12px; padding: 0.8rem 1rem; resize: vertical; }
+  .champ input:focus, .champ select:focus, .champ textarea:focus { outline: none; border-color: var(--or); }
+  .champ input::placeholder, .champ textarea::placeholder { color: var(--gris-fonce); }
+  .champ select option { background: var(--noir-2); }
+  .envoyer { margin-top: 0.4rem; }
+  .form-statut { text-align: center; font-size: 0.84rem; color: var(--gris); }
+  .form-statut.ok { color: var(--or); }
+  .form-statut.erreur { color: var(--violet-clair); }
+
+  @media (min-width: 560px) { .champ-duo { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) {
+    .contact-grille { grid-template-columns: 0.85fr 1.15fr; gap: 3rem; align-items: start; }
+    .formulaire { padding: 2.2rem; }
+  }
+</style>
+
+<script>
+  const carteEl = document.getElementById("carte");
+  if (carteEl) {
+    const lnk = document.createElement("link");
+    lnk.rel = "stylesheet";
+    lnk.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(lnk);
+
+    const s = document.createElement("script");
+    s.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    s.onload = async () => {
+      const L = (window as any).L;
+
+      const villes = [
+        { nom: "Perpignan",           lat: 42.6886, lng: 2.8946,  principal: true  },
+        { nom: "Canet-en-Roussillon", lat: 42.7069, lng: 3.0158  },
+        { nom: "Argelès-sur-Mer",     lat: 42.5469, lng: 3.0233  },
+        { nom: "Saint-Cyprien",       lat: 42.6267, lng: 3.0333  },
+        { nom: "Rivesaltes",          lat: 42.7706, lng: 2.8739  },
+        { nom: "Céret",               lat: 42.4878, lng: 2.7486  },
+        { nom: "Thuir",               lat: 42.6333, lng: 2.7667  },
+        { nom: "Narbonne",            lat: 43.1836, lng: 3.0036  },
+        { nom: "Carcassonne",         lat: 43.2119, lng: 2.3533  },
+        { nom: "Montpellier",         lat: 43.6108, lng: 3.8767  },
+      ];
+
+      const map = L.map("carte", {
+        zoomControl: true,
+        scrollWheelZoom: true,
+        dragging: true,
+        attributionControl: true,
+      });
+
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        { subdomains: "abcd", maxZoom: 19, attribution: "© OpenStreetMap · © CARTO" }
+      ).addTo(map);
+
+      try {
+        const res = await fetch(
+          "https://geo.api.gouv.fr/departements/66?geometry=contour&format=geojson"
+        );
+        const data = await res.json();
+        const layer = L.geoJSON(data, {
+          style: {
+            color: "#8A6AD0",
+            weight: 2.5,
+            fillColor: "#8A6AD0",
+            fillOpacity: 0.12,
+          },
+        }).addTo(map);
+        map.fitBounds(layer.getBounds(), { padding: [32, 32] });
+      } catch {
+        map.setView([42.62, 2.45], 8);
+      }
+
+      for (const v of villes) {
+        const icon = L.divIcon({
+          className: v.principal ? "marqueur-ville marqueur-principal" : "marqueur-ville",
+          html: v.nom,
+          iconAnchor: [0, 0],
+        });
+        L.marker([v.lat, v.lng], { icon }).addTo(map);
+      }
+    };
+    document.head.appendChild(s);
+  }
+</script>
+
+<script define:vars={{ web3formsKey, nomMarque }}>
+  const formulaire = document.getElementById("formulaire");
+  const statut = document.getElementById("form-statut");
+  formulaire?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!formulaire.reportValidity()) return;
+    statut.textContent = "Envoi en cours…";
+    statut.className = "form-statut";
+    const donnees = new FormData(formulaire);
+    donnees.append("access_key", web3formsKey);
+    donnees.append("subject", `Nouvelle demande — ${nomMarque}`);
+    try {
+      const r = await fetch("https://api.web3forms.com/submit", { method: "POST", body: donnees });
+      const res = await r.json();
+      if (res.success) {
+        statut.textContent = "Demande envoyée ! Nous vous répondons sous 48h ouvrées.";
+        statut.className = "form-statut ok";
+        formulaire.reset();
+      } else throw new Error(res.message);
+    } catch {
+      statut.textContent = "L'envoi a échoué. Appelez-nous ou réessayez dans un instant.";
+      statut.className = "form-statut erreur";
+    }
+  });
+</script>

@@ -1,0 +1,136 @@
+---
+import { client } from "@data/client";
+
+const liens = [
+  { href: "/", label: "Accueil" },
+  { href: "/photos", label: "Photos" },
+  { href: "/evenements", label: "Événements" },
+];
+const chemin = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="entete" id="entete">
+  <div class="conteneur entete-inner">
+    <a href="/" class="marque" aria-label={`${client.nom} — accueil`}>
+      <img src="/logo-kapass.png" alt={`Logo ${client.nom} — ${client.duo}`} width="44" height="44" class="marque-logo" />
+      <span class="marque-nom">{client.nom}</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      {
+        liens.map((l) => (
+          <a href={l.href} class:list={["nav-lien", { actif: chemin === l.href }]}>
+            {l.label}
+          </a>
+        ))
+      }
+      <a href="/contact" class="btn btn-or nav-reserver">Réserver</a>
+    </nav>
+
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .entete {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(16, 15, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ligne);
+  }
+  .entete-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .marque { display: flex; align-items: center; gap: 0.6rem; }
+  .marque-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .marque-nom {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--blanc);
+  }
+
+  /* ---- Mobile : menu plein écran ---- */
+  .nav {
+    position: fixed;
+    inset: 68px 0 0 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    background: var(--noir);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    display: flex;
+    padding: 2rem;
+  }
+  .nav.ouvert { transform: none; }
+  .nav-lien {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--blanc);
+    padding: 0.8rem 0;
+    text-align: center;
+    opacity: 0.85;
+    transition: color 0.2s ease;
+  }
+  .nav-lien.actif, .nav-lien:hover { color: var(--or); }
+  .nav-reserver { margin-top: 1.2rem; }
+
+  .burger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 0.5rem;
+  }
+  .burger span { width: 24px; height: 2px; background: var(--blanc); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+  .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ---- Desktop : nav horizontale ---- */
+  @media (min-width: 980px) {
+    .burger { display: none; }
+    .nav {
+      position: static;
+      inset: auto;
+      flex-direction: row;
+      align-items: center;
+      gap: 2rem;
+      background: none;
+      transform: none;
+      padding: 0;
+    }
+    .nav-lien {
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0;
+    }
+    .nav-reserver { margin-top: 0; margin-left: 0.6rem; }
+  }
+</style>
+
+<script>
+  const burger = document.getElementById("burger");
+  const nav = document.getElementById("nav");
+  burger?.addEventListener("click", () => {
+    const ouvert = nav?.classList.toggle("ouvert");
+    burger.setAttribute("aria-expanded", String(!!ouvert));
+    document.body.style.overflow = ouvert ? "hidden" : "";
+  });
+  nav?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      nav.classList.remove("ouvert");
+      burger?.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    })
+  );
+</script>
