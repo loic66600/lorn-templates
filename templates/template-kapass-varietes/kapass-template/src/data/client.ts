@@ -26,7 +26,7 @@ export const client = {
   geo: { lat: 42.6886, lng: 2.8946 },
   telephone: "06 58 80 45 89",
   telephoneLien: "+33658804589",
-  email: "contact@kapass-varietes.com",
+  email: "contact@kapass-varietes-animation-66.fr",
   siteUrl: "https://www.kapass-varietes.fr",
   localisation: "Basés à Perpignan — Occitanie",
 

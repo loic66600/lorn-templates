@@ -8,6 +8,7 @@ const description = `Contactez ${client.nom} pour votre mariage, repas dansant, 
 
 const web3formsKey = client.web3formsKey;
 const nomMarque = client.nom;
+const contactEmail = client.email;
 const geo = client.geo;
 ---
 
@@ -42,6 +43,19 @@ const geo = client.geo;
               <div><span class="coord-label">Localisation</span><span>{client.localisation}</span></div>
             </li>
           </ul>
+          <div class="reseaux-contact">
+            <p>Suivez-nous aussi sur les réseaux sociaux pour découvrir nos prochaines dates, photos et animations.</p>
+            <div class="reseaux-liens">
+              <a href={client.reseaux.facebook} target="_blank" rel="noopener noreferrer" aria-label="Suivre Kapass Variétés sur Facebook">
+                <Icon nom="facebook" />
+                <span>Facebook</span>
+              </a>
+              <a href={client.reseaux.instagram} target="_blank" rel="noopener noreferrer" aria-label="Suivre Kapass Variétés sur Instagram">
+                <Icon nom="instagram" />
+                <span>Instagram</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div class="carte bloc-info reveler">
@@ -59,7 +73,10 @@ const geo = client.geo;
       </div>
 
       <!-- ---- Colonne droite : formulaire ---- -->
-      <form id="formulaire" class="carte formulaire reveler">
+      <form id="formulaire" class="carte formulaire reveler" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value={web3formsKey} />
+        <input type="hidden" name="subject" value={`Nouvelle demande — ${client.nom}`} />
+        <input type="checkbox" name="botcheck" class="champ-cache" tabindex="-1" autocomplete="off" />
         <div class="champ-duo">
           <div class="champ"><label for="nom">Nom</label><input id="nom" name="nom" type="text" placeholder="Dupont" required autocomplete="family-name" /></div>
           <div class="champ"><label for="prenom">Prénom</label><input id="prenom" name="prenom" type="text" placeholder="Jean" required autocomplete="given-name" /></div>
@@ -78,14 +95,14 @@ const geo = client.geo;
           <div class="champ"><label for="date">Date de l'événement</label><input id="date" name="date" type="date" /></div>
         </div>
         <div class="champ-duo">
-          <div class="champ"><label for="lieu">Lieu (Ville / CP)</label><input id="lieu" name="lieu" type="text" placeholder="Perpignan, 66000" /></div>
+          <div class="champ"><label for="lieu">Lieu (Ville / CP)</label><input id="lieu" name="lieu" type="text" placeholder="Perpignan, 66000" required /></div>
           <div class="champ"><label for="convives">Nombre de convives</label><input id="convives" name="convives" type="number" placeholder="150" min="1" /></div>
         </div>
         <div class="champ">
           <label for="message">Votre message</label>
-          <textarea id="message" name="message" rows="4" placeholder="Détaillez vos attentes, l'ambiance souhaitée…"></textarea>
+          <textarea id="message" name="message" rows="4" minlength="10" required placeholder="Détaillez vos attentes, l'ambiance souhaitée…"></textarea>
         </div>
-        <button type="submit" class="btn btn-or btn-bloc envoyer">Envoyer ma demande</button>
+        <button type="submit" class="btn btn-or btn-bloc envoyer" id="envoyer">Envoyer ma demande</button>
         <p class="form-statut" id="form-statut" role="status" aria-live="polite">Réponse garantie sous 48h ouvrées.</p>
       </form>
     </div>
@@ -111,6 +128,34 @@ const geo = client.geo;
   .coord-label { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); margin-bottom: 0.1rem; }
   .coord a, .coord div > span:not(.coord-label) { color: var(--blanc); font-size: 0.98rem; }
   .coord a:hover { color: var(--or); }
+  .reseaux-contact {
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--ligne);
+  }
+  .reseaux-contact p {
+    color: var(--gris);
+    font-size: 0.9rem;
+    margin-bottom: 0.9rem;
+  }
+  .reseaux-liens { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  .reseaux-liens a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--ligne);
+    border-radius: 999px;
+    padding: 0.55rem 0.85rem;
+    color: var(--blanc);
+    font-size: 0.84rem;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .reseaux-liens a:hover {
+    border-color: var(--or);
+    color: var(--or);
+    background: rgba(239,198,98,0.08);
+  }
+  .reseaux-liens svg { width: 16px; height: 16px; }
 
   .zone-texte { color: var(--gris); font-size: 0.92rem; margin-bottom: 1.2rem; }
   .zone-liste { display: flex; flex-wrap: wrap; gap: 0.55rem; list-style: none; margin: 0 0 1.2rem; padding: 0; }
@@ -145,6 +190,7 @@ const geo = client.geo;
 
   /* Formulaire */
   .formulaire { padding: 1.6rem; display: grid; gap: 1.3rem; align-content: start; }
+  .champ-cache { display: none; }
   .champ-duo { display: grid; grid-template-columns: 1fr; gap: 1.3rem; }
   .champ { display: grid; gap: 0.45rem; }
   .champ label { font-family: var(--font-texte); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); }
@@ -164,6 +210,7 @@ const geo = client.geo;
   .champ input::placeholder, .champ textarea::placeholder { color: var(--gris-fonce); }
   .champ select option { background: var(--noir-2); }
   .envoyer { margin-top: 0.4rem; }
+  .envoyer[disabled] { opacity: 0.7; cursor: wait; transform: none; }
   .form-statut { text-align: center; font-size: 0.84rem; color: var(--gris); }
   .form-statut.ok { color: var(--or); }
   .form-statut.erreur { color: var(--violet-clair); }
@@ -244,17 +291,30 @@ const geo = client.geo;
   }
 </script>
 
-<script define:vars={{ web3formsKey, nomMarque }}>
+<script define:vars={{ nomMarque, contactEmail }}>
   const formulaire = document.getElementById("formulaire");
   const statut = document.getElementById("form-statut");
+  const boutonEnvoyer = document.getElementById("envoyer");
+
   formulaire?.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!formulaire.reportValidity()) return;
+
+    const donnees = new FormData(formulaire);
+    if (donnees.get("botcheck")) return;
+
+    const nomComplet = [donnees.get("prenom"), donnees.get("nom")]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+    donnees.set("subject", `Nouvelle demande — ${nomMarque}`);
+    if (nomComplet) donnees.set("from_name", nomComplet);
+
     statut.textContent = "Envoi en cours…";
     statut.className = "form-statut";
-    const donnees = new FormData(formulaire);
-    donnees.append("access_key", web3formsKey);
-    donnees.append("subject", `Nouvelle demande — ${nomMarque}`);
+    boutonEnvoyer.setAttribute("disabled", "");
+    boutonEnvoyer.setAttribute("aria-busy", "true");
+
     try {
       const r = await fetch("https://api.web3forms.com/submit", { method: "POST", body: donnees });
       const res = await r.json();
@@ -264,8 +324,11 @@ const geo = client.geo;
         formulaire.reset();
       } else throw new Error(res.message);
     } catch {
-      statut.textContent = "L'envoi a échoué. Appelez-nous ou réessayez dans un instant.";
+      statut.textContent = `L'envoi a échoué. Écrivez-nous à ${contactEmail} ou réessayez dans un instant.`;
       statut.className = "form-statut erreur";
+    } finally {
+      boutonEnvoyer.removeAttribute("disabled");
+      boutonEnvoyer.removeAttribute("aria-busy");
     }
   });
 </script>
