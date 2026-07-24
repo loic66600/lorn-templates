@@ -21,32 +21,6 @@ const description = `Mariages, anniversaires, repas dansants, mairies, fêtes de
     </div>
   </section>
 
-  <!-- ======================= RÉSEAUX SOCIAUX ======================= -->
-  <section class="section section-reseaux">
-    <div class="conteneur">
-      <div class="reseaux-evenements reveler">
-        <span class="eyebrow">Prochaines dates</span>
-        <h2 class="reseaux-titre">Suivez notre actualité événementielle</h2>
-        <p>
-          Pour connaître nos prochaines animations, soirées karaoké, fêtes de village
-          et rendez-vous publics, suivez {client.nom} sur les réseaux sociaux.
-          Nous y partageons les dates à venir, les photos des prestations et les
-          moments forts de nos événements.
-        </p>
-        <div class="reseaux-actions">
-          <a href={client.reseaux.facebook} target="_blank" rel="noopener noreferrer" aria-label="Suivre Kapass Variétés sur Facebook">
-            <Icon nom="facebook" />
-            <span>Facebook</span>
-          </a>
-          <a href={client.reseaux.instagram} target="_blank" rel="noopener noreferrer" aria-label="Suivre Kapass Variétés sur Instagram">
-            <Icon nom="instagram" />
-            <span>Instagram</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ======================= NOUVEAU SPECTACLE ======================= -->
   <section class="section nouveau-show">
     <div class="conteneur">
@@ -76,6 +50,44 @@ const description = `Mariages, anniversaires, repas dansants, mairies, fêtes de
           <a href="/contact" class="btn btn-or">Réserver ce spectacle</a>
         </div>
       </article>
+    </div>
+  </section>
+
+  <!-- ======================= CATALOGUE DES SHOWS ======================= -->
+  <section class="section catalogue-shows">
+    <div class="conteneur">
+      <div class="catalogue-intro reveler">
+        <span class="eyebrow">Vivez l'expérience musicale</span>
+        <h2 class="titre-section">Des shows pour <span class="or">tous les publics</span></h2>
+        <p>
+          Avec un répertoire riche et varié, Kapass' Variétés vous propose un voyage
+          à travers la chanson française populaire, des hommages thématiques et des
+          formules interactives pour faire de votre événement un moment unique.
+        </p>
+      </div>
+      <div class="shows-grille">
+        <article class="show-mini reveler"><img src="/images/Varietepop.jpg" alt="Show variété populaire Kapass Variétés" loading="lazy" /><div><h3>Variété populaire</h3><p>Un répertoire fédérateur pour chanter et danser à tout âge.</p></div></article>
+        <article class="show-mini reveler"><img src="/images/joe.jpg" alt="Show hommage à Joe Dassin" loading="lazy" /><div><h3>Hommage à Joe Dassin</h3><p>Les plus belles chansons de Joe Dassin dans une ambiance chaleureuse.</p></div></article>
+        <article class="show-mini reveler"><img src="/images/sardou.jpg" alt="Show hommage à Michel Sardou" loading="lazy" /><div><h3>Hommage à Michel Sardou</h3><p>Les grands succès de Michel Sardou revisités en direct.</p></div></article>
+        <article class="show-mini reveler"><img src="/images/gegan.jpg" alt="Show hommage à Jean-Baptiste Guégan" loading="lazy" /><div><h3>Hommage à Jean-Baptiste Guégan</h3><p>Une formule rock et populaire autour de ses titres incontournables.</p></div></article>
+        <article class="show-mini reveler"><img src="/images/lightshowsurmesure.jpg" alt="Light show sur mesure" loading="lazy" /><div><h3>Light show sur mesure</h3><p>Une ambiance lumière personnalisée selon votre lieu et votre événement.</p></div></article>
+        <article class="show-mini reveler"><img src="/images/karaoké 2025.jpg" alt="Karaoké festif et orchestre interactif" loading="lazy" /><div><h3>DJ & karaoké festif</h3><p>Le public devient acteur avec notre orchestre interactif et participatif.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= RÉSEAUX SOCIAUX ======================= -->
+  <section class="section section-reseaux">
+    <div class="conteneur">
+      <div class="reseaux-evenements reveler">
+        <span class="eyebrow">Prochaines dates</span>
+        <h2 class="reseaux-titre">Suivez notre actualité événementielle</h2>
+        <p>Pour connaître nos prochaines animations, soirées karaoké, fêtes de village et rendez-vous publics, suivez {client.nom} sur les réseaux sociaux.</p>
+        <div class="reseaux-actions">
+          <a href={client.reseaux.facebook} target="_blank" rel="noopener noreferrer" aria-label="Suivre Kapass Variétés sur Facebook"><Icon nom="facebook" /><span>Facebook</span></a>
+          <a href={client.reseaux.instagram} target="_blank" rel="noopener noreferrer" aria-label="Suivre Kapass Variétés sur Instagram"><Icon nom="instagram" /><span>Instagram</span></a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -251,6 +263,19 @@ const description = `Mariages, anniversaires, repas dansants, mairies, fêtes de
     .show-contenu > p { font-size: 0.92rem; }
     .show-points { margin-block: 1.15rem 1.4rem; }
   }
+
+  .catalogue-intro { max-width: 68ch; margin-bottom: 2.2rem; }
+  .catalogue-intro .titre-section { margin: 0.45rem 0 1rem; }
+  .catalogue-intro p { color: var(--gris); }
+  .shows-grille { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .show-mini { overflow: hidden; border: 1px solid var(--ligne); border-radius: var(--rayon); background: var(--noir-2); transition: transform 0.3s ease, border-color 0.3s ease; }
+  .show-mini:hover { transform: translateY(-4px); border-color: rgba(239,198,98,0.4); }
+  .show-mini img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .show-mini div { padding: 1.1rem 1.2rem 1.3rem; }
+  .show-mini h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
+  .show-mini p { color: var(--gris); font-size: 0.85rem; line-height: 1.5; }
+  @media (min-width: 640px) { .shows-grille { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .shows-grille { grid-template-columns: repeat(3, 1fr); } }
 
   .types-grille { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   .type { padding: 1.8rem 1.6rem; transition: border-color 0.3s ease; }
