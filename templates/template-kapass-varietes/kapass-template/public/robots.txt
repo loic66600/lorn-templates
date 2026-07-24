@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /mentions-legales
 
-Sitemap: https://www.kapass-varietes.fr/sitemap-index.xml
+Sitemap: https://www.kapass-varietes-animation-66.fr/sitemap-index.xml

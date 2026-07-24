@@ -27,7 +27,7 @@ export const client = {
   telephone: "06 58 80 45 89",
   telephoneLien: "+33658804589",
   email: "contact@kapass-varietes-animation-66.fr",
-  siteUrl: "https://www.kapass-varietes.fr",
+  siteUrl: "https://www.kapass-varietes-animation-66.fr",
   localisation: "Basés à Perpignan — Occitanie",
 
   // ---- Zone d'intervention ----
@@ -323,6 +323,7 @@ export const client = {
     { cat: "Matériel", taille: "large", image: "/images/724252315_27380339948300537_3884994886185927326_n.jpg", alt: "Plateau Kapass Variétés avec instruments et colonnes lumineuses" },
     { cat: "Karaoké", taille: "haut", image: "/images/karaoké 2025.jpg", alt: "Affiche karaoké Kapass Variétés venez chanter avec nous" },
     { cat: "Événements", taille: "haut", image: "/images/les etoile disparue.jpg", alt: "Affiche Les Étoiles Disparues, show hommage aux artistes français" },
+    { cat: "Événements", taille: "large", image: "/images/showJ&S.jpg", alt: "Affiche Dans les sillages de Johnny et Sylvie, concert hommage par Cathy et Pascal" },
     { cat: "Karaoké", taille: "large", image: "/images/305503263_5566357816792064_171406086113542145_n.jpg", alt: "Articles de presse et saison karaoké Kapass Variétés" },
   ],
 

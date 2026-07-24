@@ -47,6 +47,38 @@ const description = `Mariages, anniversaires, repas dansants, mairies, fêtes de
     </div>
   </section>
 
+  <!-- ======================= NOUVEAU SPECTACLE ======================= -->
+  <section class="section nouveau-show">
+    <div class="conteneur">
+      <article class="show-carte reveler">
+        <figure class="show-media">
+          <img
+            src="/images/showJ&S.jpg"
+            alt="Affiche du spectacle Dans les sillages de Johnny et Sylvie par Cathy et Pascal"
+            loading="lazy"
+          />
+        </figure>
+        <div class="show-contenu">
+          <span class="eyebrow">Nouveau spectacle</span>
+          <h2 class="titre-section">
+            Dans les sillages de <span class="or">Johnny & Sylvie</span>
+          </h2>
+          <p>
+            Cathy et Pascal rendent hommage à Johnny Hallyday et Sylvie Vartan
+            dans un concert rempli de succès, d'émotion et de souvenirs.
+            Deux voix et une passion pour une soirée 100 % variété française.
+          </p>
+          <ul class="show-points">
+            <li><span class="puce-check"><Icon nom="check" /></span>Leurs plus grands succès</li>
+            <li><span class="puce-check"><Icon nom="check" /></span>Un concert hommage vivant et fédérateur</li>
+            <li><span class="puce-check"><Icon nom="check" /></span>Son et lumière inclus</li>
+          </ul>
+          <a href="/contact" class="btn btn-or">Réserver ce spectacle</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <!-- ======================= TYPES D'ÉVÉNEMENTS ======================= -->
   <section class="section types">
     <div class="conteneur">
@@ -191,6 +223,34 @@ const description = `Mariages, anniversaires, repas dansants, mairies, fêtes de
     background: rgba(239,198,98,0.08);
   }
   .reseaux-actions svg { width: 17px; height: 17px; }
+
+  .nouveau-show { padding-bottom: 0; }
+  .show-carte {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid rgba(239,198,98,0.3);
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(239,198,98,0.1), rgba(16,15,18,0.96) 55%);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.28);
+  }
+  .show-media { aspect-ratio: 3 / 2; background: var(--noir-2); }
+  .show-media img { width: 100%; height: 100%; object-fit: contain; }
+  .show-contenu { padding: 1.75rem 1.5rem; align-self: center; }
+  .show-contenu .titre-section { margin: 0.45rem 0 1rem; }
+  .show-contenu > p { color: var(--gris); max-width: 56ch; }
+  .show-points { list-style: none; display: grid; gap: 0.7rem; margin: 1.4rem 0 1.7rem; }
+  .show-points li { display: flex; align-items: center; gap: 0.65rem; font-size: 0.9rem; }
+  @media (min-width: 1024px) {
+    .show-carte {
+      grid-template-columns: minmax(0, 2.2fr) minmax(300px, 0.8fr);
+      align-items: center;
+    }
+    .show-media { width: 100%; align-self: center; }
+    .show-contenu { padding: 2rem; }
+    .show-contenu .titre-section { font-size: clamp(1.65rem, 2.5vw, 2.25rem); }
+    .show-contenu > p { font-size: 0.92rem; }
+    .show-points { margin-block: 1.15rem 1.4rem; }
+  }
 
   .types-grille { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   .type { padding: 1.8rem 1.6rem; transition: border-color 0.3s ease; }
