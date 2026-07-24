@@ -189,17 +189,29 @@ const description = `${client.duo}, orchestre participatif et interactif de vari
   }
   .hero-fond { position: absolute; inset: 0; background: radial-gradient(120% 80% at 70% 0%, var(--violet-sombre), var(--noir) 60%); }
   .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
-  .hero-voile { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(16,15,18,0.5) 0%, rgba(16,15,18,0.55) 40%, var(--noir) 100%); }
+  .hero-voile { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(16,15,18,0.66) 0%, rgba(16,15,18,0.68) 42%, rgba(16,15,18,0.96) 100%); }
   .hero-contenu { position: relative; z-index: 2; padding-block: 2rem; }
   .hero-texte { width: min(48ch, 52%); }
   .hero-photo { position: absolute; bottom: 0; right: 8%; z-index: 1; pointer-events: none; }
-  .hero-photo img { max-height: 84svh; width: auto; object-fit: contain; opacity: 0.65; filter: drop-shadow(0 0 40px rgba(138,106,208,0.25)); -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%); mask-image: linear-gradient(to bottom, black 70%, transparent 100%); }
+  .hero-photo img { max-height: 84svh; width: auto; object-fit: contain; opacity: 1.65; filter: drop-shadow(0 0 40px rgba(138,106,208,0.25)); -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%); mask-image: linear-gradient(to bottom, black 70%, transparent 100%); }
   .hero-titre { font-size: clamp(1.9rem, 7.5vw, 3.6rem); font-weight: 800; letter-spacing: -0.02em; }
-  .hero-sous { color: var(--gris); font-size: 1rem; margin: 1.4rem 0 2rem; }
+  .hero-sous { color: #c9c5ce; font-size: 1rem; margin: 1.4rem 0 2rem; }
   .hero-actions { display: flex; flex-direction: column; gap: 0.9rem; }
   .hero-chevron { position: absolute; bottom: 1.2rem; left: 50%; transform: translateX(-50%); z-index: 2; color: var(--gris); font-size: 1.6rem; animation: bob 1.8s ease-in-out infinite; }
   @keyframes bob { 50% { transform: translate(-50%, 6px); } }
-  @media (max-width: 767px) { .hero-photo { display: none; } .hero-texte { width: 100%; } }
+  @media (max-width: 767px) {
+    .hero-photo { display: block; top: 76px; right: -6%; bottom: auto; width: 68vw; height: auto; opacity: 0.42; z-index: 1; }
+    .hero-photo img {
+      width: 100%; height: auto; max-width: none; max-height: none;
+      transform: translateY(-10px);
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
+    }
+    .hero-texte { width: 100%; max-width: 34rem; }
+    .hero-titre { font-size: clamp(1.85rem, 7vw, 3.2rem); }
+    .hero-sous { color: #d0ccd5; }
+    .hero-actions { margin-top: 3rem; }
+  }
   @media (min-width: 560px) { .hero-actions { flex-direction: row; } }
   @media (prefers-reduced-motion: reduce) { .hero-chevron { animation: none; } }
 
